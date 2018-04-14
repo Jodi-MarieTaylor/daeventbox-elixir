@@ -1,0 +1,8 @@
+ <div class="row">
+      <a href= "/event/create" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create Event</a>
+
+ </div>
+  <div class="row">
+       <a href="/facilitator/profile" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create Your Facilitator Profile</a>
+
+ </div>

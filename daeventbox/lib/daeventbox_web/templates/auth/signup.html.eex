@@ -1,0 +1,86 @@
+
+<div class="container">
+				<div class="row">
+
+
+				      <div class="card card-signup">
+							<form class="form" method="POST" action="/user/create">
+								<div class="header header-primary text-center">
+									  <br/>
+									<h4 class="center" >Sign Up</h4>
+									<div class="social-line text center">
+										<a href="#pablo" class="btn btn-simple btn-just-icon">
+											<i class="fa fa-facebook-square"></i>
+										</a>
+										<a href="#pablo" class="btn btn-simple btn-just-icon">
+											<i class="fa fa-twitter"></i>
+										</a>
+										<a href="#pablo" class="btn btn-simple btn-just-icon">
+											<i class="fa fa-google-plus"></i>
+										</a>
+									</div>
+								</div>
+								<br/>
+								<div class="content " style="width: 80%; margin: 0 auto;" >
+
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">face</i>
+										</span>
+										<div class="form-group is-empty"><input type="text" name="firstname" class="form-control" placeholder="Firstname..."><span class="material-input"></span></div>
+									</div>
+                                    <div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">face</i>
+										</span>
+										<div class="form-group is-empty"><input type="text" name="lastname" class="form-control" placeholder="Lastname..."><span class="material-input"></span></div>
+									</div>
+
+
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">email</i>
+										</span>
+										<div class="form-group is-empty"><input type="text" name="email" class="form-control" placeholder="Email..."><span class="material-input"></span></div>
+									</div>
+
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">lock_outline</i>
+										</span>
+										<div class="form-group is-empty"><input type="password" name= "password" placeholder="Password..." class="form-control"><span class="material-input"></span></div>
+									</div>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">lock_outline</i>
+										</span>
+										<div class="form-group is-empty"><input type="password" name= "cpassword" placeholder="Confirm Password..." class="form-control"><span class="material-input"></span></div>
+									</div>
+
+									<!-- If you want to add a checkbox to this form, uncomment this code
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" name="optionsCheckboxes" checked>
+											Subscribe to newsletter
+										</label>
+									</div>
+                  <div class="footer text-center">
+  									<a href="#pablo" class="btn btn-simple btn-primary btn-lg">Get Started</a>
+  								</div>
+                 -->    
+                            <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+					       	<div class=" footer text-center" style="margin: 0 auto;">
+					           <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+					             CREATE YOUR ACCOUNT &rarr;
+					           </button>
+
+					         </div>
+								 </br>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
