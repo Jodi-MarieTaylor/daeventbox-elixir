@@ -1,0 +1,22 @@
+<div class="row">
+</div <!-- Modal Structure -->
+<div id="modal1" class="modal">
+ <div class="modal-content">
+      <h4>Event Created Successfully!</h4>
+      <p>How would you like to proceed?</p>
+    </div>
+    <div class="row">
+        <a href="/facilitator/profile" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create Your Facilitator Profile</a>
+    </div>
+    <div class="row">
+      <a href= "/" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Home</a>
+
+    </div>
+  </div>
+
+<script>
+//init the modal
+$('.modal-trigger').leanModal();
+ $('#modal1').openModal();
+
+</script>

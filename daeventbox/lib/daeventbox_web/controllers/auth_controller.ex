@@ -29,7 +29,7 @@ defmodule DaeventboxWeb.AuthController do
      {:ok, user} ->
        conn
        |> put_flash(:info, "User created successfully.")
-       |> redirect(to: "/" )
+       |> redirect(to: "/login" )
       # Webapp.Mailer.send_welcome_email(user.email)
      {:error, changeset} ->
        IO.inspect changeset
@@ -53,9 +53,8 @@ defmodule DaeventboxWeb.AuthController do
            |> put_resp_cookie("daeventboxuser", user.zid, max_age: time_in_secs_from_now)
            |> put_resp_cookie("daeventboxmode", "Guest", max_age: time_in_secs_from_now)
 
-           |> assign( :current_user, user)
            |> put_flash(:info, "Logged in")
-           |> redirect(to: "/"  )
+           |> redirect(to: "/guest"  )
 
       user->
             conn

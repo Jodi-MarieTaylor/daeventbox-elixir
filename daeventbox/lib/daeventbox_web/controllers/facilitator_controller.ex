@@ -1,6 +1,12 @@
 defmodule DaeventboxWeb.FacilitatorController do
   use DaeventboxWeb, :controller
 
+  alias Daeventbox.Event
+  import Ecto.Query
+  import Plug.Conn
+  alias Daeventbox.User
+  alias Daeventbox.Repo
+
   def index(conn, _params) do
     render conn, "index.html"
   end
@@ -8,7 +14,6 @@ defmodule DaeventboxWeb.FacilitatorController do
   def switch(conn, _params) do
     #if first first time being facilitator (to check - check if its in facilitator table)
     render conn, "switchfirsttime.html"
-
   end
 
   def changemode(conn, _params) do
@@ -17,7 +22,120 @@ defmodule DaeventboxWeb.FacilitatorController do
       |> delete_resp_cookie("daeventboxmode")
       |> delete_resp_cookie("daeventboxmode")
       |> put_resp_cookie("daeventboxmode", "Facilitator", max_age: time_in_secs_from_now)
-      |> redirect(to: "/switch/facilitator"  )
+      |> redirect(to: "/facilitator/switch"  )
 
   end
+
+  def home(conn, params) do
+    user_id = conn.assigns[:current_user].id
+    events = filter(params, conn.assigns[:current_user].id)
+    render conn, "home.html", events: events
+  end
+
+  def filter(params, user_id) do
+    IO.puts "!!!!!!!!!!!!!!!!!!!!!!!@@#"
+    IO.inspect params
+
+    events =
+    Event
+    |> where([e], not is_nil(e.id))
+    |> where([e], e.facilitator_id == ^user_id)
+
+    events =
+      if params["title_search"] != "" and params["title_search"] != nil do
+        events
+          |> where([e], fragment("? ~* ?", e.title, ^params["title_search"]))
+      else
+        events
+      end
+    events =
+      if params["content_search"] != "" and params["content_search"] != nil do
+        IO.inspect "look here work"
+        events
+          |> where([e], fragment("? ~* ?", e.description, ^params["content_search"]))
+      else
+        events
+      end
+    events =
+    if params["category_search"] != "" and params["category_search"] != nil do
+      events
+        |> where([e], fragment("? ~* ?", e.category, ^params["category_search"]))
+    else
+      events
+    end
+
+    events =
+      if params["type_search"] != "" and params["type_search"] != nil do
+        events
+          |> where([e], fragment("? ~* ?", e.type, ^params["type_search"]))
+      else
+        events
+      end
+
+    #events =
+    #  if params["location_search"] != "" and params["location_search"] != nil do
+     #   events
+    #      |> where([e], fragment("? ~* ?", e.location_info.parish, ^params["location_search"]))
+    #  else
+    #    events
+    #  end
+
+      events =
+        if params["date_sort"] == "asc" do
+           events
+             |> order_by([e], asc: e.inserted_at)
+        else
+          events
+        end
+
+    #events =
+    #  if params["likes_search"] != "" and params["likes_search"] != nil do
+    #    likes = String.split(params["likes_search"], "-")
+    #  IO.inspect  ulikes = Enum.at(likes, 0)
+    #  IO.inspect  olikes = Enum.at(likes, 1)
+    #    events
+    #      |> where([p], p.likes > ^ulikes and p.likes < ^olikes)
+    #  else
+    #    events
+    #  end
+
+    #events =
+    #    if params["ratings_sort"] == "desc" do
+    #     events
+    #      |> order_by([p], asc: p.likes)
+    #    else
+    #      events
+    #    end
+
+    #events =
+    #      if params["ratings_sort"] == "asc" do
+    #        events
+    #        |> order_by([p], desc: p.likes)
+    #  else
+    #    events
+    #  end
+
+	events =
+		events
+		|> Repo.all
+
+
+  end
+
+  def eventsearch(conn, params) do
+
+    current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+
+    ctitle = String.strip(params["search_text"]) |> String.split(" ") |> Enum.map( &String.capitalize/1 )|> Enum.join(" ")
+    query = from e in Event, where:  fragment("? ~* ?", e.title, ^ctitle)
+    events =  Repo.all(query)
+    render conn, "home.html", events: events
+
+  end
+
+  def dashboard(conn, params) do
+    current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+    render conn, "dashboard.html"
+  end
+
 end

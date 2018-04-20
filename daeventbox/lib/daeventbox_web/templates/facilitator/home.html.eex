@@ -1,0 +1,191 @@
+
+<div class="row right">
+    <a href= "/event/create/ad" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create An Ad</a>
+
+
+</div>
+<br>
+<div class="card container" style="width: 90%; margin: 30px auto; background-color: light-grey;">
+   <div class="center row  ">
+        <div class="col s12 " >
+            <div class="row" id="topbarsearch">
+                <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s3"><a href="#test1">Upcoming Events</a></li>
+                    <li class="tab col s3"><a class="active" href="#test2">Past Events</a></li>
+                    <li class="tab col s3 disabled"><a href="#test3">All Events</a></li>
+                </ul>
+                </div>
+            <form method="GET" action="/facilitator/event/search">
+
+                <div class="input-field col s10 red-text">
+                    <i class="red-text material-icons prefix">search</i>
+                    <input type="text"  name="search_text" placeholder="Search By Name" id="autocomplete-input" class="autocomplete " > 
+                </div>
+                <button onclick="showhide()" class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" >
+                    Filters
+                </button>
+            </form>
+            </div>
+            <form method="POST " action = "/facilitator">
+
+            <div id = "filters" class=" col s12 m12" hidden>
+                <div class="input-field col s12 m3">
+                    <i class="material-icons prefix">search</i>
+                    <input id="icon_prefix" type="text" class="validate" placeholder="Search Titles" name="title_search">
+                </div>
+                <div class="input-field col s12 m3">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input id="icon_prefix" type="text" class="validate" placeholder="Search Keywords" name="content_search">
+                </div>
+                <div class="input-field col s12 m3">
+                    <i class="material-icons prefix">bookmark_border</i>
+                    <input id="icon_prefix" type="text" class="validate" placeholder="Search Type" name="type_search">
+                </div>
+                <div class="input-field col s12 m3">
+                    <i class="material-icons prefix">comment</i>
+                    <input id="icon_prefix" type="text" class="validate" placeholder="Search Category" name="category_search">
+                </div>
+                
+                <div class="input-field col s12 m3">
+                    <i class="material-icons prefix">location_on</i>
+                    <select name="location">
+                    <option value="" disabled selected>Sort by Parish</option>
+                    <option value = "Kingston">Kingston</option>
+                    <option value = "St. Andrew">St. Andrew</option>
+                    <option value = "St. Catherine">St. Catherine</option>
+                    <option value = "Clarendon">Clarendon</option>
+                    <option value = "St. Ann">St. Ann</option>
+                    <option value = "St. Thomas">St. Thomas</option>
+                    <option value = "St. James">St. James</option>
+                    <option value = "St. Mary">St. Mary</option>
+                    <option value = "Trelawny">Trelawny</option>
+                    <option value = "Westmoreland">Westmoreland</option>
+                    <option value = "Hanover">Hanover</option>
+                    <option value = "Portland">Portland</option>
+                    <option value = "St.Elizabeth">St.Elizabeth</option>
+                    <option value = "Manchester">Portland</option>
+                    </select>
+                </div>
+                <div class="input-field col s12 m3">
+                    <i class="material-icons prefix">date_range</i>
+                    <select name="date_sort">
+                    <option value="" disabled selected>Sort by Date</option>
+                    <option value="desc">Newest First</option>
+                    <option value="asc">Oldest First</option>
+                    </select>
+                </div>
+                <div class="input-field col s12 m3">
+                    <i class="material-icons prefix">thumb_up</i>
+                    <input id="icon_prefix" type="text" class="validate" placeholder="5-10" name="likes_search">
+                </div>
+                <div class="input-field col s12 m3">
+                    <i class="material-icons prefix">star_half</i>
+                    <select name="ratings_sort">
+                    <option value="" disabled selected>Sort by Rating</option>
+                    <option value="desc">Highest Rated First</option>
+                    <option value="asc">Lowest Rated First</option>
+                    </select>
+                </div>
+                <div class="input-field col s12 m6 l4 xl2">
+                <button  class=" btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                    Submit
+                </button>
+                
+                </div>
+                <form>
+                </div>
+
+
+                
+                <br>
+
+            </div>
+
+        </div>
+        <div class=" col s12">
+            <%= if is_nil(@events) do %>
+            <p> Create Event Now </p>
+            <% end %>
+            <%= if !is_nil(@events) and Enum.count(@events) > 0 do %>
+            <table class = "centered responsive-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                <%= for event <- @events do %>
+                
+                        <tr>
+                            <td> <img src="https://placeholdit.co//i/30x30?"> </td>
+                            <td><a href="/facilitator/event/dashboard/<%=event.title%>"><%=event.title%></a></td>
+                            <td><%=event.start_date%></td>
+                            <td><%=event.admission_type%></td>
+                            <td>   <i class="material-icons">delete</i> </td>
+                            <td>   <i class="material-icons">edit</i> </td>
+                        </tr>                  
+
+                <% end %>
+                </tbody>
+            </table>
+            <% end %>
+        
+
+         </div>
+    </div>
+</div>
+<!--
+<div class="card col s10 center !important" style=" margin: 0 auto;width: 80%"> 
+    <div class="row center">
+       <%= if is_nil(@events) do %>
+           <p> Create Event Now </p>
+        <% end %>
+        <%= if !is_nil(@events) and Enum.count(@events) > 0 do %>
+          <table class = "centered responsive-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <%= for event <- @events do %>
+             
+                    <tr>
+                        <td> <img src="https://placeholdit.co//i/30x30?"> </td>
+                        <td><%=event.title%></td>
+                        <td><%=event.start_date%></td>
+                        <td><%=event.admission_type%></td>
+                        <td>   <i class="material-icons">delete</i> </td>
+                        <td>   <i class="material-icons">edit</i> </td>
+                    </tr>                  
+
+            <% end %>
+            </tbody>
+         </table>
+        <% end %>
+     
+
+    </div>
+</div>
+-->
+<script>
+function showhide()
+ {
+       var div = document.getElementById("filters");
+if (div.style.display !== "none") {
+    div.style.display = "none";
+}
+else {
+    div.style.display = "block";
+}
+ }
+</script>

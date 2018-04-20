@@ -54,5 +54,5 @@ config :daeventbox, Daeventbox.Repo,
   username: "jodi",
   password: "postgres",
   database: "daeventbox",
-  hostname: "localhost",
+  hostname: "dev.rfitzy.net",
   pool_size: 10

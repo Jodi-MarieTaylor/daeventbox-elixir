@@ -1,0 +1,170 @@
+ <div class = "row">
+ 
+    <div class = "col s12 m8" >
+        <div class = "card large white"style="height: 1000px;">
+            <div class="container">
+                <br>
+                <span class = "card-title"><h4>Card Details</h4></span>
+                <hr>
+                <br>
+                <div class = "row">
+                    <div class = "input-field col s12 ">
+                        <p>    Card Type </p>
+
+                        <input id = "mater" type = "radio" name = "type"
+                            value = "master"  />
+                        <label for = "master"><img alt="Credit Card Logos" title="Credit Card Logos" src="http://www.credit-card-logos.com/images/mastercard_credit-card-logos/mastercard_logo_3.gif" width="37" height="22" border="0" /></label>
+                    
+                        <input id = "visa" type = "radio" name = "type"
+                            value = "visa"  />
+                        <label for = "visa"><img alt="Credit Card Logos" title="Credit Card Logos" src="http://www.credit-card-logos.com/images/visa_credit-card-logos/new_visa.gif" width="37" height="22" border="0" /></label>
+                    
+                        
+                    </div>
+                    </div>      
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input  id="card_number" name="card_number" type="number"  class = "active validate" required>
+                        <label for="card_number">Card Number</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="cardholder" name="cardholder" type="text" class = "active validate" required>
+                        <label for="cardholder">Name as on Card</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input  id="expiry" name="expiry" type="text"  class = "active validate" required>
+                        <label for="expiry">Expiry</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="cvv" name="cardholder" type="number" class = "active validate" required>
+                        <label for="cvv">Security Number(CVV)</label>
+                    </div>
+                </div>
+                 <br>
+                <span class = "card-title"><h4>Billing Address</h4></span>
+                <hr>
+                <br>
+             
+     
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input  id="address1" name="address1" type="text"  class = "active validate" required>
+                        <label for="address1">Address 1</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="address2" name="address2" type="text" class = "active validate" required>
+                        <label for="address2">Address 2</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input  id="city" name="city" type="text"  class = "active validate" required>
+                        <label for="city">City</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="state" name="state" type="text" class = "active validate" required>
+                        <label for="state">State/Parish</label>
+                    </div>
+                </div>
+                <div class="row">
+                   
+                    <div class="input-field col s6">
+                        <input id="postal_code" name="postal_code" type="text" class = "active validate" required>
+                        <label for="postal_code">Postal Code</label>
+                    </div>
+                    <div class="row col s6">
+                        <label>Country</label>
+                        <select name = "country">
+                            <option value = "" disabled selected>Select Country</option>
+                            <option value = "JMD">Jamaica</option>
+                            <option value = "US">US</option>
+                            <option value = "Canada">Canada</option>
+                          
+                        </select>               
+                    </div>
+                </div>
+            <div class = "card-action">
+               <div class="row" >
+                    <a href="/payment/process" class="waves-effect waves-light btn right"><i class="material-icons left">cloud</i> Pay Now</a>
+                </div>
+                
+            </div>
+
+            </div> 
+        </div>
+    </div>
+    <div class = "col s12 m4">
+        <div class = "card blue-grey lighten-4">
+            <div class = "card-content">
+                <span class = "card-title"><h4>Payment Summary</h4></span>
+                <p> Note: Payment will be converted to JMD </P>
+                <br>
+                <span>
+                    <p> Item: </p>
+                    <p style="text-align: right;"> 10.00 </p>
+                 </span>
+                  <span>
+                    <p> GCT: </p>
+                    <p style="text-align: right;"> 20.00 </p>
+                 </span>
+                 <hr>
+                 <span>
+                    <p> Total: </p>
+                    <p style="text-align: right;"> 30.00 </p>
+                 </span>
+                 <i> Customers will be charged an additional $100.00 JMD per ticket </i>
+            </div>
+            
+            <div class = "card-action">
+               <div class="row" >
+                    <a href="/payment/process" class="waves-effect waves-light btn right"><i class="material-icons left">cloud</i> Pay Now</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+ <%= if @success == "true"  do %>
+
+     <!-- Modal Structure -->
+     <div id="modal1" class="modal  success"  data-id="true">
+     <div class="modal-content" style="text-align: center;">
+      <h4 >Event Created Successfully!</h4>
+      <p>How would you like to proceed?</p>
+      <div style="margin: 0 auto; width=50% border: solid thin black;">
+        <div class="row">
+         <a href= "/" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Home</a>
+        </div>
+        <div class="row" >
+            <a href="/facilitator/profile" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create Your Facilitator Profile</a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <% else %>
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal  ">
+  <%end%>
+
+    
+
+ 
+ <script>
+ 
+  
+  var x = document.getElementById('modal1');
+  var value = x.getAttribute('data-id');
+  
+  console.log(value);
+  if(value == "true"){
+    $('.modal-trigger').leanModal();
+
+      $('#modal1').openModal({ dismissible: false});
+
+ }
+ </script>

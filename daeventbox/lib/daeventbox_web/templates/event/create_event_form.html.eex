@@ -1,146 +1,327 @@
-<div class="row">
-            <div class="col s12 m12 l12">
-              <div class="card-panel">
-                <h4 class="header2">Create Your Event</h4>
-                <div class="row">
-                  <form class="col s12 form" method="POST" action="/event/Add">
-                    <div class="row">
-                      <div class="input-field col s6">
-                        <input id="title" type="text">
-                        <label for="title">Title</label>
-                      </div>
-                    
-                      <div class="input-field col s6">
-                        <input id="facilitator_name" type="text">
-                        <label for="facilitator_name">Facilitator Name</label>
-                      </div>
-                    </div>
-                     <div class="row">
-                      <div class="input-field col s3">
-                        <input type="text" class="datepicker">
-                        <label for="title">Start Date</label>
-                      </div>
-                    
-                      <div class="input-field col s3">
-                        <input type="text" class="datepicker">
-                        <label for="title">End Date</label>
-                      </div>
-                    
-                      <div class="input-field col s3">
-                        <input type="text" class="timepicker">
-                        <label for="title">Start Time</label>
-                      </div>
-                    
-                      <div class="input-field col s3">
-                        <input type="text" class="timepicker">
-                        <label for="title">End Time</label>
-                      </div>
-                    </div>
-                    
-                    <div class="row">
-                      <div class="input-field col s12">
-                        <input id="email5" type="email">
-                        <label for="email">Category</label>
-                      </div>
-                      <div class="input-field col s12">
-                        <input id="email5" type="email">
-                        <label for="email">Type</label>
-                      </div>
-                    </div>
-                   
-                    <p>Location<p>
-                    <div class="row">
+<style>
+.none {
+    display:none;
+}
 
-                      <div class="input-field col s12">
-                        <input id="address" type="text">
-                        <label for="address">Address</label>
-                      </div>
-                      <div class="input-field col s12">
-                        <input id="city" type="text">
-                        <label for="city">City</label>
-                      </div>
-                      <div class="input-field col s12">
-                        <input id="state" type="text">
-                        <label for="state">State</label>
-                      </div>
-                      <div class="input-field col s12">
-                        <input id="zip" type="text">
-                        <label for="zip">Zip</label>
-                      </div>
-                      <div class="input-field col s12">
-                        <input id="postal_code" type="text">
-                        <label for="postal_code">Postal Code</label>
-                      </div>
-                    </div>
-                    
-                    <div class="row">
-                      <div class="input-field col s6">
-                        <div class="select-wrapper"><i class="mdi-navigation-arrow-drop-down active"></i><input type="text" class="select-dropdown" readonly="true" data-activates="select-options-b62f1b7f-bdeb-ffb5-2960-367627e28a70" value="Choose your profile"><ul id="select-options-b62f1b7f-bdeb-ffb5-2960-367627e28a70" class="dropdown-content select-dropdown"><li class="disabled"><span>Choose your profile</span></li><li class=""><span>Manager</span></li><li class=""><span>Developer</span></li><li class=""><span>Business</span></li></ul><select class="initialized">
-                          <option value="" disabled="" selected="">Choose your profile</option>
-                          <option value="1">Manager</option>
-                          <option value="2">Developer</option>
-                          <option value="3">Business</option>
-                        </select></div>
-                        <label>Select Profile</label>
-                      </div>                        
-                      <div class="input-field col s6">
-                        <input type="text" class="datepicker picker__input" readonly="" id="P917521384" tabindex="-1" aria-haspopup="true" aria-expanded="false" aria-readonly="false" aria-owns="P917521384_root"><div class="picker" id="P917521384_root" tabindex="0" aria-hidden="true"><div class="picker__holder"><div class="picker__frame"><div class="picker__wrap"><div class="picker__box"><div class="picker__date-display"><div class="picker__weekday-display">Saturday</div><div class="picker__month-display"><div>Apr</div></div><div class="picker__day-display"><div>14</div></div><div class="picker__year-display"><div>2018</div></div></div><div class="picker__calendar-container"><div class="picker__header"><select class="picker__select--month browser-default" disabled="" aria-controls="P917521384_table" title="Select a month"><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3" selected="">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select><select class="picker__select--year browser-default" disabled="" aria-controls="P917521384_table" title="Select a year"><option value="2011">2011</option><option value="2012">2012</option><option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018" selected="">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option></select><div class="picker__nav--prev" data-nav="-1" role="button" aria-controls="P917521384_table" title="Previous month"> </div><div class="picker__nav--next" data-nav="1" role="button" aria-controls="P917521384_table" title="Next month"> </div></div><table class="picker__table" id="P917521384_table" role="grid" aria-controls="P917521384" aria-readonly="true"><thead><tr><th class="picker__weekday" scope="col" title="Sunday">S</th><th class="picker__weekday" scope="col" title="Monday">M</th><th class="picker__weekday" scope="col" title="Tuesday">T</th><th class="picker__weekday" scope="col" title="Wednesday">W</th><th class="picker__weekday" scope="col" title="Thursday">T</th><th class="picker__weekday" scope="col" title="Friday">F</th><th class="picker__weekday" scope="col" title="Saturday">S</th></tr></thead><tbody><tr><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1522558800000" role="gridcell" aria-label="1 April, 2018">1</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1522645200000" role="gridcell" aria-label="2 April, 2018">2</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1522731600000" role="gridcell" aria-label="3 April, 2018">3</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1522818000000" role="gridcell" aria-label="4 April, 2018">4</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1522904400000" role="gridcell" aria-label="5 April, 2018">5</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1522990800000" role="gridcell" aria-label="6 April, 2018">6</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523077200000" role="gridcell" aria-label="7 April, 2018">7</div></td></tr><tr><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523163600000" role="gridcell" aria-label="8 April, 2018">8</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523250000000" role="gridcell" aria-label="9 April, 2018">9</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523336400000" role="gridcell" aria-label="10 April, 2018">10</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523422800000" role="gridcell" aria-label="11 April, 2018">11</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523509200000" role="gridcell" aria-label="12 April, 2018">12</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523595600000" role="gridcell" aria-label="13 April, 2018">13</div></td><td role="presentation"><div class="picker__day picker__day--infocus picker__day--today picker__day--highlighted" data-pick="1523682000000" role="gridcell" aria-label="14 April, 2018" aria-activedescendant="true">14</div></td></tr><tr><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523768400000" role="gridcell" aria-label="15 April, 2018">15</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523854800000" role="gridcell" aria-label="16 April, 2018">16</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1523941200000" role="gridcell" aria-label="17 April, 2018">17</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524027600000" role="gridcell" aria-label="18 April, 2018">18</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524114000000" role="gridcell" aria-label="19 April, 2018">19</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524200400000" role="gridcell" aria-label="20 April, 2018">20</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524286800000" role="gridcell" aria-label="21 April, 2018">21</div></td></tr><tr><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524373200000" role="gridcell" aria-label="22 April, 2018">22</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524459600000" role="gridcell" aria-label="23 April, 2018">23</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524546000000" role="gridcell" aria-label="24 April, 2018">24</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524632400000" role="gridcell" aria-label="25 April, 2018">25</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524718800000" role="gridcell" aria-label="26 April, 2018">26</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524805200000" role="gridcell" aria-label="27 April, 2018">27</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524891600000" role="gridcell" aria-label="28 April, 2018">28</div></td></tr><tr><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1524978000000" role="gridcell" aria-label="29 April, 2018">29</div></td><td role="presentation"><div class="picker__day picker__day--infocus" data-pick="1525064400000" role="gridcell" aria-label="30 April, 2018">30</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525150800000" role="gridcell" aria-label="1 May, 2018">1</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525237200000" role="gridcell" aria-label="2 May, 2018">2</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525323600000" role="gridcell" aria-label="3 May, 2018">3</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525410000000" role="gridcell" aria-label="4 May, 2018">4</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525496400000" role="gridcell" aria-label="5 May, 2018">5</div></td></tr><tr><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525582800000" role="gridcell" aria-label="6 May, 2018">6</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525669200000" role="gridcell" aria-label="7 May, 2018">7</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525755600000" role="gridcell" aria-label="8 May, 2018">8</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525842000000" role="gridcell" aria-label="9 May, 2018">9</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1525928400000" role="gridcell" aria-label="10 May, 2018">10</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1526014800000" role="gridcell" aria-label="11 May, 2018">11</div></td><td role="presentation"><div class="picker__day picker__day--outfocus" data-pick="1526101200000" role="gridcell" aria-label="12 May, 2018">12</div></td></tr></tbody></table></div><div class="picker__footer"><button class="btn-flat picker__today" type="button" data-pick="1523682000000" disabled="" aria-controls="P917521384">Today</button><button class="btn-flat picker__clear" type="button" data-clear="1" disabled="" aria-controls="P917521384">Clear</button><button class="btn-flat picker__close" type="button" data-close="true" disabled="" aria-controls="P917521384">Close</button></div></div></div></div></div></div>
-                        <label for="dob">DOB</label>
-                      </div>
-                      
-                    </div>
-                    
-                    <div class="row">
-                      <div class="file-field input-field col s6">
-                        <input class="file-path validate" type="text">
-                        <div class="btn">
-                          <span>Age</span>
-                          <input type="file">
-                        </div>
-                      </div>
-                      <div class="input-field col s6">                          
-                         <span>Image</span>
-                         <p class="range-field">
-                          <input type="range" id="test5" min="0" max="100"><span class="thumb"><span class="value"></span></span>
-                        </p>
-                      </div>
-                    </div>
-                     <div class="row">
-                      <div class="input-field col s12">
-                        <textarea id="description" class="materialize-textarea" length="120"></textarea>
-                        <label for="description">Description</label>
-                      <span class="character-counter" style="float: right; font-size: 12px; height: 1px;"></span></div>
-                    </div>
-                    <div class="row">
-                      <div class="input-field col s12">
-                      <p> ‘Do you want to advertise your event on our site? </p>                           
-                       <p>
-                        <label>
-                            <input name="group1" type="radio" checked />
-                            <span>Yes</span>
-                        </label>
-                        </p>
-                        <p>
-                        <label>
-                            <input name="group1" type="radio" />
-                            <span>No</span>
-                        </label>
-                        </p>
-                                        </div>
-                      <div class="row">
-                        <div class="input-field col s12">
-                          <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Submit
-                            <i class="mdi-content-send right"></i>
-                          </button>
-                        </div>
-                      </div>
-                      
-                    </div>
-                    <>
-                  </form>
-                </div>
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+</style>
+<div class="bgimg"  style="height: 70px;">
+<h3 class="title" style="text-align: center; "> Create Your Event </h3>
+</div>
+<div class="card" style= "width: 100% ; padding: 30px;">
+<form class="col s12" method="POST"  action="/event/add">
+      <h5> Event Details</h5>
+      <hr>
+      <br>
+      <div class="row">
+        <div class="input-field col s4">
+          <input  id="title" name="title" type="text"  class = "active validate" required>
+          <label for="title">Event Title</label>
+        </div>
+        <div class="input-field col s4">
+          <input id="facilitator_name" name="facilitator_name" type="text" class = "active validate" required>
+          <label for="facilitator_name">Facilitator Name</label>
+        </div>
+        <div class="row col s4">
+            <label>Category</label>
+               <select name = "category">
+                  <option value = "" disabled selected>Select Category</option>
+                  <option value = "Business and Exhibitions">Business and Exhibitions</option>
+                  <option value = "Celebrations">Celebrations</option>
+                  <option value = "Clubs and Societies">Clubs and Societies</option>
+                  <option value = "Concerts and Live Performances">Concerts and Live Performances</option>
+                  <option value = "Fairs and Festivals">Fairs and Festivals</option>
+                  <option value = "Fundraisers and Galas">Fundraisers and Galas</option>
+                  <option value = "Parties and Nightlife">Parties and Nightlife</option>
+                  <option value = "Private Lessons">Private Lessons</option>
+                  <option value = "Seminars and Conferences">Seminars and Conferences</option>
+                  <option value = "Sports and Leisure">Sports and Leisure</option>
+                  <option value = "Miscellaneous">Miscellaneous</option>
+             </select>               
+        </div>
+      </div>
+
+      
+      <div class="row">
+        <div class=" col s3 row">               
+            <label for="start_date">Start Date</label>              
+            <input id="start_date" name="start_date" type = "date" class = "datepicker" />    
+        </div>  
+        <div class=" col s3 row">               
+            <label for="end_date"> End Date</label>              
+            <input id="end_date" name="end_date" type = "date" class = "datepicker" />    
+        </div>
+        <div class=" col s3 row">               
+            <label for="start_time">Start Time</label>              
+            <input  id="start_time" name="start_time" type = "time" class = "timepicker" />    
+        </div>  
+        <div class=" col s3 row">               
+            <label for="end_time">End Time</label>              
+            <input id="end_time" name="end_time" type = "time" class = "timepicker" />    
+        </div>  
+      </div>
+      <div class = "row">
+        <div class = "row col s6">
+          <label>Upload Main Event Image</label>
+          <div class = "file-field input-field">
+              <div class = "btn">
+                <span>Browse</span>
+                <input  type = "file" />
               </div>
-            </div>
+              
+              <div class = "file-path-wrapper">
+                <input name="image" class = "file-path validate" type = "text"
+                    placeholder = "Upload file" />
+              </div>
           </div>
-
+        </div>
+       <div class = "row col s6">
+            <label>Other Event Images</label>
+            <div class = "file-field input-field">
+              <div class = "btn">
+                  <span>Browse</span>
+                  <input type = "file" multiple />
+              </div>
+              
+              <div class = "file-path-wrapper">
+                  <input  name= "images"  class = "file-path validate" type = "text"
+                    placeholder = "Upload multiple files" />
+              </div>
+            </div>    
+        </div>
+        <div class = "row">
+            <div class = "input-field col s12">
+              <i class = "material-icons prefix">mode_edit</i>
+              <textarea id = "description" class = "materialize-textarea"></textarea>
+              <label for = "description">Description</label>
+            </div>
+        </div>
+        <br>
+        <h5> Venue Location </h5>
+        <hr>
+        <br>
+        <div class="row">
+          <div class="input-field col s3">
+            <input  id="venue_name" name="venue_name" type="text" class="validate">
+            <label for="venue_name">Venue Name</label>
+          </div>
+          <div class="input-field col s3">
+            <input id="address1" name="address1" type="text" class="validate">
+            <label for="address1">Address 1</label>
+          </div>
+          <div class="input-field col s3">
+            <input id="address2" name="address2" type="text" class="validate">
+            <label for="address2">Address 2</label>
+          </div>
+          <div class="row col s3">
+            <label>Parish</label>
+               <select name = "parish">
+                  <option  value = "" disabled selected>Select Parish</option>
+                  <option value = "Kingston">Kingston</option>
+                  <option value = "St. Andrew">St. Andrew</option>
+                  <option value = "St. Catherine">St. Catherine</option>
+                  <option value = "Clarendon">Clarendon</option>
+                  <option value = "St. Ann">St. Ann</option>
+                  <option value = "St. Thomas">St. Thomas</option>
+                  <option value = "St. James">St. James</option>
+                  <option value = "St. Mary">St. Mary</option>
+                  <option value = "Trelawny">Trelawny</option>
+                  <option value = "Westmoreland">Westmoreland</option>
+                  <option value = "Hanover">Hanover</option>
+                  <option value = "Portland">Portland</option>
+                  <option value = "St.Elizabeth">St.Elizabeth</option>
+                  <option value = "Manchester">Portland</option>
+               </select>               
+          </div>
           
+        </div>
+        <div class="row">
+          <iframe
+            width="600"
+            height="450"
+            frameborder="0" style="border:0"
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDetwM4R3Z2EohZ91Qub3-BkLo_tVfE6Eg&q=12+Ruthven+Road,+Kingston,+Jamaica" allowfullscreen>
+          </iframe>
+        </div>
+        <br>
+        <h5> Connect </h5>
+        <hr>
+        <br>
+        <p>Link Your Social Media Accounts and Pages to this event! </p>
+        <div class="row">
+            <div class = "input-field col s4 ">
+              <i class="fa fa-facebook-square"></i>
+              <input name = "fb_link" id = "fb_link" type = "url" />
+              <label for = "fb_link">Facebook URL</label>
+            </div>
+            <div class = "input-field col s4">
+               <i class="fa fa-instagram"></i>
+              <input name= "insta_link" id = "name" type = "url" />
+              <label for = "insta_link">Instagram URL</label>
+            </div>
+            <div class = "input-field col s4">
+             <i class="fa fa-twitter"></i>
+              <input name= "insta_link" id = "name" type = "url" />
+              <label for = "insta_link">Instagram URL</label>
+            </div>
+        </div>
+        <br>
+        <h5> Other Details </h5>
+        <hr>
+        <br>
+        <div class="row">
+          <div class = "row">
+               <div class = "input-field col s12 ">
+                  <p>     Event Type </p>
+
+                  <input id = "paid" type = "radio" name = "type"
+                    value = "paid"  />
+                  <label for = "paid">Paid</label>
+              
+                  <input id = "free" type = "radio" name = "type"
+                    value = "free"  />
+                  <label for = "free">Free</label>
+              
+                  <input id = "volunteer" type = "radio" name = "type"
+                    value = "volunteer" />
+                  <label for = "volunteer">Volunteer</label>
+              </div>
+            </div>      
+            <div class = "row">
+               <div class = "input-field col s12 ">
+                  <p>     Admission Type </p>
+
+                  <input class="radio" id = "registration" type = "radio" name = "admission_type"
+                    value = "registration"   data-id="ticket-details"/>
+                  <label for = "registration">Registration</label>
+              
+                  <input class="radio" id = "ticket" type = "radio" name = "admission_type"
+                    value = "ticket"  data-id="reg-details"/>
+                  <label for = "ticket">Ticket</label>
+              
+              </div>
+            </div>    
+            <div class="row ">
+               <div id="ticket-details" class="none">
+                <ul class = "collapsible ticket-details" data-collapsible = "accordion">
+                  <li>
+
+                      <div class = "collapsible-header active">
+                        <i class = "material-icons ">filter_drama</i>Ticket </div>
+                      <div class = "collapsible-body row" >
+                        <div class="input-field col s4">
+                          <input  id="ticket_name" name="ticket_name" placeholder="Early Bird, VIP, General" type="text"  class = "active validate" required>
+                          <label for="ticket_name">Ticket Name</label>
+                        </div>
+                        <div class="input-field col s4">
+                          <input id="quantity" name="quantity" type="number" class = "active validate" required>
+                          <label for="quantity">Quantity</label>
+                        </div>
+                        <div class="input-field col s4">
+                          <input id="price" name="price" type="number" step="0.01" class = "active validate" required>
+                          <label for="price">Price</label>
+                        </div>
+                      </div>
+                  </li>               
+                </ul>
+              </div>
+              <div id="reg-details" class="none" >
+              
+                <ul class = "collapsible reg-details" data-collapsible = "accordion">
+                  <li>
+                      <div class = "collapsible-header active">
+                        <i class = "material-icons ">filter_drama</i>Registration</div>
+                      <div class = "collapsible-body row">
+                         <div class="input-field col s4">
+                            <input id="rsvp_quantity" name="rsvp_quantity" type="number" class = "active validate" required>
+                            <label for="rsvp_quantity">RSVP Quantity</label>
+                          </div>
+                      </div>
+                  </li>
+                            
+                </ul>
+              </div>
+             
+            </div>     
+            <!--
+            <div class = "row">
+               <div class = "input-field col s12 ">
+                  <p>  Do you want to advertise your event on our site?   </p>
+                  <i style="font-size: 10px"> Note: To advertise on our site your event profile will have to go into review and approved. Once approved you will be charged advertisement fee. </i>
+                  <br>
+                  <input id = "yes" type = "radio" name = "sponsored"
+                    value = "yes"  />
+                  <label for = "yes">Yes</label>
+              
+                  <input id = "no" type = "radio" name = "sponsored"
+                    value = "no" />
+                  <label for = "no">No</label>
+              
+              </div>
+            </div>    
+             -->
+        </div>
+        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+        <div class=" footer text-center" style="margin: 0 auto;">
+            <button data-target="modal1" class="modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+              CREATE YOUR EVENT&rarr;
+            </button>
+       </div>
+
+        
+      </div>
+</form>
+
+</div>
+ <%= if @success == "true"  do %>
+
+     <!-- Modal Structure -->
+     <div id="modal1" class="modal  success"  data-id="true">
+     <div class="modal-content" style="text-align: center;">
+      <h4 >Event Created Successfully!</h4>
+      <p>How would you like to proceed?</p>
+      <div style="margin: 0 auto; width=50% border: solid thin black;">
+        <div class="row">
+         <a href= "/" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Home</a>
+        </div>
+        <div class="row" >
+            <a href="/facilitator/profile" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create Your Facilitator Profile</a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <% else %>
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal  ">
+  <%end%>
+
+    
+
+ 
+ <script>
+ 
+  $(':radio').change(function (event) {
+    var id = $(this).data('id');
+    $('#' + id).addClass('none').siblings().removeClass('none');
+  });
+  var x = document.getElementById('modal1');
+  var value = x.getAttribute('data-id');
+  
+  console.log(value);
+  if(value == "true"){
+    $('.modal-trigger').leanModal();
+
+      $('#modal1').openModal({ dismissible: false});
+
+ }
+ </script>
+
+
+

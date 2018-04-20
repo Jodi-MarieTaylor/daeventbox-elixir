@@ -1,112 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+ <head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="">
+   <meta name="author" content="">
 
-    <title>Hello Daeventbox!</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+   <title>Hello Daeventbox!</title>
+   <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+   <link rel = "stylesheet"  href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+   <link rel = "stylesheet"href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+   <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>          
+   <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"> </script>
+   <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+   <script src="https://maps.googleapis.com/maps//jsvv=3.exp&sensor=false&libraries=places"></script>
+   <style>
+   nav{
+    /*  background: linear-gradient(#2999c6,#012d46);  */
+    background-color: #2999c6;
+    
+   }
+   h4{
+       color: #10263f;
+   }
+   body{
+      /*background-color: #f2f2f2;*/
+       -webkit-background-size: cover;
+		   -moz-background-size: cover;
+		   -o-background-size: cover;
+		   background-image: url("https://preview.ibb.co/dsLPe7/facilitatorbg.png");
+		   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-attachment: fixed;
+		   background-size: cover;
+   }
+ @media (max-width: 600px) {
+  .brand-logo img {
+    height: 56px;
+    
+  }}
+   </style>
+   <script>
+        $(document).ready(function() {
+           $('select').material_select();
+           $(".button-collapse").sideNav();
 
+        });           
+   </script>
+ </head>
+ <body>
+   <div >
+     <header class="header">
+       <nav role="navigation" >
+       <div class="nav-wrapper nav">
+       
+       <a href="#" class="brand-logo">  
+       <img src="https://preview.ibb.co/exb7u7/daeventlogo2.png" alt="daeventlogo2" border="0" class="brand-logo">
+       </a>
+      
+         <ul id = "javaDropDown" class = "dropdown-content">
+              <li><a href = "/event/create">Create Event</a></li>
+              <li><a href = "/event/browse">Browse Events</a></li>
+              <li><a href = "/event/manage">Manage Events</a></li>
 
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+              <li class = "divider"></li>
+              <li><a href = "#!">Servlets</a></li>
+        </ul>
+        <ul id = "userdropdown" class = "dropdown-content">
+              <li><a href = "#!">JSF</a></li>
+              <li><a href = "#!">JSP</a></li>
+              <li class = "divider"></li>
+              <li><a href = "/login">Login</a></li>
+              <li><a href = "/register">Signup</a></li>
+        </ul>
+         <ul class=" nav-pills right hide-on-med-and-down" id="nav-mobile" >
 
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
-<!-- Include Editor style.
-<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
-<!-- Include external JS libs. --
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
-<!-- Include Editor JS files. --
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.6.5/js/froala_editor.pkgd.min.js"></script>
--->
-<script src="https://cdn.ckeditor.com/4.7.2/standard/ckeditor.js"></script>
+           
+           <%= if @conn.cookies["daeventboxmode"] == "Guest" and @conn.cookies["daeventboxuser"] do %>
+              <li><a href="/guest">Home</a></li>
+                <li>
+                 <div class = "col s12 m12 l12">
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                            <!-- Dropdown Trigger -->
+                            <li><a class = "dropdown-button" href = "#!"
+                            data-activates = "javaDropDown">Events<i class = "material-icons
+                            right">arrow_drop_down</i></a></li>
+                    </ul>    
+          
+                 </div>
+                </li>
 
+                <li>
+                 <div class = "col s12 m12 l12">
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                            <!-- Dropdown Trigger -->
+                            <li><a class = "dropdown-button" href = "#!"
+                            data-activates = "userdropdown">
+                            <%= unless is_nil(@conn.assigns[:current_user]) do %>
+                              <%= @conn.assigns[:current_user].firstname %>
+                            <% end %>
+                            <i class = "material-icons
+                            right">arrow_drop_down</i></a></li>
+                    </ul>    
+          
+                 </div>
+                </li>
 
+               <li><a href="/facilitator/change/mode">Switch to Facilitator Mode<a><li>
+               
+               <li><a href="/logout">Logout<a><li>
+           <%end%>
+           
+            <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
+              <li><a href="/facilitator">Home</a></li>
+               <li>
+                 <div class = "col s12 m12 l12">
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                            <!-- Dropdown Trigger -->
+                            <li><a class = "dropdown-button" href = "#!"
+                            data-activates = "javaDropDown">Events<i class = "material-icons
+                            right">arrow_drop_down</i></a></li>
+                    </ul>    
+          
+                 </div>
+                </li>
 
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+                <li>
+                 <div class = "col s12 m12 l12">
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                            <!-- Dropdown Trigger -->
+                            <li><a class = "dropdown-button" href = "#!"
+                            data-activates = "userdropdown"> <%= unless is_nil(@conn.assigns[:current_user]) do %>
+                              <%= @conn.assigns[:current_user].firstname %>
+                            <% end %><i class = "material-icons
+                            right">arrow_drop_down</i></a></li>
+                    </ul>    
+          
+                 </div>
+                </li>
+               <li><a href="/facilitator/change/mode">Switch to Guest Mode<a><li>        
+               
 
-  <!--  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-        <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
-<!--
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.7/summernote.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.7/summernote.js"></script>
-    <link href="https://cdn.quilljs.com/1.3.1/quill.snow.css" rel="stylesheet">--
-    <!-- Include the Quill library --
-    <script src="https://cdn.quilljs.com/1.3.1/quill.js"></script>-->
+               <li><a href="/logout">Logout<a><li>
+           <%end%>
 
+            <%= unless @conn.cookies["daeventboxmode"] do %>
 
-<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+               <li><a href="/register">Register<a><li>
+               <li><a href="/login">Login<a><li>
+           <%end%>
+         </ul>
+       </nav>
 
-  </head>
-  <body>
-    <div class="container">
-      <header class="header">
-        <!-- Dropdown Structure -->
-<ul id="dropdown1" class="dropdown-content">
-  <li><a href="#!">one</a></li>
-  <li><a href="#!">two</a></li>
-  <li class="divider"></li>
-  <li><a href="#!">three</a></li>
-</ul>
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Welcome</a></li>
-            <%= if @conn.cookies["daeventboxmode"] == "Guest" and @conn.cookies["daeventboxuser"] do %>
-                <li><a href="/register">Events<a><li>
-                <li><a href="/login">Jodi<a><li>
-                <li><a href="/change/mode/facilitator">Switch to Facilitator Mode<a><li>
-                
-                      <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+       <span class="logo"></span>
+     </header>
 
-                <li><a href="/login">Logout<a><li>
-            <%end%>
-             <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
-                <li><a href="/register">Events<a><li>
-                <li><a href="/login">Jodi<a><li>
-                <li><a href="/switch/facilitator">Switch to Guest Mode<a><li>
-                
-                      <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+     <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+     <div class="container">
 
-                <li><a href="/logout">Logout<a><li>
-            <%end%>
+     <main role="main">
+       <%= render @view_module, @view_template, assigns %>
+     </main>
+   </div>
+   </div> <!-- /container -->
+   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 
-             <%= unless @conn.cookies["daeventboxmode"] do %>
+  
 
-                <li><a href="/register">Register<a><li>
-                <li><a href="/login">Login<a><li>
-            <%end%>
-          </ul>
-        </nav>
-
-        <span class="logo"></span>
-      </header>
-
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
-
-    </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/app.js") %>"> </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script>
-$ $(document).ready(function(){
-    $('.datepicker').datepicker();
-  });
-</script>
 </body>
 </html>
+

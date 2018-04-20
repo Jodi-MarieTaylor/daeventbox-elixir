@@ -8,6 +8,7 @@ defmodule Daeventbox.Event do
     field :category, :string
     field :description, :string
     field :details, :map
+    field :location_info, :map
     field :end_date, :date
     field :end_time, :time
     field :facilitator_id, :integer
@@ -24,14 +25,15 @@ defmodule Daeventbox.Event do
     field :title, :string
     field :twitter_link, :string
     field :type, :string
-
+    field :event_zid,  Ecto.UUID
+    field :venue_name, :string
     timestamps()
   end
 
   @doc false
   def changeset(event, attrs) do
     event
-    |> cast(attrs, [:title, :location, :facilitator_name, :facilitator_id, :start_date, :start_time, :end_date, :end_time, :category, :description, :image, :image_url, :fb_link, :insta_link, :twitter_link, :type, :admission_type, :meta1, :meta2, :details])
-    |> validate_required([:title, :location, :facilitator_name,  :start_date, :start_time, :type, :admission_type])
+    |> cast(attrs, [:title, :location, :facilitator_name, :facilitator_id, :start_date, :start_time, :end_date, :end_time, :category, :description, :image, :image_url, :fb_link, :insta_link, :twitter_link, :type, :admission_type, :meta1, :meta2, :details, :event_zid, :venue_name, :location_info])
+    |> validate_required([:title, :location, :facilitator_name,  :start_date, :start_time, :type, :admission_type, :event_zid])
   end
 end
