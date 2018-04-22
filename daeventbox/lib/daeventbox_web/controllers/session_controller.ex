@@ -56,10 +56,18 @@ defmodule DaeventboxWeb.SessionController do
 
            |> put_flash(:info, "Logged in")
            |> redirect(to: "/guest"  )
-        {:error, _reason, conn} ->
-          conn
-           |> put_flash(:error, "Bad Credentials")
-           |> render("login.html")
+        {:error, reason, conn} ->
+          IO.inspect reason
+          case reason do
+            :unauthorized ->
+                conn
+                 |> put_flash(:error, "Bad Credentials")
+                 |> redirect(to: "/login")
+            :not_found ->
+                conn
+                 |> put_flash(:error, "User does not exist")
+                 |> redirect(to: "/login")
+          end
       end
     end
 
