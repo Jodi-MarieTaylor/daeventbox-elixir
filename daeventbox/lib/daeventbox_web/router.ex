@@ -20,6 +20,18 @@ defmodule DaeventboxWeb.Router do
      plug Daeventbox.Plugs.CurrentUser
   end
 
+  pipeline :with_session do
+    plug Daeventbox.Pipeline
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource, allow_blank: true
+    plug Daeventbox.CurrentUser
+  end
+
+  pipeline :login_required do
+   plug Guardian.Plug.EnsureAuthenticated,
+        handler: Daeventbox.GuardianErrorHandler
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -32,13 +44,13 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/event", DaeventboxWeb do
-    pipe_through :secure # Use the default browser stack
+    pipe_through [:browser, :with_session] # Use the default browser stack
     get "/create", EventController, :create
     post "/add", EventController, :add
   end
 
   scope "/facilitator", DaeventboxWeb do
-    pipe_through :secure # Use the default browser stack
+    pipe_through [:browser, :with_session] # Use the default browser stack
     get "/switch", FacilitatorController, :switch
     get "/change/mode", FacilitatorController, :changemode
     get "/event/search", FacilitatorController, :eventsearch
@@ -47,7 +59,7 @@ defmodule DaeventboxWeb.Router do
     post "/", FacilitatorController, :home
   end
   scope "/guest", DaeventboxWeb do
-    pipe_through :secure # Use the default browser stack
+    pipe_through [:secure, :with_session] # Use the default browser stack
 
     get "/" , GuestController, :home
 
@@ -55,16 +67,16 @@ defmodule DaeventboxWeb.Router do
 
 
   scope "/", DaeventboxWeb do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :with_session] # Use the default browser stack
 
     get "/", PageController, :index
     get "/register", AuthController, :signup
     get "/login", AuthController, :login
     get "/logout", AuthController, :logout
-    post "/user/create", AuthController, :create_user
-    post "/signin", AuthController, :signin
-
-
+    post "/user/create", SessionController, :signup
+    post "/signin", SessionController, :signin
+    resources "/messages", MessageController
+    resources "/rooms", RoomController
 
 
   end
