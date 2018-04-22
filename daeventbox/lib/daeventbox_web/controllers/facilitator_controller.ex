@@ -6,6 +6,7 @@ defmodule DaeventboxWeb.FacilitatorController do
   import Plug.Conn
   alias Daeventbox.User
   alias Daeventbox.Repo
+  alias Daeventbox.Facilitator
 
   def index(conn, _params) do
     render conn, "index.html"
@@ -135,7 +136,61 @@ defmodule DaeventboxWeb.FacilitatorController do
 
   def dashboard(conn, params) do
     current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
-    render conn, "dashboard.html"
+    event = Repo.get!(Event, 1)
+    #event = Repo.get!(Event, params["id"])
+    IO.inspect event.type
+
+    cond do
+      event.type =="paid" and event.admission_type == "tickets" ->
+          event_details = %{}
+          render conn, "dashboard1.html", event_details: event_details
+      event.type == "paid" and event.admission_type =="registration" ->
+        event_details = %{}
+        render conn, "dashboard2.html", event_details: event_details
+      event.type == "free" and event.admission_type == "registration" ->
+        event_details = %{}
+        render conn, "dashboard3.html", event_details: event_details
+      event.type == "free" ->
+        event_details = %{}
+        render conn, "dashboard4.html", event_details: event_details
+
+    end
+  end
+
+  def profile_form(conn, params) do
+    render conn, "profile_form.html"
+  end
+   def profile(conn, params) do
+    facilitator = Repo.get_by(Facilitator, id: params["id"])
+
+    render conn, "profile.html",  facilitator: facilitator
+  end
+
+  def profile_preview(conn,params) do
+    current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+    facilitator = Repo.get_by(Facilitator, id: current_user.id)
+
+    render conn, "profile_preview.html", facilitator: facilitator
+  end
+
+  def update_profile(conn, params) do
+    facilitator = Repo.get!(Facilitator, params["id"])
+    required_params = %{name: params["name"], about: params["about"], website_link: params["website_link"], fb_link: params["fb_link"], insta_link: params["insta_link"],
+    twitter_link: params["twitter_link"], image: params["image"], image_url: params["image_url"], facilitator_email: params["email"], facilitator_phone: params["phone"],
+    facilitator_address: params["address"], facilitator_contact: params["contact"]}
+      IO.inspect params
+    changeset = Facilitator.changeset(facilitator, required_params)
+    case Repo.update(changeset) do
+      {:ok, _facilitator} ->
+        conn
+        |> put_flash(:info, "Event updated successfully.")
+        |> redirect(to: "/facilitator")
+
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, "Oops error!")
+        |> redirect(to: "/event/edit")
+    end
   end
 
 end

@@ -35,6 +35,8 @@ defmodule DaeventboxWeb.Router do
     pipe_through :secure # Use the default browser stack
     get "/create", EventController, :create
     post "/add", EventController, :add
+    get "/edit", EventController, :edit
+    delete "/delete", EventController, :delete
   end
 
   scope "/facilitator", DaeventboxWeb do

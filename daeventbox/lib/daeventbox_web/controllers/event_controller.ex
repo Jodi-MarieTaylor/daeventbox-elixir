@@ -58,4 +58,46 @@ defmodule DaeventboxWeb.EventController do
     render(conn, "create_event_form.html", success: "true")
   end
 
+  def delete(conn, params) do
+
+    event = Repo.get!(Event, params["id"])
+
+    # Here we use delete! (with a bang) because we expect
+    # it to always work (and if it does not, it will raise).
+    Repo.delete!(event)
+
+    conn
+    |> put_flash(:info, "Event deleted successfully.")
+    |> redirect(to: "/facilitator")
+
+  end
+
+  def edit_form(conn,params) do
+    # pre fill event info (add values)
+    event = Repo.get!(Event, params["id"])
+
+    render(conn, "edit.html", event: event)
+  end
+
+  def update(conn,params) do
+    event = Repo.get!(Event, params["id"])
+    required_params = %{title: params["title"], facilitator_name: params["facilitator_name"], facilitiator_id: conn.assigns[:current_user].id,
+       start_date: params["start_date"], start_time: params["start_time"], end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
+       fb_link: params["fb_link"], insta_link: params["insta_link"],  twitter_link: params["twitter_link"], type: params["type"], admission_type: params["admission_type"], location: "#{params["address1"]}, #{params["address2"]}, #{params["parish"]}, Jamaica",
+       details: %{}, event_zid:  Ecto.UUID.generate, venue_name: params["venue_name"], location_info: %{parish: params["parish"], address1: params["address1"], address2: params["address2"], country: "Jamaica"}}
+      IO.inspect params
+    changeset = Event.changeset(event, required_params)
+    case Repo.update(changeset) do
+      {:ok, _event} ->
+        conn
+        |> put_flash(:info, "Event updated successfully.")
+        |> redirect(to: "/facilitator")
+
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, "Oops error!")
+        |> redirect(to: "/event/edit")
+    end
+  end
+
 end

@@ -1,0 +1,67 @@
+
+	<div class="card card-signup content" style=" max-width: 60%; margin: 0 auto;" >
+		<div style=" background-color:#484f5b; margin: 0 auto;" > 
+			<h3 style=" font-size:30px;  color:white; margin:70px auto;" class="center-align">COMPLETE YOUR PROFILE 
+			</h3>
+			</div>
+			<div style="margin:0 auto"><i class="material-icons">add_a_photo</i>
+				<h3 style="text-align:center; font-size:20px ">Upload Your Photo</h3>
+			</div>
+		<div class="row" style="padding:0px 15px 0px 15px;">
+			<form  method="POST" action="/signin">
+				<div class="input-field col s12">
+					<input id="organisersname" type="url" name="organisersname" class="validate" autofocus="true">
+					<label for="organisersname">Organisers Name:
+					</label>
+				</div>
+					<div>
+					<h3 style="font-size: 20px; padding-bottom:0px;"><i class="material-icons">insert_link </i>Website:
+					</h3>
+					</div>
+				<div class="input-field col s12">
+					<input id="website" type="url" name="website" class="validate" autofocus="true">
+				 	<label for="website"></label>
+				</div>
+				<h3 style="font-size: 20px"><i class="material-icons">insert_link </i>Social Media URL</h3>
+				<div class="input-field col s12" style="max-width:31%">
+					<input id="facebook" type="url" name="facebook" class="validate" autofocus="true">
+					<label for="facebook"><i class="fa fa-facebook" aria-hidden="true"></i>:
+					</label>
+				</div>
+				<div class="input-field col s12" style="max-width:31%">
+					<input id="twitter" type="url" name="twitter" class="validate" autofocus="true">
+					<label for="twitter"><i class="fa fa-twitter" aria-hidden="true"></i>:
+					</label>
+				</div>
+				<div class="input-field col s12" style="max-width:31%">
+					<input id="instagram" type="url" name="instagram" class="validate" autofocus="true">
+					<label for="instagram"><i class="fa fa-instagram" aria-hidden="true"></i>:
+					</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="contactname" type="url" name="contactname" class="validate" autofocus="true">
+					<label for="contactname">Contact Person Name:
+					</label>
+				</div>
+				<div class="input-field col s12" style="max-width:50%">
+					<input id="email" type="url" name="email" class="validate" autofocus="true">
+					<label for="email"><i class="material-icons">email</i>Email:
+					</label>
+				</div>
+				<div class="input-field col s12" style="max-width:50%">
+					<input id="phone" type="url" name="phone" class="validate" autofocus="true">
+					<label for="phone"><i class="material-icons">phone</i>Phone:
+					</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="address" type="url" name="address" class="validate" autofocus="true">
+					<label for="address"><i class="material-icons">place</i>Address:
+					</label>
+				</div>
+				<div style="margin:0 auto; width:25% "><button class="btn-large waves-effect waves-light" type="submit" name="action">Submit<i class="material-icons right">send</i>
+					</button> 
+				</div>
+			</form>
+		</div>
+			
+	</div>	

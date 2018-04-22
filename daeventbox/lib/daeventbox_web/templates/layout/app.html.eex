@@ -68,11 +68,16 @@
               <li><a href = "#!">Servlets</a></li>
         </ul>
         <ul id = "userdropdown" class = "dropdown-content">
-              <li><a href = "#!">JSF</a></li>
-              <li><a href = "#!">JSP</a></li>
+              <li><a href="#!" ><i class="material-icons">notifications</i><span class="new badge">1</span></a></li>
+              
+              <li><a href="#!"><i class="material-icons">mail</i><span class="new badge">1</span></a></li>
+
               <li class = "divider"></li>
-              <li><a href = "/login">Login</a></li>
-              <li><a href = "/register">Signup</a></li>
+              <li><a href = "/login">Profile</a></li>
+
+              <li><a href = "/login">Account settings</a></li>
+
+        
         </ul>
          <ul class=" nav-pills right hide-on-med-and-down" id="nav-mobile" >
 
