@@ -41,7 +41,10 @@ defmodule Daeventbox.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:hasher, "~> 0.1.0"}
+      {:hasher, "~> 0.1.0"},
+      {:comeonin, "~> 4.0"},
+      {:guardian, "~> 1.0"},
+      {:bcrypt_elixir, "~> 1.0"},
     ]
   end
 
