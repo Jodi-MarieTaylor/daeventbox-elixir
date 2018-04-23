@@ -15,13 +15,24 @@ defmodule DaeventboxWeb.MessageController do
   end
 
   def create(conn, %{"message" => message_params}) do
+    sender_id = conn.assigns[:current_user].id
+    IO.inspect room = Daeventbox.Repo.get(Daeventbox.Chat.Room, message_params["room_id"])
+    IO.inspect recipient_id = ([room.recipient_id, room.owner_id] -- [sender_id]) |> Enum.at(0)
+    message_params =
+      message_params
+      |> Map.put("recipient_id", recipient_id)
+      |> Map.put("sender_id", sender_id)
     case Chat.create_message(message_params) do
       {:ok, message} ->
+        IO.inspect message
         conn
-        |> put_flash(:info, "Message created successfully.")
-        |> redirect(to: message_path(conn, :show, message))
+        |> put_flash(:info, "Message sent.")
+        |> redirect(to: "/chat/room/#{room.id}")
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        IO.inspect changeset
+        conn
+        |> put_flash(:error, "Failed to send message.")
+        |> redirect(to: "/chat/room/#{room.id}")
     end
   end
 

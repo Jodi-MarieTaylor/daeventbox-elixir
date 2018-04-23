@@ -6,6 +6,7 @@ defmodule Daeventbox.Chat.Room do
   schema "rooms" do
     field :name, :string
     field :owner_id, :integer
+    field :recipient_id, :integer
 
     has_many :messages, Daeventbox.Chat.Message
     timestamps()
@@ -14,7 +15,7 @@ defmodule Daeventbox.Chat.Room do
   @doc false
   def changeset(room, attrs) do
     room
-    |> cast(attrs, [:name, :owner_id])
-    |> validate_required([:name, :owner_id])
+    |> cast(attrs, [:name, :owner_id, :recipient_id])
+    |> validate_required([:owner_id, :recipient_id])
   end
 end

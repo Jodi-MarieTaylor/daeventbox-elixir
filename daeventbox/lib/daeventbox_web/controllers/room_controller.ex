@@ -2,6 +2,8 @@ defmodule DaeventboxWeb.RoomController do
   use DaeventboxWeb, :controller
 
   alias Daeventbox.Chat
+  alias Daeventbox.Repo
+  alias Daeventbox.User
   alias Daeventbox.Chat.Room
 
   def index(conn, _params) do
@@ -9,25 +11,44 @@ defmodule DaeventboxWeb.RoomController do
     render(conn, "index.html", rooms: rooms)
   end
 
+  def start(conn, params) do
+    users = Daeventbox.Repo.all(Daeventbox.User)
+    render(conn, "start_chat.html", users: users)
+  end
+
   def new(conn, _params) do
     changeset = Chat.change_room(%Room{})
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"room" => room_params}) do
-    case Chat.create_room(room_params) do
-      {:ok, room} ->
+  def create(conn, params) do
+    case Repo.get_by(User, zid: params["zid"]) do
+      nil ->
         conn
-        |> put_flash(:info, "Room created successfully.")
-        |> redirect(to: room_path(conn, :show, room))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        |> redirect(to: "/facilitator/switch")
+      recipient ->
+          case Chat.get_room(conn.assigns[:current_user].id, recipient.id) do
+            {:error, %Ecto.Changeset{} = changeset} ->
+                  render(conn, "start_chat.html", changeset: changeset)
+            {:ok, room} ->
+                messages = Chat.list_messages(room.id)
+                conn
+                |> render("room.html", room: room, user: conn.assigns[:current_user], recipient: recipient, messages: messages)
+          end
     end
   end
 
   def show(conn, %{"id" => id}) do
     room = Chat.get_room!(id)
-    render(conn, "show.html", room: room)
+    user = conn.assigns[:current_user]
+    recipient =
+      if room.recipient_id == user.id do
+        Repo.get(User, room.owner_id)
+      else
+        Repo.get(User, room.recipient_id)
+      end
+    messages = Chat.list_messages(room.id)
+    render(conn, "room.html", room: room, user: user, recipient: recipient, messages: messages)
   end
 
   def edit(conn, %{"id" => id}) do

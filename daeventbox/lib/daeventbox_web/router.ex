@@ -43,6 +43,17 @@ defmodule DaeventboxWeb.Router do
     get "/process", PaymentController, :make_payment
   end
 
+  scope "/chat", DaeventboxWeb do
+    pipe_through [:browser, :with_session] # Use the default browser stack
+
+    get "/", RoomController, :create
+    post "/send", MessageController, :create
+
+    get "/start", RoomController, :start
+    get "/room/:id", RoomController, :show
+    get "/send", MessageController, :create
+  end
+
   scope "/event", DaeventboxWeb do
     pipe_through [:browser, :with_session] # Use the default browser stack
     get "/create", EventController, :create

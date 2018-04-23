@@ -7,6 +7,7 @@ defmodule Daeventbox.Chat do
   alias Daeventbox.Repo
 
   alias Daeventbox.Chat.Message
+  alias Daeventbox.Chat.Room
 
   @doc """
   Returns the list of messages.
@@ -17,10 +18,10 @@ defmodule Daeventbox.Chat do
       [%Message{}, ...]
 
   """
-  def list_messages(params) do
+  def list_messages(room_id) do
     Message
-    |> where([p], p.room_id == ^params["room_id"])
-    |> where([p], p.sender_id == ^params["user_id"] or p.recipient_id == ^params["user_id"])
+    |> where([m], m.room_id == ^room_id)
+    |> order_by([asc: :id])
     |> Repo.all
   end
 
@@ -103,5 +104,42 @@ defmodule Daeventbox.Chat do
   """
   def change_message(%Message{} = message) do
     Message.changeset(message, %{})
+  end
+
+  def create_room(attrs \\ %{}) do
+    %Room{}
+    |> Room.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def get_room!(room_id) do
+    Repo.get(Room, room_id)
+  end
+
+  def get_room(user_id, recipient_id) do
+    case room_exits?(user_id, recipient_id) do
+      {:error, nil} ->
+          case create_room(%{"owner_id" => user_id, "recipient_id" => recipient_id}) do
+          {:ok, room} ->
+            {:ok, room}
+          {:error, %Ecto.Changeset{} = changeset} ->
+            {:error, changeset}
+          end
+      {:ok, room} ->
+          {:ok, room}
+    end
+  end
+
+  def room_exits?(user_id, recipient_id) do
+    room =
+      Room
+      |> where([r], (r.owner_id == ^user_id and r.recipient_id == ^recipient_id) or (r.owner_id == ^recipient_id and r.recipient_id == ^user_id))
+      |> Repo.one
+    case room do
+      nil ->
+        {:error, nil}
+      room ->
+        {:ok, room}
+    end
   end
 end
