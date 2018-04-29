@@ -140,14 +140,7 @@
           </div>
           
         </div>
-        <div class="row">
-          <iframe
-            width="600"
-            height="450"
-            frameborder="0" style="border:0"
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDetwM4R3Z2EohZ91Qub3-BkLo_tVfE6Eg&q=12+Ruthven+Road,+Kingston,+Jamaica" allowfullscreen>
-          </iframe>
-        </div>
+        
         <br>
         <h5> Connect </h5>
         <hr>
@@ -215,15 +208,53 @@
                         <i class = "material-icons ">filter_drama</i>Ticket </div>
                       <div class = "collapsible-body row" >
                         <div class="input-field col s4">
-                          <input  id="ticket_name" name="ticket_name" placeholder="Early Bird, VIP, General" type="text"  class = "active validate" required>
+                          <input  id="ticket_name" name="ticket1_name" placeholder="Early Bird, VIP, General" type="text"  class = "active validate" >
                           <label for="ticket_name">Ticket Name</label>
                         </div>
                         <div class="input-field col s4">
-                          <input id="quantity" name="quantity" type="number" class = "active validate" required>
+                          <input id="quantity" name="ticket1_quantity" type="number" class = "active validate" >
                           <label for="quantity">Quantity</label>
                         </div>
                         <div class="input-field col s4">
-                          <input id="price" name="price" type="number" step="0.01" class = "active validate" required>
+                          <input id="price" name="ticket1_price" type="number" step="0.01" class = "active validate" >
+                          <label for="price">Price</label>
+                        </div>
+                      </div>
+                  </li>         
+                  <li>
+
+                      <div class = "collapsible-header active">
+                        <i class = "material-icons ">filter_drama</i>Ticket </div>
+                      <div class = "collapsible-body row" >
+                        <div class="input-field col s4">
+                          <input  id="ticket_name" name="ticket2_name" placeholder="Early Bird, VIP, General" type="text"  class = "active validate" >
+                          <label for="ticket_name">Ticket Name</label>
+                        </div>
+                        <div class="input-field col s4">
+                          <input id="quantity" name="ticket2_quantity" type="number" class = "active validate" >
+                          <label for="quantity">Quantity</label>
+                        </div>
+                        <div class="input-field col s4">
+                          <input id="price" name="ticket2_price" type="number" step="0.01" class = "active validate" >
+                          <label for="price">Price</label>
+                        </div>
+                      </div>
+                  </li>         
+                  <li>
+
+                      <div class = "collapsible-header active">
+                        <i class = "material-icons ">filter_drama</i>Ticket </div>
+                      <div class = "collapsible-body row" >
+                        <div class="input-field col s4">
+                          <input  id="ticket_name" name="ticket3_name" placeholder="Early Bird, VIP, General" type="text"  class = "active validate" >
+                          <label for="ticket_name">Ticket Name</label>
+                        </div>
+                        <div class="input-field col s4">
+                          <input id="quantity" name="ticket3_quantity" type="number" class = "active validate" >
+                          <label for="quantity">Quantity</label>
+                        </div>
+                        <div class="input-field col s4">
+                          <input id="price" name="ticket3_price" type="number" step="0.01" class = "active validate" >
                           <label for="price">Price</label>
                         </div>
                       </div>
@@ -237,10 +268,18 @@
                       <div class = "collapsible-header active">
                         <i class = "material-icons ">filter_drama</i>Registration</div>
                       <div class = "collapsible-body row">
-                         <div class="input-field col s4">
-                            <input id="rsvp_quantity" name="rsvp_quantity" type="number" class = "active validate" required>
-                            <label for="rsvp_quantity">RSVP Quantity</label>
+                        <div class="input-field col s4">
+                            <input id="registration_name" name="registration_name" type="text" class = "active validate">
+                            <label for="regristration_name">Name</label>
                           </div>
+                         <div class="input-field col s4">
+                            <input id="registration_quantity" name="registration_quantity" type="number" class = "active validate">
+                            <label for="regristration_quantity">Quantity</label>
+                          </div>
+                          <div class="input-field col s4">
+                            <input id="registration_price" name="registration_price" type="number" step="0.01" class = "active validate" >
+                            <label for="registration_price">Price</label>
+                        </div>
                       </div>
                   </li>
                             

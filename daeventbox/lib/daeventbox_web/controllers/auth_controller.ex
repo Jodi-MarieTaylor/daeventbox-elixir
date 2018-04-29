@@ -49,8 +49,8 @@ defmodule DaeventboxWeb.AuthController do
            |> put_resp_cookie("daeventboxuser", user.zid, max_age: time_in_secs_from_now)
            |> put_resp_cookie("daeventboxmode", "Guest", max_age: time_in_secs_from_now)
 
-           |> put_flash(:info, "Logged in")
-           |> redirect(to: "/guest"  )
+           |> put_flash(:info, "Your are now logged in")
+           |> redirect(to: "/"  )
 
       user->
             conn

@@ -60,6 +60,20 @@ defmodule DaeventboxWeb.Router do
     post "/add", EventController, :add
     get "/edit", EventController, :edit
     delete "/delete", EventController, :delete
+    get "/details/:id", EventController, :details
+    get "/manage/", EventController, :manage
+    get "/save/:id", EventController, :save
+    get "/unsave/:id", EventController, :unsave
+    get "/like/:id", EventController, :like
+    get "/unlike/:id", EventController, :unlike
+    get "/register/:id", EventController, :register
+    get "/buyticket/:id", EventController, :buy_tickets
+    post "/ticket/selection/:id", EventController, :ticket_selection
+    post "/registration/selected/:id", EventController, :registration_selection
+    get "/makepayment/:id", EventController, :make_payment
+    get "/registrationform/:id", EventController, :registration_form
+    post "/register/proceed/:id", EventController, :add_registrations
+    post "/add/ticket/:id", EventController, :add_ticket
   end
 
   scope "/facilitator", DaeventboxWeb do

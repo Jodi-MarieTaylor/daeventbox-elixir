@@ -9,13 +9,19 @@
 
    <title>Hello Daeventbox!</title>
    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-   <link rel = "stylesheet"  href = "https://fonts.googleapis.com/icon?family=Material+Icons">
-   <link rel = "stylesheet"href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
-   <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>          
-   <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"> </script>
+         
    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
    <script src="https://maps.googleapis.com/maps//jsvv=3.exp&sensor=false&libraries=places"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      
    <style>
+   .carousel .carousel-item {
+      width:300px !important;
+      height: 300px !important;
+    }
    nav{
     /*  background: linear-gradient(#2999c6,#012d46);  */
     background-color: #2999c6;
@@ -46,6 +52,7 @@
            $('select').material_select();
            $(".button-collapse").sideNav();
 
+          
         });           
    </script>
  </head>
@@ -63,9 +70,14 @@
               <li><a href = "/event/create">Create Event</a></li>
               <li><a href = "/event/browse">Browse Events</a></li>
               <li><a href = "/event/manage">Manage Events</a></li>
+        </ul>
+          <ul id = "javasDropDown" class = "dropdown-content">
+              <li><a href = "#">All Events</a></li>
 
+              <li><a href = "#">Upcoming Events</a></li>
+              <li><a href = "#">Past Events</a></li>
               <li class = "divider"></li>
-              <li><a href = "#!">Servlets</a></li>
+              <li><a href = "#!">Event Organizers</a></li>
         </ul>
         <ul id = "userdropdown" class = "dropdown-content">
               <li><a href="#!" ><i class="material-icons">notifications</i><span class="new badge">1</span></a></li>
@@ -76,25 +88,41 @@
               <li><a href = "/login">Profile</a></li>
 
               <li><a href = "/login">Account settings</a></li>
-
+              <li><a href = "/logout">Logout</a></li>
         
         </ul>
          <ul class=" nav-pills right hide-on-med-and-down" id="nav-mobile" >
 
            
            <%= if @conn.cookies["daeventboxmode"] == "Guest" and @conn.cookies["daeventboxuser"] do %>
-              <li><a href="/guest">Home</a></li>
+              <li><a href="/">Home</a></li>
+              <!--
                 <li>
                  <div class = "col s12 m12 l12">
                     <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
-                            <!-- Dropdown Trigger -->
+                            
                             <li><a class = "dropdown-button" href = "#!"
-                            data-activates = "javaDropDown">Events<i class = "material-icons
+                            data-activates = "javaDropDown">Your Events<i class = "material-icons
                             right">arrow_drop_down</i></a></li>
                     </ul>    
           
                  </div>
                 </li>
+                -->
+                 
+                <li>
+                 <div class = "col s12 m12 l12">
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                            
+                            <li><a class = "dropdown-button" href = "#!"
+                            data-activates = "javasDropDown">Events<i class = "material-icons
+                            right">arrow_drop_down</i></a></li>
+                    </ul>    
+          
+                 </div>
+                </li>
+                
+                <li><a href="/event/manage">Manage Your Events</a></li>
 
                 <li>
                  <div class = "col s12 m12 l12">
@@ -114,7 +142,6 @@
 
                <li><a href="/facilitator/change/mode">Switch to Facilitator Mode<a><li>
                
-               <li><a href="/logout">Logout<a><li>
            <%end%>
            
             <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
@@ -172,7 +199,7 @@
    </div> <!-- /container -->
    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 
-  
+
 
 </body>
 </html>

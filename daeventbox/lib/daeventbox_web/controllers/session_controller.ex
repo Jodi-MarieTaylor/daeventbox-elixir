@@ -18,7 +18,7 @@ defmodule DaeventboxWeb.SessionController do
                   |> put_resp_cookie("daeventboxuser", user.zid, max_age: time_in_secs_from_now)
                   |> put_resp_cookie("daeventboxmode", "Guest", max_age: time_in_secs_from_now)
                   |> put_flash(:info, "Logged in")
-                  |> redirect(to: "/guest")
+                  |> redirect(to: "/")
              {:error, reason, conn} ->
                  conn
                   |> put_flash(:error,"Bad Credentials")
@@ -55,7 +55,7 @@ defmodule DaeventboxWeb.SessionController do
            |> put_resp_cookie("daeventboxmode", "Guest", max_age: time_in_secs_from_now)
 
            |> put_flash(:info, "Logged in")
-           |> redirect(to: "/guest"  )
+           |> redirect(to: "/"  )
         {:error, reason, conn} ->
           IO.inspect reason
           case reason do

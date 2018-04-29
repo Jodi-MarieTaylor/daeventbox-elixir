@@ -1,0 +1,99 @@
+<div class="card container"  style= "width: 100% ; padding: 30px;">
+    <div class ="card-content">
+        <h4> Event Details </h4>
+        <hr>
+        <div class="row">
+            <div class="col s3 left-align" >
+                <img  src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg" alt="user background" width="230" height="200">                    
+            </div>
+            <div class="col s5" >
+                <h5> <%= @event.title %> </h5>
+                <p> <%= @event.start_date%> - <%= @event.end_date %> </p>
+                <p> <%= @event.start_time%> - <%= @event.end_time %> </p>
+                <p> <%= @event.venue_name%> </p>
+                <p> <%= @event.location %> </p>
+            </div>
+        </div>
+    
+        <%= if @event.admission_type == "registration" do %>
+            <h4> Registration Items </h4>
+        <% end %>   
+        <%= if @event.admission_type == "ticket" do %>
+            <h4> Ticket Items </h4>
+        <% end %> 
+        <hr>
+       
+        <%= if @event.admission_type == "ticket" do %>
+        <form  method="POST"  action="/event/ticket/selection/<%=@event.id %>">
+            <%= for ticket <- @ticket_details do %>
+                
+                <div class="card">
+                    <div class="card-content" >
+                   
+                        <div class="row">
+                            <div class="col s3"> 
+                                <h5> <%= ticket.name %> </p>
+                               
+                            </div>
+                            <div class= "col s3">
+                                <%= if @event.type == "free" do %>
+                                <p> $0.00 </p>
+                                <%end%>
+                                <%= if @event.type == "paid" do %>
+                                <p> $<%=  :erlang.float_to_binary(ticket.price, [:compact, { :decimals, 3 }]) %> </p> 
+                                <%end%>
+                            </div>
+                            <div class="input-field col s2">
+                                <input id="quantity" name="selected_quantity<%= Enum.find_index(@ticket_details, fn(x) -> x.id == ticket.id end) %>" value=0 type="number" class = "active validate" >
+                                <label for="quantity">Quantity</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+            <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+            <input type="hidden" name="type" value="ticket">
+
+            <div class=" footer text-center right-align" >
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">   
+                    Proceed
+                </button>            
+            </div>
+        </form>
+        <% end %>
+        <%= if @event.admission_type == "registration" do %>
+        <form  method="POST"  action="/event/registration/selected/<%=@event.id %>">
+            <%= for registration <- @registration_details do %>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col s3"> 
+                                <h5> <%= registration.name %> </p>
+                                <%= if @event.type == "free" do %>
+                                <p> $0.00 </p>
+                                <%end%>
+                                <%= if @event.type == "paid" do %>
+                                <p> $<%= registration.price %> </p>
+                                <%end%>
+                            </div>
+                            <div class="input-field col s2">
+                                <input id="quantity" value=0 name="selected_quantity<%= Enum.find_index(@registration_details, fn(x) -> x.id == registration.id end) %>" type="number" class = "active validate" >
+                                <label for="quantity">Quantity</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+            <div class=" footer text-center right-align" >
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                    Proceed
+                </button>           
+            </div>
+            <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+            <input type="hidden" name="type" value="registration">
+
+        </form>
+        <% end %>
+
+    </div>
+</div>
