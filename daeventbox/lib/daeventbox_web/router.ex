@@ -74,6 +74,10 @@ defmodule DaeventboxWeb.Router do
     get "/registrationform/:id", EventController, :registration_form
     post "/register/proceed/:id", EventController, :add_registrations
     post "/add/ticket/:id", EventController, :add_ticket
+    get "/upcoming/filter", EventController, :filter_events
+    get "/upcoming", EventController, :upcoming_events
+    get "/facilitators", EventController, :facilitators
+
   end
 
   scope "/facilitator", DaeventboxWeb do

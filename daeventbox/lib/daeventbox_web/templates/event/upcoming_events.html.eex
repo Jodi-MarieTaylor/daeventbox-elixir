@@ -1,13 +1,138 @@
-<div class="container">
+<div  style="width: 100%"> 
     <div class="row">
-        <div class="card" style="width: 80%;">
-            <h3> Popular Upcoming Events <h3>
-            <hr>
-           
+        <div class="card col s9">
+            <h4> Upcoming Events </h4>
+            <h4>
+            
+            <div class="row">
+                <%= for event <- @events do %>
+                    <div class="col s12 m4 ">
+                    <div class="card">
+                        <div class="card-image">
+                        <img src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg">
+                        <span class="card-title "></span>
+                        </div>
+                        <div class="card-content">
+                        <p class="truncate" style="font-size: 20px;"> <%= event.title %> </p>
+                        <p style="font-size: 14px;"> <%= event.start_date %>  </p>
+                        <a href="/event/details/<%=event.id %>" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Details </a>
+                        
+                        </div>
+                    
+                    </div>
+                    </div>
+                <%end%>
+             </div>
+          
         </div>
-        <div class="row">
-            <div class="card" style="width: 20%;">
+       <div class="row">
+      
+            <div class="card col s12 m3">
+
+                <ul class="collapsible">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">filter_drama</i>Filter By Category</div>
+                        <div class="collapsible-body">
+
+                        <span> <a href="/event/upcoming/filter?category=Business and Exhibitions">Business and Exhibitions</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Celebrations">Celebrations</a></span><br>
+                        <span> <a href="/event/upcoming/filter?category=Clubs and Societies">Clubs and Societies</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Concerts and Live Performances">Concerts and Live Performances</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Fairs and Festivals">Fairs and Festivals</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Fundraisers and Galas">Fundraisers and Galas</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Parties and Nightlife">Parties and Nightlife</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Private Lessons">Private Lessons</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Seminars and Conferences">Seminars and Conferences</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Sports and Leisure">Sports and Leisure</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Miscellaneous">Miscellaneous</a> </span>
+                        
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">place</i>Filter By Location</div>
+                        <div class="collapsible-body">
+                            <span> <a href="/event/upcoming/filter?location=Kingston">Kingston</a></span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Andrew">St. Andrew</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Catherine">St. Catherine</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Clarendon">Clarendon</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Ann">St. Ann</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Thomas">St. Thomas</a> </span> <br>
+                            <span> <a href="/event/upcoming/filter?location=St. James">St. James</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Mary">St. Mary</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Trelawny">Trelawny</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Westmoreland">Westmoreland</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Hanover">Hanover</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St.Elizabeth">St.Elizabeth</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Portland">Portland</a> </span> <br>
+                        </div>
+                    </li>
+
+                    <li>
+                    <div class="collapsible-header"><i class="material-icons">attach_money</i>Filter By Price</div>
+                        <div class="collapsible-body">
+                            <span> <a href="/event/upcoming/filter?price=paid">Paid</a></span> <br>
+                            <span><a href="/event/upcoming/filter?price=free">Free</a> </span> <br>
+                        
+                        </div>
+                    </li>
+                    <li>
+                    <div class="collapsible-header"><i class="material-icons">date_range</i>Filter By Date</div>
+                        <div class="collapsible-body">
+                        <div>
+                        <input id="datep" type="text" class="datepicker">
+                        <label for="datep">Select Date</label>
+
+                        </div>
+            
+                        
+                        </div>
+                    </li>
+                </ul>
+                
+            </div>
+            <div class="card col s12 m3">
+                   
+                    <div class="carousel">
+                     <h5> Featured Events </h5>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        
+                    </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+ $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false // Close upon selecting a date,
+  });
+
+  $('.carousel').carousel({
+        padding: 200    
+    });
+    autoplay()   
+    function autoplay() {
+        $('.carousel').carousel('next');
+        setTimeout(autoplay, 4500);
+    }
+</script>
+ 

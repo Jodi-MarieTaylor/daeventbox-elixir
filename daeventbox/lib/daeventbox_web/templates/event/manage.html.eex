@@ -1,5 +1,11 @@
-<div class="card container" style="width: 100%"><a> 
-    <h4> Saved Events </h4>
+<div class="parallax-container">
+      <div class="parallax"><img src="https://www.w3schools.com/howto/img_fjords.jpg">
+      
+      </div>
+    </div>
+    <div class="section white">
+      <div class="row container">
+       <h4> Saved Events </h4>
     <hr>
     </a><div class="carousel"><a>
        <%= for saved <- @saved_events do %>
@@ -10,8 +16,14 @@
         </div>
         <%end%>
         
+    </div></div>
     </div>
-    <hr>
+    <div class="parallax-container">
+      <div class="parallax"><img src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></div>
+    </div>
+
+<div class="container" style="width: 100%"><a> 
+   
     <h4> Events Your Going </h4>
      <hr>
     <div class="carousel ">
@@ -104,6 +116,8 @@
 <script type="text/javascript">
    $(document).ready(function(){
     $('.carousel').carousel();
+      $('.parallax').parallax();
+
   });
       
 </script>

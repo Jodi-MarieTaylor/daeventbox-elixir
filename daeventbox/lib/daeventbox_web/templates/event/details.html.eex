@@ -25,15 +25,15 @@
         
         <div class="card-content">
             <div class="row">                    
-            <div class="col s3 offset-s2">                        
+            <div class="col s3 m3 offset-s2">                        
                 <h4 class="card-title grey-text text-darken-4">Night Club Party</h4>
                 <p class="medium-small grey-text">Name</p>                        
             </div>
-            <div class="col s3 center-align">
+            <div class="col s3 m3 center-align">
                 <h4 class="card-title grey-text text-darken-4">April 4 2018</h4>
                 <p class="medium-small grey-text">Date</p>                        
             </div>
-            <div class="col s3 center-align">
+            <div class="col s3 m3 center-align">
                 <h4 class="card-title grey-text text-darken-4"><a class="activator">
                 Party Central
                 </a></h4>
@@ -49,10 +49,10 @@
                     <%end%>
                  </h5>
                 <%= if @event.admission_type == "registration" do %>
-                    <a href="/event/register/<%=@event.id %>" class="btn activator waves-effect waves-light darken-2 right"> Register </a>
+                    <a href="/event/register/<%=@event.id%>" class="btn activator waves-effect waves-light darken-2 right"> Register </a>
                 <%end%>
                 <%= if @event.admission_type == "ticket" do %>
-                    <a href="/event/buyticket/<%=@event.id %>" class="btn activator waves-effect waves-light darken-2 right"> Buy Tickets </a>
+                    <a href="/event/buyticket/<%=@event.id%>" class="btn activator waves-effect waves-light darken-2 right"> Buy Tickets </a>
                 <%end%>
                 
             </div>

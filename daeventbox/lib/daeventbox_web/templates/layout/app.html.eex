@@ -18,6 +18,12 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       
    <style>
+   .truncate {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
    .carousel .carousel-item {
       width:300px !important;
       height: 300px !important;
@@ -30,12 +36,15 @@
    h4{
        color: #10263f;
    }
+   .btn{
+     background-color: #ee226f;
+   }
    body{
-      /*background-color: #f2f2f2;*/
+         background-color: #f2f2f2; 
        -webkit-background-size: cover;
 		   -moz-background-size: cover;
 		   -o-background-size: cover;
-		   background-image: url("https://preview.ibb.co/dsLPe7/facilitatorbg.png");
+		  /*  background-image: url("https://preview.ibb.co/e3DKr7/backgroundwebsitegeneralgrey.jpg" ); */
 		   background-repeat: no-repeat;
 		   background-position: center center;
 		   background-attachment: fixed;
@@ -72,12 +81,10 @@
               <li><a href = "/event/manage">Manage Events</a></li>
         </ul>
           <ul id = "javasDropDown" class = "dropdown-content">
-              <li><a href = "#">All Events</a></li>
 
-              <li><a href = "#">Upcoming Events</a></li>
-              <li><a href = "#">Past Events</a></li>
+              <li><a href = "/event/upcoming">Upcoming Events</a></li>
               <li class = "divider"></li>
-              <li><a href = "#!">Event Organizers</a></li>
+              <li><a href = "/event/facilitators">Event Organizers</a></li>
         </ul>
         <ul id = "userdropdown" class = "dropdown-content">
               <li><a href="#!" ><i class="material-icons">notifications</i><span class="new badge">1</span></a></li>
@@ -190,7 +197,7 @@
 
      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-     <div class="container">
+     <div >
 
      <main role="main">
        <%= render @view_module, @view_template, assigns %>

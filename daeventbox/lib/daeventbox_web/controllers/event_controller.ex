@@ -15,6 +15,7 @@ defmodule DaeventboxWeb.EventController do
   alias Daeventbox.LikedEvent
 
 
+
   def index(conn, _params) do
 
 
@@ -34,7 +35,7 @@ defmodule DaeventboxWeb.EventController do
 
       current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
       IO.inspect current_user
-      required_params = %{title: params["title"], facilitator_name: params["facilitator_name"], facilitiator_id: conn.assigns[:current_user].id,
+      required_params = %{title: params["title"], facilitator_name: params["facilitator_name"], user_id: conn.assigns[:current_user].id,
        start_date: params["start_date"], start_time: params["start_time"], end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
        fb_link: params["fb_link"], insta_link: params["insta_link"],  twitter_link: params["twitter_link"], type: params["type"], admission_type: params["admission_type"], location: "#{params["address1"]}, #{params["address2"]}, #{params["parish"]}, Jamaica",
        details: %{}, event_zid:  Ecto.UUID.generate, venue_name: params["venue_name"], location_info: %{parish: params["parish"], address1: params["address1"], address2: params["address2"], country: "Jamaica"}}
@@ -385,4 +386,68 @@ defmodule DaeventboxWeb.EventController do
     redirect conn, to: "/"
 
   end
+
+  def upcoming_events(conn,params) do
+    query = from e in Event # where events are new
+    events = Repo.all(query)
+    render conn, "upcoming_events.html", events: events
+  end
+
+  def facilitators(conn, params) do
+    query = from f in Facilitator
+    facilitators = Repo.all(query)
+    IO.puts "THESE ARE FACILIS"
+    IO.inspect facilitators
+    render conn, "facilitators.html", facilitators: facilitators
+
+  end
+
+  def filter_events(conn, params) do
+     cond do
+      params["category"] ->
+        query = from e in Event, where: e.category == ^params["category"]
+        events = Repo.all(query)
+      params["location"] ->
+         query = from e in Event, where: fragment("?->>'parish' LIKE ?", e.location_info, ^params["location"])
+         events = Repo.all(query)
+      params["price"] ->
+        query = from e in Event, where: e.type == ^params["price"]
+        events = Repo.all(query)
+      params["date"] ->
+         query = from e in Event, order_by: [asc: e.inserted_at]
+         events = Repo.all(query)
+     end
+    render conn, "upcoming_events.html", events: events
+
+  end
+
+  def filter_facilitators(conn, params) do
+     cond do
+      params["alphabetically"] ->
+        query =
+          if  params["alphabetically"] == "asc" do
+            from f in Facilitator,  order_by: [asc: f.facilitator_name]
+          else
+            from f in Facilitator, order_by: [desc: f.facilitator_name]
+          end
+        facilitators = Repo.all(query)
+      params["popularity"] ->
+         query = from e in Event
+         facilitators = Repo.all(query)
+      params["events"] ->
+        query = from f in Facilitator, join: e in Event, where: e.facilitator_id == f.id # count
+        facilitators = Repo.all(query)
+      params["date"] ->
+         query =
+          if  params["date"] == "asc" do
+            from f in Facilitator,  order_by: [asc: f.inserted_at]
+          else
+            from f in Facilitator, order_by: [desc: f.inserted_at]
+          end
+          facilitators = Repo.all(query)
+     end
+    render conn, "facilitators.html", facilitators: facilitators
+
+  end
+
 end
