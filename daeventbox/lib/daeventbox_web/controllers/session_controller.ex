@@ -24,8 +24,19 @@ defmodule DaeventboxWeb.SessionController do
                   |> put_flash(:error,"Bad Credentials")
                   |> render("login.html")
            end
-          {:error, changeset} ->
-            render(conn, "signup.html", changeset: changeset, params: params)
+          {:error, reason} ->
+            IO.inspect reason
+            case reason do
+              :unauthorized ->
+                  conn
+                  |> put_flash(:error, "Please Enter a good password and make sure they match")
+                  |> redirect(to: "/signup")
+              :not_found ->
+                  conn
+                  |> put_flash(:error, "User does not exist")
+                  |> redirect(to: "/signup")
+            end
+            #render(conn, "signup.html", changeset: changeset, params: params)
        end
     end
 

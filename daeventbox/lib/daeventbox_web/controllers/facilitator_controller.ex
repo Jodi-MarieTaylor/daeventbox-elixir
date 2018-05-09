@@ -14,16 +14,31 @@ defmodule DaeventboxWeb.FacilitatorController do
 
   def switch(conn, _params) do
     #if first first time being facilitator (to check - check if its in facilitator table)
-    render conn, "switchfirsttime.html"
+    current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+    facilitator = Repo.get_by(Facilitator, user_id: current_user.id)
+    if facilitator do
+      redirect conn, to: "/facilitator"
+    else
+      render conn, "switchfirsttime.html"
+    end
   end
 
   def changemode(conn, _params) do
-    time_in_secs_from_now = 86400 * 90
-    conn
-      |> delete_resp_cookie("daeventboxmode")
-      |> delete_resp_cookie("daeventboxmode")
-      |> put_resp_cookie("daeventboxmode", "Facilitator", max_age: time_in_secs_from_now)
-      |> redirect(to: "/facilitator/switch"  )
+    if conn.cookies["daeventboxmode"] == "Facilitator" and conn.cookies["daeventboxuser"] do
+      time_in_secs_from_now = 86400 * 90
+      conn
+        |> delete_resp_cookie("daeventboxmode")
+        |> delete_resp_cookie("daeventboxmode")
+        |> put_resp_cookie("daeventboxmode", "Guest", max_age: time_in_secs_from_now)
+        |> redirect(to: "/"  )
+    else
+      time_in_secs_from_now = 86400 * 90
+      conn
+        |> delete_resp_cookie("daeventboxmode")
+        |> delete_resp_cookie("daeventboxmode")
+        |> put_resp_cookie("daeventboxmode", "Facilitator", max_age: time_in_secs_from_now)
+        |> redirect(to: "/facilitator/switch"  )
+    end
 
   end
 
@@ -160,10 +175,22 @@ defmodule DaeventboxWeb.FacilitatorController do
   def profile_form(conn, params) do
     render conn, "profile_form.html"
   end
-   def profile(conn, params) do
-    facilitator = Repo.get_by(Facilitator, id: params["id"])
 
-    render conn, "profile.html",  facilitator: facilitator
+  def profile(conn, params) do
+    facilitator =
+    if is_nil(params["id"]) do
+      current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+      Repo.get_by(Facilitator, user_id: current_user.id)
+    else
+      Repo.get_by(Facilitator, id: params["id"])
+    end
+    visitor =
+      if is_nil(params["id"]) do
+        false
+      else
+        true
+      end
+    render conn, "profile.html",  facilitator: facilitator, visitor: visitor
   end
 
   def profile_preview(conn,params) do
@@ -173,11 +200,39 @@ defmodule DaeventboxWeb.FacilitatorController do
     render conn, "profile_preview.html", facilitator: facilitator
   end
 
+  def add_facilitator(conn, params) do
+    required_params = %{name: params["name"], about: params["about"], website_link: params["website"], fb_link: params["facebook"], insta_link: params["instagram"],
+    twitter_link: params["twitter"], image: params["image"], image_url: params["image_url"], facilitator_email: params["email"], facilitator_phone: params["phone"],
+    facilitator_address: params["address"], facilitator_contact: params["contactname"], facilitator_zid:  Ecto.UUID.generate,user_id: conn.assigns[:current_user].id}
+      IO.inspect params
+    changeset = Facilitator.changeset(%Facilitator{}, required_params)
+    case Repo.insert(changeset) do
+      {:ok, _facilitator} ->
+        conn
+        |> put_flash(:info, "Event updated successfully.")
+        |> redirect(to: "/facilitator")
+
+      {:error, changeset} ->
+        IO.inspect changeset
+        conn
+        |> put_flash(:error, "Oops error! Please try again")
+        |> render "profile_form.html"
+    end
+
+  end
+  def profile_edit(conn, params) do
+    current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+    facilitator = Repo.get_by(Facilitator, user_id: current_user.id)
+
+    render conn, "profile_edit_form.html", facilitator: facilitator
+  end
   def update_profile(conn, params) do
-    facilitator = Repo.get!(Facilitator, params["id"])
-    required_params = %{name: params["name"], about: params["about"], website_link: params["website_link"], fb_link: params["fb_link"], insta_link: params["insta_link"],
-    twitter_link: params["twitter_link"], image: params["image"], image_url: params["image_url"], facilitator_email: params["email"], facilitator_phone: params["phone"],
-    facilitator_address: params["address"], facilitator_contact: params["contact"]}
+    current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+    facilitator = Repo.get_by(Facilitator, user_id: current_user.id)
+
+    required_params = %{name: params["name"], about: params["about"], website_link: params["website"], fb_link: params["facebook"], insta_link: params["instagram"],
+    twitter_link: params["twitter"], image: params["image"], image_url: params["image_url"], facilitator_email: params["email"], facilitator_phone: params["phone"],
+    facilitator_address: params["address"], facilitator_contact: params["contactname"]}
       IO.inspect params
     changeset = Facilitator.changeset(facilitator, required_params)
     case Repo.update(changeset) do
@@ -187,9 +242,11 @@ defmodule DaeventboxWeb.FacilitatorController do
         |> redirect(to: "/facilitator")
 
       {:error, changeset} ->
+        IO.inspect changeset
+
         conn
         |> put_flash(:error, "Oops error!")
-        |> redirect(to: "/event/edit")
+        |> redirect(to: "/facilitator/profile/edit")
     end
   end
 

@@ -17,6 +17,15 @@ defmodule DaeventboxWeb do
   and import those modules here.
   """
 
+  def model do
+    quote do
+      use Ecto.Schema
+      use Calecto.Schema, usec: true
+
+      # ...
+    end
+  end
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: DaeventboxWeb

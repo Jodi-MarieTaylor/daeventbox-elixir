@@ -1,12 +1,128 @@
+ <style>
+  .carousel .carousel-item {
+      width:300px !important;
+      height: 300px !important;
+    }
+    
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}    
+ </style>
+
+ <ul id = "category-filter-dropdown" class = "dropdown-content">
+               <li> <a href="/event/upcoming/filter?category=Business and Exhibitions">Business and Exhibitions</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Celebrations">Celebrations</a></li><br>
+                <li> <a href="/event/upcoming/filter?category=Clubs and Societies">Clubs and Societies</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Concerts and Live Performances">Concerts and Live Performances</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Fairs and Festivals">Fairs and Festivals</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Fundraisers and Galas">Fundraisers and Galas</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Parties and Nightlife">Parties and Nightlife</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Private Lessons">Private Lessons</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Seminars and Conferences">Seminars and Conferences</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Sports and Leisure">Sports and Leisure</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Miscellaneous">Miscellaneous</a> </li>
+                        
+        
+</ul>
+ <ul id = "date-filter-dropdown" class = "dropdown-content">
+              <li> <div>
+                        <input id="datep" type="text" class="datepicker">
+                        <label for="datep">Select Date</label>
+
+                        </div></li>
+        
+</ul>
+ <ul id = "location-filter-dropdown" class = "dropdown-content">
+            <li> <a href="/event/upcoming/filter?location=Kingston">Kingston</a></li> 
+            <li><a href="/event/upcoming/filter?location=St. Andrew">St. Andrew</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St. Catherine">St. Catherine</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Clarendon">Clarendon</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St. Ann">St. Ann</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St. Thomas">St. Thomas</a> </li> 
+            <li> <a href="/event/upcoming/filter?location=St. James">St. James</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St. Mary">St. Mary</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Trelawny">Trelawny</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Westmoreland">Westmoreland</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Hanover">Hanover</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St.Elizabeth">St.Elizabeth</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Portland">Portland</a> </li> 
+
+</ul>
+ <ul id = "type-filter-dropdown" class = "dropdown-content">
+            <li> <a href="/event/upcoming/filter?price=paid">Paid</a></li> <br>
+            <li> <a href="/event/upcoming/filter?price=free">Free</a></li> <br>
+                        
+        
+</ul>
+<div class="card headtab" style="width: 100%; color: white; ">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;"> Upcoming Events </h4>
+            
+        </div>
+
+          <div class ="right col s12 m7" style="padding: 20px;">
+            <ul>
+                <li>
+                    <div class = "col s3">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "category-filter-dropdown" style="color: white;"> Filter by Category<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s3">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "location-filter-dropdown" style="color: white;"> Filter by Location<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s3">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "type-filter-dropdown" style="color: white;"> Filter by Event Type<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s3">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "date-filter-dropdown" style="color: white;"> Filter by Date<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
 <div  style="width: 100%"> 
     <div class="row">
-        <div class="card col s9">
-            <h4> Upcoming Events </h4>
-            <h4>
+        <div class="col s12 m12 l10">
+            
             
             <div class="row">
                 <%= for event <- @events do %>
-                    <div class="col s12 m4 ">
+                    <div class="col s12 m3 ">
                     <div class="card">
                         <div class="card-image">
                         <img src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg">
@@ -25,7 +141,38 @@
              </div>
           
         </div>
-       <div class="row">
+        <div>
+        <div class="card col s12 m2" style="background-color: #1d1d1d; color: white;">
+                   
+                    <div class="carousel">
+                     <h5 class="center"> Featured Events </h5>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        
+                    </div>
+                    <div>
+                        <h5 class="center"> Latest News </h5>
+                        <p>Hurricen Jake Hurricane Jake is not really a hurrican but a friend. He smokes marijuana .... </p>
+                        <p> Who would fards of us cast and end name wish'd. To die, or to sleep; no more; for to oth the unwortal shocks the unworthy to, 'tis and, by a life; and the name office, but ther inst a life; .....</p>
+                    </div>
+            </div>
+        </div>
+    <!--
+        <div class="row">
       
             <div class="card col s12 m3">
 
@@ -114,6 +261,7 @@
                     </div>
             </div>
         </div>
+    -->
     </div>
 </div>
 <script>

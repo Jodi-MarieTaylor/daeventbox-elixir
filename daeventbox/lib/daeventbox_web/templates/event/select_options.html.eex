@@ -1,4 +1,28 @@
-<div class="card container"  style= "width: 100% ; padding: 30px;">
+
+<style>
+  .carousel .carousel-item {
+      width:300px !important;
+      height: 300px !important;
+    }
+    
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}    
+ </style>
+
+ <div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;"> Selection</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+<div class="card container "  style= "width: 80% ; padding: 30px; margin: 0 auto; ">
     <div class ="card-content">
         <h4> Event Details </h4>
         <hr>
@@ -8,8 +32,16 @@
             </div>
             <div class="col s5" >
                 <h5> <%= @event.title %> </h5>
-                <p> <%= @event.start_date%> - <%= @event.end_date %> </p>
-                <p> <%= @event.start_time%> - <%= @event.end_time %> </p>
+                
+                <p> 
+                    <%= if @start_date != @end_date do %>
+                        <%= @start_date  %> - <%= @end_date  %> 
+                    <%end%>
+                        <%= if @start_date == @end_date do %>
+                        <%= @start_date  %> 
+                    <%end%>
+                </p>
+                <p> <%= @start_time%> - <%= @end_time %> </p>
                 <p> <%= @event.venue_name%> </p>
                 <p> <%= @event.location %> </p>
             </div>
@@ -17,9 +49,11 @@
     
         <%= if @event.admission_type == "registration" do %>
             <h4> Registration Items </h4>
+            <h6> <i> Please Select Quantity Below</i> </h6>
         <% end %>   
         <%= if @event.admission_type == "ticket" do %>
             <h4> Ticket Items </h4>
+            <h6> <i> Please Select Quantity Below</i> </h6>
         <% end %> 
         <hr>
        
@@ -27,7 +61,7 @@
         <form  method="POST"  action="/event/ticket/selection/<%=@event.id %>">
             <%= for ticket <- @ticket_details do %>
                 
-                <div class="card">
+                <div class="card" >
                     <div class="card-content" >
                    
                         <div class="row">
@@ -37,7 +71,7 @@
                             </div>
                             <div class= "col s3">
                                 <%= if @event.type == "free" do %>
-                                <p> $0.00 </p>
+                                <p> FREE </p>
                                 <%end%>
                                 <%= if @event.type == "paid" do %>
                                 <p> $<%=  :erlang.float_to_binary(ticket.price, [:compact, { :decimals, 3 }]) %> </p> 
@@ -70,7 +104,7 @@
                             <div class="col s3"> 
                                 <h5> <%= registration.name %> </p>
                                 <%= if @event.type == "free" do %>
-                                <p> $0.00 </p>
+                                <p> FREE </p>
                                 <%end%>
                                 <%= if @event.type == "paid" do %>
                                 <p> $<%= registration.price %> </p>

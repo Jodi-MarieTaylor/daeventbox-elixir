@@ -25,7 +25,8 @@ defmodule DaeventboxWeb.EventController do
   def create(conn, params) do
    IO.puts("lll")
     IO.inspect conn.assigns[:current_user]
-    render conn, "create_event_form.html", success: nil
+    facilitator = Repo.get_by(Facilitator,user_id: conn.assigns[:current_user].id)
+    render conn, "create_event_form.html", success: nil , facilitator: facilitator
 
   end
 
@@ -33,9 +34,21 @@ defmodule DaeventboxWeb.EventController do
   def add(conn, params) do
       IO.puts "Here is the facilitator ID: #{conn.assigns[:current_user].id}"
 
+      #if there is no facilitator record( meaning the person is new)  add the record
+      if is_nil(Repo.get_by(Facilitator, user_id: conn.assigns[:current_user].id)) do
+        facil_params = %{name: params["facilitator_name"], facilitator_zid:  Ecto.UUID.generate, user_id: conn.assigns[:current_user].id}
+        changeset = Facilitator.changeset(%Facilitator{}, facil_params)
+
+        case Repo.insert(changeset) do
+          {:ok, _facilitator} -> IO.puts "Facil Added"
+          {:error, reason} -> IO.inspect reason
+        end
+      end
+
+      facilitator = Repo.get_by(Facilitator,user_id: conn.assigns[:current_user].id)
       current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
       IO.inspect current_user
-      required_params = %{title: params["title"], facilitator_name: params["facilitator_name"], user_id: conn.assigns[:current_user].id,
+      required_params = %{title: params["title"], facilitator_name: facilitator.name, user_id: conn.assigns[:current_user].id, facilitator_id: facilitator.id,
        start_date: params["start_date"], start_time: params["start_time"], end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
        fb_link: params["fb_link"], insta_link: params["insta_link"],  twitter_link: params["twitter_link"], type: params["type"], admission_type: params["admission_type"], location: "#{params["address1"]}, #{params["address2"]}, #{params["parish"]}, Jamaica",
        details: %{}, event_zid:  Ecto.UUID.generate, venue_name: params["venue_name"], location_info: %{parish: params["parish"], address1: params["address1"], address2: params["address2"], country: "Jamaica"}}
@@ -114,7 +127,9 @@ defmodule DaeventboxWeb.EventController do
 
   defp show_event_success_modal(conn, params) do
     #render(conn, "success_event_modal.html", success: true)
-    render(conn, "create_event_form.html", success: "true")
+    facilitator = Repo.get_by(Facilitator,user_id: conn.assigns[:current_user].id)
+    IO.puts "Facilitor found success"
+    render(conn, "create_event_form.html", success: "true", facilitator: facilitator)
   end
 
   def delete(conn, params) do
@@ -140,7 +155,7 @@ defmodule DaeventboxWeb.EventController do
 
   def update(conn,params) do
     event = Repo.get!(Event, params["id"])
-    required_params = %{title: params["title"], facilitator_name: params["facilitator_name"], facilitiator_id: conn.assigns[:current_user].id,
+    required_params = %{title: params["title"], facilitator_name: params["facilitator_name"],
        start_date: params["start_date"], start_time: params["start_time"], end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
        fb_link: params["fb_link"], insta_link: params["insta_link"],  twitter_link: params["twitter_link"], type: params["type"], admission_type: params["admission_type"], location: "#{params["address1"]}, #{params["address2"]}, #{params["parish"]}, Jamaica",
        details: %{}, event_zid:  Ecto.UUID.generate, venue_name: params["venue_name"], location_info: %{parish: params["parish"], address1: params["address1"], address2: params["address2"], country: "Jamaica"}}
@@ -185,19 +200,30 @@ defmodule DaeventboxWeb.EventController do
     else
       liked = true
     end
-    IO.puts "IT IS #{liked}"
-    render(conn, "details.html", event: event, saved: saved, liked: liked)
+    facilitator =
+    if !is_nil(Repo.get_by(Facilitator, id: event.facilitator_id)) do
+      Repo.get_by(Facilitator, id: event.facilitator_id)
+    else
+     %{ name: "Unknown", about: "No description", phone: "No phone", email: "No email", address: "No address"}
+    end
+   # facilitator = Repo.get_by(Facilitator, id: event.facilitator_id)
+    map_url = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDetwM4R3Z2EohZ91Qub3-BkLo_tVfE6Eg&q=" <> "#{event.location_info["address1"]}" <> "+Kingston,+Jamaica"
+    start_date =  format_datetime(event.start_date)
+    end_date =  format_datetime(event.end_date)
+    start_time = format_time(event.start_time)
+    end_time = format_time(event.end_time)
+    render(conn, "details.html", event: event, saved: saved, liked: liked, facilitator: facilitator, map: map_url, end_date: end_date, start_date: start_date, start_time: start_time, end_time: end_time)
 
   end
 
   def manage(conn, params) do
    # get all events saved
-   saved_events = Repo.all(from s in SavedEvent,join: e in Event, on: s.event_id == e.id, where: s.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date])
+   saved_events = Repo.all(from s in SavedEvent,join: e in Event, on: s.event_id == e.id, where: s.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date, e.id])
    # get all tickets bought and the event details
    tequery = from t in Ticket, join: e in Event, on: t.event_id == e.id, join: ti in Ticketdetail, on: t.event_id == ti.event_id, where: t.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.image_url, t.inserted_at, ti.name, t.barcode, ti.price, t.status, e.id, t.id]
    tickets_and_events = Repo.all(tequery)
    # get all the registrations and the event details
-   requery = from r in Registration, join: e in Event, on: r.event_id == e.id, join: re in Registrationdetails, on: r.event_id == re.event_id, where: r.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, re.name,  e.image_url, r.inserted_at, re.type, re.id, r.id, r.status]
+   requery = from r in Registration, join: e in Event, on: r.event_id == e.id, join: re in Registrationdetails, on: r.event_id == re.event_id, where: r.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, re.name,  e.image_url, r.inserted_at, re.type, re.id, r.id, r.status,r.persons_details]
    registration_and_events = Repo.all(requery)
 
    render(conn, "manage.html", saved_events: saved_events, tickets_and_events: tickets_and_events, registration_and_events: registration_and_events )
@@ -252,14 +278,22 @@ defmodule DaeventboxWeb.EventController do
     event = Repo.get!(Event, params["id"])
     query = from r in Registrationdetails, where: r.event_id == ^event.id
     registration_details = Repo.all(query)
-    render conn, "select_options.html", event: event, registration_details: registration_details
+    start_date =  format_datetime(event.start_date)
+    end_date =  format_datetime(event.end_date)
+    start_time = format_time(event.start_time)
+    end_time = format_time(event.end_time)
+    render conn, "select_options.html", event: event, registration_details: registration_details, start_time: start_time, end_time: end_time, start_date: start_date, end_date: end_date
   end
 
   def buy_tickets(conn, params) do
     event = Repo.get!(Event, params["id"])
     query = from t in Ticketdetail, where: t.event_id == ^event.id
     ticket_details = Repo.all(query)
-    render conn, "select_options.html", event: event, ticket_details: ticket_details
+    start_date =  format_datetime(event.start_date)
+    end_date =  format_datetime(event.end_date)
+    start_time = format_time(event.start_time)
+    end_time = format_time(event.end_time)
+    render conn, "select_options.html", event: event, ticket_details: ticket_details, start_time: start_time, end_time: end_time, start_date: start_date, end_date: end_date
   end
   defp proceed_with_payment(conn, params) do
     event = Repo.get!(Event, params["id"])
@@ -388,7 +422,7 @@ defmodule DaeventboxWeb.EventController do
   end
 
   def upcoming_events(conn,params) do
-    query = from e in Event # where events are new
+    query = from e in Event, where: e.id > 15 # where events are new
     events = Repo.all(query)
     render conn, "upcoming_events.html", events: events
   end
@@ -405,16 +439,16 @@ defmodule DaeventboxWeb.EventController do
   def filter_events(conn, params) do
      cond do
       params["category"] ->
-        query = from e in Event, where: e.category == ^params["category"]
+        query = from e in Event, where: e.category == ^params["category"] and e.id > 15
         events = Repo.all(query)
       params["location"] ->
-         query = from e in Event, where: fragment("?->>'parish' LIKE ?", e.location_info, ^params["location"])
+         query = from e in Event, where: fragment("?->>'parish' LIKE ?", e.location_info, ^params["location"]) and e.id > 15
          events = Repo.all(query)
       params["price"] ->
-        query = from e in Event, where: e.type == ^params["price"]
+        query = from e in Event, where: e.type == ^params["price"] and e.id > 15
         events = Repo.all(query)
       params["date"] ->
-         query = from e in Event, order_by: [asc: e.inserted_at]
+         query = from e in Event, where: e.id > 15, order_by: [asc: e.inserted_at]
          events = Repo.all(query)
      end
     render conn, "upcoming_events.html", events: events
@@ -426,16 +460,26 @@ defmodule DaeventboxWeb.EventController do
       params["alphabetically"] ->
         query =
           if  params["alphabetically"] == "asc" do
-            from f in Facilitator,  order_by: [asc: f.facilitator_name]
+            from f in Facilitator,  order_by: [asc: f.name]
           else
-            from f in Facilitator, order_by: [desc: f.facilitator_name]
+            from f in Facilitator, order_by: [desc: f.name]
           end
         facilitators = Repo.all(query)
-      params["popularity"] ->
-         query = from e in Event
-         facilitators = Repo.all(query)
+      params["ratings"] ->
+       query =
+         if  params["ratings"] == "most" do
+            from f in Facilitator,  order_by: [asc: f.name]
+          else
+            from f in Facilitator, order_by: [desc: f.name]
+          end
+        facilitators = Repo.all(query)
       params["events"] ->
-        query = from f in Facilitator, join: e in Event, where: e.facilitator_id == f.id # count
+       query =
+        if  params["events"] == "asc" do
+            from f in Facilitator,  order_by: [asc: f.name]
+          else
+            from f in Facilitator, order_by: [desc: f.name]
+          end
         facilitators = Repo.all(query)
       params["date"] ->
          query =
@@ -449,5 +493,19 @@ defmodule DaeventboxWeb.EventController do
     render conn, "facilitators.html", facilitators: facilitators
 
   end
+   @months %{1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr",
+            5 => "May", 6 => "Jun", 7 => "Jul", 8 => "Aug",
+            9 => "Sep", 10 => "Oct", 11 => "Nov", 12 => "Dec"}
 
+  def format_datetime(timestamp) do
+   timestamp
+   |> Calendar.Strftime.strftime!("%B %e,  %Y")
+   #|> Calendar.Strftime.strftime!("%A, %e %B %Y")
+
+  end
+
+  def format_time(time) do
+    time
+    |> Calendar.Strftime.strftime! "%I:%M%P"
+  end
 end

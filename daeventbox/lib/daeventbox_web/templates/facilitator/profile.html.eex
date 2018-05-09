@@ -1,0 +1,71 @@
+<style>
+body{
+        background-color: #1d1d1d;
+        
+}
+    
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}    
+ </style>
+
+
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Facilitator's Profile</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+<div style="width: 100%; height: 100%;">
+
+<div class= "row " style="width: 80%; " >
+    <div class="col s12 m4 center-align card" style="background-color: #ffffff; opacity: .4; padding: 50px 20px; margin: 10px 10px">
+        <img src="http://benu.edu.mx/wp-content/uploads/2015/03/icon-user-default.png" height="200" width="200" style=" border-radius: 50%;"> 
+        <h5> <%= @facilitator.name %> </h5>
+        <p> <%= @facilitator.website_link%> </p>
+        <div class = "row">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+
+        </div>
+    </div>
+    
+    <div class="col s12 m6 card" style="background-color: white; height: 100%; padding: 5px;">
+        <h5 style="text-align: center"> About Facilitator </h5>
+        <p> <%= @facilitator.about%> </p>
+        <br>
+        <br>
+        <h5 style="text-align: center"> Contact </h5>
+        <hr style="background-color: blue; color: blue;">
+        <div class="row" style="padding: 10px;">
+            <div class="col s12 m6">
+                <h6> Contact Name: <%= @facilitator.facilitator_contact%> </h6>
+                <h6> Telephone: <%= @facilitator.facilitator_phone %> </h6>
+                <h6> Email: <%= @facilitator.facilitator_email%> </h6>
+            </div>
+            <div class="col s12 m4">
+                <h6> Address: <%= @facilitator.facilitator_address%>
+            </div>
+        </div>
+        <%= if @visitor do %>
+            <a class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">message</i></a>
+
+        <%end%>
+         <%= if !@visitor do %>
+            <a href="/facilitator/profile/edit" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">edit</i></a>
+
+        <%end%>
+
+    <div>
+
+</div>
+
+</div>
+</div>

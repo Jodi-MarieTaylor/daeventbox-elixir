@@ -1,13 +1,13 @@
 <div class="card" style="width: 100%; color: white; background-color: black;">
     <div class="row">
         <div class ="col s12 m4"  style="padding: 10px;">
-            <h4 style="color: white;"> Facilitator Profile Form </h4>
+            <h4 style="color: white;"> Update Facilitator Profile </h4>
             
         </div>
     </div>
 </div>
 	<div class="container" style= " ">
-                <form class="col s12" method="POST"  action="/facilitator/add">
+                <form class="col s12" method="POST"  action="/facilitator/profile/update">
                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
                 <div>
@@ -15,38 +15,38 @@
                 <div class="row" style="padding:0px 15px 0px 15px;">
 				<div class="input-field col s12 m6">
                     <i class="material-icons prefix">face</i>
-					<input id="name" type="text" name="name" class="validate" autofocus="true">
+					<input id="name" type="text" name="name" value="<%= @facilitator.name %>" class="validate" autofocus="true">
 					<label for="name">Facilitator Name:
 					</label>
 				</div>
                 
                 <div class="input-field col s12 m6">
                     <i class="material-icons prefix">face</i>
-					<input id="contactname" type="text" name="contactname" class="validate">
+					<input id="contactname" type="text" name="contactname" value="<%= @facilitator.facilitator_contact %>"  class="validate">
 					<label for="contactname">Contact Person Name:
 					</label>
 				</div>
                 <div class="input-field col s12 m6" >
                     <i class="material-icons prefix">email</i>
-					<input id="email" type="email" name="email" class="validate" >
+					<input id="email" type="email" name="email" value="<%= @facilitator.facilitator_email %>" class="validate" >
 					<label for="email">Email:
 					</label>
 				</div>
                 <div class="input-field col s12  m6">
                     <i class="material-icons prefix">phone</i>
-					<input id="phone" type="text" name="phone" class="validate" >
+					<input id="phone" type="text" name="phone" value="<%= @facilitator.facilitator_phone %>"  class="validate" >
 					<label for="phone">Phone:
 					</label>
 				</div>
                 <div class="input-field col s12 m12">
                      <i class="material-icons prefix">place</i>
-					<input id="address" type="text" name="address" class="validate" >
+					<input id="address" type="text" name="address" value="<%= @facilitator.facilitator_address %>" class="validate" >
 					<label for="address">Address:
 					</label>
 				</div>
                 <div class = "input-field col s12">
                     <i class = "material-icons prefix">mode_edit</i>
-                    <textarea id = "about" class = "materialize-textarea"></textarea>
+                    <textarea id = "about" class = "materialize-textarea" value="<%= @facilitator.about %>"></textarea>
                     <label for = "about">About</label>
                 </div>
         
@@ -67,7 +67,7 @@
 
                                 
 				<div class="input-field col s12 m6">
-					<input id="website" type="url" name="website" class="validate" >
+					<input id="website" type="url" name="website"  class="validate" >
 				 	<label for="website"><i class="material-icons">insert_link </i>Website URL:</label>
 				</div>
                 <hr>
@@ -78,23 +78,24 @@
                 <div class="row">
                     <h3 style="font-size: 20px"><i class="material-icons">insert_link </i>Social Media URL:</h3>
                     <div class="input-field col s12 m4" >
-                        <input id="facebook" type="text" name="facebook" class="validate" >
+                        <input id="facebook" type="text" name="facebook" value="<%= @facilitator.fb_link %>" class="validate" >
                         <label for="facebook"><i class="fa fa-facebook" aria-hidden="true"></i>:
                         </label>
                     </div>
                     <div class="input-field col s12 m4">
-                        <input id="twitter" type="text" name="twitter" class="validate" >
+                        <input id="twitter" type="text" name="twitter"  value="<%= @facilitator.twitter_link %>"  class="validate" >
                         <label for="twitter"><i class="fa fa-twitter" aria-hidden="true"></i>:
                         </label>
                     </div>
                     <div class="input-field col s12 m4" >
-                        <input id="instagram" type="text" name="instagram" class="validate" >
+                        <input id="instagram" type="text" name="instagram"   value="<%= @facilitator.insta_link %>"  class="validate" >
                         <label for="instagram"><i class="fa fa-instagram" aria-hidden="true"></i>:
                         </label>
                     </div>
                 </div>
+                <a style="margin: 0 auto;" href="/facilitator/profile/preview" class="btn waves-effect waves-light darken-2 center"> Profile Preview </a>
+
                 <div class="row">
-                <a href="/facilitator/profile/preview" class="btn activator waves-effect waves-light darken-2 right"> Profile Preview </a>
 
 				
 				<div style="margin:0 auto; width:25% ">

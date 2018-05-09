@@ -1,13 +1,32 @@
+ 
+<style>
+body{
+            background-color: black; 
+
+
+}
+</style>
  <div class="row">
-      <a href= "/event/create" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create Event</a>
+    <div class="row col s12 m3" style="margin: 50px 5px;">
+     <img src="https://preview.ibb.co/exb7u7/daeventlogo2.png" alt="daeventlogo2" border="0">
+     <h4 style="text-align: center; color: white">  Welcome to Facilitator Mode <h4>
+     <h5> What would you like to do first? </h5>
+     
+        <a href= "/event/create" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create MY Event</a>
+         <br> 
+         <br>
+        <a href="/facilitator/profile/create" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create My Profile</a>
+        
+    </div>
+    <div class="col s12 m8 ">
+        <a href="#three!"><img style="width:1118px; height: 770px" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
 
+    </div>
  </div>
-  <div class="row">
-       <a href="/facilitator/profile" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create Your Facilitator Profile</a>
 
- </div>
-  <div class="row">
-       <a href="/chat/start" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Start a chat</a>
+<script>
 
- </div>
- <!-- https://preview.ibb.co/hVYXGn/Group_2.png -->
+$("nav").hide()
+$(".alerts").hide()
+
+</script>

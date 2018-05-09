@@ -1,65 +1,129 @@
-<div  style="width: 100%"> 
+<style>
+  .carousel .carousel-item {
+      width:300px !important;
+      height: 300px !important;
+    }
+    
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}    
+ </style>
+
+<ul id = "alphabet-filter-dropdown" class = "dropdown-content">
+            <li><span> <a href="/event/facilitators/filter?alphabetically=asc">Asc</a></span></li>
+            <li><span><a href="/event/facilitators/filter?alphabetically=desc">Desc</a></span></li>
+                        
+        
+</ul>
+ <ul id = "date-filter-dropdown" class = "dropdown-content">
+            <li><span><a href="/event/facilitators/filter?date=newest">Newest First</a></span> </li>
+            <li><span><a href="/event/facilitators/filter?date=oldest">Oldest First</a> </span> </li>
+        
+</ul>
+ <ul id = "popularity-filter-dropdown" class = "dropdown-content">
+            <li><span><a href="/event/facilitators/filter?ratings=most">Most Popular</a> </span> </li>
+            <li><span><a href="/event/facilitators/filter?ratings=least">Least Popular</a> </span> </li> 
+
+</ul>
+ <ul id = "events-filter-dropdown" class = "dropdown-content">
+            <li><span> <a href="/event/facilitators/filter?events=most">Most Events</a></span> </li>
+            <li><span><a href="/event/facilitators/filter?events=least">Least Events</a> </span> </li>
+                        
+        
+</ul>
+<div class="card headtab" style="width: 100%; color: white;">
     <div class="row">
-        <div class="card col s9">
-             <h4> Event Facilitators </h4>
-                <!--<form>
-                    <div class="input-field">
-                        <input id="search" type="search" required>
-                        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                        <i class="material-icons">close</i>
-                        </div>
-                        <div class="input-field col s12 m3">
-                        <i class="material-icons prefix">star_half</i>
-                        <select name="ratings_sort">
-                        <option value="" disabled selected>Order by</option>
-                        <option value="desc">Alphabetically Desc</option>
-                        <option value="asc">Alphabetically Asc</option>
-                        </select>
-                        </div>
-                        <div class="input-field col s12 m3">
-                        <i class="material-icons prefix">date_range</i>
-                        <select name="date_sort">
-                        <option value="" disabled selected>Sort by Date</option>
-                        <option value="desc">Newest First</option>
-                        <option value="asc">Oldest First</option>
-                        </select>
-                        <div class="input-field col s12 m3">
-                        <i class="material-icons prefix">star_half</i>
-                        <select name="ratings_sort">
-                        <option value="" disabled selected>Sort by Rating</option>
-                        <option value="desc">Highest Rated First</option>
-                        <option value="asc">Lowest Rated First</option>
-                        </select>
-                        </div>
-                    
-                     </div>
-                </form>-->
-                <br>
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;"> Event Facilitators </h4>
+            
+        </div>
+       
+          <div class ="right col s12 m8" style="padding: 20px;">
+              
+            <ul>
+            
+                <li>
+                    <div class = "col s3 m3">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "alphabet-filter-dropdown" style="color: white;"> Order By<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s3 m3">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "date-filter-dropdown" style="color: white;"> Filter by Date<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s3 m3">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "popularity-filter-dropdown" style="color: white;"> Filter by Ratings<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s3 m3">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "events-filter-dropdown" style="color: white;"> Filter by # of Events<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div > 
+    <div class="row">
+        <div class="container  col s12 m9" style="padding: 0 30px;">
                 <%= for facilitator <- @facilitators do %>
                 <div class="card ">
                     <div class="row">
-                        <div class="col s5">
-                        <a href="#five!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/e41/orchid-1364881.jpg"></a>
+                        <div class="col s5 m3">
+                            <a href="#five!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/e41/orchid-1364881.jpg"></a>
                         </div>
-                        <div class="col s5"> 
-                            <h6>Name: <%=facilitator.name%></h6>
-                            <p> Number of Events: </p>
-                            <p> Email: <%=facilitator.facilitator_email%> </p>
-                            <p> Phone: <%=facilitator.facilitator_phone%> </p>
+                        <div class="col s5 m7"  > 
+                                <h6>Name: <%=facilitator.name%></h6>
+                                <p> Number of Events: </p>
+                                <p> Email: <%=facilitator.facilitator_email%> </p>
+                                <p> Phone: <%=facilitator.facilitator_phone%> </p>
+                                <div class ="row">
+                                    <div class="col s5 m6" >
+                                        <a href="/facilitator/profile?id=<%=facilitator.id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;"> Profile </a>
+                                        <a href="/facilitator/message?id=<%facilitator.id%>" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Contact  </a>
 
-                           <div class ="row">
-                                <div class="col s5 m3">
-                                    <a href="/facilitator/profile" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Faciliator Profile </a>
-                                    <a href="/facilitator/message" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Contact Facilitator </a>
-
+                                    </div>
                                 </div>
-                            </div>
+                        </div>       
+                       
+                        
                             
-                        </div>
                         
                     </div>
                 </div>
                 <%end%>
+                <!--
                 <div class="card ">
                     <div class="row">
                         <div class="col s5">
@@ -83,54 +147,13 @@
                         
                     </div>
                 </div>
+                -->
           </div>
 
-        <div class="row">
-             <div class="card col s12 m3">
-
-                <ul class="collapsible">
-                    <li>
-                        <div class="collapsible-header"><i class="material-icons">filter_drama</i>Order by <i class="material-icons">arrow_drop_down</i></div>
-                        <div class="collapsible-body">
-
-                        <span> <a href="#">Asc</a></span><br>
-                        <span><a href="#">Desc</a></span><br>
-                        
-                        </div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header"><i class="material-icons">date_range</i>Sort by Date <i class="material-icons">arrow_drop_down</i></div>
-                        <div class="collapsible-body">
-                            <span> <a href="#">Newest First</a></span> <br>
-                            <span><a href="#">Oldest First</a> </span> <br>
-                            
-                        </div>
-                    </li>
-
-                    <li>
-                    <div class="collapsible-header"><i class="material-icons">star</i>Sort by Popularity <i class="material-icons">arrow_drop_down</i></div>
-                        <div class="collapsible-body">
-                            <span> <a href="#">Most Popular</a> </span> <br>
-                            <span><a href="#">Least Popular</a> </span> <br>
-                        
-                        </div>
-                    </li>
-                    <li>
-                    <div class="collapsible-header"><i class="material-icons">control_point</i>Sort by Events <i class="material-icons">arrow_drop_down</i></div>
-                        <div class="collapsible-body">
-                            <span> <a href="#">Most Events</a></span> <br>
-                            <span><a href="#">Least Events</a> </span> <br>
-                        
-                        </div>
-                    </li>
-                   
-                </ul>
-                
-            </div>
-            <div class="card col s12 m3">
+       <div class="card col s12 m2 right" style="background-color: #1d1d1d; color: white;">
                    
                     <div class="carousel">
-                     <h5> Featured Events </h5>
+                     <h5 class="center"> Featured Events </h5>
                         <div class="carousel-item card">  
                             <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
                           
@@ -148,6 +171,11 @@
                           
                         </div>
                         
+                    </div>
+                    <div>
+                        <h5 class="center"> Latest News </h5>
+                        <p>Hurricen Jake Hurricane Jake is not really a hurrican but a friend. He smokes marijuana .... </p>
+                        <p> Who would fards of us cast and end name wish'd. To die, or to sleep; no more; for to oth the unwortal shocks the unworthy to, 'tis and, by a life; and the name office, but ther inst a life; .....</p>
                     </div>
             </div>
         </div>

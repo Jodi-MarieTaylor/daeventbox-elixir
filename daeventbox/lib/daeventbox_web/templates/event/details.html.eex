@@ -1,24 +1,44 @@
-<div >
-    <div id="profile-page-header" class="card">
+<style>
+.cont{
+    position: absolute;
+    left: 15%;
+    top: 148px;
+    z-index: 0 ;
+}
+</style>
+
+<div class="card" style="width: 100%; height:400px; color: white; background-color: #1d1d1d; margin: 0px; ">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;"> Event Details </h4>
+            
+        </div>
+
+         
+    </div>
+</div>
+
+<div class="container  cont" style="padding: 0px;margin: 0 auto; " >
+    <div id="profile-page-header" class="card" style="padding: 0px;margin: 0 auto; ">
         
-        <div class="card-image waves-effect waves-block waves-light">
+        <div class="card-image waves-effect waves-block waves-light" style="background-color: #1d1d1d;">
             <div class="left col s4">
              <%= if !@liked do %>
-              <a href="/event/like/<%=@event.id %>"> <i class="material-icons">thumb_up</i> Like</a>  
+              <a href="/event/like/<%=@event.id %>">  Like</a>  
             <% end %>
             <%= if @liked do %>
-                <a href="/event/unlike/<%=@event.id %>"> <i class="material-icons">thumb_up</i> Unlike</a>  
+                <a href="/event/unlike/<%=@event.id %>"> Unlike</a>  
             <% end %>
-              <a href="#"><i class="material-icons">star</i>Rate</a>
+              <a href="#"> Rate</a>
             </div>
             <div class="right col s4">
                 <%= if !@saved do %>
-                    <a href="/event/save/<%=@event.id %>"><i class="material-icons">save</i>Save</a>  
+                    <a href="/event/save/<%=@event.id %>">Save</a>  
                 <% end %>
                 <%= if @saved do %>
-                    <a href="/event/unsave/<%=@event.id %>"><i class="material-icons">save</i>Unsave</a>  
+                    <a href="/event/unsave/<%=@event.id %>">Unsave</a>  
                 <% end %>
-                <a href="#"><i class="material-icons">share</i>Share</a>
+                <a href="#">Share</a>
             </div>
             <img class="activator" src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg" alt="user background" height="300">                    
         </div>
@@ -26,16 +46,16 @@
         <div class="card-content">
             <div class="row">                    
             <div class="col s3 m3 offset-s2">                        
-                <h4 class="card-title grey-text text-darken-4">Night Club Party</h4>
+                <h4 class="card-title grey-text text-darken-4"><%=@event.title%></h4>
                 <p class="medium-small grey-text">Name</p>                        
             </div>
             <div class="col s3 m3 center-align">
-                <h4 class="card-title grey-text text-darken-4">April 4 2018</h4>
+                <h4 class="card-title grey-text text-darken-4"><%= @start_date%></h4>
                 <p class="medium-small grey-text">Date</p>                        
             </div>
             <div class="col s3 m3 center-align">
                 <h4 class="card-title grey-text text-darken-4"><a class="activator">
-                Party Central
+                <%= @facilitator.name %>
                 </a></h4>
                 <p class="medium-small grey-text">Facilitator</p>                        
             </div>                                 
@@ -49,27 +69,32 @@
                     <%end%>
                  </h5>
                 <%= if @event.admission_type == "registration" do %>
-                    <a href="/event/register/<%=@event.id%>" class="btn activator waves-effect waves-light darken-2 right"> Register </a>
+                    <a href="/event/register/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Register </a>
                 <%end%>
                 <%= if @event.admission_type == "ticket" do %>
-                    <a href="/event/buyticket/<%=@event.id%>" class="btn activator waves-effect waves-light darken-2 right"> Buy Tickets </a>
+                    <a href="/event/buyticket/<%=@event.id%>" class="btn waves-effect waves-light darken-2 right"> Buy Tickets </a>
                 <%end%>
                 
             </div>
             </div>
         </div>
-        <div class="card-reveal">
+        <div class="card-reveal ">
+                  <span class="card-title grey-text text-darken-4">Quick Facilitator Information<i class="material-icons right">close</i></span>
+
             <p>
-                <span class="card-title grey-text text-darken-4">Roger Waters <i class="mdi-navigation-close right"></i></span>
-                <span><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Project Manager</span>
+                <span class="card-title grey-text text-darken-4"><%=@facilitator.name%> <i class="material-icons right"></i></span>
+                <span><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Facilitator</span>
             </p>
 
-            <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            
-            <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> +1 (612) 222 8989</p>
-            <p><i class="mdi-communication-email cyan-text text-darken-2"></i> mail@domain.com</p>
-            <p><i class="mdi-social-cake cyan-text text-darken-2"></i> 18th June 1990</p>
-            <p><i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> BAR - AUS</p>
+            <p><%= @facilitator.about%></p>
+            <p><i class="mdi-communication-email cyan-text text-darken-2"></i> <%= @facilitator.facilitator_contact%></p>
+
+            <p><i class="mdi-communication-email cyan-text text-darken-2"></i> <%= @facilitator.facilitator_email%></p>
+
+            <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i><%= @facilitator.facilitator_phone%></p>
+            <p><i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> <%= @facilitator.facilitator_address%></p>
+            <a href="/facilitator/profile?id=<%=@facilitator.id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;"> Profile </a>
+
         </div>
         <hr>
         <div class = "container">
@@ -77,6 +102,7 @@
                 
                 <div class="col s8">
                     <h5> Description </h5>
+                    <!--
                     <p> Sonship Training Center invites you to a time of Fellowship around the word of God ,involving worship ,teaching and impartation.The meetings will seek to strengthen the believers and bring back the church to an understanding of the unchanging purpose of God and its link and roots in Judaism and the Kingdom of God . This is necessary in light of the many tangents and emphases being promoted today which does not center in the kingdom of God . Faulty foundations have led to faulty building in the lives of believers ,with most believers today being spectators instead of participators .
 
                         The presenters will be Dr Moshe Halak Gurion, a man of many years in working in the vineyard of the Lord and bringing an understanding of the Hebrew background of the scriptures ,rather than the Greek and link to paganism , and Host minister Locksley Smith.
@@ -87,17 +113,28 @@
 
                         Attendance to the conference is free .
                     </p>
+                    -->
+                    <%= if is_nil(@event.description) do %>
+                    <p> No Description </p>
+                    <%end%>
+                    <%=@event.description%>
                 </div>
                 <div class="row col s4">
                     <div>
-                        <h5> Date: <h6> April 8 2018 </h6> </h5>
-                        <h5> Time: <h6> 7:00 PM- 10:00 PM </h6> <h5>
+                        <%= if @start_date != @end_date do %>
+                            <h5> Date: <h6><%= @start_date  %> - <%= @end_date  %> </h6> </h5>
+                        <%end%>
+                         <%= if @start_date == @end_date do %>
+                            <h5> Date: <h6><%= @start_date  %> </h6> </h5>
+                        <%end%>
+                        <h5> Time: <h6><%= @start_time%> - <%= @end_time%> </h6> <h5>
                     </div>
                     <div>
                         <h5> Location: </h5>
-                        <h6> Karl Hendrickson Auditorium </h6>
-                        <h6> Old Hope Road </h6>
-                        <h6> Kingston, St. Andrew Parish </h6>
+                        <h6> <%=@event.venue_name%> </h6>
+                        <h6> <%=@event.location_info["address1"]%>  </h6>
+                        <h6> <%=@event.location_info["address2"]%>  </h6>
+                        <h6> <%=@event.location_info["parish"]%>  </h6>
                     </div>
                     <div>
                         <h5> Tags </h5>
@@ -114,7 +151,7 @@
                     width="800"
                     height="450"
                     frameborder="0" style="border:0"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDetwM4R3Z2EohZ91Qub3-BkLo_tVfE6Eg&q=12+Ruthven+Road,+Kingston,+Jamaica" allowfullscreen>
+                    src="<%=@map%>" allowfullscreen>
                 </iframe>
             </div>
         </div>
@@ -137,4 +174,15 @@
     </div>
 
     
+</div>
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+        <i class="material-icons">more</i>
+    </a>
+    <ul>
+        <li><a href="css-helpers.html" class="btn-floating red" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">thumb_up</i></a></li>
+        <li><a href="app-widget.html" class="btn-floating yellow darken-1" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">star</i></a></li>
+        <li><a href="app-calendar.html" class="btn-floating green" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">save</i></i></a></li>
+        <li><a href="app-email.html" class="btn-floating blue" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">share</i></i></a></li>
+    </ul>
 </div>

@@ -1,25 +1,50 @@
-<div class="card" style="width: 100%">
-    <h3> Registration form </h3>
+<style>
+ 
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}    
+ </style>
+
+
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Registration Form</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+
+<div class="" style="width: 100%">
     <form method="POST" action="/event/register/proceed/<%= @event.id%>">
     <%= for item <-@items do %>
         <%=  for i <- 1..item.quantity do %>
             <div class="container">
-                <h5> Individual Info for <%= item.name %></h5>
+                <h5> Details <%= item.name %></h5>
                 <hr>
                 <div class="input-field col s4">
+                <i class="material-icons prefix">face</i>
                 <input  id="firstname" name="first_name<%=item.id%><%= i%> " type="text"  class = "active validate" required>
                 <label for="firstname">First Name</label>
                 </div>
+
                 <div class="input-field col s4">
+                <i class="material-icons prefix">face</i>
                 <input id="lastname" name="last_name<%=item.id%><%= i%>" type="text" class = "active validate" required>
                 <label for="lastname">Last Name</label>
                 </div>
                 
                 <div class="input-field col s4">
+                <i class="material-icons prefix">email</i>
                 <input id="email" name="email<%=item.id%><%= i%>" type="email" class = "active validate" required>
                 <label for="email">Email</label>
                 </div>
                 <div class="input-field col s4">
+                <i class="material-icons prefix">phone</i>
                 <input id="contact" name="contact<%=item.id%><%= i%>" type="text" class = "active validate" >
                 <label for="contact">Contact</label>
                 </div>
@@ -32,7 +57,7 @@
       <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
        <input type="hidden" name="total_items" value="<%= @total_items%>">
 
-        <div class=" footer text-center " >
+        <div class=" footer text-center center" >
             <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">   
                 Proceed
             </button>            

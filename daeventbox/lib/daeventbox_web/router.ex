@@ -77,6 +77,7 @@ defmodule DaeventboxWeb.Router do
     get "/upcoming/filter", EventController, :filter_events
     get "/upcoming", EventController, :upcoming_events
     get "/facilitators", EventController, :facilitators
+    get "/facilitators/filter", EventController, :filter_facilitators
 
   end
 
@@ -86,6 +87,14 @@ defmodule DaeventboxWeb.Router do
     get "/change/mode", FacilitatorController, :changemode
     get "/event/search", FacilitatorController, :eventsearch
     get "/event/dashboard/:title", FacilitatorController, :dashboard
+    get "/profile/create", FacilitatorController, :profile_form
+    get "/profile/edit", FacilitatorController, :profile_edit
+
+    post "/add", FacilitatorController, :add_facilitator
+    get "/profile/preview", FacilitatorController, :profile_preview
+    post "/profile/update", FacilitatorController, :update_profile
+
+    get "/profile", FacilitatorController, :profile
     get "/" , FacilitatorController, :home
     post "/", FacilitatorController, :home
   end

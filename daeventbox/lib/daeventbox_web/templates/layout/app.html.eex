@@ -24,13 +24,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-   .carousel .carousel-item {
-      width:300px !important;
-      height: 300px !important;
-    }
+  
    nav{
-    /*  background: linear-gradient(#2999c6,#012d46);  */
-    background-color: #2999c6;
+      background: linear-gradient(#1d76d6,#4dc9ff); 
+    /*background-color: #2999c6;  */
     
    }
    h4{
@@ -40,7 +37,8 @@
      background-color: #ee226f;
    }
    body{
-         background-color: #f2f2f2; 
+         /*background-color: #f2f2f2; */
+         background-color:
        -webkit-background-size: cover;
 		   -moz-background-size: cover;
 		   -o-background-size: cover;
@@ -89,10 +87,10 @@
         <ul id = "userdropdown" class = "dropdown-content">
               <li><a href="#!" ><i class="material-icons">notifications</i><span class="new badge">1</span></a></li>
               
-              <li><a href="#!"><i class="material-icons">mail</i><span class="new badge">1</span></a></li>
+              <li><a href="/chat/start"><i class="material-icons">mail</i><span class="new badge">1</span></a></li>
 
               <li class = "divider"></li>
-              <li><a href = "/login">Profile</a></li>
+              <li><a href = "/facilitator/profile">Profile</a></li>
 
               <li><a href = "/login">Account settings</a></li>
               <li><a href = "/logout">Logout</a></li>
@@ -180,8 +178,6 @@
                 </li>
                <li><a href="/facilitator/change/mode">Switch to Guest Mode<a><li>        
                
-
-               <li><a href="/logout">Logout<a><li>
            <%end%>
 
             <%= unless @conn.cookies["daeventboxmode"] do %>
@@ -194,11 +190,11 @@
 
        <span class="logo"></span>
      </header>
-
+    <div class="alerts">
      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-     <div >
-
+    
+    </div>
      <main role="main">
        <%= render @view_module, @view_template, assigns %>
      </main>
