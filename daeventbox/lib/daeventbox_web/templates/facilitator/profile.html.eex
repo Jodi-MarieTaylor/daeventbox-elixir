@@ -28,6 +28,7 @@ body{
     <div class="col s12 m4 center-align card" style="background-color: #ffffff; opacity: .4; padding: 50px 20px; margin: 10px 10px">
         <img src="http://benu.edu.mx/wp-content/uploads/2015/03/icon-user-default.png" height="200" width="200" style=" border-radius: 50%;"> 
         <h5> <%= @facilitator.name %> </h5>
+      
         <p> <%= @facilitator.website_link%> </p>
         <div class = "row">
             <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -38,6 +39,9 @@ body{
     </div>
     
     <div class="col s12 m6 card" style="background-color: white; height: 100%; padding: 5px;">
+        <h6 class="left"> <i class="fa fa-users"></i> 2000 followers </h6>
+        <br>
+        <br>
         <h5 style="text-align: center"> About Facilitator </h5>
         <p> <%= @facilitator.about%> </p>
         <br>

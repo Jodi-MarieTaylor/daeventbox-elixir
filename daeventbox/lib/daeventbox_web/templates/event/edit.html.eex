@@ -9,28 +9,48 @@
 .bgimg h3 .title{
   font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
 }
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}
 </style>
-<div class="bgimg"  style="height: 70px;">
-<h3 class="title" style="text-align: center; "> Edit Your Event </h3>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Edit Your Event</h4>
+            
+        </div>
+
+        
+    </div>
 </div>
-<div class="card" style= "width: 100% ; padding: 30px;">
-<form class="col s12" method="POST"  action="/event/add">
+
+<div class="container">
+
+<div class="" style= "width: 100% ; ">
+<form class="col s12" method="POST"  action="/event/update/<%= @event.id %>">
       <h5> Event Details</h5>
       <hr>
       <br>
       <div class="row">
         <div class="input-field col s4">
-          <input  id="title" name="title" type="text"  class = "active validate" required>
+          <input  id="title" name="title" type="text" value="<%= @event.title%>"  class = "active validate" required>
           <label for="title">Event Title</label>
         </div>
         <div class="input-field col s4">
+          <%= if is_nil(@facilitator) do %>
           <input id="facilitator_name" name="facilitator_name" type="text" class = "active validate" required>
+          <%end%>
+           <%= if @facilitator do %>
+          <input id="facilitator_name" name="facilitator_name" type="text" value="<%=@facilitator.name %>" class = "active validate" disabled>
+          <%end%>
           <label for="facilitator_name">Facilitator Name</label>
         </div>
         <div class="row col s4">
             <label>Category</label>
                <select name = "category">
-                  <option value = "" disabled selected>Select Category</option>
+                  <option value = "<%= @event.category%>" disabled selected><%= @event.category%></option>
                   <option value = "Business and Exhibitions">Business and Exhibitions</option>
                   <option value = "Celebrations">Celebrations</option>
                   <option value = "Clubs and Societies">Clubs and Societies</option>
@@ -50,19 +70,19 @@
       <div class="row">
         <div class=" col s3 row">               
             <label for="start_date">Start Date</label>              
-            <input id="start_date" name="start_date" type = "date" class = "datepicker" />    
+            <input id="start_date" name="start_date" value="<%= @event.start_date%>" type = "date" class = "datepicker" />    
         </div>  
         <div class=" col s3 row">               
             <label for="end_date"> End Date</label>              
-            <input id="end_date" name="end_date" type = "date" class = "datepicker" />    
+            <input id="end_date" name="end_date" value="<%= @event.end_date%>" type = "date" class = "datepicker" />    
         </div>
         <div class=" col s3 row">               
             <label for="start_time">Start Time</label>              
-            <input  id="start_time" name="start_time" type = "time" class = "timepicker" />    
+            <input  id="start_time" name="start_time" value="<%= @event.start_time%>" type = "time" class = "timepicker" />    
         </div>  
         <div class=" col s3 row">               
             <label for="end_time">End Time</label>              
-            <input id="end_time" name="end_time" type = "time" class = "timepicker" />    
+            <input id="end_time" name="end_time" value="<%= @event.end_time%>" type = "time" class = "timepicker" />    
         </div>  
       </div>
       <div class = "row">
@@ -97,7 +117,7 @@
         <div class = "row">
             <div class = "input-field col s12">
               <i class = "material-icons prefix">mode_edit</i>
-              <textarea id = "description" class = "materialize-textarea"></textarea>
+              <textarea id = "description" name="description" value="<%= @event.description%>" class = "materialize-textarea"></textarea>
               <label for = "description">Description</label>
             </div>
         </div>
@@ -107,21 +127,21 @@
         <br>
         <div class="row">
           <div class="input-field col s3">
-            <input  id="venue_name" name="venue_name" type="text" class="validate">
+            <input  id="venue_name" name="venue_name" value="<%= @event.venue_name%>" type="text" class="validate">
             <label for="venue_name">Venue Name</label>
           </div>
           <div class="input-field col s3">
-            <input id="address1" name="address1" type="text" class="validate">
+            <input id="address1" name="address1" value="<%= @event.location_info['address1']%>" type="text" class="validate">
             <label for="address1">Address 1</label>
           </div>
           <div class="input-field col s3">
-            <input id="address2" name="address2" type="text" class="validate">
+            <input id="address2" name="address2" value="<%= @event.location_info['address2']%>"type="text" class="validate">
             <label for="address2">Address 2</label>
           </div>
           <div class="row col s3">
             <label>Parish</label>
                <select name = "parish">
-                  <option  value = "" disabled selected>Select Parish</option>
+                  <option  value="<%= @event.location_info['parish']%>" disabled selected><%= @event.location_info['parish']%></option>
                   <option value = "Kingston">Kingston</option>
                   <option value = "St. Andrew">St. Andrew</option>
                   <option value = "St. Catherine">St. Catherine</option>
@@ -140,14 +160,7 @@
           </div>
           
         </div>
-        <div class="row">
-          <iframe
-            width="600"
-            height="450"
-            frameborder="0" style="border:0"
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDetwM4R3Z2EohZ91Qub3-BkLo_tVfE6Eg&q=12+Ruthven+Road,+Kingston,+Jamaica" allowfullscreen>
-          </iframe>
-        </div>
+        
         <br>
         <h5> Connect </h5>
         <hr>
@@ -156,98 +169,23 @@
         <div class="row">
             <div class = "input-field col s4 ">
               <i class="fa fa-facebook-square"></i>
-              <input name = "fb_link" id = "fb_link" type = "url" />
+              <input name = "fb_link"  value="<%= @event.fb_link%>" id = "fb_link" type = "text" />
               <label for = "fb_link">Facebook URL</label>
             </div>
             <div class = "input-field col s4">
                <i class="fa fa-instagram"></i>
-              <input name= "insta_link" id = "name" type = "url" />
+              <input name= "insta_link"  value="<%= @event.insta_link%>" id = "name" type = "url" />
               <label for = "insta_link">Instagram URL</label>
             </div>
             <div class = "input-field col s4">
              <i class="fa fa-twitter"></i>
-              <input name= "insta_link" id = "name" type = "url" />
-              <label for = "insta_link">Instagram URL</label>
+              <input name= "twitter_link"  value="<%= @event.twitter_link%>" id = "name" type = "url" />
+              <label for = "twitter_link">Twitter URL</label>
             </div>
         </div>
         <br>
-        <h5> Other Details </h5>
-        <hr>
-        <br>
-        <div class="row">
-          <div class = "row">
-               <div class = "input-field col s12 ">
-                  <p>     Event Type </p>
-
-                  <input id = "paid" type = "radio" name = "type"
-                    value = "paid"  />
-                  <label for = "paid">Paid</label>
+       
               
-                  <input id = "free" type = "radio" name = "type"
-                    value = "free"  />
-                  <label for = "free">Free</label>
-              
-                  <input id = "volunteer" type = "radio" name = "type"
-                    value = "volunteer" />
-                  <label for = "volunteer">Volunteer</label>
-              </div>
-            </div>      
-            <div class = "row">
-               <div class = "input-field col s12 ">
-                  <p>     Admission Type </p>
-
-                  <input class="radio" id = "registration" type = "radio" name = "admission_type"
-                    value = "registration"   data-id="ticket-details"/>
-                  <label for = "registration">Registration</label>
-              
-                  <input class="radio" id = "ticket" type = "radio" name = "admission_type"
-                    value = "ticket"  data-id="reg-details"/>
-                  <label for = "ticket">Ticket</label>
-              
-              </div>
-            </div>    
-            <div class="row ">
-               <div id="ticket-details" class="none">
-                <ul class = "collapsible ticket-details" data-collapsible = "accordion">
-                  <li>
-
-                      <div class = "collapsible-header active">
-                        <i class = "material-icons ">filter_drama</i>Ticket </div>
-                      <div class = "collapsible-body row" >
-                        <div class="input-field col s4">
-                          <input  id="ticket_name" name="ticket_name" placeholder="Early Bird, VIP, General" type="text"  class = "active validate" required>
-                          <label for="ticket_name">Ticket Name</label>
-                        </div>
-                        <div class="input-field col s4">
-                          <input id="quantity" name="quantity" type="number" class = "active validate" required>
-                          <label for="quantity">Quantity</label>
-                        </div>
-                        <div class="input-field col s4">
-                          <input id="price" name="price" type="number" step="0.01" class = "active validate" required>
-                          <label for="price">Price</label>
-                        </div>
-                      </div>
-                  </li>               
-                </ul>
-              </div>
-              <div id="reg-details" class="none" >
-              
-                <ul class = "collapsible reg-details" data-collapsible = "accordion">
-                  <li>
-                      <div class = "collapsible-header active">
-                        <i class = "material-icons ">filter_drama</i>Registration</div>
-                      <div class = "collapsible-body row">
-                         <div class="input-field col s4">
-                            <input id="rsvp_quantity" name="rsvp_quantity" type="number" class = "active validate" required>
-                            <label for="rsvp_quantity">RSVP Quantity</label>
-                          </div>
-                      </div>
-                  </li>
-                            
-                </ul>
-              </div>
-             
-            </div>     
             <!--
             <div class = "row">
                <div class = "input-field col s12 ">
@@ -265,12 +203,11 @@
               </div>
             </div>    
              -->
-        </div>
         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
         <div class=" footer text-center" style="margin: 0 auto;">
             <button data-target="modal1" class="modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
-              CREATE YOUR EVENT&rarr;
+              EDIT YOUR EVENT&rarr;
             </button>
        </div>
 
@@ -297,6 +234,7 @@
       </div>
     </div>
   </div>
+</div>
   <% else %>
     <!-- Modal Structure -->
     <div id="modal1" class="modal  ">

@@ -23,6 +23,7 @@ defmodule Daeventbox.Repo.Migrations.CreateEvents do
       add :meta1, :string
       add :meta2, :string
       add :details, :map
+      add :status, :string
 
       timestamps()
     end

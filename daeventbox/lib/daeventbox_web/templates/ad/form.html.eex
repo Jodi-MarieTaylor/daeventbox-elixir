@@ -1,0 +1,79 @@
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}
+.circle {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px; 
+  /* width and height can be anything, as long as they're equal */
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Ad Details</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+<div class="container" style="width: 100%">
+    <form class="col s12" method="POST" action="/ad/create">
+        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+        <input type="hidden" name="event_id" value="<%= @event.id %>">
+        <input type="hidden" name="option_id" value="<%= @option_id %>">
+
+        <div class="row">
+            <div class="input-field col s12 m8">
+                <input  id="title" name="title" type="text"  value="<%=@event.title%>" class = "active validate" disabled>
+                <label for="title">Event title</label>
+            </div>
+             <div class="input-field col s12 m8">
+                <input  id="name" name="name" type="text"  class = "active validate" >
+                <label for="name">Ad Banner Name </label>
+            </div>
+            
+             <div class="input-field col s12 m8">
+                <input id="days" name="days" type="number" class = "active validate" >
+                <label for="days">Number of Days</label>
+            </div>
+            <div class = "row">
+                <div class = "row col s12 m8">
+                    <label>Upload Ad Banner</label>
+                    <p> <i> Please make sure the image is correct size before uploading </i> </p>
+                    <div class = "file-field input-field">
+                        <div class = "btn">
+                            <span>Browse</span>
+                            <input  type = "file" />
+                        </div>
+                        
+                        <div class = "file-path-wrapper">
+                            <input name="image" class = "file-path validate" type = "text"
+                                placeholder = "Upload file" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=" footer text-center" style="margin: 0 auto;">
+            <button data-target="modal1" class="modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+              Submit
+            </button>
+        </div>
+    </form>
+<div>

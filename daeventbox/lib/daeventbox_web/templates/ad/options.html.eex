@@ -1,0 +1,135 @@
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}
+.circle {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px; 
+  /* width and height can be anything, as long as they're equal */
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Banner Options</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+<div  style="width: 100%"> 
+    <div class="row">
+        <div class="col s12 m3 card red">
+            <h4> BOTTOM AREA </h4>
+            <div class="circle">
+                <h5> $5.00 <h5>
+            </div>
+            <p> Banner will show near footer </p>
+            <p> Banner Size:  780px X 100px  </p>
+            <a href="/ad/selection/form/1/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+
+             
+        </div>
+
+        <div class="col s12 m3 card blue">
+            <h4> SIDE AREA </h4>
+            <div class="circle">
+                 <h5> $10.00 <h5>
+            </div>
+            <p> Banner will show on the right side of the events page	 </p>
+            <p> Banner Size:  240px X 240px  </p>
+            <a href="/ad/selection/form/2/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+        </div>
+        <div class="col s12 m3 card green">
+            <h4> TOP AREA </h4>
+            <div class="circle">
+                <h5> $15.00 <h5>
+            </div>
+            <p> Banner will show at the top of the site on the homepage </p>
+            <p> Banner Size:  7728px X 100px   </p>
+            <a href="/ad/selection/form/4/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+        </div>
+        <div class="col s12 m3 card pink">
+            <h4> All 3 Areas </h4>
+            <div class="circle">
+                <h5> $20.00 <h5>
+            </div>
+            <p> Banner will show at the footer, side, and top </p>
+            <p> Banner Size:  780px X 100px,  240px X 240px, 728px X 100px   </p>
+            <a href="/ad/selection/form/5/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+        </div>
+    </div>
+
+</div>
+<!--
+<div class="row" style="width: 100%">
+    <div class="card col s12 m2 red" style ="color: white;">
+        <h4> BOTTOM AREA </h4>
+        <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show near footer </p>
+        <p> Banner Size:  780px X 100px  </p>
+        <a href="/ad/select/bottom/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+
+    </div>
+</div>
+
+
+
+<div class="row" style="width: 100%">
+    
+    <div class="card col s12 m4 red center-align" style ="color: white;">
+        <h4> BOTTOM AREA </h4>
+        <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show near footer </p>
+        <p> Banner Size:  780px X 100px  </p>
+        <a href="/ad/select/bottom/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+
+    </div>
+    <div class="card col s12 m4 blue center-align" style ="color: white;">
+        <h4> SIDE AREA </h4>
+                <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show on the right side of the events page	 </p>
+        <p> Banner Size:  240px X 240px  </p>
+        <a href="/ad/select/side/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+    </div>
+    <div class="card col s12 m4 pink center-align"  style ="color: white;">
+        <h4> TOP AREA </h4>
+        <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show at the top of the site on the homepage </p>
+        <p> Banner Size:  7728px X 100px   </p>
+        <a href="/ad/select/top/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+        
+    </div>
+    <div class="card col s12 m4 green center-align"  style ="color: white;">
+        <h4> All 3 Areas </h4>
+                <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show at the footer, side, and top </p>
+        <p> Banner Size:  780px X 100px,  240px X 240px, 728px X 100px   </p>
+        <a href="/ad/select/all/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+    </div>
+<div> 
+-->

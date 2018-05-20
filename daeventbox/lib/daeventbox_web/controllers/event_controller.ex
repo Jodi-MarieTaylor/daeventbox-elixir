@@ -13,6 +13,7 @@ defmodule DaeventboxWeb.EventController do
   alias Daeventbox.Registration
   alias Daeventbox.SavedEvent
   alias Daeventbox.LikedEvent
+  alias Daeventbox.Action
 
 
 
@@ -149,15 +150,16 @@ defmodule DaeventboxWeb.EventController do
   def edit_form(conn,params) do
     # pre fill event info (add values)
     event = Repo.get!(Event, params["id"])
+    facilitator = Repo.get_by(Facilitator,user_id: conn.assigns[:current_user].id)
 
-    render(conn, "edit.html", event: event)
+    render(conn, "edit.html", event: event, success: false, facilitator: facilitator)
   end
 
   def update(conn,params) do
     event = Repo.get!(Event, params["id"])
-    required_params = %{title: params["title"], facilitator_name: params["facilitator_name"],
-       start_date: params["start_date"], start_time: params["start_time"], end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
-       fb_link: params["fb_link"], insta_link: params["insta_link"],  twitter_link: params["twitter_link"], type: params["type"], admission_type: params["admission_type"], location: "#{params["address1"]}, #{params["address2"]}, #{params["parish"]}, Jamaica",
+    required_params = %{title: params["title"], facilitator_name: event.facilitator_name,
+       start_date: params["start_date"], start_time: event.start_time, end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
+       fb_link: params["fb_link"], insta_link: params["insta_link"],  twitter_link: params["twitter_link"], type: event.type, admission_type: event.admission_type, location: "#{params["address1"]}, #{params["address2"]}, #{params["parish"]}, Jamaica",
        details: %{}, event_zid:  Ecto.UUID.generate, venue_name: params["venue_name"], location_info: %{parish: params["parish"], address1: params["address1"], address2: params["address2"], country: "Jamaica"}}
       IO.inspect params
     changeset = Event.changeset(event, required_params)
@@ -168,9 +170,10 @@ defmodule DaeventboxWeb.EventController do
         |> redirect(to: "/facilitator")
 
       {:error, changeset} ->
+        IO.inspect changeset
         conn
         |> put_flash(:error, "Oops error!")
-        |> redirect(to: "/event/edit")
+        |> redirect(to: "/event/edit/#{params['id']}")
     end
   end
 
@@ -212,6 +215,7 @@ defmodule DaeventboxWeb.EventController do
     end_date =  format_datetime(event.end_date)
     start_time = format_time(event.start_time)
     end_time = format_time(event.end_time)
+    Action.add(conn, "viewed-event-details", 1, event.id )
     render(conn, "details.html", event: event, saved: saved, liked: liked, facilitator: facilitator, map: map_url, end_date: end_date, start_date: start_date, start_time: start_time, end_time: end_time)
 
   end

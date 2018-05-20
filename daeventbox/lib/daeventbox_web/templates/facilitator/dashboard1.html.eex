@@ -1,3 +1,349 @@
+
+<style>
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    height: 100%;
+    
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+</style>
+<div class="row">
+
+    <div class="sidenav">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#your_event">Event</a>
+        
+        <a href="#ads"> Ads</a>
+        <a href="#attendees">Attendees</a> 
+        
+
+    </div>
+    <div class="main card s12 m9">
+        <div id="dashboard">
+            <h4 style="text-align: center;">Dashboard Analytics</h4>
+            <p style="text-align: center;">View Below How Your Event is Doing.</p>
+            <div class="row">
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content  green white-text">
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> New Attendees This Week</p>
+                            <h4 class="card-stats-number"><%= Enum.count(@new_registrations)%></h4>
+                            <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content  green white-text">
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Attendees</p>
+                            <h4 class="card-stats-number"><%= Enum.count(@registrations)%></h4>
+                            <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
+                            </p>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content  green white-text">
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Tickets Sales</p>
+                            <h4 class="card-stats-number"><%= Enum.count(@registrations)%></h4>
+                            <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
+                            </p>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content  green white-text">
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Current Payment</p>
+                            <h4 class="card-stats-number">0</h4>
+                            <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
+                            </p>
+                        </div>
+                    
+                    </div>
+                </div>
+
+            </div>
+            <div class="row container">
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content purple white-text">
+                            <div class="row">
+                                <div class="left">
+                                    <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Views</p>
+                                    <h4 class="card-stats-number"><%= Enum.count(@views)%></h4>
+                                    </p>
+                                </div>
+                                <div class="right">
+                                    <img src="https://i.pinimg.com/originals/5d/0c/d6/5d0cd65acbf955128cade2d92cf41725.png" width="100" height="100" alt="Eyes">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>       
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content purple white-text">
+                            <div class="row">
+                                <div class="left">
+                                    <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Ratings</p>
+                                    <h4 class="card-stats-number">5 Stars</h4>
+                                    </p>
+                                </div>
+                                <div class="right">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/BlackStar.PNG" width="100" height="100" alt="Eyes">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>        
+                        
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content purple white-text">
+                            <div class="row">
+                                <div class="left">
+                                    <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Likes</p>
+                                    <h4 class="card-stats-number"><%= Enum.count(@likes)%></h4>
+                                    </p>
+                                </div>
+                                <div class="right">
+                                    <img src="http://cdn.onlinewebfonts.com/svg/img_424919.png" width="100" height="100" alt="Eyes">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>             
+            </div>
+            <div class="row container" >
+                <div class="col s12 m6">
+                    <h6> COMMENTS </h6>
+                    <ul id="profile-page-about-details" class="collection z-depth-1">
+                    <li class="collection-item">
+                        <div class="row">
+                        <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Project</div>
+                        <div class="col s7 grey-text text-darken-4 right-align">ABC Name</div>
+                        </div>
+                    </li>
+                    <li class="collection-item">
+                        <div class="row">
+                        <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Skills</div>
+                        <div class="col s7 grey-text text-darken-4 right-align">HTML, CSS</div>
+                        </div>
+                    </li>
+                    <li class="collection-item">
+                        <div class="row">
+                        <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Lives in</div>
+                        <div class="col s7 grey-text text-darken-4 right-align">NY, USA</div>
+                        </div>
+                    </li>
+                    <li class="collection-item">
+                        <div class="row">
+                        <div class="col s5 grey-text darken-1"><i class="mdi-social-cake"></i> Birth date</div>
+                        <div class="col s7 grey-text text-darken-4 right-align">18th June, 1991</div>
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+                <div class="col s12 m6">
+                    <h6> ANNOUNCEMENTS </h6>
+                    <ul id="profile-page-about-details" class="collection z-depth-1">
+                    <li class="collection-item">
+                        <div class="row">
+                        <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Project</div>
+                        <div class="col s7 grey-text text-darken-4 right-align">ABC Name</div>
+                        </div>
+                    </li>
+                    <li class="collection-item">
+                        <div class="row">
+                        <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Skills</div>
+                        <div class="col s7 grey-text text-darken-4 right-align">HTML, CSS</div>
+                        </div>
+                    </li>
+                    <li class="collection-item">
+                        <div class="row">
+                        <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Lives in</div>
+                        <div class="col s7 grey-text text-darken-4 right-align">NY, USA</div>
+                        </div>
+                    </li>
+                    <li class="collection-item">
+                        <div class="row">
+                        <div class="col s5 grey-text darken-1"><i class="mdi-social-cake"></i> Birth date</div>
+                        <div class="col s7 grey-text text-darken-4 right-align">18th June, 1991</div>
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+        <div id="your_event">
+            
+            <h4 style="text-align: center;"> Your Event </h4>
+            <p style="text-align: center;"> What do you want to do with your event? </p>
+            <div class="row" style="width: 100%; ">
+                <div class="col s12 m9 center" style="width: 100%; ">
+                    <ul id="profile-page-about-details" class="collection z-depth-1">
+                        <li class="collection-item">
+                            <div class="row">
+                            <div class="col s5 grey-text darken-1 left-align "><i class="mdi-action-wallet-travel"></i> Edit Event</div>
+                            <div class="col s7 grey-text text-darken-4 right-align"> <a href="/event/edit/<%=@event.id%>"><i class="material-icons">arrow_forward_ios</i></a></div>
+                            </div>
+                        </li>
+                        <li class="collection-item">
+                            <div class="row">
+                            <div class="col s5 grey-text darken-1 left-align"><i class="mdi-social-poll"></i> View Event</div>
+                            <div class="col s7 grey-text text-darken-4 right-align"><a href="/event/details/<%=@event.id%>"><i class="material-icons">arrow_forward_ios</i></a></div>
+                            </div>
+                        </li>
+                         <li class="collection-item">
+                            <div class="row">
+                            <div class="col s5 grey-text darken-1 left-align"><i class="mdi-social-poll"></i> Cancel Event</div>
+                            <div class="col s7 grey-text text-darken-4 right-align"><a href="/event/delete/<%=@event.id%>"><i class="material-icons">arrow_forward_ios</i></a></div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div id="attendees">
+             <h4 style="text-align: center;"> Attendees </h4>
+            <p style="text-align: center;"> Manage Your Attendees From Here </p>
+            <a href="/facilitator/export/<%= @event.id %>" class="btn  waves-effect waves-light darken-2 right"> Export to Excel </a>
+            <a href="/event/register/" class="btn  waves-effect waves-light darken-2 right"> Export to CSV </a>
+
+            <p style="text-align: left; margin: 0 0 0 20px;"><b> Last 10 Orders </b> </p>
+            <div class="row">
+                <table class = "responsive-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th> Type </th>
+                            <th> Quantity </th>
+                            <th> Total Paid </th>
+                            <th> Reject </th>
+                        </tr>
+                    </thead>
+                     <tbody>
+                    
+                       <%= for registration <- @registrations do %>
+                        
+                                <tr>
+                                    <td> <img src="https://placeholdit.co//i/30x30?"> </td>
+                                    <td><%=registration.person_details["last_name"]%></td>
+                                    <td><%= registration.person_details["email"]%></td>
+                                    <td><%= registration.inserted_at%></td>
+                                    <td> General RSVP</td>
+                                    <td><%=registration.quantity%></td>
+                                    <td>$ 10.0 </td>
+                                    <td><a href="/event/delete/<%=registration.id%>">   <i class="material-icons">delete</i> </a> </td>
+                                </tr>                  
+
+                        <% end %>
+                      
+                    </tbody>
+                </table>
+                 <%= if Enum.count(@registrations)  == 0 do %>
+                      <p style="margin: 0 0 0 20px;"> No Persons Have Registered For This Event </p>  
+                 <%end%>
+            </div>
+            <hr>
+        </div>
+        <div id="ads">
+            
+            <h4 style="text-align: center;"> ADs </h4>
+            <p style="text-align: center;"> Promote Your Event Now </p>
+            <!--
+            <div class="  text-center center" >
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" >   
+                    CREATE YOUR AD NOW
+                </button>            
+            </div> 
+            -->
+            <a href="/ad/select/<%= @event.id %>" class="btn  waves-effect waves-light darken-2 right"> CREATE YOUR AD NOW </a>
+            
+            <br>
+            <h6 style="margin: 0 0 0 20px;"> <b> Your ADs </b</h6>
+                <%= for ad <- @ads do %>
+                    <div class="card ">
+                        <div class="row">
+                            <div class="col s5">
+                            <a href="#five!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/e41/orchid-1364881.jpg"></a>
+                            </div>
+                            <div class="col s5"> 
+                                <h6> Name: <b><%= Enum.at(ad, 0)%></b></h6>
+                                <p> Event: <b> <%= Enum.at(ad, 1)%> </b></p>
+                                <p> Purchased On:  <b><%= Enum.at(ad, 2)%> </b></p>
+
+                                <p> Total Days : <b><%= Enum.at(ad, 4)%> Days</b> </p>
+                                <p> Days Remaining: <b> 0  Days</b> </p>
+                                
+                            </div>
+                            <div class="col s2">
+                                <h6> Position: <b><%= Enum.at(ad, 3)%></b></h6>
+                                <h6> Price: <b><%= Enum.at(ad, 5)%></b></h6>
+                                <p><i class="material-icons">edit</i>  Edit Now </p>
+                                <p><i class="material-icons">delete</i>  Delete/Cancel </p>
+                            </div>
+                        </div>
+                    </div>
+                <%end%>
+                <%= if Enum.count(@ads) == 0 do %>
+                <div class="center text-center">
+                    <h5> NO ADS YET </h5>
+                    <a href="/ad/select/<%= @event.id %>" class="btn  waves-effect waves-light darken-2 center">PROMOTE YOUR AD </a>
+                </div>
+                <%end%>
+            <hr>
+        </div>
+     
+    </div>
+     
+</div>
+  
+
+<!--
 <div style=" background-color:#484f5b; margin: 0 auto;" > 
     <h3 style=" font-size:30px;  color:white; " class="center-align">DASHBOARD FOR  </h3>
 </div>
@@ -120,4 +466,4 @@
     </div>
 
 </div>
-                    
+-->

@@ -58,8 +58,8 @@ defmodule DaeventboxWeb.Router do
     pipe_through [:browser, :with_session] # Use the default browser stack
     get "/create", EventController, :create
     post "/add", EventController, :add
-    get "/edit", EventController, :edit
-    delete "/delete", EventController, :delete
+    get "/edit/:id", EventController, :edit_form
+    get "/delete/:id", EventController, :delete
     get "/details/:id", EventController, :details
     get "/manage/", EventController, :manage
     get "/save/:id", EventController, :save
@@ -79,17 +79,28 @@ defmodule DaeventboxWeb.Router do
     get "/facilitators", EventController, :facilitators
     get "/facilitators/filter", EventController, :filter_facilitators
 
+    post "/update/:id", EventController, :update
+
   end
 
+  scope "/ad", DaeventboxWeb do
+      pipe_through [:browser, :with_session] # Use the default browser stack
+      get "/options", AdController, :ad_option
+      get "/select/:id", AdController, :select
+      get "/selection/form/:option_id/:id", AdController, :ad_form
+      post "/create", AdController, :create
+      get "/view/all", AdController, :view_all
+  end
   scope "/facilitator", DaeventboxWeb do
     pipe_through [:browser, :with_session] # Use the default browser stack
     get "/switch", FacilitatorController, :switch
     get "/change/mode", FacilitatorController, :changemode
     get "/event/search", FacilitatorController, :eventsearch
-    get "/event/dashboard/:title", FacilitatorController, :dashboard
+    get "/event/dashboard/:title/:id", FacilitatorController, :dashboard
     get "/profile/create", FacilitatorController, :profile_form
     get "/profile/edit", FacilitatorController, :profile_edit
-
+    get "/manage", FacilitatorController, :manage
+    get "/export/:id", FacilitatorController, :export
     post "/add", FacilitatorController, :add_facilitator
     get "/profile/preview", FacilitatorController, :profile_preview
     post "/profile/update", FacilitatorController, :update_profile

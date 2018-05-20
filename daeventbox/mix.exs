@@ -45,7 +45,9 @@ defmodule Daeventbox.Mixfile do
       {:comeonin, "~> 4.0"},
       {:guardian, "~> 1.0"},
       {:bcrypt_elixir, "~> 1.0"},
-      {:calecto, "~> 0.16.0"}
+      {:calecto, "~> 0.16.0"},
+      {:elixlsx, "~> 0.4.0"}
+
     ]
   end
 

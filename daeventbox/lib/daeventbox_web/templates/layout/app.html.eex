@@ -66,6 +66,8 @@
  <body>
    <div >
      <header class="header">
+      <div class="navbar-fixed">
+
        <nav role="navigation" >
        <div class="nav-wrapper nav">
        
@@ -75,8 +77,9 @@
       
          <ul id = "javaDropDown" class = "dropdown-content">
               <li><a href = "/event/create">Create Event</a></li>
-              <li><a href = "/event/browse">Browse Events</a></li>
-              <li><a href = "/event/manage">Manage Events</a></li>
+               <li><a href = "/facilitator/manage">Manage Events</a></li>
+                <li class = "divider"></li>
+              <li><a href = "/ad/view/all">Manage ADs</a></li>
         </ul>
           <ul id = "javasDropDown" class = "dropdown-content">
 
@@ -187,7 +190,7 @@
            <%end%>
          </ul>
        </nav>
-
+        </div>
        <span class="logo"></span>
      </header>
     <div class="alerts">

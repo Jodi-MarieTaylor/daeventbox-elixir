@@ -1,0 +1,60 @@
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}
+.circle {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px; 
+  /* width and height can be anything, as long as they're equal */
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;"> Manage Banners </h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+
+<div class="container">
+    <%= for ad <- @ads do %>
+    <div class="card ">
+        <div class="row">
+            <div class="col s5">
+            <a href="#five!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/e41/orchid-1364881.jpg"></a>
+            </div>
+            <div class="col s5"> 
+                <h6> Name: <b><%= Enum.at(ad, 0)%></b></h6>
+                <p> Event: <b> <%= Enum.at(ad, 1)%> </b></p>
+                <p> Purchased On:  <b><%= Enum.at(ad, 2)%> </b></p>
+
+                <p> Total Days : <b><%= Enum.at(ad, 4)%> Days</b> </p>
+                <p> Days Remaining: <b> 0  Days</b> </p>
+                
+            </div>
+            <div class="col s2">
+                <h6> Position: <b><%= Enum.at(ad, 3)%></b></h6>
+                <h6> Price: <b><%= Enum.at(ad, 5)%></b></h6>
+                <p> Edit Now </p>
+                <p> Delete/Cancel </p>
+            </div>
+        </div>
+    </div>
+    <%end%>
+</div>

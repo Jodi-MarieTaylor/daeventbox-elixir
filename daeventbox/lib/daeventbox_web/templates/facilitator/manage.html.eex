@@ -1,0 +1,89 @@
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Manage Your Own Events</h4>
+            
+        </div>
+        
+
+        
+    </div>
+</div>
+<div class="row center container">
+        <a href= "/event/create/ad" >Party Central</a>
+
+            <form>
+                <div class="input-field">
+                <input id="search" type="search" required>
+                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons">close</i>
+                </div>
+            </form>
+</div>
+<div class="card container" style="width: 90%; margin: 30px auto; background-color: light-grey;">
+   <div class="center row  ">
+        <div class="col s12  m12 " >
+            <div class="row" id="topbarsearch">
+                <div class="col s12 center-align">
+                    <ul class="tabs center-align" style="background-color: #1d1d1d !important; margin: 0 auto;">
+                        <li class="tab col s3"><a href="#test1">Upcoming Events</a></li>
+                        <li class="tab col s3"><a class="active" href="#test2">Past Events</a></li>
+                        <li class="tab col s3 disabled"><a href="#test3">All Events</a></li>
+                    </ul>
+                </div>
+           
+            </div>
+        </div>
+        <div class="col s12 m12">
+            <%= if !@events do %>
+                <p> No Events </p>
+            <% end %>
+            <%= if !is_nil(@events)  and Enum.count(@events) > 0 do %>
+                <table class = "responsive-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th> Status </th>
+                        </tr>
+                    </thead>
+                     <tbody>
+                        <%= for event <- @events do %>
+                        
+                                <tr>
+                                    <td> <img src="https://placeholdit.co//i/30x30?"> </td>
+                                    <td><a href="/facilitator/event/dashboard/<%=event.title%>/<%= event.id %>"><%=event.title%></a></td>
+                                    <td><%=event.start_date%></td>
+                                    <td><%=event.admission_type%></td>
+                                    <td><%=event.status%></td>
+                                    <td><a href="/event/delete/<%=event.id%>">   <i class="material-icons">delete</i> </a> </td>
+                                    <td> <a href="/event/edit/<%=event.id%>">   <i class="material-icons">edit</i> </a> </td>
+                                </tr>                  
+
+                        <% end %>
+                        </tbody>
+                </table>
+            <%end%>
+        </div>
+    </div>      
+</div>
+
