@@ -9,6 +9,7 @@ defmodule DaeventboxWeb.SessionController do
     def signup(conn, params) do
        case DaeventboxWeb.AuthController.create_user(params) do
          {:ok, user} ->
+           verify_email(user)
            case Daeventbox.Auth.login_by_email_and_pass(conn, user.email, params["password"]) do
              {:ok, conn} ->
                  time_in_secs_from_now = 86400 * 90
@@ -80,6 +81,23 @@ defmodule DaeventboxWeb.SessionController do
                  |> redirect(to: "/login")
           end
       end
+    end
+
+    def reset_password(conn, %{"email" => email}) do
+      user = Data.Repo.get_by(Data.Account.User, email: email)
+      template = Data.Repo.get(Data.Content.Post, 4079)
+      MmsWeb.EmailController.user_email(user, template)
+      conn
+      |> put_flash(:info, "Please Check Your Email for your reset link")
+      |> render("recover.html")
+    end
+
+    def recover(conn, params) do
+      render(conn, "reset.html", params: params)
+    end
+
+    def verify_email(user) do
+      DaeventboxWeb.EmailController.user_email(user)
     end
 
 end

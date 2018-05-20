@@ -18,6 +18,11 @@ config :daeventbox, DaeventboxWeb.Endpoint,
            adapter: Phoenix.PubSub.PG2]
 
 
+config :daeventbox, Daeventbox.Mailer,
+   adapter: Bamboo.MailgunAdapter,
+   api_key: "key-175430f23107dfb44ed8fe0bb7856095",
+   domain: "mg.romariofitzgerald.com"
+
 config :daeventbox, Daeventbox.Guardian,
       issuer: "Daeventbox",
       allowed_algos: ["ES512"],
@@ -29,6 +34,22 @@ config :daeventbox, Daeventbox.Guardian,
                   "y" => "ALdxLuo6oKLoQ-xLSkShv_TA0di97I9V92sg1MKFava5hKGST1EKiVQnZMrN3HO8LtLT78SNTgwJSQHAXIUaA-lV"
                 }
 
+
+config :arc,
+   bucket: "sirfitz",
+   virtual_host: true
+
+config :ex_aws,
+   access_key_id: "AKIAJBD4NDWEQ774NUNQ",
+   secret_access_key: "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",
+   region: "us-east-2",
+   bucket: "sirfitz",
+   host: "s3.us-east-2.amazonaws.com",
+   s3: [
+   scheme: "https://",
+   host: "s3.us-east-2.amazonaws.com",
+   region: "us-east-2"
+   ]
 
 # Configures Elixir's Logger
 config :logger, :console,
