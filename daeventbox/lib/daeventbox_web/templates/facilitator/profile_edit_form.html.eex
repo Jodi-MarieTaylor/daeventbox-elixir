@@ -46,7 +46,7 @@
 				</div>
                 <div class = "input-field col s12">
                     <i class = "material-icons prefix">mode_edit</i>
-                    <textarea id = "about" class = "materialize-textarea" value="<%= @facilitator.about %>"></textarea>
+                    <textarea id = "about" class = "materialize-textarea" name="about" value="<%= @facilitator.about %>"></textarea>
                     <label for = "about">About</label>
                 </div>
         

@@ -59,7 +59,7 @@ body{
             </div>
         </div>
         <%= if @visitor do %>
-            <a class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">message</i></a>
+            <a href="/chat?fuid=<%=@facilitator.user_id%>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">message</i></a>
 
         <%end%>
          <%= if !@visitor do %>

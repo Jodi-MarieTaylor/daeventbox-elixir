@@ -22,7 +22,13 @@ defmodule DaeventboxWeb.RoomController do
   end
 
   def create(conn, params) do
-    case Repo.get_by(User, zid: params["zid"]) do
+    user =
+      cond do
+        params["zid"] -> Repo.get_by(User, zid: params["zid"])
+        params["fuid"] -> Repo.get_by(User, id: params["fuid"])
+        true -> nil
+      end
+    case user do
       nil ->
         conn
         |> redirect(to: "/facilitator/switch")
@@ -31,9 +37,15 @@ defmodule DaeventboxWeb.RoomController do
             {:error, %Ecto.Changeset{} = changeset} ->
                   render(conn, "start_chat.html", changeset: changeset)
             {:ok, room} ->
+                facilitator =
+                  if conn.cookies["daeventboxmode"] == "Guest" do
+                    Repo.get_by(Daeventbox.Facilitator, user_id: user.id )
+                  else
+                    nil
+                  end
                 messages = Chat.list_messages(room.id)
                 conn
-                |> render("room.html", room: room, user: conn.assigns[:current_user], recipient: recipient, messages: messages)
+                |> render("room.html", room: room, user: conn.assigns[:current_user], recipient: recipient, messages: messages, facilitator: facilitator)
           end
     end
   end

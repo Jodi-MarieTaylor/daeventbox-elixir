@@ -46,10 +46,10 @@ defmodule Daeventbox.Mixfile do
       {:guardian, "~> 1.0"},
       {:bcrypt_elixir, "~> 1.0"},
       {:calecto, "~> 0.16.0"},
-      {:elixlsx, "~> 0.4.0"}
+      {:elixlsx, "~> 0.4.0"},
       {:bamboo, "~> 0.8"},
-      {:fitz, github: "SirFitz/fitz", override: true},
-      {:data, git: "git@bitbucket.org:sirfitz/data.git"},
+      #{:fitz, github: "SirFitz/fitz", override: true},
+      #{:data, git: "git@bitbucket.org:sirfitz/data.git"},
       {:arc, "~> 0.8.0"},
       {:ex_aws, "~> 2.0", override: true},
       {:ex_aws_s3, "~> 2.0"},

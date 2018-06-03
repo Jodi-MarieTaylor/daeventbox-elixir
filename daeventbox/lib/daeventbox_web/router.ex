@@ -48,7 +48,6 @@ defmodule DaeventboxWeb.Router do
 
     get "/", RoomController, :create
     post "/send", MessageController, :create
-
     get "/start", RoomController, :start
     get "/room/:id", RoomController, :show
     get "/send", MessageController, :create
@@ -80,6 +79,23 @@ defmodule DaeventboxWeb.Router do
     get "/facilitators/filter", EventController, :filter_facilitators
 
     post "/update/:id", EventController, :update
+
+  end
+
+  scope "/account", DaeventboxWeb do
+    pipe_through [:browser, :with_session] # Use the default browser stack
+    get "/settings", AccountController, :account_settings
+    post "/account/submit/email-preferences/",AccountController, :update_email
+    post "/account/submit/user-general/",AccountController, :update_user
+    post "/account/submit/close-account/",AccountController, :update_close
+    post "/account/submit/change-password/",AccountController, :close_account
+  end
+
+  scope "/notify", DaeventboxWeb do
+    pipe_through [:browser, :with_session] # Use the default browser stack
+    get "/send", NotificationController, :notify
+    post "/send", NotificationController, :notify
+    get "/", NotificationController, :notifications
 
   end
 

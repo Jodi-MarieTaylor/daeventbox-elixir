@@ -1,0 +1,107 @@
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}
+table {
+    width:100%;
+}
+table,th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Notifications</h4>
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="card">
+        <table>
+            <tr>
+                
+                <th>Notifications</th> 
+                
+            </tr>
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col s12 m3">
+                            <img src="https://placeholdit.co//i/30x30?"> 
+                            <p>Party Central </p>
+                        </div>
+                        <div class= "col s12 m6">
+                            <p> Dont miss our events </p>
+                        </div>
+
+                        <div class="col s12 m2"> 
+                            <p> April 4, 2018 </p>
+                        </div>  
+                        <div class="col s12 m1">
+                         
+                         <a href="/notification/delete">   <i class="material-icons">delete</i> </a>
+                        </div>
+
+
+                    </div>
+
+                
+                </td>
+                
+               
+            </tr>
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col s12 m3">
+                            <img src="https://placeholdit.co//i/30x30?"> 
+                            <p>Party Central </p>
+                        </div>
+                        <div class= "col s12 m6">
+                            <p> Dont miss our events </p>
+                        </div>
+
+                        <div class="col s12 m2"> 
+                            <p> April 4, 2018 </p>
+                        </div>  
+                        <div class="col s12 m1">
+                         
+                         <a href="/notification/delete">   <i class="material-icons">delete</i> </a>
+                        </div>
+
+
+                    </div>
+
+                
+                </td>
+                
+               
+            </tr>
+            
+        </table>
+
+    </div>
+
+</div>

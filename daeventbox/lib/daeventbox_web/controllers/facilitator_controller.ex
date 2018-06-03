@@ -40,7 +40,7 @@ alias Elixlsx.{Workbook, Sheet}
     end
   end
 
-  def changemode(conn, _params) do
+  def changemode(conn, params) do
     if conn.cookies["daeventboxmode"] == "Facilitator" and conn.cookies["daeventboxuser"] do
       time_in_secs_from_now = 86400 * 90
       conn

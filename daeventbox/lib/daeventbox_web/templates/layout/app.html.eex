@@ -88,14 +88,14 @@
               <li><a href = "/event/facilitators">Event Organizers</a></li>
         </ul>
         <ul id = "userdropdown" class = "dropdown-content">
-              <li><a href="#!" ><i class="material-icons">notifications</i><span class="new badge">1</span></a></li>
+              <li><a href="/notify" onclick="return removenum();" ><i class="material-icons">notifications</i><div id="notificationnum"></div></a></li>
               
               <li><a href="/chat/start"><i class="material-icons">mail</i><span class="new badge">1</span></a></li>
 
               <li class = "divider"></li>
               <li><a href = "/facilitator/profile">Profile</a></li>
 
-              <li><a href = "/login">Account settings</a></li>
+              <li><a href = "/account/settings">Account settings</a></li>
               <li><a href = "/logout">Logout</a></li>
         
         </ul>
@@ -205,6 +205,66 @@
    </div> <!-- /container -->
    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 
+ <script>
+     function removenum () {
+             console.log("in je");
+                $('#notificationnum').html('');
+              var myKeyVals = { seen : true}
+
+              var saveData = $.ajax({
+
+                    type: 'GET',
+                    url: "/notify/send",
+                    data: myKeyVals,
+                    dataType: "text",
+                    success: function(resultData) { alert("Save Complete") }
+              });
+              saveData.error(function() { alert("Something went wrong"); });
+
+            }
+    $(document).ready(function(){
+          function load_unseen_notification(view = '')
+          {
+            $.ajax({
+             url:"/notify/send",
+             method:"GET",
+             data:{view:view},
+             dataType:"json",
+             success:function(data)
+             {
+              console.log("in here")
+              console.log(data);
+              $('.notif-content').html(data.notification);
+              if(data.unseen_notification > 0)
+              {
+                $('#notificationnum').html('<span class="new badge" id="notificationnum">' + data.unseen_notification + '</span>');
+                notify();
+              }
+             }
+            });
+          }
+          
+          // load_unseen_notification();
+          
+          $(document).on('click', '#notificationnum', function(){
+            $('#notificationnum').html('<i class="material-icons " >notifications  </i>');
+            });
+          setInterval(function(){
+              load_unseen_notification();
+            }, 100000);
+            function notify(view = '')
+            {
+              if(window.Notification && Notification.permission !== "denied") {
+              	Notification.requestPermission(function(status) {  // status is "granted", if accepted by user
+              		var n = new Notification('Daeventbox', {
+              			body: 'New Notifications! Check them now!',
+              			icon: '/path/to/icon.png' // optional
+              		});
+              	});
+              }
+            }
+          });
+    </script>
 
 
 </body>

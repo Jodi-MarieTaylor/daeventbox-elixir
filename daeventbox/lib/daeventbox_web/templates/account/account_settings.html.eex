@@ -1,0 +1,199 @@
+<style>
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    
+   
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 300px !important; /* Same as the width of the sidenav */
+    height: 100%;
+    
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Account Settings</h4>
+            
+        </div>
+        
+
+        
+    </div>
+</div>
+
+<div class="container row">
+    <div class="col s12 m2 card sidenav">
+        <a href="#user_general"> User General Information </a>
+        <a href="#password">  Passwords </a>
+        <a href="#email"> Email Preferences </a>
+        <a href="#close"> Close Account </a>
+    </div>
+
+    <div class="col s12 m8 main">   
+        <div id="user_general">
+            <h4> User General Information </h4>
+            <form  action="/account/submit/user-general/" method="POST">            
+                <div class="input-field col s4 m6">
+                    <input  id="firstname" name="firstname" type="text" value="<%= @user.firstname %>" class = "active validate" required>
+                    <label for="firstname">First Name</label>
+                </div>
+                <div class="input-field col s4 m6">
+                    <input  id="lastname" name="lastname" type="text" value="<%= @user.lastname %>" class = "active validate" required>
+                    <label for="lastname">First Name</label>
+                </div>
+                <div class="input-field col s4 m6">
+                    <input  id="email" name="email" type="email" value="<%= @user.email%>" class = "active validate" disabled>
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-field col s4 m6">
+                    <input  id="backup_email" name="backup_email" type="email"  class = "active validate" >
+                    <label for="backup_email">Another Email</label>
+                </div>
+                <div class="input-field col s4 m6">
+                    <input  id="phone" name="phone" type="text" value="<%= @user.phone %>" class = "active validate" required>
+                    <label for="phone">Phone</label>
+                </div>
+                <div class="input-field col s4 m6">
+                    <label for="additional_phone">Other Phone</label>
+                    <input  id="additional_phone" name="additional_phone" type="text" v class = "active validate" required>
+
+                </div>
+                <div class="input-field col s4 m12">
+                    <input  id="address" name="address" type="text" value="<%= @user.address %>" class = "active validate" required>
+                    <label for="address">Address</label>
+                </div>
+                <div class = "row">
+                    <div class = "input-field col s4 m12">
+                        <i class = "material-icons prefix">mode_edit</i>
+                        <textarea id = "description" name="description" class = "materialize-textarea"></textarea>
+                        <label for = "description">BIO</label>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "row col s4 m8">
+                        <label>Upload Profile Picture</label>
+                        <div class = "file-field input-field">
+                            <div class = "btn">
+                                <span>Browse</span>
+                                <input  type = "file" />
+                            </div>
+                            
+                            <div class = "file-path-wrapper">
+                                <input name="image" class = "file-path validate" type = "text"
+                                    placeholder = "Upload file" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                            Update Account 
+                </button>
+            </form>
+        </div>
+        <hr>
+        <div id="password">
+            <h4> Change Password </h4>
+            <form  action="/account/submit/password-change/" method="POST">
+                <div class="input-field col s4 m10">
+                    <input  id="current_password" name="current_password" type="password" class = "active validate" required>
+                    <label for="current_password">Current Password</label>
+                </div>
+                <div class="input-field col s4 m10">
+                    <input  id="new_password" name="new_password" type="password" class = "active validate" required>
+                    <label for="new_password">New Password</label>
+                </div>
+                <div class="input-field col s4 m10">
+                    <input  id="new_password" name="new_password" type="password" class = "active validate" required>
+                    <label for="new_password">Change Password</label>
+                </div>
+                <div class="input-field col s4 m10">
+                    <input  id="hint" name="hint" type="text" class = "active validate" >
+                    <label for="hint">Hint</label>
+                </div>
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                   Change Password
+                </button>
+            </form>
+        </div>
+        <hr>
+        <div id="email">
+            <h4> Email Preferences </h4>
+            <div class="box">
+                <form action="/account/submit/email-preferences/" method="POST">
+                    <input type='checkbox' name='thing' value='valuable' id="thing"/><label for="thing"></label> Updates about new Daeventbox features and announcements
+                    <br>
+                    <input type='checkbox' name='thing1' value='valuable2' id="thing1"/><label for="thing1"></label> Monthly tips and tools for organizing events
+                    <br>
+                    <input type='checkbox' name='thing2' value='valuable3' id="thing2"/><label for="thing2"></label> Event Sales Report
+                    <br>
+                    <input type='checkbox' name='thing3' value='valuable4' id="thing3"/><label for="thing3"></label> Unsubscribe from all Daeventbox newsletters and updates for event organizers
+                    <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                        Submit Preferences
+                    </button>
+                    
+                </form>
+            
+            </div>
+            <br>        
+        </div>
+        <hr>
+        <div id="close">
+            <h4> Close Account </h4>
+            <p> Thank you for using Eventbrite Events. </p>
+            <p> It's sad to see you go! Please let us know why your leaving </p>
+            <form  action="/account/submit/close-account/" method="POST">
+                <input type="radio" name="q1" value="1" id="q_1_1"><label for="q_1_1" >Price</label><br>
+                <input type="radio" name="q1" value="2" id="q_1_2"><label for="q_1_2">Difficult to use</label><br>
+                <input type="radio" name="q1" value="3" id="q_1_3"><label for="q_1_3">Not needed anymore</label><br>
+                <input type="radio" name="q1" value="4" id="q_1_4"><label for="q_1_4">Lack features</label><br>
+                <input type="radio" name="q1" value="4" id="q_1_5"><label for="q_1_5">Found a better solution</label><br>
+                <label for="q_1_6">Other</label><br>
+                <input type="text" name="q1"  id="q_1_6"><br>
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                    Close Your Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,4 +1,15 @@
 <style>
+.textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+}
   .carousel .carousel-item {
       width:300px !important;
       height: 300px !important;
@@ -111,7 +122,9 @@
                                 <div class ="row">
                                     <div class="col s5 m6" >
                                         <a href="/facilitator/profile?id=<%=facilitator.id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;"> Profile </a>
-                                        <a href="/facilitator/message?id=<%facilitator.id%>" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Contact  </a>
+                                        <!--<a href="#modal1" data-id="ISBN-001122" class=" model-trigger btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Contact  </a>-->
+                                        <a href="/chat?fuid=<%=facilitator.user_id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;"> Contact </a>
+
 
                                     </div>
                                 </div>
@@ -182,8 +195,53 @@
     </div>
 </div>
 
+  <!-- Modal Trigger -->
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Message Facilitator</h4>
+     
+
+      <br>
+      <form action="/chat/new/send" method="post"> 
+            <div class="input-field col s12 m12">
+					<input id="event" placeholder="" type="text" name="event" class="validate">
+					<label for="event"> Event Title: 
+			        </label>
+			</div>
+            <div class="input-field col s12 m12">
+                <input id="subject" placeholder="" type="text" name="subject" class="validate">
+                <label for="subject"> Subject: 
+                </label>
+            </div>
+            <div class="input-field col s12 m12">
+					<input id="message" placeholder="" type="textarea" name="message[body]" class="validate textarea">
+					<label for="message"> Message:
+			        </label>
+			</div>
+            <input type="hidden" name="_csrf_token" value="<%= get_csrf_token %>">
+            <input type="hidden" id="user_id" name="user_id" value="">
+     
+    </div>
+    <div class="modal-footer">
+    <button type="submit" class="btn btn-success right">Send </button>
+      </form>
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+
 <script>
- 
+     $('.modal').modal({
+    ready: function(modal, trigger) {
+  var id = "13";
+  console.log('id', id);
+     document.getElementById('user_id').value=id;
+
+     }
+});
+
 
   $('.carousel').carousel({
         padding: 200    
