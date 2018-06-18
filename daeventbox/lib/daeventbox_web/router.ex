@@ -43,6 +43,8 @@ defmodule DaeventboxWeb.Router do
     get "/process", PaymentController, :make_payment
   end
 
+
+
   scope "/chat", DaeventboxWeb do
     pipe_through [:browser, :with_session] # Use the default browser stack
 
@@ -51,6 +53,7 @@ defmodule DaeventboxWeb.Router do
     get "/start", RoomController, :start
     get "/room/:id", RoomController, :show
     get "/send", MessageController, :create
+    get "/view/messages", RoomController, :view_rooms
   end
 
   scope "/event", DaeventboxWeb do
@@ -77,7 +80,7 @@ defmodule DaeventboxWeb.Router do
     get "/upcoming", EventController, :upcoming_events
     get "/facilitators", EventController, :facilitators
     get "/facilitators/filter", EventController, :filter_facilitators
-
+    post "/add/comment/:event_id" , EventController, :add_comment
     post "/update/:id", EventController, :update
 
   end
@@ -85,10 +88,10 @@ defmodule DaeventboxWeb.Router do
   scope "/account", DaeventboxWeb do
     pipe_through [:browser, :with_session] # Use the default browser stack
     get "/settings", AccountController, :account_settings
-    post "/account/submit/email-preferences/",AccountController, :update_email
-    post "/account/submit/user-general/",AccountController, :update_user
-    post "/account/submit/close-account/",AccountController, :update_close
-    post "/account/submit/change-password/",AccountController, :close_account
+    post "/submit/email-preferences/",AccountController, :update_email
+    post "/submit/user-general/",AccountController, :update_user
+    post "/submit/close-account/",AccountController, :close_account
+    post "/submit/password-change/",AccountController, :update_password
   end
 
   scope "/notify", DaeventboxWeb do
@@ -96,6 +99,7 @@ defmodule DaeventboxWeb.Router do
     get "/send", NotificationController, :notify
     post "/send", NotificationController, :notify
     get "/", NotificationController, :notifications
+    post "/delete/:notification_id/:user_id", NotificationController, :notifications
 
   end
 
@@ -120,8 +124,10 @@ defmodule DaeventboxWeb.Router do
     post "/add", FacilitatorController, :add_facilitator
     get "/profile/preview", FacilitatorController, :profile_preview
     post "/profile/update", FacilitatorController, :update_profile
-
+    post "/add/announcement/:event_id/:facilitator_id", NotificationController, :add_from_facilitator
     get "/profile", FacilitatorController, :profile
+    get "/follow/:facilitator_id", FacilitatorController, :follow
+    get "/unfollow/:facilitator_id", FacilitatorController, :unfollow
     get "/" , FacilitatorController, :home
     post "/", FacilitatorController, :home
   end
@@ -130,8 +136,18 @@ defmodule DaeventboxWeb.Router do
 
     get "/" , GuestController, :home
 
-  end
 
+  end
+  scope "/admin", DaeventboxWeb do
+    pipe_through [:browser, :with_session] # Use the default browser stack
+    post "/facilitator/create", AdminController, :index
+    post "/event/create", AdminController, :index
+    get "/", AdminController, :index
+
+
+
+
+  end
 
   scope "/", DaeventboxWeb do
     pipe_through [:browser, :with_session] # Use the default browser stack
@@ -147,6 +163,7 @@ defmodule DaeventboxWeb.Router do
 
 
   end
+
 
   # Other scopes may use custom stacks.
   # scope "/api", DaeventboxWeb do

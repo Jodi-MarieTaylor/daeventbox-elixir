@@ -7,7 +7,7 @@
     </div>
 </div>
 	<div class="container" style= " ">
-                <form class="col s12" method="POST"  action="/facilitator/profile/update">
+                <form class="col s12" method="POST"  action="/facilitator/profile/update" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
                 <div>
@@ -50,20 +50,13 @@
                     <label for = "about">About</label>
                 </div>
         
-               <div class = "row">
-                    <div class = "row col s6">
-                    <div class = "file-field input-field">
-                        <div class = "btn">
-                            <span>Browse</span>
-                            <input  type = "file" />
-                        </div>
-                        
-                        <div class = "file-path-wrapper">
-                            <input name="image" class = "file-path validate" type = "text"
-                                placeholder = "Upload file" />
-                        </div>
+               <div class = "row col s6">
+                    <label>Upload Profile Image</label>
+                    <div>
+                            <input  name="file" type="file" />
+                
                     </div>
-               </div>
+                </div>
 
                                 
 				<div class="input-field col s12 m6">

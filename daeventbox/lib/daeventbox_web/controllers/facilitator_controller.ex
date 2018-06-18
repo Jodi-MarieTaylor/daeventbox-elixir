@@ -24,6 +24,9 @@ alias Elixlsx.{Workbook, Sheet}
   alias Daeventbox.Ad
   alias Daeventbox.Option
   alias Daeventbox.Action
+  alias Daeventbox.Notification
+  alias Daeventbox.Comment
+  alias Daeventbox.Follower
 
   def index(conn, _params) do
     render conn, "index.html"
@@ -175,21 +178,24 @@ alias Elixlsx.{Workbook, Sheet}
     IO.inspect event.type
 
     cond do
-      event.type =="paid" and event.admission_type == "tickets" ->
+      event.type =="paid" and event.admission_type == "ticket" ->
           event_details = %{}
-          facilitator_query= from f in Facilitator, where: f.user_id == ^conn.assigns[:current_user]
-          facilitator  = Repo.all(facilitator_query)
+          current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+          facilitator = Repo.get_by(Facilitator, user_id: current_user.id)
           ticket_query = from t in Ticket, where: t.event_id == ^event.id
           tickets = Repo.all(ticket_query)
           new_tickets_query = from t in Ticket, where: t.event_id == ^event.id and t.inserted_at >  datetime_add(^Ecto.DateTime.utc, 0, "week")
           new_tickets = Repo.all(new_tickets_query)
-          ad_query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.event_id == ^event.id and a.facilitator_id== ^facilitator.id , select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id]
-          ads = Repo.all(ad_query)
           likes_query = from l in LikedEvent, where: l.event_id == ^event.id
           likes = Repo.all(likes_query)
+          ad_query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id and a.event_id == ^event.id, select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url]
+          ads = Repo.all(ad_query)
           views_query = from a in Action, where: a.event_id ==  ^event.id and a.action == "viewed-event-details"
           views = Repo.all(views_query)
-          render conn, "dashboard1.html", views: views, likes: likes, event_details: event_details, ads: ads,  event: event, facilitator: facilitator, tickets: tickets, new_tickets: new_tickets
+          notifications_query = from n in Notification, where: n.event_id == ^event.id and n.facilitator_id == ^facilitator.id, distinct: n.message, limit: 3
+          notifications = Repo.all(notifications_query)
+          comments = Repo.all(from c in Comment, where: c.event_id == ^event.id, limit: 5)
+          render conn, "dashboard1.html", comments: comments, views: views, likes: likes, event_details: event_details, ads: ads,  event: event, facilitator: facilitator, tickets: tickets, new_tickets: new_tickets, notifications: notifications
 
       event.type == "paid" and event.admission_type =="registration" ->
         event_details = %{}
@@ -199,13 +205,16 @@ alias Elixlsx.{Workbook, Sheet}
         registrations = Repo.all(registration_query)
         new_registrations_query = from r in Registration, where: r.event_id == ^event.id and r.inserted_at >  datetime_add(^Ecto.DateTime.utc, 0, "week")
         new_registrations = Repo.all(new_registrations_query)
-        ad_query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.event_id == ^event.id and a.facilitator_id== ^facilitator.id , select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id]
+        ad_query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.event_id == ^event.id and a.facilitator_id== ^facilitator.id , select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url]
         ads = Repo.all(ad_query)
         likes_query = from l in LikedEvent, where: l.event_id == ^event.id
         likes = Repo.all(likes_query)
         views_query = from a in Action, where: a.event_id ==  ^event.id and a.action == "viewed-event-details"
         views = Repo.all(views_query)
-        render conn, "dashboard2.html", views: views, likes: likes, event_details: event_details, event: event, facilitator: facilitator, registrations: registrations, new_registrations: new_registrations, ads: ads
+        notifications_query = from n in Notification, where: n.event_id == ^event.id and n.facilitator_id == ^facilitator.id, distinct: n.message, limit: 3
+        notifications = Repo.all(notifications_query)
+        comments = Repo.all(from c in Comment, where: c.event_id == ^event.id, limit: 5)
+        render conn, "dashboard2.html", comments: comments, views: views, likes: likes, event_details: event_details, event: event, facilitator: facilitator, registrations: registrations, new_registrations: new_registrations, ads: ads, notifications: notifications
 
       event.type == "free" and event.admission_type == "registration" ->
         event_details = %{}
@@ -217,11 +226,14 @@ alias Elixlsx.{Workbook, Sheet}
         new_registrations = Repo.all(new_registrations_query)
         likes_query = from l in LikedEvent, where: l.event_id == ^event.id
         likes = Repo.all(likes_query)
-        ad_query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id and a.event_id == ^event.id, select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id]
+        ad_query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id and a.event_id == ^event.id, select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url]
         ads = Repo.all(ad_query)
         views_query = from a in Action, where: a.event_id ==  ^event.id and a.action == "viewed-event-details"
         views = Repo.all(views_query)
-        render conn, "dashboard3.html",views: views, likes: likes, event_details: event_details, event: event, facilitator: facilitator, registrations: registrations, new_registrations: new_registrations, ads: ads
+        notifications_query = from n in Notification, where: n.event_id == ^event.id and n.facilitator_id == ^facilitator.id, distinct: n.message, limit: 3
+        notifications = Repo.all(notifications_query)
+        comments = Repo.all(from c in Comment, where: c.event_id == ^event.id, limit: 5)
+        render conn, "dashboard3.html", comments: comments, views: views, likes: likes, event_details: event_details, event: event, facilitator: facilitator, registrations: registrations, new_registrations: new_registrations, ads: ads, notifications: notifications
 
       event.type == "free" ->
         event_details = %{}
@@ -230,9 +242,12 @@ alias Elixlsx.{Workbook, Sheet}
         likes = Repo.all(likes_query)
         views_query = from a in Action, where: a.event_id ==  ^event.id and a.action == "viewed-event-details"
         views = Repo.all(views_query)
-        ad_query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id , select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id]
+        ad_query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id , select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url]
         ads = Repo.all(ad_query)
-        render conn, "dashboard4.html", ads: ads, views: views, event_details: event_details, event: event
+        notifications_query = from n in Notification, where: n.event_id == ^event.id and n.facilitator_id == ^facilitator.id, distinct: n.message, limit: 5
+        notifications = Repo.all(notifications_query)
+        comments = Repo.all(from c in Comment, where: c.event_id == ^event.id, limit: 5)
+        render conn, "dashboard4.html", comments: comments, ads: ads, views: views, event_details: event_details, event: event, notifications: notifications
 
     end
   end
@@ -255,7 +270,9 @@ alias Elixlsx.{Workbook, Sheet}
       else
         true
       end
-    render conn, "profile.html",  facilitator: facilitator, visitor: visitor
+    followers = Repo.all( from f in Follower, where: f.facilitator_id == ^facilitator.id)
+
+    render conn, "profile.html",  facilitator: facilitator, visitor: visitor, followers: followers
   end
 
   def profile_preview(conn,params) do
@@ -266,8 +283,14 @@ alias Elixlsx.{Workbook, Sheet}
   end
 
   def add_facilitator(conn, params) do
+    image_url =
+      if params["image_url"] == "" or is_nil(params["image_url"]) do
+        "https://s3.us-east-2.amazonaws.com/daeventboximages/06682d8564b4/file/icon-user.png"
+      else
+        params["image_url"]
+      end
     required_params = %{name: params["name"], about: params["about"], website_link: params["website"], fb_link: params["facebook"], insta_link: params["instagram"],
-    twitter_link: params["twitter"], image: params["image"], image_url: params["image_url"], facilitator_email: params["email"], facilitator_phone: params["phone"],
+    twitter_link: params["twitter"], image: params["image"], image_url: image_url, facilitator_email: params["email"], facilitator_phone: params["phone"],
     facilitator_address: params["address"], facilitator_contact: params["contactname"], facilitator_zid:  Ecto.UUID.generate,user_id: conn.assigns[:current_user].id}
       IO.inspect params
     changeset = Facilitator.changeset(%Facilitator{}, required_params)
@@ -294,12 +317,16 @@ alias Elixlsx.{Workbook, Sheet}
   def update_profile(conn, params) do
     current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
     facilitator = Repo.get_by(Facilitator, user_id: current_user.id)
+    {:ok, resp} = Utils.AmazonS3.file_upload(params)
 
+    IO.inspect resp
+    image_url = convert_url(resp.url)
     required_params = %{name: params["name"], about: params["about"], website_link: params["website"], fb_link: params["facebook"], insta_link: params["instagram"],
-    twitter_link: params["twitter"], image: params["image"], image_url: params["image_url"], facilitator_email: params["email"], facilitator_phone: params["phone"],
+    twitter_link: params["twitter"], image: params["image"], image_url: image_url, facilitator_email: params["email"], facilitator_phone: params["phone"],
     facilitator_address: params["address"], facilitator_contact: params["contactname"]}
       IO.inspect params
     changeset = Facilitator.changeset(facilitator, required_params)
+
     case Repo.update(changeset) do
       {:ok, _facilitator} ->
         conn
@@ -348,8 +375,48 @@ alias Elixlsx.{Workbook, Sheet}
     end
   end
 
+  def follow(conn, params) do
+    user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+    facilitator = Repo.get!(Facilitator, params["facilitator_id"])
+    required_params = %{ user_id: user.id, facilitator_id: facilitator.id }
+    changeset = Follower.changeset(%Follower{}, required_params)
 
+    case Repo.insert(changeset) do
+      {:ok, _facilitator} ->
+        conn
+        |> put_flash(:info, "Followed successfully.")
+        |> redirect(to: "/event/facilitators")
 
+      {:error, changeset} ->
+        IO.inspect changeset
+        conn
+        |> put_flash(:error, "Oops error! Please try again")
+    end
+
+  end
+  def unfollow(conn, params) do
+    user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+    facilitator = Repo.get!(Facilitator, params["facilitator_id"])
+    follower = Repo.get_by(Follower, user_id: user.id, facilitator_id: facilitator.id)
+
+    case Repo.delete(follower) do
+      {:ok, _facilitator} ->
+        conn
+        |> put_flash(:info, "Unfollowed successfully.")
+        |> redirect(to: "/event/facilitators")
+
+      {:error, changeset} ->
+        IO.inspect changeset
+        conn
+        |> put_flash(:error, "Oops error! Please try again")
+        |> render "profile_form.html"
+    end
+
+  end
+
+  def convert_url(url) do
+    String.replace(url, "https://d1l54leyvskqrr.cloudfront.net", "https://s3.us-east-2.amazonaws.com/daeventboximages")
+  end
 
 
 

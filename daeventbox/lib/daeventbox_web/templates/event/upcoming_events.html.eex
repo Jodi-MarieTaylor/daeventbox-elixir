@@ -122,10 +122,11 @@
             
             <div class="row">
                 <%= for event <- @events do %>
-                    <div class="col s12 m3 ">
+                    <div class="col s12 m4 ">
                     <div class="card">
                         <div class="card-image">
-                        <img src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg">
+                        <!--<img src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg">-->
+                        <img src="http://jodipodi.resize.fleeksite.com/flow/600x564/<%= event.image_url %>" style="height: 200px">
                         <span class="card-title "></span>
                         </div>
                         <div class="card-content">
@@ -146,22 +147,12 @@
                    
                     <div class="carousel">
                      <h5 class="center"> Featured Events </h5>
-                        <div class="carousel-item card">  
-                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
-                          
-                        </div>
-                        <div class="carousel-item card">  
-                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
-                          
-                        </div>
-                        <div class="carousel-item card">  
-                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
-                          
-                        </div>
-                        <div class="carousel-item card">  
-                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
-                          
-                        </div>
+                        <%= for ad <- @ads do %>
+                            <div class="carousel-item card">  
+                                <a href="#three!"><img witdh="200" height="200" src="<%=Enum.at(ad, 1)%>"></a>
+                            
+                            </div>
+                        <%end%>
                         
                     </div>
                     <div>

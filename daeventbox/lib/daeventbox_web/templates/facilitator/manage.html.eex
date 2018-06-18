@@ -70,7 +70,7 @@
                         <%= for event <- @events do %>
                         
                                 <tr>
-                                    <td> <img src="https://placeholdit.co//i/30x30?"> </td>
+                                    <td> <img style="width: 70px;" src="<%=event.image_url %>"> </td>
                                     <td><a href="/facilitator/event/dashboard/<%=event.title%>/<%= event.id %>"><%=event.title%></a></td>
                                     <td><%=event.start_date%></td>
                                     <td><%=event.admission_type%></td>

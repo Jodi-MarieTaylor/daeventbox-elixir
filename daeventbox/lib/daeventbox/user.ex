@@ -16,13 +16,16 @@ defmodule Daeventbox.User do
     field :phone, :string
     field :username, :string
     field :zid, Ecto.UUID
+    field :alt_phone, :string
+    field :alt_email, :string
+    field :profile_pic_url, :string
 
     timestamps()
   end
 
   @required [:firstname, :lastname, :email, :password]
 
-  @optional [:firstname, :lastname, :email, :address, :password, :phone, :username, :bio, :zid, :details, :meta1, :meta2]
+  @optional [:firstname, :lastname, :email, :address, :password, :phone, :username, :bio, :zid, :details, :meta1, :meta2, :alt_phone, :alt_email, :profile_pic_url]
 
 
   def changeset(user, attrs) do
@@ -65,6 +68,16 @@ defmodule Daeventbox.User do
       |> unique_constraint(:email)
       |> validate_required(@required)
   end
+
+  def updatepass(user, attrs) do
+      user
+      |> cast(attrs, Enum.concat(@required, @optional))
+      |> validate_length(:password, min: 8)
+      |> validate_confirmation(:password)
+      |> hash_password
+  end
+
+
 
   defp hash_password(%{valid?: false} = changeset), do: changeset
   defp hash_password(%{valid?: true} = changeset) do

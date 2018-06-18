@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="container" style="width: 100%">
-    <form class="col s12" method="POST" action="/ad/create">
+    <form class="col s12" method="POST" action="/ad/create" enctype="multipart/form-data">
         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
         <input type="hidden" name="event_id" value="<%= @event.id %>">
         <input type="hidden" name="option_id" value="<%= @option_id %>">
@@ -52,20 +52,13 @@
                 <label for="days">Number of Days</label>
             </div>
             <div class = "row">
-                <div class = "row col s12 m8">
-                    <label>Upload Ad Banner</label>
-                    <p> <i> Please make sure the image is correct size before uploading </i> </p>
-                    <div class = "file-field input-field">
-                        <div class = "btn">
-                            <span>Browse</span>
-                            <input  type = "file" />
-                        </div>
-                        
-                        <div class = "file-path-wrapper">
-                            <input name="image" class = "file-path validate" type = "text"
-                                placeholder = "Upload file" />
-                        </div>
+               <div class = "row col s6">
+                    <label>Upload Banner Image</label>
+                    <div>
+                            <input  name="file" type="file" />
+                
                     </div>
+                  
                 </div>
             </div>
         </div>

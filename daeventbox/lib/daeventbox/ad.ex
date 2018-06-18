@@ -18,6 +18,7 @@ defmodule Daeventbox.Ad do
     field :type, :string
     field :user_id, :integer
     field :zid, Ecto.UUID
+    field :status, :string
 
     timestamps()
   end
@@ -25,6 +26,6 @@ defmodule Daeventbox.Ad do
   @doc false
   def changeset(ad, attrs) do
     ad
-    |> cast(attrs, [:id, :event_id, :user_id, :facilitator_id, :info, :zid, :image, :image_url, :name, :option_id, :type, :days, :price, :meta1, :meta2])
+    |> cast(attrs, [:id, :event_id, :user_id, :facilitator_id, :info, :zid, :image, :image_url, :name, :option_id, :type, :days, :price, :meta1, :meta2, :status])
   end
 end

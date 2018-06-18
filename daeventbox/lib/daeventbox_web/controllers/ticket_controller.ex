@@ -7,7 +7,7 @@ defmodule DaeventboxWeb.TicketController do
     pre_token = "-USER-#{user_id}-" <> "EVENT-#{event_id}"
     barcode = Barcode.generate(pre_token, 39)
     {:ok, resp} = Utils.AmazonS3.file_upload(%{"file" => barcode})
-    {barcode.token, resp.url}
+    {barcode.token, convert_url(resp.url)}
   end
 
   def create_ticket(conn, params) do
@@ -25,6 +25,12 @@ defmodule DaeventboxWeb.TicketController do
         |> put_flash(:error, errors)
         |> redirect(to: "/")
     end
+
+
+  end
+
+  def convert_url(url) do
+    String.replace(url, "https://d1l54leyvskqrr.cloudfront.net", "https://s3.us-east-2.amazonaws.com/daeventboximages")
   end
 
 end

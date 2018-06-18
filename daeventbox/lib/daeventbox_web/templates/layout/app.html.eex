@@ -90,12 +90,16 @@
         <ul id = "userdropdown" class = "dropdown-content">
               <li><a href="/notify" onclick="return removenum();" ><i class="material-icons">notifications</i><div id="notificationnum"></div></a></li>
               
-              <li><a href="/chat/start"><i class="material-icons">mail</i><span class="new badge">1</span></a></li>
+              <!--<li><a href="/chat/start"><i class="material-icons">mail</i><span class="new badge">1</span></a></li> -->
+              <li><a href="/chat/view/messages"><i class="material-icons">mail</i><span class="new badge">1</span></a></li>
 
               <li class = "divider"></li>
-              <li><a href = "/facilitator/profile">Profile</a></li>
+              <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
 
+                  <li><a href = "/facilitator/profile">Profile</a></li>
+              <%end%>
               <li><a href = "/account/settings">Account settings</a></li>
+              <li><a href = "/help">Help</a></li>
               <li><a href = "/logout">Logout</a></li>
         
         </ul>
@@ -165,8 +169,9 @@
           
                  </div>
                 </li>
-
+                 <li><a href="/">Products<a><li>       
                 <li>
+
                  <div class = "col s12 m12 l12">
                     <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
                             <!-- Dropdown Trigger -->
@@ -179,7 +184,8 @@
           
                  </div>
                 </li>
-               <li><a href="/facilitator/change/mode">Switch to Guest Mode<a><li>        
+               
+                <li><a href="/facilitator/change/mode">Switch to Guest Mode<a><li>        
                
            <%end%>
 
@@ -217,7 +223,7 @@
                     url: "/notify/send",
                     data: myKeyVals,
                     dataType: "text",
-                    success: function(resultData) { alert("Save Complete") }
+                    success: function(resultData) { console.log("in notification"); }
               });
               saveData.error(function() { alert("Something went wrong"); });
 
@@ -244,10 +250,10 @@
             });
           }
           
-          // load_unseen_notification();
+          load_unseen_notification();
           
-          $(document).on('click', '#notificationnum', function(){
-            $('#notificationnum').html('<i class="material-icons " >notifications  </i>');
+          $(document).on('click', '.bz', function(){
+            $('.bz').html('<i class="material-icons " >notifications  </i>');
             });
           setInterval(function(){
               load_unseen_notification();

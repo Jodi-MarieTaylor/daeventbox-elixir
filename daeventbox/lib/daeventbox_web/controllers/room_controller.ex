@@ -1,11 +1,14 @@
 defmodule DaeventboxWeb.RoomController do
   use DaeventboxWeb, :controller
 
+  import Ecto.Query
+
   alias Daeventbox.Chat
   alias Daeventbox.Repo
   alias Daeventbox.User
   alias Daeventbox.Chat.Room
-
+  alias Daeventbox.Chat.Message
+  alias Daeventbox.Facilitator
   def index(conn, _params) do
     rooms = Chat.list_rooms()
     render(conn, "index.html", rooms: rooms)
@@ -60,7 +63,13 @@ defmodule DaeventboxWeb.RoomController do
         Repo.get(User, room.recipient_id)
       end
     messages = Chat.list_messages(room.id)
-    render(conn, "room.html", room: room, user: user, recipient: recipient, messages: messages)
+    facilitator =
+        if conn.cookies["daeventboxmode"] == "Guest" do
+          Repo.get_by(Daeventbox.Facilitator, user_id: user.id )
+        else
+          nil
+        end
+    render(conn, "room.html", room: room, user: user, recipient: recipient, messages: messages, facilitator: facilitator)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -90,4 +99,20 @@ defmodule DaeventboxWeb.RoomController do
     |> put_flash(:info, "Room deleted successfully.")
     |> redirect(to: room_path(conn, :index))
   end
+
+  def view_rooms(conn, params) do
+    user = conn.assigns[:current_user]
+    rooms =
+      if conn.cookies["daeventboxmode"] == "Guest" and conn.cookies["daeventboxuser"] do
+        query = from r in Room, join: f in Facilitator, join: u in User, join: m in Message, where: r.owner_id == ^user.id and r.recipient_id == f.user_id and f.user_id == u.id and r.id == m.room_id, distinct: r.id,  order_by: [desc: m.inserted_at], select: [r.id, f.name, m.body, m.inserted_at, u.zid]
+
+        IO.inspect Repo.all(query)
+        Repo.all(query)
+      else
+        query = from r in Room, join: u in User, join: m in Message, where: r.recipient_id == ^user.id and r.owner_id == u.id and r.id == m.room_id, distinct: r.id,  order_by: [desc: m.inserted_at], select: [r.id, u.firstname, m.body, m.inserted_at, u.zid]
+        Repo.all(query)
+      end
+      render conn, "view_messages.html", rooms: rooms
+  end
+
 end

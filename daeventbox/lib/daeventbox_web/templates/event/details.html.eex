@@ -5,20 +5,35 @@
     top: 148px;
     z-index: 0 ;
 }
-</style>
 
-<div class="card" style="width: 100%; height:400px; color: white; background-color: #1d1d1d; margin: 0px; ">
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white; height: 425px;">
     <div class="row">
-        <div class ="col s12 m4"  style="padding: 10px;">
-            <h4 style="color: white;"> Event Details </h4>
+        <div class ="col s12 m4" >
+            <h4 style="color: white;">Event Details</h4>
             
         </div>
 
-         
+        
     </div>
 </div>
 
-<div class="container  cont" style="padding: 0px;margin: 0 auto; " >
+<div class="container  cont" style="padding: 0px;margin: 0 auto; top: 80px;" >
     <div id="profile-page-header" class="card" style="padding: 0px;margin: 0 auto; ">
         
         <div class="card-image waves-effect waves-block waves-light" style="background-color: #1d1d1d;">
@@ -40,7 +55,7 @@
                 <% end %>
                 <a href="#">Share</a>
             </div>
-            <img class="activator" src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg" alt="user background" height="300">                    
+            <img class="activator" src="<%= @event.image_url %>" alt="user background" height="402">                    
         </div>
         
         <div class="card-content">
@@ -165,8 +180,22 @@
                     </div>
                     
                     <div class="input-field col s8 margin">
-                    <input id="profile-comments" type="text" class="validate">
-                    <label for="profile-comments" class="">Comments</label>
+                    <%= if !is_nil(@comments) do %>
+                        <%= for comment <- @comments do %>
+                           
+                            <span><%=Calendar.Strftime.strftime!(comment.inserted_at, "%B %e,  %Y")%> 
+                            <%= comment.message %> </span>
+                            <br> 
+                        <% end %>
+                    <%end%>
+                    <form action="/event/add/comment/<%= @event.id %>" method="POST">
+                        <input id="comment" placeholder="Add A Comment Here" name="comment" type="text" class="validate">
+                        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+                        <button class=" btn-small waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                            Comment
+                        </button>
+                    </form>
                     </div>                        
                 </div>
             </div>

@@ -37,7 +37,7 @@
     <div class="card ">
         <div class="row">
             <div class="col s5">
-            <a href="#five!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/e41/orchid-1364881.jpg"></a>
+            <a href="#five!"><img witdh="200" height="200" src="<%= Enum.at(ad, 7)%>"></a>
             </div>
             <div class="col s5"> 
                 <h6> Name: <b><%= Enum.at(ad, 0)%></b></h6>
@@ -51,8 +51,8 @@
             <div class="col s2">
                 <h6> Position: <b><%= Enum.at(ad, 3)%></b></h6>
                 <h6> Price: <b><%= Enum.at(ad, 5)%></b></h6>
-                <p> Edit Now </p>
-                <p> Delete/Cancel </p>
+                <a  ><i class="material-icons">delete</i>  Delete/Cancel </a>
+
             </div>
         </div>
     </div>

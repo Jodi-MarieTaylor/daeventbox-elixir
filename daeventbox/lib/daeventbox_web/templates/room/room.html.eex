@@ -76,7 +76,7 @@
                 <p> Phone: <%= @facilitator.facilitator_phone%> </p>
             <%end%>
              <%= if is_nil(@facilitator) do %>
-                <h6>Name: <%=@user.first_name%> <%=@user.last_name%></h6>
+                <h6>Name: <%=@user.firstname%> <%=@user.lastname%></h6>
                 <p> Email: <%=@user.email%> </p>
                 <p> Phone: <%=@user.phone%> </p>
             <%end%>

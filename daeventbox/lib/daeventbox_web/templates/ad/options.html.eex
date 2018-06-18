@@ -31,39 +31,43 @@
         
     </div>
 </div>
-<div  style="width: 100%"> 
-    <div class="row">
-        <div class="col s12 m3 card red">
-            <h4> BOTTOM AREA </h4>
+<div  style="container" > 
+    <div class="row" style="margin: 0 auto; width: 90%;">
+        <div class="col s12 m2 card red" style="margin: 20px; width: 300px; height: 450px;">
+            <h4 style="color: black !important ;"> BOTTOM AREA </h4>
             <div class="circle">
                 <h5> $5.00 <h5>
             </div>
             <p> Banner will show near footer </p>
             <p> Banner Size:  780px X 100px  </p>
+            <br>
+            <br>
             <a href="/ad/selection/form/1/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
 
              
         </div>
 
-        <div class="col s12 m3 card blue">
+        <div class="col s12 m2 card blue" style="margin: 20px;  width: 300px; height: 450px;">
             <h4> SIDE AREA </h4>
             <div class="circle">
                  <h5> $10.00 <h5>
             </div>
             <p> Banner will show on the right side of the events page	 </p>
             <p> Banner Size:  240px X 240px  </p>
+            <br>
             <a href="/ad/selection/form/2/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
         </div>
-        <div class="col s12 m3 card green">
+        <div class="col s12 m2 card green" style="margin: 20px;   width: 300px; height: 450px;">
             <h4> TOP AREA </h4>
             <div class="circle">
                 <h5> $15.00 <h5>
             </div>
             <p> Banner will show at the top of the site on the homepage </p>
             <p> Banner Size:  7728px X 100px   </p>
+            <br>
             <a href="/ad/selection/form/4/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
         </div>
-        <div class="col s12 m3 card pink">
+        <div class="col s12 m2 card pink" style="margin: 20px;  width: 300px; height: 450px;">
             <h4> All 3 Areas </h4>
             <div class="circle">
                 <h5> $20.00 <h5>

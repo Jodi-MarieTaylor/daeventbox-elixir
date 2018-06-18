@@ -54,7 +54,7 @@
                     <div class="card">
                         <div class="card-content  green white-text">
                             <p class="card-stats-title"><i class="mdi-social-group-add"></i> New Attendees This Week</p>
-                            <h4 class="card-stats-number"><%= Enum.count(@new_registrations)%></h4>
+                            <h4 class="card-stats-number"><%= Enum.count(@new_tickets)%></h4>
                             <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
                             </p>
                         </div>
@@ -65,7 +65,7 @@
                     <div class="card">
                         <div class="card-content  green white-text">
                             <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Attendees</p>
-                            <h4 class="card-stats-number"><%= Enum.count(@registrations)%></h4>
+                            <h4 class="card-stats-number"><%= Enum.count(@tickets)%></h4>
                             <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
                             </p>
                         </div>
@@ -76,7 +76,7 @@
                     <div class="card">
                         <div class="card-content  green white-text">
                             <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Tickets Sales</p>
-                            <h4 class="card-stats-number"><%= Enum.count(@registrations)%></h4>
+                            <h4 class="card-stats-number"><%= Enum.count(@tickets)%></h4>
                             <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
                             </p>
                         </div>
@@ -154,57 +154,48 @@
                 <div class="col s12 m6">
                     <h6> COMMENTS </h6>
                     <ul id="profile-page-about-details" class="collection z-depth-1">
-                    <li class="collection-item">
-                        <div class="row">
-                        <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Project</div>
-                        <div class="col s7 grey-text text-darken-4 right-align">ABC Name</div>
-                        </div>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
-                        <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Skills</div>
-                        <div class="col s7 grey-text text-darken-4 right-align">HTML, CSS</div>
-                        </div>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
-                        <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Lives in</div>
-                        <div class="col s7 grey-text text-darken-4 right-align">NY, USA</div>
-                        </div>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
-                        <div class="col s5 grey-text darken-1"><i class="mdi-social-cake"></i> Birth date</div>
-                        <div class="col s7 grey-text text-darken-4 right-align">18th June, 1991</div>
-                        </div>
-                    </li>
+                    <%= if Enum.count(@comments) > 0 do %>
+                        <%= for comment <- @comments do %>
+                            <li class="collection-item">
+                                <div class="row">
+                                <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> <%=Calendar.Strftime.strftime!(comment.inserted_at, "%B %e,  %Y")%> </div>
+                                <div class="col s7 grey-text text-darken-4 right-align"> <%= comment.message %></div>
+                                </div>
+                            </li>
+                        <%end%>
+                    <%end%>
+                    <%= if Enum.count(@comments) == 0 do %>
+                        <li class="collection-item">
+                                <div class="row">
+                                <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i>No Comment Yet </div>
+                                </div>
+                        </li>
+                    <%end%>
                     </ul>
                 </div>
                 <div class="col s12 m6">
                     <h6> ANNOUNCEMENTS </h6>
                     <ul id="profile-page-about-details" class="collection z-depth-1">
+                    <%= for notification <- @notifications do %>
+                        <li class="collection-item">
+                            <div class="row">
+                            <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> <%=Calendar.Strftime.strftime!(notification.inserted_at, "%B %e,  %Y")%></div>
+                            <div class="col s7 grey-text text-darken-4 right-align"><%=notification.message%></div>
+                            </div>
+                        </li>
+                    <%end%>
                     <li class="collection-item">
                         <div class="row">
-                        <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Project</div>
-                        <div class="col s7 grey-text text-darken-4 right-align">ABC Name</div>
-                        </div>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
-                        <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Skills</div>
-                        <div class="col s7 grey-text text-darken-4 right-align">HTML, CSS</div>
-                        </div>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
-                        <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Lives in</div>
-                        <div class="col s7 grey-text text-darken-4 right-align">NY, USA</div>
-                        </div>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
-                        <div class="col s5 grey-text darken-1"><i class="mdi-social-cake"></i> Birth date</div>
-                        <div class="col s7 grey-text text-darken-4 right-align">18th June, 1991</div>
+                        <div class="col s5 grey-text darken-1"><i class="mdi-social-cake"></i> Add New Announcement</div>
+                        <form action="/facilitator/add/announcement/<%= @event.id %>/<%= @facilitator.id %>" method="POST">
+                                <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+                            <input id="message" name="message" type="text" class = "active validate" required>
+                                <button class="modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                                    Add&rarr;
+                                </button>
+                        </form>
+                        
                         </div>
                     </li>
                     </ul>
@@ -267,24 +258,24 @@
                     </thead>
                      <tbody>
                     
-                       <%= for registration <- @registrations do %>
+                       <%= for ticket <- @tickets do %>
                         
                                 <tr>
                                     <td> <img src="https://placeholdit.co//i/30x30?"> </td>
-                                    <td><%=registration.person_details["last_name"]%></td>
-                                    <td><%= registration.person_details["email"]%></td>
-                                    <td><%= registration.inserted_at%></td>
-                                    <td> General RSVP</td>
-                                    <td><%=registration.quantity%></td>
+                                    <td></td>
+                                    <td>=</td>
+                                    <td><%= ticket.inserted_at%></td>
+                                    <td><%= ticket.type%></td>
+                                    <td><%=ticket.quantity%></td>
                                     <td>$ 10.0 </td>
-                                    <td><a href="/event/delete/<%=registration.id%>">   <i class="material-icons">delete</i> </a> </td>
+                                    <td><a href="/event/delete/<%=ticket.id%>">   <i class="material-icons">delete</i> </a> </td>
                                 </tr>                  
 
                         <% end %>
                       
                     </tbody>
                 </table>
-                 <%= if Enum.count(@registrations)  == 0 do %>
+                 <%= if Enum.count(@tickets)  == 0 do %>
                       <p style="margin: 0 0 0 20px;"> No Persons Have Registered For This Event </p>  
                  <%end%>
             </div>
@@ -309,7 +300,7 @@
                     <div class="card ">
                         <div class="row">
                             <div class="col s5">
-                            <a href="#five!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/e41/orchid-1364881.jpg"></a>
+                            <a href="#five!"><img witdh="200" height="200" src="<%= Enum.at(ad, 7)%>"></a>
                             </div>
                             <div class="col s5"> 
                                 <h6> Name: <b><%= Enum.at(ad, 0)%></b></h6>
@@ -323,8 +314,8 @@
                             <div class="col s2">
                                 <h6> Position: <b><%= Enum.at(ad, 3)%></b></h6>
                                 <h6> Price: <b><%= Enum.at(ad, 5)%></b></h6>
-                                <p><i class="material-icons">edit</i>  Edit Now </p>
-                                <p><i class="material-icons">delete</i>  Delete/Cancel </p>
+                                <!-- <p><i class="material-icons">edit</i>  Edit Now </p> -->
+                                <a ><i class="material-icons">delete</i>  Delete/Cancel </a>
                             </div>
                         </div>
                     </div>

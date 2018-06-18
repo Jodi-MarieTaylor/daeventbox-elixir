@@ -1,8 +1,5 @@
 <style>
-body{
-        background-color: #1d1d1d;
-        
-}
+
     
 .headtab {
   background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
@@ -25,8 +22,9 @@ body{
 <div style="width: 100%; height: 100%;">
 
 <div class= "row " style="width: 80%; " >
-    <div class="col s12 m4 center-align card" style="background-color: #ffffff; opacity: .4; padding: 50px 20px; margin: 10px 10px">
-        <img src="http://benu.edu.mx/wp-content/uploads/2015/03/icon-user-default.png" height="200" width="200" style=" border-radius: 50%;"> 
+    <!--<div class="col s12 m4 center-align card" style="background-color: #ffffff; opacity: .4; padding: 50px 20px; margin: 10px 10px">-->
+    <div class="col s12 m4 center-align card" style="background-color: #ffffff; padding: 50px 20px; margin: 10px 10px">
+        <img src="<%= @facilitator.image_url %>" height="200" width="200" style=" border-radius: 50%;"> 
         <h5> <%= @facilitator.name %> </h5>
       
         <p> <%= @facilitator.website_link%> </p>
@@ -39,7 +37,7 @@ body{
     </div>
     
     <div class="col s12 m6 card" style="background-color: white; height: 100%; padding: 5px;">
-        <h6 class="left"> <i class="fa fa-users"></i> 2000 followers </h6>
+        <h6 class="left"> <i class="fa fa-users"></i> <%=Enum.count(@followers)%> followers </h6>
         <br>
         <br>
         <h5 style="text-align: center"> About Facilitator </h5>

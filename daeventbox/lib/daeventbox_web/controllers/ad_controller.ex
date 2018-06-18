@@ -16,12 +16,15 @@ defmodule DaeventboxWeb.AdController do
 
 
   def create(conn, params) do
+    {:ok, resp} = Utils.AmazonS3.file_upload(params)
+    image_url = convert_url(resp.url)
+
     facilitator = Repo.get_by(Facilitator, user_id: conn.assigns[:current_user].id)
     option = Repo.get(Option, String.to_integer(params["option_id"]))
     days_decimal = Decimal.new(params["days"])
     price = Decimal.mult(days_decimal, option.price)
     # price = String.to_integer(params["days"]) * option.price
-    ad_params = %{type: "internal" ,option_id: params["option_id"] , event_id: params["event_id"], name: params["name"], image:  params["image"], user_id: conn.assigns[:current_user].id, facilitator_id: facilitator.id, days: params["days"], price: price}
+    ad_params = %{type: "internal" ,option_id: params["option_id"] , event_id: params["event_id"], status: "active", name: params["name"], image_url:  image_url, user_id: conn.assigns[:current_user].id, facilitator_id: facilitator.id, days: params["days"], price: price}
     changeset = Ad.changeset(%Ad{}, ad_params)
 
       case Repo.insert(changeset) do
@@ -32,6 +35,7 @@ defmodule DaeventboxWeb.AdController do
   end
 
   def ad_option(conn, params) do
+
     bottom_option_params = %{type: "internal" , position: "bottom" , description: "Banner will show near footer on all pages", name: params["name"], zid:  Ecto.UUID.generate, size: "780px X 100px",  max_days: 60, price: 5.00}
     top_option_params = %{type: "internal" , position: "top" , description: "Banner will show at the top of the site on the Homepage", name: params["name"], zid:  Ecto.UUID.generate, size: "7728px X 100px", max_days: 90, price: 15.00}
     side_option_params = %{type: "internal" ,  position: "side" , description: "Banner will show on the right side of the Events page", name: params["name"], zid:  Ecto.UUID.generate, size: " 240px X 240px" , max_days: 60, price: 10.00}
@@ -78,7 +82,7 @@ defmodule DaeventboxWeb.AdController do
 
   def view_all(conn, params) do
     facilitator = Repo.get_by(Facilitator, user_id: conn.assigns[:current_user].id)
-    query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id , select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id]
+    query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id , select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url]
     ads = Repo.all(query)
     IO.inspect ads
     render conn, "view_all.html", ads: ads
@@ -96,6 +100,9 @@ defmodule DaeventboxWeb.AdController do
 
     render conn, "form.html", event: event, option_id: option_id
 
+  end
+  def convert_url(url) do
+    String.replace(url, "https://d1l54leyvskqrr.cloudfront.net", "https://s3.us-east-2.amazonaws.com/daeventboximages")
   end
 
 end

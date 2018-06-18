@@ -29,7 +29,7 @@
 <div class="container">
 
 <div class="" style= "width: 100% ; ">
-<form class="col s12" method="POST"  action="/event/add">
+<form class="col s12" method="POST"  action="/event/add" enctype="multipart/form-data">
       <h5> Event Details</h5>
       <hr>
       <br>
@@ -88,16 +88,9 @@
       <div class = "row">
         <div class = "row col s6">
           <label>Upload Main Event Image</label>
-          <div class = "file-field input-field">
-              <div class = "btn">
-                <span>Browse</span>
-                <input  type = "file" />
-              </div>
-              
-              <div class = "file-path-wrapper">
-                <input name="image" class = "file-path validate" type = "text"
-                    placeholder = "Upload file" />
-              </div>
+          <div>
+                <input  name="file" type="file" />
+    
           </div>
         </div>
        <div class = "row col s6">

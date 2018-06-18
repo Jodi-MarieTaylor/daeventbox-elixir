@@ -36,14 +36,14 @@ config :daeventbox, Daeventbox.Guardian,
 
 
 config :arc,
-   bucket: "sirfitz",
+   bucket: "daeventboximages",
    virtual_host: true
 
 config :ex_aws,
-   access_key_id: "AKIAJBD4NDWEQ774NUNQ",
-   secret_access_key: "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",
+   access_key_id: "AKIAJKQU6CJTUAFUTBPA",
+   secret_access_key: "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",
    region: "us-east-2",
-   bucket: "sirfitz",
+   bucket: "daeventboximages",
    host: "s3.us-east-2.amazonaws.com",
    s3: [
    scheme: "https://",

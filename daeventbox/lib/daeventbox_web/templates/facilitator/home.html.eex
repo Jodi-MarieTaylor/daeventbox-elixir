@@ -17,29 +17,30 @@ height: 100% !important;
         <li>
             <img src="http://www.cih.org/resources/images/event_header.jpg"> <!-- random image -->
             <div class="caption center-align">
-            <h3>Post 1</h3>
-            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            <!--   <h3>Post 1</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
             </div>
         </li>
         <li>
             <img src="http://ourpolitics.net/wp-content/uploads/2017/12/events.jpg"> <!-- random image -->
             <div class="caption center-align">
-            <h3>Post 2</h3>
-            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            <!-- <h3>Post 2</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
             </div>
         </li>
         <li>
             <img src="http://www.catalyst.org/uploads/styles/content-large/public/Events.jpg"> <!-- random image -->
-            <<div class="caption center-align">
-            <h3>Post 3</h3>
-            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            <div class="caption center-align">
+            <!-- <h3>Post 3</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
             </div>
         </li>
         <li>
             <img src="https://www.budapest.com/w/promoart/promo_1032_en.jpg"> <!-- random image -->
             <d<div class="caption center-align">
-            <h3>Post 4</h3>
-            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+            <!-- <h3>Post 4</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+
             </div>
         </li>
         </ul>
@@ -51,12 +52,11 @@ height: 100% !important;
                 <div class="input-field col s12 m12">
                     <i class="material-icons prefix">search</i>
 					<input id="search" placeholder="Enter Your Event Title" type="text" name="search" class="validate">
-					<label for="search">
-					</label>
+					
 				</div>
               </form>
             </div>
-            <a href="/" class="btn  waves-effect waves-light darken-2 center">CREATE AN EVENT </a>
+            <a href="/event/create" class="btn  waves-effect waves-light darken-2 center">CREATE AN EVENT </a>
 
         </div>
   </div>

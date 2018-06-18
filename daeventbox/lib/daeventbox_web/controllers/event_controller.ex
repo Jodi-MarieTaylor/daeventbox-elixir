@@ -14,7 +14,10 @@ defmodule DaeventboxWeb.EventController do
   alias Daeventbox.SavedEvent
   alias Daeventbox.LikedEvent
   alias Daeventbox.Action
-
+  alias Daeventbox.Comment
+  alias Daeventbox.Ad
+  alias Daeventbox.Option
+  alias Daeventbox.Follower
 
 
   def index(conn, _params) do
@@ -49,8 +52,13 @@ defmodule DaeventboxWeb.EventController do
       facilitator = Repo.get_by(Facilitator,user_id: conn.assigns[:current_user].id)
       current_user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
       IO.inspect current_user
-      required_params = %{title: params["title"], facilitator_name: facilitator.name, user_id: conn.assigns[:current_user].id, facilitator_id: facilitator.id,
-       start_date: params["start_date"], start_time: params["start_time"], end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
+
+      {:ok, resp} = Utils.AmazonS3.file_upload(params)
+
+      IO.inspect resp
+      image_url = convert_url(resp.url)
+      required_params = %{title: params["title"], facilitator_name: facilitator.name, user_id: conn.assigns[:current_user].id, facilitator_id: facilitator.id, status: "active",
+       image_url: image_url, start_date: params["start_date"], start_time: params["start_time"], end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
        fb_link: params["fb_link"], insta_link: params["insta_link"],  twitter_link: params["twitter_link"], type: params["type"], admission_type: params["admission_type"], location: "#{params["address1"]}, #{params["address2"]}, #{params["parish"]}, Jamaica",
        details: %{}, event_zid:  Ecto.UUID.generate, venue_name: params["venue_name"], location_info: %{parish: params["parish"], address1: params["address1"], address2: params["address2"], country: "Jamaica"}}
       IO.inspect params
@@ -157,8 +165,11 @@ defmodule DaeventboxWeb.EventController do
 
   def update(conn,params) do
     event = Repo.get!(Event, params["id"])
+    {:ok, resp} = Utils.AmazonS3.file_upload(params)
+    IO.inspect resp
+    image_url = convert_url(resp.url)
     required_params = %{title: params["title"], facilitator_name: event.facilitator_name,
-       start_date: params["start_date"], start_time: event.start_time, end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
+       image_url: image_url, start_date: params["start_date"], start_time: event.start_time, end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
        fb_link: params["fb_link"], insta_link: params["insta_link"],  twitter_link: params["twitter_link"], type: event.type, admission_type: event.admission_type, location: "#{params["address1"]}, #{params["address2"]}, #{params["parish"]}, Jamaica",
        details: %{}, event_zid:  Ecto.UUID.generate, venue_name: params["venue_name"], location_info: %{parish: params["parish"], address1: params["address1"], address2: params["address2"], country: "Jamaica"}}
       IO.inspect params
@@ -191,6 +202,8 @@ defmodule DaeventboxWeb.EventController do
       #render(conn, "details.html", event: event, facilitator: facilitator, registration: registration)
 
     #end
+
+    comments = Repo.all(from c in Comment, where: c.event_id == ^event.id, limit: 5)
     saved_event = Repo.get_by(SavedEvent, user_id: user_id, event_id: event.id)
     if is_nil(saved_event) do
       saved = false
@@ -216,7 +229,7 @@ defmodule DaeventboxWeb.EventController do
     start_time = format_time(event.start_time)
     end_time = format_time(event.end_time)
     Action.add(conn, "viewed-event-details", 1, event.id )
-    render(conn, "details.html", event: event, saved: saved, liked: liked, facilitator: facilitator, map: map_url, end_date: end_date, start_date: start_date, start_time: start_time, end_time: end_time)
+    render(conn, "details.html", comments: comments,  event: event, saved: saved, liked: liked, facilitator: facilitator, map: map_url, end_date: end_date, start_date: start_date, start_time: start_time, end_time: end_time)
 
   end
 
@@ -428,15 +441,21 @@ defmodule DaeventboxWeb.EventController do
   def upcoming_events(conn,params) do
     query = from e in Event, where: e.id > 15 # where events are new
     events = Repo.all(query)
-    render conn, "upcoming_events.html", events: events
+    ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
+    ads = Repo.all(ads_query)
+    render conn, "upcoming_events.html", events: events,ads: ads
   end
 
   def facilitators(conn, params) do
+    user = Repo.get!(User, conn.assigns[:current_user].id)
     query = from f in Facilitator
     facilitators = Repo.all(query)
     IO.puts "THESE ARE FACILIS"
     IO.inspect facilitators
-    render conn, "facilitators.html", facilitators: facilitators
+    ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
+    ads = Repo.all(ads_query)
+    followers = Repo.all(from f in Follower, where: f.user_id == ^user.id )
+    render conn, "facilitators.html", facilitators: facilitators, ads: ads, followers: followers, user: user
 
   end
 
@@ -458,6 +477,22 @@ defmodule DaeventboxWeb.EventController do
     render conn, "upcoming_events.html", events: events
 
   end
+
+  def add_comment(conn, params) do
+    user = Repo.get!(User, conn.assigns[:current_user].id)
+    required_params = %{type: "Event Comment" , sent_by: "Guest", from: user.firstname <> " " <> user.lastname, user_id: user.id, event_id: params["event_id"], message: params["comment"] }
+    changeset = Comment.changeset(%Comment{}, required_params)
+      case Repo.insert(changeset) do
+            {:ok, _comment} ->
+              IO.puts "Added Comment"
+
+              conn
+              |> redirect(to: "/event/details/#{params["event_id"]}" )
+
+            {:error, reason} -> IO.inspect reason
+      end
+  end
+
 
   def filter_facilitators(conn, params) do
      cond do
@@ -512,4 +547,9 @@ defmodule DaeventboxWeb.EventController do
     time
     |> Calendar.Strftime.strftime! "%I:%M%P"
   end
+
+  def convert_url(url) do
+    String.replace(url, "https://d1l54leyvskqrr.cloudfront.net", "https://s3.us-east-2.amazonaws.com/daeventboximages")
+  end
+
 end

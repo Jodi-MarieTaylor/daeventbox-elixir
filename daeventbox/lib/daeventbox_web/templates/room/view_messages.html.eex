@@ -30,7 +30,7 @@ th, td {
 <div class="card headtab" style="width: 100%; color: white;">
     <div class="row">
         <div class ="col s12 m4"  style="padding: 10px;">
-            <h4 style="color: white;">Notifications</h4>
+            <h4 style="color: white;">Messages</h4>
             
         </div>
     </div>
@@ -42,27 +42,38 @@ th, td {
         <table>
             <tr>
                 
-                <th>Notifications</th> 
+                <th>Messages</th> 
+
                 
             </tr>
-            <%= for notification <- @notifications do %>
+            <%= for room <- @rooms do %>
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col s12 m3">
+                        <div class="col s12 m2">
                             <!--<img src="https://placeholdit.co//i/30x30?"> -->
-                            <p><%=notification.from%> </p>
+                            <p><%=Enum.at(room, 1 )%> </p>
                         </div>
-                        <div class= "col s12 m6">
-                            <p><%= notification.message %></p>
+                        <div class= "col s12 m5">
+                            <p><%=Enum.at(room, 2 )%></p>
                         </div>
 
                         <div class="col s12 m2"> 
-                            <p><%= notification.inserted_at %> </p>
+                                
+                            <p><%=Calendar.Strftime.strftime!(Enum.at(room, 3 ), "%B %e,  %Y")%></p>
                         </div>  
-                        <div class="col s12 m1">
-                         
-                         <a href="/notify/delete/<%=notification.id%>/<%=notification.user_id%>">   <i class="material-icons">delete</i> </a>
+                        <div class="col s12 m2">
+                         <span>
+                            <a href="/chat?zid=<%=Enum.at(room, 4 )%>" class="btn btn-default btn-xs">
+                                View Chat
+                            </a>
+                        </span>
+                        <br>
+                        <span>
+                            <a href="/chat" class="btn btn-alert red btn-xs">
+                            Delete Chat
+                            </a>
+                        </span>
                         </div>
 
 
