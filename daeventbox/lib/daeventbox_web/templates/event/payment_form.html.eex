@@ -1,11 +1,11 @@
 <style>
 
-    
+
 .headtab {
   background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
 
         background-attachment: fixed;
-}    
+}
  </style>
 
 
@@ -13,21 +13,21 @@
     <div class="row">
         <div class ="col s12 m4"  style="padding: 10px;">
             <h4 style="color: white;">Payment</h4>
-            
+
         </div>
 
-        
+
     </div>
 </div>
 
  <div class = "row">
- 
+
     <div class = "col s12 m8" >
         <div class = "card large white"style="height: 1000px;">
-        <form method="POST"  action="/event/add/ticket/<%= @event.id %>">
-        
+        <form method="POST"  action="/payment/process/<%= @event.id %>">
+
             <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
-        
+
             <div class="container">
                 <br>
                 <span class = "card-title"><h4>Card Details</h4></span>
@@ -40,14 +40,14 @@
                         <input id = "mater" type = "radio" name = "type"
                             value = "master"  />
                         <label for = "master"><img alt="Credit Card Logos" title="Credit Card Logos" src="http://www.credit-card-logos.com/images/mastercard_credit-card-logos/mastercard_logo_3.gif" width="37" height="22" border="0" /></label>
-                    
+
                         <input id = "visa" type = "radio" name = "type"
                             value = "visa"  />
                         <label for = "visa"><img alt="Credit Card Logos" title="Credit Card Logos" src="http://www.credit-card-logos.com/images/visa_credit-card-logos/new_visa.gif" width="37" height="22" border="0" /></label>
-                    
-                        
+
+
                     </div>
-                    </div>      
+                    </div>
 
                 <div class="row">
                     <div class="input-field col s6">
@@ -73,8 +73,8 @@
                 <span class = "card-title"><h4>Billing Address</h4></span>
                 <hr>
                 <br>
-             
-     
+
+
                 <div class="row">
                     <div class="input-field col s6">
                         <input  id="address1" name="address1" type="text"  class = "active validate" required>
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="row">
-                   
+
                     <div class="input-field col s6">
                         <input id="postal_code" name="postal_code" type="text" class = "active validate" required>
                         <label for="postal_code">Postal Code</label>
@@ -108,18 +108,18 @@
                             <option value = "JMD">Jamaica</option>
                             <option value = "US">US</option>
                             <option value = "Canada">Canada</option>
-                          
-                        </select>               
+
+                        </select>
                     </div>
                 </div>
             <div class = "card-action">
                <div class="row" >
                     <a href="/payment/process" class="waves-effect waves-light btn right"><i class="material-icons left">cloud</i> Pay Now</a>
                 </div>
-                
+
             </div>
 
-            </div> 
+            </div>
         </div>
     </div>
     <div class = "col s12 m4">
@@ -131,14 +131,14 @@
                 <table style="width:100%">
                 <tr>
                     <th>Item</th>
-                    <th>Unit Price</th> 
+                    <th>Unit Price</th>
                     <th>Quantity</th>
                     <th>Price </th>
                 </tr>
                 <%= for item <- @items do %>
                 <tr>
                     <td><%=item.name%></td>
-                    <td><%=item.unit_price%></td> 
+                    <td><%=item.unit_price%></td>
                     <td><%=item.quantity%></td>
                     <td><%=  :erlang.float_to_binary(item.price, [:compact, { :decimals, 3 }]) %></td>
                     <input type="hidden" name="item<%= Enum.find_index(@items, fn(x) -> x.id == item.id end) %>" value="<%= item.id %>">
@@ -148,7 +148,7 @@
                 <% end%>
                 <tr>
                     <td> </td>
-                    <td></td> 
+                    <td></td>
                     <td></td>
                     <td> <div> <hr> <%= @total%> </div> </td>
 
@@ -157,18 +157,11 @@
             </div>
             <input type="hidden" name="total_items" value="<%= @total_items%>">
              <div class=" footer text-center right-align" >
-                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">   
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
                     Proceed
-                </button>            
+                </button>
             </div>
         </form>
         </div>
     </div>
 </div>
-
-
-  
-
-    
-
- 

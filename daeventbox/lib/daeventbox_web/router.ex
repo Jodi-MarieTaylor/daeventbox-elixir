@@ -37,10 +37,10 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/payment", DaeventboxWeb do
-    pipe_through :browser
+    pipe_through [:browser, :with_session] # Use the default browser stack
 
     get "/card-info", PaymentController, :payment_form
-    get "/process", PaymentController, :make_payment
+    post "/process/:event_id", PaymentController, :make_payment
   end
 
 

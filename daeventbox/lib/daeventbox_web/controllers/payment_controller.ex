@@ -15,13 +15,18 @@ defmodule DaeventboxWeb.PaymentController do
     render conn, "payment_form.html", success: "false"
   end
 
-  def make_payment(conn, params) do
-
-
-
+  def make_payment(conn, %{"event_id" => event_id} = params) do
+      add_ticket(conn, params)
+      email =
+        Map.new
+        |> Map.put("title", "Payment Confirmation")
+        |> Map.put("template", "payment_confirmation.html")
+      DaeventboxWeb.EmailController.generic_email(conn.assigns[:current_user], email)
       conn
-      show_event_success_modal(conn, params)
+      |> redirect(to: "/")
+      #show_event_success_modal(conn, params)
   end
+
   defp save_card(conn,params) do
       #case Repo.insert(changeset) do
       #  {:ok, event} ->
@@ -42,6 +47,19 @@ defmodule DaeventboxWeb.PaymentController do
   defp show_event_success_modal(conn, params) do
     #render(conn, "success_event_modal.html", success: true)
     render(conn, "payment_form.html", success: "true")
+  end
+
+  def add_ticket(conn, params) do
+    total_items = String.to_integer(params["total_items"])-1
+    for count <- 0..total_items do
+       IO.puts "here"
+      unless params["item#{count}"] == "" do
+        ticket = Repo.get!(Ticketdetail, String.to_integer(params["item#{count}"]))
+        for i <- 1..String.to_integer(params["itemq#{count}"]) do
+          DaeventboxWeb.TicketController.create_ticket(params["event_id"], conn.assigns[:current_user])
+        end
+      end
+    end
   end
 
 end

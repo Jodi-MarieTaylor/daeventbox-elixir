@@ -391,14 +391,14 @@ defmodule DaeventboxWeb.EventController do
       unless params["item#{count}"] == "" do
         ticket = Repo.get!(Ticketdetail, String.to_integer(params["item#{count}"]))
         for i <- 1..String.to_integer(params["itemq#{count}"]) do
-
-          required_params = %{  barcode: Enum.random(1000000000000..999999999999), price: ticket.price , event_id: params["id"] , user_id: conn.assigns[:current_user].id , ticket_id: ticket.id }
-          changeset = Ticket.changeset(%Ticket{}, required_params)
-          IO.puts "ksdms"
-          case Repo.insert(changeset) do
-            {:ok, ticket} -> IO.puts "Added Tickets"
-            {:error, changeset} -> IO.inspect changeset
-          end
+          DaeventboxWeb.TicketController.create_ticket(params["id"], conn.assigns[:current_user])
+          #required_params = %{  barcode: Enum.random(1000000000000..999999999999), price: ticket.price , event_id: params["id"] , user_id: conn.assigns[:current_user].id , ticket_id: ticket.id }
+          #changeset = Ticket.changeset(%Ticket{}, required_params)
+          #IO.puts "ksdms"
+          #case Repo.insert(changeset) do
+          #  {:ok, ticket} -> IO.puts "Added Tickets"
+          #  {:error, changeset} -> IO.inspect changeset
+          #end
 
         end
       end

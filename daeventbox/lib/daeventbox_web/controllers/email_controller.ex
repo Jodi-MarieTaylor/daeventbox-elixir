@@ -28,6 +28,12 @@ defmodule DaeventboxWeb.EmailController do
   def ticket_email(ticket, user) do
     #template = Data.Repo.get(Data.Content.Post, 4078)
     #event must be preloaded for ticket.event to be used in the email template
+    event = Repo.get(Event, ticket.event_id)
+
+    ticket =
+      ticket
+      |> Map.put(:event, event)
+
     context =
       Map.new
       |> Map.put("user", user)
@@ -38,7 +44,7 @@ defmodule DaeventboxWeb.EmailController do
 
       {:ok, template} =
       Render.get_template(:daeventbox, :templates, "ticket.html")
-
+      IO.inspect template
       email = Render.eex(template, data: context)
 
 
@@ -51,6 +57,51 @@ defmodule DaeventboxWeb.EmailController do
       |> Daeventbox.Mailer.deliver_later
   end
 
+  def generic_email(user, email) do
+    #template = Data.Repo.get(Data.Content.Post, 4078)
+    context =
+      Map.new
+      |> Map.put("user", user)
+      |> Map.put("year", Timex.now.year)
+      |> Map.put("month", Timex.now.month)
+      |> Map.put("day", Timex.now.day)
+
+    {:ok, template} =
+      Render.get_template(:daeventbox, :templates, email["template"])
+
+    email_body = Render.eex(template, data: context)
+
+    Bamboo.Email.new_email
+      |> Bamboo.Email.to(user.email)
+      |> Bamboo.Email.from({"DaEventBox" , "admin@mg.romariofitzgerald.com"})
+      |> Bamboo.Email.put_header("Reply-To", "sirromariofitz@gmail.com")
+      |> Bamboo.Email.subject(email["title"])
+      |> Bamboo.Email.html_body(email_body)
+      |> Daeventbox.Mailer.deliver_later
+  end
+
+  def generic_admin_email(user, email) do
+    #template = Data.Repo.get(Data.Content.Post, 4078)
+    context =
+      Map.new
+      |> Map.put("user", user)
+      |> Map.put("year", Timex.now.year)
+      |> Map.put("month", Timex.now.month)
+      |> Map.put("day", Timex.now.day)
+
+    {:ok, template} =
+      Render.get_template(:daeventbox, :templates, email["template"])
+
+    email_body = Render.eex(template, data: context)
+
+    Bamboo.Email.new_email
+      |> Bamboo.Email.to(user.email)
+      |> Bamboo.Email.from({"DaEventBox" , "admin@mg.romariofitzgerald.com"})
+      |> Bamboo.Email.put_header("Reply-To", "sirromariofitz@gmail.com")
+      |> Bamboo.Email.subject(email["title"])
+      |> Bamboo.Email.html_body(email_body)
+      |> Daeventbox.Mailer.deliver_later
+  end
 
   def email_validation(recipients) do
 
