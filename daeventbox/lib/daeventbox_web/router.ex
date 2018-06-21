@@ -144,9 +144,6 @@ defmodule DaeventboxWeb.Router do
     post "/event/create", AdminController, :index
     get "/", AdminController, :index
 
-
-
-
   end
 
   scope "/", DaeventboxWeb do
