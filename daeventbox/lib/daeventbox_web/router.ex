@@ -143,10 +143,13 @@ defmodule DaeventboxWeb.Router do
     post "/facilitator/create", AdminController, :index
     post "/event/create", AdminController, :index
     get "/", AdminController, :index
-
-
-
-
+    get "/user", AdminController, :user
+    get "/login", AdminController, :login
+    post "/signin", AdminController, :signin
+    get "/events", AdminController, :events
+    get "/event/view/:id", AdminController, :event_details
+    get "/event/delete/:id", AdminController, :delete_event
+    get "/tickets/:event_id", AdminController, :tickets
   end
 
   scope "/", DaeventboxWeb do

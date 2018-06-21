@@ -12,6 +12,61 @@ defmodule DaeventboxWeb.AdminController do
   alias Daeventbox.Ticket
   alias Daeventbox.Registration
   alias Daeventbox.Action
+  alias Daeventbox.Ad
+  alias Daeventbox.Registrationdetails
+  alias Daeventbox.Ticketdetail
+
+
+  def login(conn, params) do
+    IO.puts "IN THE ADMIN CONTROLLER BOUT TA RENDER LOGIN"
+    conn
+    |> put_layout(:false)
+    |> render("login.html")
+  end
+
+    #process login
+  def signin(conn, %{"email" => email, "password" => password} = params) do
+    case Daeventbox.Auth.login_by_email_and_pass(conn, String.trim(String.downcase(email)), password) do
+      {:ok, conn} ->
+        IO.inspect conn.assigns
+        user = conn.assigns[:current_user]
+        time_in_secs_from_now = 86400 * 90
+        conn
+          |> delete_resp_cookie("daeventboxuser")
+          |> delete_resp_cookie("daeventboxuser")
+          |> put_resp_cookie("daeventboxuser", user.zid, max_age: time_in_secs_from_now)
+          |> put_resp_cookie("daeventboxmode", "Guest", max_age: time_in_secs_from_now)
+
+          |> put_flash(:info, "Logged in")
+          |> redirect(to: "/admin?p=facilitators"  )
+      {:error, reason, conn} ->
+        IO.inspect reason
+        case reason do
+          :unauthorized ->
+              conn
+                |> put_flash(:error, "Bad Credentials")
+                |> redirect(to: "/login")
+          :not_found ->
+              conn
+                |> put_flash(:error, "User does not exist")
+                |> redirect(to: "/login")
+        end
+    end
+  end
+
+  def event_details(conn, params) do
+    event = Repo.get_by(Event, id: params["id"])
+    facilitator = Repo.get_by(Facilitator, id: event.facilitator_id)
+    tickets = Repo.all(from t in Ticket, where: t.event_id == ^event.id) |> Enum.count
+    ads = Repo.all(from a in Ad, where: a.event_id == ^event.id) |> Enum.count
+    registrations = Repo.all(from r in Registration, where: r.event_id == ^event.id) |> Enum.count
+    ticket_details = Repo.all(from ti in Ticketdetail, where: ti.event_id == ^event.id)
+    registration_details = Repo.all(from re in Registrationdetails, where: re.event_id == ^event.id)
+
+    conn
+    |> put_layout(:false)
+    |> render "event-details.html",ticket_details: ticket_details,registration_details: registration_details,  event: event, facilitator: facilitator, registrations: registrations, tickets: tickets, ads: ads
+  end
 
   def index(conn, params) do
 
@@ -171,6 +226,8 @@ defmodule DaeventboxWeb.AdminController do
   def view_event(conn, params) do
   end
 
+
+
   def events_filter(conn, params) do
     cond do
       params["category"] ->
@@ -208,7 +265,7 @@ defmodule DaeventboxWeb.AdminController do
         {:ok, _facilitator} ->
           conn
           |> put_flash(:info, "Deleted Successfully")
-          |> redirect(to: "/admin?p=events")
+          |> redirect(to: "/admin/events")
 
         {:error, changeset} ->
           IO.inspect changeset
@@ -280,7 +337,7 @@ defmodule DaeventboxWeb.AdminController do
   conn
 
   |> put_layout(:false)
-  |> render "typography.html"
+  |> render "user.html"
   end
 
   def create_facilitator(conn, params) do
@@ -293,12 +350,14 @@ defmodule DaeventboxWeb.AdminController do
     case Repo.insert(changeset) do
       {:ok, _facilitator} ->
         conn
+        |> put_layout(:false)
         |> put_flash(:info, "Event updated successfully.")
         |> redirect(to: "/admin?facilitators")
 
       {:error, changeset} ->
         IO.inspect changeset
         conn
+        |> put_layout(:false)
         |> put_flash(:error, "Oops error! Please try again")
         |> redirect( to: "/admin?p=create-facilitator")
     end
@@ -318,12 +377,14 @@ defmodule DaeventboxWeb.AdminController do
       case Repo.delete(facilitator) do
         {:ok, _facilitator} ->
           conn
+          |> put_layout(:false)
           |> put_flash(:info, "Deleted Successfully")
           |> redirect(to: "/admin?p=facilitators")
 
         {:error, changeset} ->
           IO.inspect changeset
           conn
+          |> put_layout(:false)
           |> put_flash(:error, "Oops error! Please try again")
           |> render "view-facilitator.html", facilitator: facilitator
       end
@@ -333,13 +394,18 @@ defmodule DaeventboxWeb.AdminController do
 
 
   end
-  def login(conn, params) do
+
+
+  def tickets(conn, params) do
+    event = Repo.get!(Event, params["event_id"])
+    tickets = Repo.all(from t in Ticket, where: t.event_id == ^params["event_id"])
+    ticket_details = Repo.all(from ti in Ticketdetail, where: ti.event_id == ^params["event_id"])
+    conn
+    |> put_layout(:false)
+    |> render "tickets.html", tickets: tickets, event: event, ticket_details: ticket_details
 
   end
 
-
-  def logout(conn, params) do
-  end
    def convert_url(url) do
     String.replace(url, "https://d1l54leyvskqrr.cloudfront.net", "https://s3.us-east-2.amazonaws.com/daeventboximages")
   end

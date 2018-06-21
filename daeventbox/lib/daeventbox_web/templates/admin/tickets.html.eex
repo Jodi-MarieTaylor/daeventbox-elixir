@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
+	<link rel="icon" type="image/png" href="/assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<title>Light Bootstrap Dashboard by Creative Tim</title>
@@ -13,23 +13,23 @@
 
 
     <!-- Bootstrap core CSS     -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Animation library for notifications   -->
-    <link href="assets/css/animate.min.css" rel="stylesheet"/>
+    <link href="/assets/css/animate.min.css" rel="stylesheet"/>
 
     <!--  Light Bootstrap Table core CSS    -->
-    <link href="assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
+    <link href="/assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
 
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="assets/css/demo.css" rel="stylesheet" />
+    <link href="/assets/css/demo.css" rel="stylesheet" />
 
 
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
-    <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    <link href="/assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -111,7 +111,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Facilitators</a>
+                    <a class="navbar-brand" href="#">Events</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
@@ -189,86 +189,109 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Manage Facilitators</h4>
-                                <p class="category">Here are your Facilitators</p>
-                                <button  type="" class="btn btn-info btn-fill pull-right" > <a href="/admin?p=create-facilitator" style="color: white;">Add + </a></button>
+                                <h4 class="title">Manage Tickets</h4>
+                                <p class="category">Here are your Tickets for event <%= @event.title %></p>
+                                <p class="category">Showing <%= @tickets |> Enum.count %> Tickets</p>
+                                <button  type="" class="btn btn-info btn-fill pull-right" > <a href="/admin?p=events&action=create" style="color: white;">Add + </a></button>
                                 <button type="" onclick="myFunction()" class="btn btn-info btn-fill pull-right" style="margin-right: 5px;">Filter </button>
                             </div>
 
                             <div hidden id="filterdiv">
                                 <div class="row">
                                         <div class="dropdown col-md-2" style="margin-left: 10px;">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Alphabet
+                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Name
                                             <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                            <li><a href="/admin?p=facilitators&filter=asc">Ascending</a></li>
-                                            <li><a href="/admin?p=facilitators&filter=desc">Descending</a></li>
+                                            <%= for ticket_detail <- @ticket_details do %>
+                                             <li> <a href="/admin/tickets/<%= @event.id %> /filter?name=<%=ticket_detail.name%>"><%=ticket_detail.name%></a></li><br>
+                                            <%end%>
                                             </ul>
 
                                         </div>
                                         <div class="dropdown col-md-2">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Date
+                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Date
                                             <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                            <li><a href="/admin?p=facilitators&filter=latestdate">Latest</a></li>
-                                            <li><a href="/admin?p=facilitators&filter=oldestdate">Oldest</a></li>
+                                            <li><a href="/admin/tickets/<%= @event.id%>/filter?date=desc">Latest</a></li>
+                                            <li><a href="/admin/tickets/<%= @event.id%>/filter?date=asc">Oldest</a></li>
                                             </ul>
                                             
                                         </div>
                                         <div class="dropdown col-md-2">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Popularity
+                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Price
                                             <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                            <li><a href="/admin?p=facilitators&filter=mostpopular">Most Popular</a></li>
-                                            <li><a href="/admin?p=facilitators&filter=leastpopular">Least Popular</a></li>
+                                            <%= for ticket_detail <- @ticket_details do %>
+                                             <li> <a href="/admin/tickets/<%= @event.id%>/filter?price=<%=ticket_detail.price%>"><%=ticket_detail.price%></a></li><br>
+                                            <%end%>
                                             </ul>
                                             
                                         </div>
                                         <div class="dropdown col-md-2">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Number of Events
+                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Status
                                             <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                            <li><a href="/admin?p=facilitators&filter=mostevents">Most Events</a></li>
-                                            <li><a href="/admin?p=facilitators&filter=leastevents">Least Events</a></li>
+                                            <li><a href="/admin/tickets/<%= @event.id%>/filter?status=active">Active</a></li>
+                                            <li><a href="/admin/tickets/<%= @event.id%>/filter?status=inactive">Not Active</a></li>
                                             </ul>
                                             
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary " type="button" > <a href = "/admin/tickets/<%= @event.id%>"> Reset </a>
+                                            </button>
                                         </div>
                                 </div>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-hover table-striped">
                                     <thead>
-                                        <th>Date Added</th>
-                                    	<th>Company</th>
-                                    	<th>Email</th>
-                                        <th>Website</th>
-                                        <th>Number of Events</th>
+                                        <th> Ticket ID </th>
+                                        <th>Date Purchased</th>
+                                        <th>User ID</th>
+                                    	<th>Ticket Name</th>
+                                    	<th>Price</th>
+                                        <th>Barcode ID</th>
+                                        <th>Status</th>
+                                       
                                     </thead>
                                     <tbody>
-                                    <%= for facilitator <- @facilitators do %>
+                                    <%= for ticket <- @tickets do %>
                                         <tr>
                                             
-                                        	<td> <%=   Calendar.Strftime.strftime!(facilitator.inserted_at, "%B %e,  %Y") %></td>
-                                        	<td><%= facilitator.name%></td>
-                                           
-                                        	<td><%= facilitator.facilitator_email%></td>
+                                        	<td><%= ticket.id %></td>
+                                            <td><%=   Calendar.Strftime.strftime!(ticket.inserted_at, "%B %e,  %Y") %></td>
+                                        	<td><% user = Daeventbox.Repo.get_by(Daeventbox.User, id: ticket.user_id)%> <%= user.id%>
+                                            </td>
+                                            <td> <% ticket_details= Daeventbox.Repo.get_by(Daeventbox.Ticketdetail, id: 3)%> 
+                                            <%= ticket_details.name%>
+                                        	<td>
+
+                                            <% ticket_details= Daeventbox.Repo.get_by(Daeventbox.Ticketdetail, id: 3)%> 
+                                            <%= ticket_details.price%>
+                                          
+                                            </td>
                                             
-                                        	<td><%= if !is_nil(facilitator.website_link) do %>
-                                                <a href="<%= facilitator.website_link %>"> Go </a>
-                                                <%end%>
+                                        	<td> <%= ticket.barcode%>
                                              </td>
                                             <td>
-                                                
-                                                <%=  Daeventbox.Repo.all(from u in Daeventbox.Event, where: u.facilitator_id == ^facilitator.id) |> Enum.count %> 
+                                                <%=  if ticket.status  do %> 
+                                                    Active
+                                                <%end%>
+                                                <%=  if !ticket.status  do %> 
+                                                   Not Active
+                                                <%end%>
                                             </td>
+
                                             <td>
                                              <div class="dropdown col-md-2">
                                             <div class="dropdown-toggle" data-toggle="dropdown">
                                             <i class="pe-7s-more"></i>
                                             </div>
                                             <ul class="dropdown-menu">
-                                            <li><a href="/admin?p=view-facilitator&i=<%= facilitator.id %>">View</a></li>
-                                            <li><a href="/admin?p=delete-facilitator&fid=<%= facilitator.id %>">Delete</a></li>
+                                            <!--<li><a href="/admin?p=events&action=view&eid=<%= @event.id %>">View</a></li>
+                                            <li><a href="/admin?p=events&action=delete&eid=<%= @event.id %>">Delete</a></li>-->
+                                            <li><a href="/admin/event/view/<%= @event.id %>">View</a></li>
+                                            <li><a href="/admin/event/delete/<%= @event.id %>">Delete</a>
                                             </ul>
                                             
                                         </div>
@@ -330,23 +353,23 @@
 </body>
 
     <!--   Core JS Files   -->
-    <script src="assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
-	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+	<script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 
 	<!--  Charts Plugin -->
-	<script src="assets/js/chartist.min.js"></script>
+	<script src="/assets/js/chartist.min.js"></script>
 
     <!--  Notifications Plugin    -->
-    <script src="assets/js/bootstrap-notify.js"></script>
+    <script src="/assets/js/bootstrap-notify.js"></script>
 
     <!--  Google Maps Plugin    -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
     <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-	<script src="assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+	<script src="/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
 
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-	<script src="assets/js/demo.js"></script>
+	<script src="/assets/js/demo.js"></script>
 
     
         <script>
