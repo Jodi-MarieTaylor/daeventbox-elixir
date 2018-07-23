@@ -439,8 +439,10 @@ defmodule DaeventboxWeb.EventController do
   end
 
   def upcoming_events(conn,params) do
+    per_page = params["page_size"] || 15
+    page = params["page"] || "1"
     query = from e in Event, where: e.id > 15 # where events are new
-    events = Repo.all(query)
+    events = Paginate.query(query, per_page, page)
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
     render conn, "upcoming_events.html", events: events,ads: ads
