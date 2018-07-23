@@ -83,6 +83,15 @@ defmodule DaeventboxWeb.SessionController do
       end
     end
 
+    #logout user
+    def signout(conn, _) do
+      conn
+      |> Daeventbox.Auth.logout
+      |> Plug.Conn.clear_session
+      |> put_flash(:info, "See you later!")
+      |> redirect(to: "/")
+    end
+
     def reset_password(conn, %{"email" => email}) do
       user = Repo.get_by(User, email: email)
       case user do
