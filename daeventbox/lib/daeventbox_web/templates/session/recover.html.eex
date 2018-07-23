@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en"><!--
+login
+-->
+
+ <style>
+
+ body {
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        /* background-image: url("https://preview.ibb.co/mybhcS/background.png");*/
+		   background-image: url("https://image.ibb.co/gpHrNS/backgroundwebsite.png" );
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        background-size: cover;
+        }
+
+</style>
+
+
+<form  method="POST" action="/signin">
+<input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+<div >
+  <div class="row">
+    <div width="100%">
+        <img src="https://preview.ibb.co/f6Fprn/logo_1.png" alt="logo_1" width="35%"  style=" display:table-cell; vertical-align:middle; text-align:center; margin: 0 auto;">
+    </div>
+
+  <div class="card card-signup content" style="max-width: 60%; margin: 0 auto;" >
+    <form class="col-s8" method="post" action="/recover">
+      <h3 class="box-title m-b-20">Recover Password</h3>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <input class="form-control" name="email" type="text" required="" placeholder="Email">
+        </div>
+      </div>
+      <div class="form-group text-center m-t-20">
+        <div class="col-xs-12">
+          <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Reset</button>
+        </div>
+      </div>
+      <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+       <div class="row">
+        <div class="col s12 center-align">
+          <a href="/register">Register Now!</a>
+        </div>
+      </div>
+     </div>
+    </form>
+  </div>
+</div>
+</div>
+</form>
+</html>
+
+<script>
+
+$("nav").hide()
+
+</script>

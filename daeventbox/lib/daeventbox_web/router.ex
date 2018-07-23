@@ -44,7 +44,6 @@ defmodule DaeventboxWeb.Router do
   end
 
 
-
   scope "/chat", DaeventboxWeb do
     pipe_through [:browser, :with_session] # Use the default browser stack
 
@@ -150,15 +149,25 @@ defmodule DaeventboxWeb.Router do
     pipe_through [:browser, :with_session] # Use the default browser stack
 
     get "/", PageController, :index
-    get "/register", AuthController, :signup
-    get "/login", AuthController, :login
-    get "/logout", AuthController, :logout
-    post "/user/create", SessionController, :signup
-    post "/signin", SessionController, :signin
     resources "/messages", MessageController
     resources "/rooms", RoomController
 
+    # render pages
+    get "/register", AuthController, :signup
+    get "/login", AuthController, :login
+    get "/logout", AuthController, :logout
 
+    # process requests
+    post "/user/create", SessionController, :signup
+    post "/signin", SessionController, :signin
+
+    #render pages
+    get "/recover", SessionController, :reset_password
+    get "/reset-password", SessionController, :recover
+
+    #process requests
+    post "/recover", SessionController, :reset_password
+    post "/reset-password", SessionController, :recover
   end
 
 
