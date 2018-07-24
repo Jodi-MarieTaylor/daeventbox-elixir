@@ -36,6 +36,13 @@ defmodule DaeventboxWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/auth", DaeventboxWeb do
+    pipe_through [:browser, :with_session] # Use the default browser stack
+
+    get "/:provider", OAuthController, :request
+    get "/:provider/callback", OAuthController, :callback
+  end
+
   scope "/payment", DaeventboxWeb do
     pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 
