@@ -1,0 +1,101 @@
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+
+        background-attachment: fixed;
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">FAQs</h4>
+            
+        </div>
+
+        
+    </div>
+</div> 
+ 
+ 
+<div class="content">
+    <div class="container ">
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card" style="padding: 10px;">
+                    <div class="header">
+                            <a class="waves-effect waves-light btn modal-trigger pull-right" href="#modal1">Contact</a>
+                    
+                    </div>
+                    
+                    <div class="content">
+                 
+                        <%= for faq <- @faqs do %>
+                            <div class="row">
+                                <div class="col s12 m10">
+                                    <p style="font-size: 25px;">
+                                            <%= faq.question %> 
+                                          
+                                    </p> 
+                                    <p> <%= faq.answer%> </p>
+                                </div>
+                            </div>
+                        <%end%>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+<!-- Modal Structure -->
+ <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Contact DaeventBox</h4>
+      <form action="/help/contact" method="POST" >
+        <div class="input-field col s12 m3">
+          <input  id="name" name="name" type="text"  class = "active validate" required>
+          <label for="name">Name</label>
+        </div>
+        <div class="input-field col s12 m4">
+          <input  id="email" name="email" type="email"  class = "active validate" required>
+          <label for="email">Email</label>
+        </div>
+       
+          <div class="input-field col s12 m4">
+          <input  id="title" name="title" type="text"  class = "active validate" required>
+          <label for="title">Title</label>
+        </div>
+        <div class = "row">
+            <div class = "input-field col s12">
+              <textarea id = "message" name="message" class = "materialize-textarea"></textarea>
+              <label for = "message">Message</label>
+            </div>
+        </div>
+         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+         <button class=" waves-effect waves-light btn btn-simple btn-primary pull-right" type="submit" name="submit">
+            Send
+        </button>
+        <br>
+        </form>
+      
+    </div>
+   
+    
+  </div>
+
+<script>
+$(document).ready(function(){
+    $('.modal').modal();
+  });
+</script>

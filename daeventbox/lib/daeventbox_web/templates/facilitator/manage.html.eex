@@ -20,6 +20,17 @@
         <div class ="col s12 m4"  style="padding: 10px;">
             <h4 style="color: white;">Manage Your Own Events</h4>
             
+              
+        </div>
+        <div  class ="col s12 m4 right">
+            <form action="/facilitator/manage/search/events">
+                <div class="input-field">
+              
+                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                <input name="title" id="search" type="search" style="padding-left: 30px ;"  required>
+                <i class="material-icons">close</i>
+                </div>
+            </form>
         </div>
         
 
@@ -27,19 +38,13 @@
     </div>
 </div>
 <div class="row center container">
-        <a href= "/event/create/ad" >Party Central</a>
+        <a href= "/facilitator/profile" ><h4><%= @facilitator.name %></h4></a>
 
-            <form>
-                <div class="input-field">
-                <input id="search" type="search" required>
-                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                <i class="material-icons">close</i>
-                </div>
-            </form>
+           
 </div>
 <div class="card container" style="width: 90%; margin: 30px auto; background-color: light-grey;">
    <div class="center row  ">
-        <div class="col s12  m12 " >
+       <!-- <div class="col s12  m12 " >
             <div class="row" id="topbarsearch">
                 <div class="col s12 center-align">
                     <ul class="tabs center-align" style="background-color: #1d1d1d !important; margin: 0 auto;">
@@ -51,8 +56,12 @@
            
             </div>
         </div>
+        -->
         <div class="col s12 m12">
-            <%= if !@events do %>
+            <a class="waves-effect waves-light btn modal-trigger pull-right" href="/event/create">Create Event</a>
+            <br>
+            <br>
+            <%= if is_nil(@events) do %>
                 <p> No Events </p>
             <% end %>
             <%= if !is_nil(@events)  and Enum.count(@events) > 0 do %>
@@ -71,12 +80,13 @@
                         
                                 <tr>
                                     <td> <img style="width: 70px;" src="<%=event.image_url %>"> </td>
-                                    <td><a href="/facilitator/event/dashboard/<%=event.title%>/<%= event.id %>"><%=event.title%></a></td>
+                                    <td><a href="/facilitator/event/dashboard/<%=event.title%>/<%= event.id %>" style="text-transform: capitalize;"><%=event.title%></a></td>
                                     <td><%=event.start_date%></td>
-                                    <td><%=event.admission_type%></td>
-                                    <td><%=event.status%></td>
-                                    <td><a href="/event/delete/<%=event.id%>">   <i class="material-icons">delete</i> </a> </td>
-                                    <td> <a href="/event/edit/<%=event.id%>">   <i class="material-icons">edit</i> </a> </td>
+                                    <td style="text-transform: capitalize;"><%=event.admission_type%></td>
+                                    <td style="text-transform: capitalize;"><%=event.status%></td>
+                                    <td><a href="/event/delete/<%=event.id%>" onclick="return confirm('Are you sure you would like to cancel this event?');" ><i class="material-icons">delete</i> </a>
+                                    <a href="/facilitator/event/dashboard/<%=event.title%>/<%= event.id %>"><i class="material-icons">dashboard</i> </a>
+                                    <a href="/event/edit/<%=event.id%>">   <i class="material-icons">edit</i> </a> </td>
                                 </tr>                  
 
                         <% end %>

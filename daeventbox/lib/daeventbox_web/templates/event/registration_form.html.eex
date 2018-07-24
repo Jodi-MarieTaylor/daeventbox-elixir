@@ -53,6 +53,7 @@
 
             </div>
         <%end%>
+          <input type="hidden" name="selected_quantity<%= Enum.find_index(@items, fn(x) -> x.id == item.id end) %>" value="<%= item.quantity%>">
       <%end%>
       <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
        <input type="hidden" name="total_items" value="<%= @total_items%>">

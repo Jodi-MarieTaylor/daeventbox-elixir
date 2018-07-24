@@ -1,9 +1,11 @@
 defmodule DaeventboxWeb.FacilitatorView do
   use DaeventboxWeb, :view
+
+  import Ecto.Query
   alias Elixlsx.{Workbook, Sheet}
   @header [
       "Name",
-      "Email",
+      "Podl",
       "Date",
       "Type",
       "Quantity",
@@ -18,6 +20,7 @@ defmodule DaeventboxWeb.FacilitatorView do
   end
   def report_generator(items) do
       rows = items |> Enum.map(&(row(&1)))
+      IO.inspect rows
       %Workbook{sheets: [%Sheet{name: "Items" , rows: [@header] ++ rows}]}
     end
   def row(item) do

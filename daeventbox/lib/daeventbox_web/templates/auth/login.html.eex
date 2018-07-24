@@ -30,10 +30,10 @@ login
         <img src="https://preview.ibb.co/f6Fprn/logo_1.png" alt="logo_1" width="35%"  style=" display:table-cell; vertical-align:middle; text-align:center; margin: 0 auto;">  
     </div>
 
-  <div class="card card-signup content" style="max-width: 60%; margin: 0 auto;" >
-    <form class="col s8"  method="POST">
+  <div class="card card-signup content col s10 m6 " style="float: none !important; margin: 0 auto;"  >
+    <form class="col s12"  method="POST">
       <br/>
-      <div  style="width: 80%; margin: 0 auto;" >
+      <div  style="width: 90%; margin: 0 auto;" >
       <h4 class="center-align">Welcome</h4>
       <p class="center-align">
         LOGIN NOW

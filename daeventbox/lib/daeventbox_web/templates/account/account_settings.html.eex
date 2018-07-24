@@ -44,6 +44,7 @@
   font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
 }
 .headtab {
+ 
   background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
  
         background-attachment: fixed;
@@ -62,7 +63,7 @@
 </div>
 
 <div class="container row">
-    <div class="col s12 m2 card sidenav">
+    <div class="col s12 m2  sidenav">
         <a href="#user_general"> User General Information </a>
         <a href="#password">  Passwords </a>
         <a href="#email"> Email Preferences </a>
@@ -105,7 +106,7 @@
                 <div class = "row">
                     <div class = "input-field col s4 m12">
                         <i class = "material-icons prefix">mode_edit</i>
-                        <textarea id = "description" name="description" value="<%= @user.bio%>" class = "materialize-textarea"></textarea>
+                        <textarea id = "description" name="bio" value="<%= @user.bio%>" class = "materialize-textarea"> <%= @user.bio %></textarea>
                         <label for = "description">BIO</label>
                     </div>
                 </div>
@@ -164,14 +165,33 @@
             <h4> Email Preferences </h4>
             <div class="box">
                 <form action="/account/submit/email-preferences/" method="POST">
-                    <input type='checkbox' name='thing' value='valuable' id="thing"/><label for="thing"></label> Updates about new Daeventbox features and announcements
+                    <%= if !is_nil(@preference1) do %>
+                        <input checked type='checkbox' name='preference1' value="Updates about new Daeventbox features and announcements" id="thing"/><label for="thing"></label> Updates about new Daeventbox features and announcements
+                    <%end%>
+                    <%= if is_nil(@preference1) do %>
+                        <input type='checkbox' name='preference1' value="Updates about new Daeventbox features and announcements" id="thing"/><label for="thing"></label> Updates about new Daeventbox features and announcements
+                    <%end%>
                     <br>
-                    <input type='checkbox' name='thing1' value='valuable2' id="thing1"/><label for="thing1"></label> Monthly tips and tools for organizing events
+                    <%= if !is_nil(@preference2) do %>
+                        <input checked type='checkbox' name='preference2' value='Monthly tips and tools for organizing events' id="thing1"/><label for="thing1"></label> Monthly tips and tools for organizing events
+                    <%end%>
+                     <%= if is_nil(@preference2) do %>
+                        <input  type='checkbox' name='preference2' value='Monthly tips and tools for organizing events' id="thing1"/><label for="thing1"></label> Monthly tips and tools for organizing events
+                    <%end%>
                     <br>
-                    <input type='checkbox' name='thing2' value='valuable3' id="thing2"/><label for="thing2"></label> Event Sales Report
+                    <%= if !is_nil(@preference3) do %>
+                        <input checked type='checkbox' name='preference3' value='Event Sales Report' id="thing2"/><label for="thing2"></label> Event Sales Report
+                    <%end%>
+                    <%= if is_nil(@preference3) do %>
+                        <input type='checkbox' name='preference3' value='Event Sales Report' id="thing2"/><label for="thing2"></label> Event Sales Report
+                    <%end%>
                     <br>
-                    <input type='checkbox' name='thing3' value='valuable4' id="thing3"/><label for="thing3"></label> Unsubscribe from all Daeventbox newsletters and updates for event organizers
-                    
+                     <%= if !is_nil(@preference4) do %>
+                        <input checked type='checkbox' name='preference4' value='Unsubscribe from all Daeventbox newsletters and updates for event organizers' id="thing3"/><label for="thing3"></label> Unsubscribe from all Daeventbox newsletters and updates for event organizers
+                    <%end%>
+                     <%= if is_nil(@preference4) do %>
+                        <input type='checkbox' name='preference4' value='Unsubscribe from all Daeventbox newsletters and updates for event organizers' id="thing3"/><label for="thing3"></label> Unsubscribe from all Daeventbox newsletters and updates for event organizers
+                    <%end%>
                     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
                     <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg " type="submit" name="submit">
@@ -186,16 +206,16 @@
         <hr>
         <div id="close">
             <h4> Close Account </h4>
-            <p> Thank you for using Eventbrite Events. </p>
+            <p> Thank you for using Daeventbox Events. </p>
             <p> It's sad to see you go! Please let us know why your leaving </p>
             <form  action="/account/submit/close-account/" method="POST">
-                <input type="radio" name="q1" value="1" id="q_1_1"><label for="q_1_1" >Price</label><br>
-                <input type="radio" name="q1" value="2" id="q_1_2"><label for="q_1_2">Difficult to use</label><br>
-                <input type="radio" name="q1" value="3" id="q_1_3"><label for="q_1_3">Not needed anymore</label><br>
-                <input type="radio" name="q1" value="4" id="q_1_4"><label for="q_1_4">Lack features</label><br>
-                <input type="radio" name="q1" value="4" id="q_1_5"><label for="q_1_5">Found a better solution</label><br>
-                <label for="q_1_6">Other</label><br>
-                <input type="text" name="q1"  id="q_1_6"><br>
+                <input type="radio" name="reason" value="Price" id="q_1_1"><label for="q_1_1" >Price</label><br>
+                <input type="radio" name="reason" value="Difficult to use" id="q_1_2"><label for="q_1_2">Difficult to use</label><br>
+                <input type="radio" name="reason" value="Not needed anymore" id="q_1_3"><label for="q_1_3">Not needed anymore</label><br>
+                <input type="radio" name="reason" value="Lack features" id="q_1_4"><label for="q_1_4">Lack features</label><br>
+                <input type="radio" name="reason" value="Found a better solution" id="q_1_5"><label for="q_1_5">Found a better solution</label><br>
+                <input type="radio" name="reason" value="Other" id="q_1_5"><label for="q_1_5">Other</label><br>
+                <br>
                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
                 <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg " type="submit" name="submit">

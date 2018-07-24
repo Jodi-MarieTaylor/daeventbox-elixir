@@ -78,13 +78,20 @@
         </div>
         <div class=" col s3 row">               
             <label for="start_time">Start Time</label>              
-            <input  id="start_time" name="start_time" value="<%= @event.start_time%>" type = "time" class = "timepicker" />    
+            <input  id="start_time" name="start_time" value="<%=Calendar.Time.Format.iso8601(@event.start_time)%>" type = "time" class = "timepicker" />    
         </div>  
         <div class=" col s3 row">               
             <label for="end_time">End Time</label>              
-            <input id="end_time" name="end_time" value="<%= @event.end_time%>" type = "time" class = "timepicker" />    
+            <input id="end_time" name="end_time" value="<%=Calendar.Time.Format.iso8601(@event.end_time)%>" type = "time" class = "timepicker" />    
         </div>  
       </div>
+      <div class = "row">
+            <div class = "input-field col s12">
+              <i class = "material-icons prefix">mode_edit</i>
+              <textarea id = "description" name="description" value="<%= @event.description%>" class = "materialize-textarea"><%= @event.description%></textarea>
+              <label for = "description">Description</label>
+            </div>
+        </div>
       <div class = "row">
         <div class = "row col s6">
           <label>Upload Main Event Image</label>
@@ -93,7 +100,7 @@
     
           </div>
         </div>
-       <div class = "row col s6">
+       <!--<div class = "row col s6">
             <label>Other Event Images</label>
             <div class = "file-field input-field">
               <div class = "btn">
@@ -105,15 +112,9 @@
                   <input  name= "images"  class = "file-path validate" type = "text"
                     placeholder = "Upload multiple files" />
               </div>
-            </div>    
+            </div>    -->
         </div>
-        <div class = "row">
-            <div class = "input-field col s12">
-              <i class = "material-icons prefix">mode_edit</i>
-              <textarea id = "description" name="description" value="<%= @event.description%>" class = "materialize-textarea"></textarea>
-              <label for = "description">Description</label>
-            </div>
-        </div>
+        
         <br>
         <h5> Venue Location </h5>
         <hr>
@@ -124,17 +125,17 @@
             <label for="venue_name">Venue Name</label>
           </div>
           <div class="input-field col s3">
-            <input id="address1" name="address1" value="<%= @event.location_info['address1']%>" type="text" class="validate">
+            <input id="address1" name="address1" value="<%= @event.location_info["address1"]%>" type="text" class="validate">
             <label for="address1">Address 1</label>
           </div>
           <div class="input-field col s3">
-            <input id="address2" name="address2" value="<%= @event.location_info['address2']%>" type="text" class="validate">
+            <input id="address2" name="address2" value="<%= @event.location_info["address2"]%>" type="text" class="validate">
             <label for="address2">Address 2</label>
           </div>
           <div class="row col s3">
             <label>Parish</label>
                <select name = "parish">
-                  <option  value="<%= @event.location_info['parish']%>" disabled selected><%= @event.location_info['parish']%></option>
+                  <option  value="<%= @event.location_info["parish"]%>" disabled selected><%= @event.location_info["parish"]%></option>
                   <option value = "Kingston">Kingston</option>
                   <option value = "St. Andrew">St. Andrew</option>
                   <option value = "St. Catherine">St. Catherine</option>

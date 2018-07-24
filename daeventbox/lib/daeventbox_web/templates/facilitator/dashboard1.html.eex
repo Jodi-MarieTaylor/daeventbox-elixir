@@ -5,7 +5,7 @@
     width: 200px;
     position: fixed;
     
-    background-color: #111;
+    /*background-color: #111;*/
     overflow-x: hidden;
     padding-top: 20px;
 }
@@ -41,55 +41,63 @@
         <a href="#your_event">Event</a>
         
         <a href="#ads"> Ads</a>
-        <a href="#attendees">Attendees</a> 
+        <a href="#attendees">Purchases</a> 
         
 
     </div>
     <div class="main card s12 m9">
-        <div id="dashboard">
+        <div id="dashboard" style="padding: 42px;">
             <h4 style="text-align: center;">Dashboard Analytics</h4>
             <p style="text-align: center;">View Below How Your Event is Doing.</p>
             <div class="row">
                 <div class="col s12 m6 l3">
                     <div class="card">
                         <div class="card-content  green white-text">
-                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> New Attendees This Week</p>
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Purchasers</p>
+                            <h4 class="card-stats-number"><%= Enum.count(@ticketsuser)%></h4>
+                            </p>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content  green white-text">
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> New Sales This Week</p>
                             <h4 class="card-stats-number"><%= Enum.count(@new_tickets)%></h4>
-                            <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
                             </p>
                         </div>
                         
                     </div>
                 </div>
+                
                 <div class="col s12 m6 l3">
                     <div class="card">
                         <div class="card-content  green white-text">
-                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Attendees</p>
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Sales</p>
                             <h4 class="card-stats-number"><%= Enum.count(@tickets)%></h4>
-                            <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
                             </p>
                         </div>
                     
                     </div>
                 </div>
                 <div class="col s12 m6 l3">
-                    <div class="card">
-                        <div class="card-content  green white-text">
-                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Tickets Sales</p>
-                            <h4 class="card-stats-number"><%= Enum.count(@tickets)%></h4>
-                            <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
-                            </p>
-                        </div>
-                    
-                    </div>
-                </div>
-                <div class="col s12 m6 l3">
-                    <div class="card">
-                        <div class="card-content  green white-text">
-                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Current Payment</p>
-                            <h4 class="card-stats-number">0</h4>
-                            <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
-                            </p>
+                    <div class="card" href="/event/earnings/<% @event.id %>">
+                        <div class="card-content  green white-text" >
+                            <p><i class="mdi-social-group-add"></i> Current Earnings</p>
+                            <h4 class="card-stats-number"> 
+                            <%= if !is_nil(@earnings) do %>
+                                <%= CurrencyFormatter.format(  Float.to_string(@earnings, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h3>
+
+                            <%end%>
+                            <%= if is_nil(@earnings) do %>
+                                 $0.00
+                            <%end%>
+                            </h4>
+                             <%= if !is_nil(@earnings) do %>
+                                <a href="/event/earnings/<%= @event.id %>" class="card-stats-compare btn pull-right">View
+                             <%end%>
+                            </a>
                         </div>
                     
                     </div>
@@ -120,7 +128,7 @@
                             <div class="row">
                                 <div class="left">
                                     <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Ratings</p>
-                                    <h4 class="card-stats-number">5 Stars</h4>
+                                    <h4 class="card-stats-number"><%=@overall_rating%> </h4>
                                     </p>
                                 </div>
                                 <div class="right">
@@ -167,7 +175,7 @@
                     <%= if Enum.count(@comments) == 0 do %>
                         <li class="collection-item">
                                 <div class="row">
-                                <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i>No Comment Yet </div>
+                                <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i>No Comment Yet To Preview </div>
                                 </div>
                         </li>
                     <%end%>
@@ -191,8 +199,8 @@
                                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
                             <input id="message" name="message" type="text" class = "active validate" required>
-                                <button class="modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
-                                    Add&rarr;
+                                <button class="modal-trigger btn-small waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                                    Add 
                                 </button>
                         </form>
                         
@@ -204,8 +212,8 @@
             </div>
             <hr>
         </div>
-        <div id="your_event">
-            
+        <div id="your_event" style="padding: 40px;">
+        
             <h4 style="text-align: center;"> Your Event </h4>
             <p style="text-align: center;"> What do you want to do with your event? </p>
             <div class="row" style="width: 100%; ">
@@ -226,7 +234,7 @@
                          <li class="collection-item">
                             <div class="row">
                             <div class="col s5 grey-text darken-1 left-align"><i class="mdi-social-poll"></i> Cancel Event</div>
-                            <div class="col s7 grey-text text-darken-4 right-align"><a href="/event/delete/<%=@event.id%>"><i class="material-icons">arrow_forward_ios</i></a></div>
+                            <div class="col s7 grey-text text-darken-4 right-align"><a href="/event/delete/<%=@event.id%>" onclick="return confirm('Are you sure you would like to cancel this event?');" ><i class="material-icons">arrow_forward_ios</i></a></div>
                             </div>
                         </li>
                     </ul>
@@ -235,40 +243,39 @@
             </div>
             <hr>
         </div>
-        <div id="attendees">
-             <h4 style="text-align: center;"> Attendees </h4>
-            <p style="text-align: center;"> Manage Your Attendees From Here </p>
-            <a href="/facilitator/export/<%= @event.id %>" class="btn  waves-effect waves-light darken-2 right"> Export to Excel </a>
-            <a href="/event/register/" class="btn  waves-effect waves-light darken-2 right"> Export to CSV </a>
+        <div id="attendees" style="padding: 40px;">
+             <h4 style="text-align: center; "> Purchases </h4>
+            <p style="text-align: center;"> Manage Your Ticket Holders From Here </p>
+            <a href="/facilitator/export/<%= @event.id %>" class="btn  waves-effect waves-light darken-2 right"> Export To Excel </a>
+            <!--<a href="/event/register/" class="btn  waves-effect waves-light darken-2 right"> Export to CSV </a> -->
 
-            <p style="text-align: left; margin: 0 0 0 20px;"><b> Last 10 Orders </b> </p>
+            <p style="text-align: left; margin: 0 0 0 0px;"><b> Orders This Week </b> </p>
+            <p style="text-align: left; margin: 0 0 0 0px;">(<i> To View All Purchases Select Export to Excel </i>) </p>
             <div class="row">
                 <table class = "responsive-table">
                     <thead>
                         <tr>
-                            <th></th>
+                            
                             <th>Name</th>
                             <th>Email</th>
                             <th>Date</th>
-                            <th> Type </th>
-                            <th> Quantity </th>
+                            <th> Ticket Name </th>
+                            
                             <th> Total Paid </th>
-                            <th> Reject </th>
                         </tr>
                     </thead>
                      <tbody>
                     
-                       <%= for ticket <- @tickets do %>
+                       <%= for ticket <- @new_tickets do %>
                         
                                 <tr>
-                                    <td> <img src="https://placeholdit.co//i/30x30?"> </td>
-                                    <td></td>
-                                    <td>=</td>
+                                    <td><% user = Daeventbox.Repo.get_by(Daeventbox.User, id: ticket.user_id) %> <%= user.firstname %> <%=user.lastname%></td>
+                                    <td><%= user.email%></td>
                                     <td><%= ticket.inserted_at%></td>
-                                    <td><%= ticket.type%></td>
-                                    <td><%=ticket.quantity%></td>
-                                    <td>$ 10.0 </td>
-                                    <td><a href="/event/delete/<%=ticket.id%>">   <i class="material-icons">delete</i> </a> </td>
+                                    
+                                    <td><% ticket_info = Daeventbox.Repo.get_by(Daeventbox.Ticketdetail, id: ticket.ticket_id) %> <%= ticket_info.name%></td>
+                                    <td> <%= CurrencyFormatter.format( Float.to_string(ticket_info.price, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h3>
+                                    </td>
                                 </tr>                  
 
                         <% end %>
@@ -276,12 +283,12 @@
                     </tbody>
                 </table>
                  <%= if Enum.count(@tickets)  == 0 do %>
-                      <p style="margin: 0 0 0 20px;"> No Persons Have Registered For This Event </p>  
+                      <p style="margin: 0 0 0 20px;"> No Persons Have Bought Tickets This Week For This Event </p>  
                  <%end%>
             </div>
             <hr>
         </div>
-        <div id="ads">
+        <div id="ads" style="padding: 40px;">
             
             <h4 style="text-align: center;"> ADs </h4>
             <p style="text-align: center;"> Promote Your Event Now </p>
@@ -295,38 +302,42 @@
             <a href="/ad/select/<%= @event.id %>" class="btn  waves-effect waves-light darken-2 right"> CREATE YOUR AD NOW </a>
             
             <br>
-            <h6 style="margin: 0 0 0 20px;"> <b> Your ADs </b</h6>
-                <%= for ad <- @ads do %>
-                    <div class="card ">
-                        <div class="row">
-                            <div class="col s5">
-                            <a href="#five!"><img witdh="200" height="200" src="<%= Enum.at(ad, 7)%>"></a>
-                            </div>
-                            <div class="col s5"> 
-                                <h6> Name: <b><%= Enum.at(ad, 0)%></b></h6>
-                                <p> Event: <b> <%= Enum.at(ad, 1)%> </b></p>
-                                <p> Purchased On:  <b><%= Enum.at(ad, 2)%> </b></p>
-
-                                <p> Total Days : <b><%= Enum.at(ad, 4)%> Days</b> </p>
-                                <p> Days Remaining: <b> 0  Days</b> </p>
-                                
-                            </div>
-                            <div class="col s2">
-                                <h6> Position: <b><%= Enum.at(ad, 3)%></b></h6>
-                                <h6> Price: <b><%= Enum.at(ad, 5)%></b></h6>
-                                <!-- <p><i class="material-icons">edit</i>  Edit Now </p> -->
-                                <a ><i class="material-icons">delete</i>  Delete/Cancel </a>
-                            </div>
-                        </div>
-                    </div>
-                <%end%>
-                <%= if Enum.count(@ads) == 0 do %>
-                <div class="center text-center">
-                    <h5> NO ADS YET </h5>
-                    <a href="/ad/select/<%= @event.id %>" class="btn  waves-effect waves-light darken-2 center">PROMOTE YOUR AD </a>
+            <h6 style="margin: 0 0 0 20px;"> <b> Your ADs </b></h6>
+                 <%= if Enum.count(@ads) == 0 do %>
+                <div >
+                      <p style="margin: 10px 0 0 20px;"> No Ads For This Event </p>  
                 </div>
                 <%end%>
-            <hr>
+                <%= if Enum.count(@ads) > 0 do %>
+
+                    <%= for ad <- @ads do %>
+                        <div class="card ">
+                            <div class="row">
+                                <div class="col s12 m12 l5">
+                                <a href="#five!"><img witdh="200" height="200" src="<%= Enum.at(ad, 7)%>" style="width: 350px; height:200px;"></a>
+                                </div>
+                                <div class="col  s12 m12 l5"> 
+                                    <h6> Name: <b><%= Enum.at(ad, 0)%></b></h6>
+                                    <p> Event: <b> <%= Enum.at(ad, 1)%> </b></p>
+                                    <p> Purchased On:  <b><%= Enum.at(ad, 2)%> </b></p>
+
+                                    <p> Total Days : <b><%= Enum.at(ad, 4)%> Days</b> </p>
+                                    <p> Days Remaining: <b> <% time_in_secs =   NaiveDateTime.diff(NaiveDateTime.utc_now, Enum.at(ad, 2)) %> <%=Float.to_string( Enum.at(ad, 4) -(time_in_secs / 84400), decimals: 0)%>  Days</b>  </p>
+                                    
+                                </div>
+                                <div class="col  s12 m12 l2">
+                                    <h6> Position: <b><%= Enum.at(ad, 3)%></b></h6>
+                                    <h6> Price: <%= CurrencyFormatter.format( Float.to_string( Enum.at(ad, 5), decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h3>
+                                    <!-- <p><i class="material-icons">edit</i>  Edit Now </p> -->
+                                    <a href="/ad/delete/<%= Enum.at(ad, 6)%>" onclick="return confirm('Are you sure you would like to delete this AD? you will not be refunded for days lost.');" ><i class="material-icons">delete</i>  Delete/Cancel </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    <%end%>
+                <%end%>
+
+          
         </div>
      
     </div>

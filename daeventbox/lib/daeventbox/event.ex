@@ -28,13 +28,14 @@ defmodule Daeventbox.Event do
     field :event_zid,  Ecto.UUID
     field :venue_name, :string
     field :status, :string
+    field :is_deleted, :boolean
     timestamps()
   end
 
   @doc false
   def changeset(event, attrs) do
     event
-    |> cast(attrs, [:title, :status, :location, :facilitator_name, :facilitator_id, :start_date, :start_time, :end_date, :end_time, :category, :description, :image, :image_url, :fb_link, :insta_link, :twitter_link, :type, :admission_type, :meta1, :meta2, :details, :event_zid, :venue_name, :location_info])
+    |> cast(attrs, [:is_deleted, :title, :status, :location, :facilitator_name, :facilitator_id, :start_date, :start_time, :end_date, :end_time, :category, :description, :image, :image_url, :fb_link, :insta_link, :twitter_link, :type, :admission_type, :meta1, :meta2, :details, :event_zid, :venue_name, :location_info])
     |> validate_required([:title, :location, :facilitator_name,  :start_date, :start_time, :type, :admission_type, :event_zid])
   end
 end

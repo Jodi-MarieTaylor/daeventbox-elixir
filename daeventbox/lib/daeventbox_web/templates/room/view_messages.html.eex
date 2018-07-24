@@ -69,11 +69,11 @@ th, td {
                             </a>
                         </span>
                         <br>
-                        <span>
+                        <!--<span>
                             <a href="/chat" class="btn btn-alert red btn-xs">
                             Delete Chat
                             </a>
-                        </span>
+                        </span>-->
                         </div>
 
 

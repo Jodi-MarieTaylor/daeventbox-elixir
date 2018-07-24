@@ -36,7 +36,7 @@
                <p>Purchased By: <%= data["user"].firstname %> <%= data["user"].lastname %></p>
                <p>Location: <%= data["ticket"].event.location %></p>
                <p>Number of person(s): <%= data["ticket"].quantity %> </p>
-               <p>Price: <%= round(data["ticket"].price) %> </p>
+               <p>Price: <%= if data["ticket"].price do round(data["ticket"].price) else "FREE" end %> </p>
               <center>
                 <img src="<%= data["ticket"].ticket_url %>"/>
               </center>

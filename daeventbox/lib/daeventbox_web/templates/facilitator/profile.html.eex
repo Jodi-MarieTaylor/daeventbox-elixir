@@ -23,20 +23,21 @@
 
 <div class= "row " style="width: 80%; " >
     <!--<div class="col s12 m4 center-align card" style="background-color: #ffffff; opacity: .4; padding: 50px 20px; margin: 10px 10px">-->
-    <div class="col s12 m4 center-align card" style="background-color: #ffffff; padding: 50px 20px; margin: 10px 10px">
+    <div class="col s12 m4 center-align card" style="background-color: #ffffff; padding: 50px 20px; margin: 10px 10px; height: 450px !important;">
         <img src="<%= @facilitator.image_url %>" height="200" width="200" style=" border-radius: 50%;"> 
         <h5> <%= @facilitator.name %> </h5>
       
         <p> <%= @facilitator.website_link%> </p>
         <div class = "row">
-            <i class="fa fa-facebook" aria-hidden="true"></i>
-            <i class="fa fa-instagram" aria-hidden="true"></i>
-            <i class="fa fa-twitter" aria-hidden="true"></i>
+            <a href="<%= @facilitator.fb_link%>"> <i class="fa fa-facebook" aria-hidden="true"></i> </a>
+            <a href="<%= @facilitator.insta_link%>"><i class="fa fa-instagram" aria-hidden="true"></i> </a>
+            <a href="<%= @facilitator.twitter_link%>"><i class="fa fa-twitter" aria-hidden="true"></i> </a>
+
 
         </div>
     </div>
     
-    <div class="col s12 m6 card" style="background-color: white; height: 100%; padding: 5px;">
+    <div class="col s12 m6 card" style="background-color: white; height: 450px !important; padding: 5px;">
         <h6 class="left"> <i class="fa fa-users"></i> <%=Enum.count(@followers)%> followers </h6>
         <br>
         <br>
@@ -57,6 +58,8 @@
             </div>
         </div>
         <%= if @visitor do %>
+            <a href="#modal1" class=" modal-trigger btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">flag</i></a>
+
             <a href="/chat?fuid=<%=@facilitator.user_id%>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">message</i></a>
 
         <%end%>
@@ -71,3 +74,83 @@
 
 </div>
 </div>
+
+<!-- Modal Structure -->
+ <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Report Facilitators</h4>
+      <form action="/facilitator/report/add/<%= @facilitator.id%>" method="POST" >
+         <div class="input-field col s4">
+          <input  id="title" name="title" type="text"  class = "active validate" required>
+          <label for="title">Title</label>
+        </div>
+        <div class = "row">
+            <div class = "input-field col s12">
+              <textarea id = "message" name="message" class = "materialize-textarea"></textarea>
+              <label for = "message">Message</label>
+            </div>
+        </div>
+         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+         <button class=" waves-effect waves-light btn btn-simple btn-primary pull-right" type="submit" name="submit">
+            Send
+        </button>
+        <br>
+        </form>
+      
+    </div>
+   
+    
+</div>
+<h4> Events (<%= @events_total%>)</h4>
+   <div class="carousel saved" style="padding-top: 0px !important; height: 400px;"><a>
+       <%= for event <- @events do %>
+        <div class="carousel-item card" style=" width:400px !important; height: 380px  !important; ">  
+             <div class="card-image">
+                <a href="#three!"><img src="<%=event.image_url%>" style=" width: 400px !important; height: 250px !important; "></a>
+                <span class="card-title "></span>
+            </div>
+            <div class="card-content">
+                <p style="text-transform: capitalize;" >  <%= event.title %> </p>
+                <p style="text-transform: capitalize;">  <%= event.status %> </p>
+
+                <p >  <%= event.start_date %> </p>
+
+                    <a href="/event/details/<%= event.id %>" class="btn  waves-effect waves-light darken-2 pull-right" style="font-size: 17px;"> Details </a>
+                
+            </div>
+             
+        </div>
+        <%end%>
+    </div>    
+
+    <div class="col s12 center">
+        <button class="prev z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-left fa-lg grey-text text-lighten-3"></i></button>
+        <button class="next z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-right fa-lg grey-text text-lighten-1"></i></button>
+    </div>
+
+<script>
+$(document).ready(function(){
+      $('.carousel').carousel();
+   
+      $('.parallax').parallax();
+        $('.slider').slider({
+    height: 200,
+    indicators: false,
+    interval: 12000
+});
+
+//$('.slider').slider('pause');
+
+$('.next').click(function() {
+ $('.carousel.saved').carousel('next');
+});
+$('.prev').click(function() {
+ $('.carousel.saved').carousel('prev');
+});
+  
+    $('.modal').modal();
+
+     
+  });
+
+</script>

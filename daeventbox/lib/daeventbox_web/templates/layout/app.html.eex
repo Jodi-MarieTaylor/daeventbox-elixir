@@ -6,15 +6,21 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description" content="">
    <meta name="author" content="">
-
+   <meta property="og:url"           content="https://www.your-domain.com/your-page.html" />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="Your Website Title" />
+  <meta property="og:description"   content="Your description" />
+  <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
    <title>Hello Daeventbox!</title>
    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
          
    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
    <script src="https://maps.googleapis.com/maps//jsvv=3.exp&sensor=false&libraries=places"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.js"></script> -->
+        <script type="text/javascript" src="<%= static_path(@conn, "/js/materialize.js") %>"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       
    <style>
@@ -36,19 +42,32 @@
    .btn{
      background-color: #ee226f;
    }
-   body{
-         /*background-color: #f2f2f2; */
-         background-color:
-       -webkit-background-size: cover;
-		   -moz-background-size: cover;
-		   -o-background-size: cover;
-		  /*  background-image: url("https://preview.ibb.co/e3DKr7/backgroundwebsitegeneralgrey.jpg" ); */
-		   background-repeat: no-repeat;
-		   background-position: center center;
-		   background-attachment: fixed;
-		   background-size: cover;
-   }
- @media (max-width: 600px) {
+  body {
+     display: flex;
+     min-height: 100vh;
+     flex-direction: column;
+ }
+ main {
+     flex: 1 0 auto;
+ }
+
+
+   .new-footer{
+      position: relative;
+      width: 100%;
+      height: 400px;
+      background-image: url("https://image.ibb.co/fuq8Td/webdevbottom_01.png");
+       background-repeat: no-repeat;
+        background-size: cover;
+        border-top: solid thin transparent;
+        margin-bottom: 0px;
+       bottom:0;
+       left:0;
+       width:100%;
+    }
+     
+
+ @media (max-width: 50px) {
   .brand-logo img {
     height: 56px;
     
@@ -57,9 +76,12 @@
    <script>
         $(document).ready(function() {
            $('select').material_select();
-           $(".button-collapse").sideNav();
+           $(".button-collapse").sideNav(  );
+             $('.button-collapse').click(removeOverlay);
 
-          
+          function removeOverlay() {
+  $('div[id^=sidenav-overlay]').remove();
+}
         });           
    </script>
  </head>
@@ -69,10 +91,10 @@
       <div class="navbar-fixed">
 
        <nav role="navigation" >
-       <div class="nav-wrapper nav">
+       <div class="nav-wrapper nav nav-fixed" >
        
-       <a href="#" class="brand-logo">  
-       <img src="https://preview.ibb.co/exb7u7/daeventlogo2.png" alt="daeventlogo2" border="0" class="brand-logo">
+       <a href="/" class="brand-logo">  
+         <img src="https://image.ibb.co/b3UkWy/daeventlogo2_copy.png" alt="daeventlogo2" border="0"  class="brand-logo">
        </a>
       
          <ul id = "javaDropDown" class = "dropdown-content">
@@ -91,7 +113,7 @@
               <li><a href="/notify" onclick="return removenum();" ><i class="material-icons">notifications</i><div id="notificationnum"></div></a></li>
               
               <!--<li><a href="/chat/start"><i class="material-icons">mail</i><span class="new badge">1</span></a></li> -->
-              <li><a href="/chat/view/messages"><i class="material-icons">mail</i><span class="new badge">1</span></a></li>
+              <li><a href="/chat/view/messages"><i class="material-icons">mail</i><div id="messagesnum"></div></a></li>
 
               <li class = "divider"></li>
               <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
@@ -157,7 +179,7 @@
            <%end%>
            
             <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
-              <li><a href="/facilitator">Home</a></li>
+              <li><a href="/facilitator/change/mode">Home</a></li>
                <li>
                  <div class = "col s12 m12 l12">
                     <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
@@ -190,23 +212,51 @@
            <%end%>
 
             <%= unless @conn.cookies["daeventboxmode"] do %>
-
+               <li><a href="/home"> Home <a><li>
+               <li>
+                 <div class = "col s12 m12 l12">
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                            
+                            <li><a class = "dropdown-button" href = "#!"
+                            data-activates = "javasDropDown">Events<i class = "material-icons
+                            right">arrow_drop_down</i></a></li>
+                    </ul>    
+          
+                 </div>
+                </li>
                <li><a href="/register">Register<a><li>
                <li><a href="/login">Login<a><li>
+               <li><a href="/aboutus">About Us<a><li>
+               <li><a href="/contactus">Contact Us<a><li>
+               
            <%end%>
          </ul>
+          <a data-activates="mobile-demo" class="button-collapse right" ><i class="material-icons">menu</i></a>
+
+         <ul class="side-nav right" id="mobile-demo">
+           <%= unless @conn.cookies["daeventboxmode"] do %>
+
+            <li><a href="/register">Register</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/aboutus">About Us<a></li>
+               <li><a href="/contactus">Contact Us<a></li>
+          <%end%>
+        </ul>
        </nav>
         </div>
        <span class="logo"></span>
      </header>
-    <div class="alerts">
+   <!-- <div class="alerts">
      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
     
-    </div>
+    </div>-->
      <main role="main">
        <%= render @view_module, @view_template, assigns %>
      </main>
+       
+            
+            
    </div>
    </div> <!-- /container -->
    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
@@ -248,6 +298,23 @@
               }
              }
             });
+             $.ajax({
+             url:"/chat/check",
+             method:"GET",
+             data:{view:view},
+             dataType:"json",
+             success:function(data)
+             {
+              console.log("in message here")
+              console.log(data);
+              $('.messages-content').html(data.messages);
+              if(data.unseen_messages > 0)
+              {
+                $('#messagesnum').html('<span class="new badge" id="messagesnum">' + data.unseen_messages + '</span>');
+                notify();
+              }
+             }
+            });
           }
           
           load_unseen_notification();
@@ -269,6 +336,7 @@
               	});
               }
             }
+            
           });
     </script>
 

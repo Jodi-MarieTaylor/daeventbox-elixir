@@ -49,53 +49,53 @@
 
             <ul class="nav">
                 <li class="active">
-                    <a href="dashboard.html">
+                    <a href="/admin/dashboard">
                         <i class="pe-7s-graph"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/user">
+                    <a href="/admin/facilitators">
                         <i class="pe-7s-user"></i>
                         <p>Facilitators</p>
                     </a>
                 </li>
                 <li>
-                    <a href="table.html">
+                    <a href="/admin/events">
                         <i class="pe-7s-note2"></i>
-                        <p>EventS</p>
+                        <p>Events</p>
                     </a>
                 </li>
+            
                 <li>
-                    <a href="typography.html">
-                        <i class="pe-7s-news-paper"></i>
-                        <p>Payments</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="icons.html">
-                        <i class="pe-7s-science"></i>
+                    <a href="/admin/ads">
+                        <i class="pe-7s-photo"></i>
                         <p>Ads</p>
                     </a>
                 </li>
                 <li>
-                    <a href="maps.html">
-                        <i class="pe-7s-map-marker"></i>
+                    <a href="/admin/reports">
+                        <i class="pe-7s-graph2"></i>
                         <p>Reports</p>
                     </a>
                 </li>
                 <li>
-                    <a href="notifications.html">
-                        <i class="pe-7s-bell"></i>
+                    <a href="/admin/products">
+                        <i class="pe-7s-gift"></i>
                         <p>Products</p>
                     </a>
                 </li>
                 <li>
-                    <a href="notifications.html">
-                        <i class="pe-7s-bell"></i>
-                        <p>Email</p>
-                    </a>
+                    <a href="#" id="btn-1" data-toggle="collapse" data-target="#submenu1" aria-expanded="false">
+                      <i class="pe-7s-browser"></i> <p>Site Content</p></a>
+                    <ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1">
+                        <li><a href="/admin/faqs">FAQs</a></li>
+                        <li><a href="/admin/news">News</a></li>
+                        <li><a href="/admin/aboutus/edit">About Us</a></li>
+                        <li><a href="/admin/contactus/edit">Contact Us</a></li>
+                    </ul>
                 </li>
+              
 				
             </ul>
     	</div>
@@ -116,27 +116,40 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-dashboard"></i>
-								<p class="hidden-lg hidden-md">Dashboard</p>
+                            <a href="/admin/email" >
+                                <i class="fa fa-envelope-o fa-fw"></i>
+								<p class="hidden-lg hidden-md">Email</p> 
                             </a>
+                            
                         </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-cog"></i>
+								<p class="hidden-lg hidden-md">Settings</p> 
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                  <li><a href="/admin/charges">Charges</a></li>
+                                  <li><a href="/admin/payments/settings">Payments</a></li>
+                                  <li><a href="/admin/ads/settings">Ads</a></li>
+                            </ul>
+                        </li>
+                        
                         <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-globe"></i>
                                     <b class="caret hidden-sm hidden-xs"></b>
-                                    <span class="notification hidden-sm hidden-xs">5</span>
+                                    <div id="notificationnum"> </div>
 									<p class="hidden-lg hidden-md">
 										5 Notifications
 										<b class="caret"></b>
 									</p>
                               </a>
                               <ul class="dropdown-menu">
-                                <li><a href="#">Notification 1</a></li>
-                                <li><a href="#">Notification 2</a></li>
-                                <li><a href="#">Notification 3</a></li>
-                                <li><a href="#">Notification 4</a></li>
-                                <li><a href="#">Another notification</a></li>
+                                <li><a href="/admin/complaints" id="complaintsnum">Complaints</a></li>
+                                <li><a href="/admin/transaction/requests/transactions" id="requestnum">Requests</a></li>
+                                <li><a href="/admin/messages" id="messagesnum">Messages</a></li>
+                                
                               </ul>
                         </li>
                         <li>
@@ -150,25 +163,25 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                            <a href="">
-                               <p>Account</p>
+                               <p>Admin</p>
                             </a>
                         </li>
                         <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <p>
-										Dropdown
+										More
 										<b class="caret"></b>
 									</p>
 
                               </a>
                               <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
+                                <li><a href="/admin/account/manage">Manage Account</a></li>
+                                <li><a href="https://www.daeventbox.com">Visit Website</a></li>
+                                <li><a href="/admin/announcements">Announcements</a></li>
+                                <li><a href="/admin/commentsandreviews">Comments & Reviews </a></li>
+                                <li><a href="/admin/activity">Activity</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">Other</a></li>
                               </ul>
                         </li>
                         <li>
@@ -176,10 +189,9 @@
                                 <p>Log out</p>
                             </a>
                         </li>
-						<li class="separator hidden-lg hidden-md"></li>
+						<li class="separator hidden-lg"></li>
                     </ul>
                 </div>
-            </div>
         </nav>
 
 
@@ -335,7 +347,7 @@
                                 <p> Status: Active </p>
 
                                 <button class="btn btn-info  pull-center"><a href="/admin?p=delete-facilitator&fid=<%= @facilitator.id %>"> Remove Facilitator </a></button>
-                                <button class="btn btn-info  pull-center">View Transactions</button>
+                                <button class="btn btn-info  pull-center"><a href="/admin/transaction/requests/transactions/<%= @facilitator.id %>"> View Transactions</a></button>
 
                                 
                              </div>

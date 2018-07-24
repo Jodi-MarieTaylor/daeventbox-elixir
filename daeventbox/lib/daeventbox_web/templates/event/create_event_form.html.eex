@@ -85,6 +85,12 @@
             <input id="end_time" name="end_time" type = "time" class = "timepicker" />    
         </div>  
       </div>
+       <div class = "row">
+            <div class = "input-field col s12">
+              <textarea id = "description" name="description" class = "materialize-textarea"></textarea>
+              <label for = "description">Description</label>
+            </div>
+        </div>
       <div class = "row">
         <div class = "row col s6">
           <label>Upload Main Event Image</label>
@@ -93,27 +99,8 @@
     
           </div>
         </div>
-       <div class = "row col s6">
-            <label>Other Event Images</label>
-            <div class = "file-field input-field">
-              <div class = "btn">
-                  <span>Browse</span>
-                  <input type = "file" multiple />
-              </div>
-              
-              <div class = "file-path-wrapper">
-                  <input  name= "images"  class = "file-path validate" type = "text"
-                    placeholder = "Upload multiple files" />
-              </div>
-            </div>    
-        </div>
-        <div class = "row">
-            <div class = "input-field col s12">
-              <i class = "material-icons prefix">mode_edit</i>
-              <textarea id = "description" name="description" class = "materialize-textarea"></textarea>
-              <label for = "description">Description</label>
-            </div>
-        </div>
+      
+       </div>
         <br>
         <h5> Venue Location </h5>
         <hr>
@@ -172,8 +159,8 @@
             </div>
             <div class = "input-field col s4">
              <i class="fa fa-twitter"></i>
-              <input name= "insta_link" id = "name" type = "url" />
-              <label for = "insta_link">Instagram URL</label>
+              <input name= "twitter_link" id = "name" type = "url" />
+              <label for = "twitter_link">Twitter URL</label>
             </div>
         </div>
         <br>
@@ -193,22 +180,36 @@
                     value = "free"  />
                   <label for = "free">Free</label>
               
-                  <input id = "volunteer" type = "radio" name = "type"
-                    value = "volunteer" />
-                  <label for = "volunteer">Volunteer</label>
+                 
               </div>
             </div>      
             <div class = "row">
-               <div class = "input-field col s12 ">
+               <div class = "input-field col s12 paid-type " id="paid-type" hidden>
                   <p>     Admission Type </p>
 
-                  <input class="radio" id = "registration" type = "radio" name = "admission_type"
+                  <input class="radio" id = "registration" type = "radio"  name = "admission_type"
                     value = "registration"   data-id="ticket-details"/>
                   <label for = "registration">Registration</label>
               
                   <input class="radio" id = "ticket" type = "radio" name = "admission_type"
                     value = "ticket"  data-id="reg-details"/>
                   <label for = "ticket">Ticket</label>
+              
+              </div>
+            </div>    
+            <div class = "row">
+               <div class = "input-field col s12 free-type " id="free-type" hidden>
+                  <p>     Admission Type </p>
+
+                  
+             
+
+                   <input class="radio" id = "registrationfree" type = "radio" name = "admission_type"
+                    value = "registration"  data-id="ticket-details"/>
+                  <label for = "registrationfree">Registration</label>
+                  <input class="radio" id = "none" type = "radio" name = "admission_type"
+                    value = "none" />
+                  <label for = "none">None</label>
               
               </div>
             </div>    
@@ -322,7 +323,7 @@
 
         <div class=" footer text-center" style="margin: 0 auto;">
             <button data-target="modal1" class="modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
-              CREATE YOUR EVENT&rarr;
+              CREATE YOUR EVENT
             </button>
        </div>
 
@@ -374,6 +375,58 @@
       $('#modal1').openModal({ dismissible: false});
 
  }
+ $('#free').click(function(){
+    // if ($(this).is(':checked')) alert('is checked'); 
+    var paiddiv = document.getElementById("paid-type");
+    var freediv = document.getElementById("free-type");
+    freediv.style.display = "block";
+    paiddiv.style.display = "none";
+    var ticketdiv = document.getElementById("ticket-details");
+    var regdiv = document.getElementById("reg-details");
+    ticketdiv.style.display = "none";
+    regdiv.style.display = "none";
+});
+ $('#paid').click(function(){
+    // if ($(this).is(':checked')) alert('is checked'); 
+    var paiddiv = document.getElementById("paid-type");
+    var freediv = document.getElementById("free-type");
+    paiddiv.style.display = "block";
+    freediv.style.display = "none";
+    var ticketdiv = document.getElementById("ticket-details");
+    var regdiv = document.getElementById("reg-details");
+    ticketdiv.style.display = "none";
+    regdiv.style.display = "none";
+});
+
+$('#none').click(function(){
+    // if ($(this).is(':checked')) alert('is checked'); 
+    var ticketdiv = document.getElementById("ticket-details");
+    var regdiv = document.getElementById("reg-details");
+    ticketdiv.style.display = "none";
+    regdiv.style.display = "none";
+});
+ 
+ $('#registrationfree').click(function(){
+    // if ($(this).is(':checked')) alert('is checked'); 
+    var ticketdiv = document.getElementById("ticket-details");
+    var regdiv = document.getElementById("reg-details");
+    ticketdiv.style.display = "none";
+    regdiv.style.display = "block";
+});
+$('#registration').click(function(){
+    // if ($(this).is(':checked')) alert('is checked'); 
+    var ticketdiv = document.getElementById("ticket-details");
+    var regdiv = document.getElementById("reg-details");
+    ticketdiv.style.display = "none";
+    regdiv.style.display = "block";
+});
+$('#ticket').click(function(){
+    // if ($(this).is(':checked')) alert('is checked'); 
+    var ticketdiv = document.getElementById("ticket-details");
+    var regdiv = document.getElementById("reg-details");
+    ticketdiv.style.display = "block";
+    regdiv.style.display = "none";
+});
  </script>
 
 

@@ -47,55 +47,55 @@
                 </a>
             </div>
 
-            <ul class="nav">
+             <ul class="nav">
                 <li class="active">
-                    <a href="dashboard.html">
+                    <a href="/admin/dashboard">
                         <i class="pe-7s-graph"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/user">
+                    <a href="/admin/facilitators">
                         <i class="pe-7s-user"></i>
                         <p>Facilitators</p>
                     </a>
                 </li>
                 <li>
-                    <a href="table.html">
+                    <a href="/admin/events">
                         <i class="pe-7s-note2"></i>
-                        <p>EventS</p>
+                        <p>Events</p>
                     </a>
                 </li>
+            
                 <li>
-                    <a href="typography.html">
-                        <i class="pe-7s-news-paper"></i>
-                        <p>Payments</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="icons.html">
-                        <i class="pe-7s-science"></i>
+                    <a href="/admin/ads">
+                        <i class="pe-7s-photo"></i>
                         <p>Ads</p>
                     </a>
                 </li>
                 <li>
-                    <a href="maps.html">
-                        <i class="pe-7s-map-marker"></i>
+                    <a href="/admin/reports">
+                        <i class="pe-7s-graph2"></i>
                         <p>Reports</p>
                     </a>
                 </li>
                 <li>
-                    <a href="notifications.html">
-                        <i class="pe-7s-bell"></i>
+                    <a href="/admin/products">
+                        <i class="pe-7s-gift"></i>
                         <p>Products</p>
                     </a>
                 </li>
                 <li>
-                    <a href="notifications.html">
-                        <i class="pe-7s-bell"></i>
-                        <p>Email</p>
-                    </a>
+                    <a href="#" id="btn-1" data-toggle="collapse" data-target="#submenu1" aria-expanded="false">
+                      <i class="pe-7s-browser"></i> <p>Site Content</p></a>
+                    <ul class="nav collapse" id="submenu1" role="menu" aria-labelledby="btn-1">
+                        <li><a href="/admin/faqs">FAQs</a></li>
+                        <li><a href="/admin/news">News</a></li>
+                        <li><a href="/admin/aboutus/edit">About Us</a></li>
+                        <li><a href="/admin/contactus/edit">Contact Us</a></li>
+                    </ul>
                 </li>
+              
 				
             </ul>
     	</div>
@@ -111,39 +111,51 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Events</a>
+                    <a class="navbar-brand" href="#">Tickets</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-dashboard"></i>
-								<p class="hidden-lg hidden-md">Dashboard</p>
+                            <a href="/admin/email" >
+                                <i class="fa fa-envelope-o fa-fw"></i>
+								<p class="hidden-lg hidden-md">Email</p> 
                             </a>
+                            
                         </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-cog"></i>
+								<p class="hidden-lg hidden-md">Settings</p> 
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                  <li><a href="/admin/charges">Charges</a></li>
+                                  <li><a href="/admin/payments/settings">Payments</a></li>
+                                  <li><a href="/admin/ads/settings">Ads</a></li>
+                            </ul>
+                        </li>
+                        
                         <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-globe"></i>
                                     <b class="caret hidden-sm hidden-xs"></b>
-                                    <span class="notification hidden-sm hidden-xs">5</span>
+                                    <div id="notificationnum"> </div>
 									<p class="hidden-lg hidden-md">
 										5 Notifications
 										<b class="caret"></b>
 									</p>
                               </a>
                               <ul class="dropdown-menu">
-                                <li><a href="#">Notification 1</a></li>
-                                <li><a href="#">Notification 2</a></li>
-                                <li><a href="#">Notification 3</a></li>
-                                <li><a href="#">Notification 4</a></li>
-                                <li><a href="#">Another notification</a></li>
+                                <li><a href="/admin/complaints" id="complaintsnum">Complaints</a></li>
+                                <li><a href="/admin/transaction/requests/transactions" id="requestnum">Requests</a></li>
+                                <li><a href="/admin/messages" id="messagesnum">Messages</a></li>
+                                
                               </ul>
                         </li>
                         <li>
                            <a href="">
                                 <i class="fa fa-search"></i>
 								<p class="hidden-lg hidden-md">Search</p>
-                               
                             </a>
                         </li>
                     </ul>
@@ -151,25 +163,25 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                            <a href="">
-                               <p>Account</p>
+                               <p>Admin</p>
                             </a>
                         </li>
                         <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <p>
-										Dropdown
+										More
 										<b class="caret"></b>
 									</p>
 
                               </a>
                               <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
+                                <li><a href="/admin/account/manage">Manage Account</a></li>
+                                <li><a href="https://www.daeventbox.com">Visit Website</a></li>
+                                <li><a href="/admin/announcements">Announcements</a></li>
+                                <li><a href="/admin/commentsandreviews">Comments & Reviews </a></li>
+                                <li><a href="/admin/activity">Activity</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">Other</a></li>
                               </ul>
                         </li>
                         <li>
@@ -177,7 +189,7 @@
                                 <p>Log out</p>
                             </a>
                         </li>
-						<li class="separator hidden-lg hidden-md"></li>
+						<li class="separator hidden-lg"></li>
                     </ul>
                 </div>
             </div>
@@ -192,7 +204,7 @@
                                 <h4 class="title">Manage Tickets</h4>
                                 <p class="category">Here are your Tickets for event <%= @event.title %></p>
                                 <p class="category">Showing <%= @tickets |> Enum.count %> Tickets</p>
-                                <button  type="" class="btn btn-info btn-fill pull-right" > <a href="/admin?p=events&action=create" style="color: white;">Add + </a></button>
+                                <button  type="" class="btn btn-info btn-fill pull-right" > <a href="/admin?p=events&action=create" style="color: white;">Export</a></button>
                                 <button type="" onclick="myFunction()" class="btn btn-info btn-fill pull-right" style="margin-right: 5px;">Filter </button>
                             </div>
 
@@ -203,7 +215,7 @@
                                             <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
                                             <%= for ticket_detail <- @ticket_details do %>
-                                             <li> <a href="/admin/tickets/<%= @event.id %> /filter?name=<%=ticket_detail.name%>"><%=ticket_detail.name%></a></li><br>
+                                             <li> <a href="/admin/tickets/<%= @event.id %>/filter?name=<%=ticket_detail.name%>"><%=ticket_detail.name%></a></li><br>
                                             <%end%>
                                             </ul>
 
@@ -222,7 +234,7 @@
                                             <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
                                             <%= for ticket_detail <- @ticket_details do %>
-                                             <li> <a href="/admin/tickets/<%= @event.id%>/filter?price=<%=ticket_detail.price%>"><%=ticket_detail.price%></a></li><br>
+                                             <li> <a href="/admin/tickets/<%= @event.id%>/filter?price=<%=ticket_detail.price%>">$<%=Float.to_string(ticket_detail.price,  decimals: 2)%></a></li><br>
                                             <%end%>
                                             </ul>
                                             
@@ -262,24 +274,20 @@
                                             <td><%=   Calendar.Strftime.strftime!(ticket.inserted_at, "%B %e,  %Y") %></td>
                                         	<td><% user = Daeventbox.Repo.get_by(Daeventbox.User, id: ticket.user_id)%> <%= user.id%>
                                             </td>
-                                            <td> <% ticket_details= Daeventbox.Repo.get_by(Daeventbox.Ticketdetail, id: 3)%> 
+                                            <td> <% ticket_details= Daeventbox.Repo.get_by(Daeventbox.Ticketdetail, id: ticket.ticket_id)%> 
                                             <%= ticket_details.name%>
                                         	<td>
 
-                                            <% ticket_details= Daeventbox.Repo.get_by(Daeventbox.Ticketdetail, id: 3)%> 
-                                            <%= ticket_details.price%>
+                                            <% ticket_details= Daeventbox.Repo.get_by(Daeventbox.Ticketdetail, id: ticket.ticket_id)%> 
+                                            $<%=Float.to_string(ticket_details.price,  decimals: 2)%>
                                           
                                             </td>
                                             
                                         	<td> <%= ticket.barcode%>
                                              </td>
                                             <td>
-                                                <%=  if ticket.status  do %> 
-                                                    Active
-                                                <%end%>
-                                                <%=  if !ticket.status  do %> 
-                                                   Not Active
-                                                <%end%>
+                                                <%= ticket.status  %> 
+                                                   
                                             </td>
 
                                             <td>
@@ -290,8 +298,8 @@
                                             <ul class="dropdown-menu">
                                             <!--<li><a href="/admin?p=events&action=view&eid=<%= @event.id %>">View</a></li>
                                             <li><a href="/admin?p=events&action=delete&eid=<%= @event.id %>">Delete</a></li>-->
-                                            <li><a href="/admin/event/view/<%= @event.id %>">View</a></li>
-                                            <li><a href="/admin/event/delete/<%= @event.id %>">Delete</a>
+                                            <li><a href="/admin/ticket/view/<%= ticket.id %>">View Ticket</a></li>
+                                            <li><a href="/admin/ticket/print/<%=ticket.id %>">Print Ticket</a>
                                             </ul>
                                             
                                         </div>

@@ -16,6 +16,7 @@ defmodule Daeventbox.Notification do
     field :seen, :boolean
     field :hide, :boolean
     field :user_id, :integer
+    field :recipient, :string
 
     timestamps()
   end
@@ -23,6 +24,6 @@ defmodule Daeventbox.Notification do
   @doc false
   def changeset(notification, attrs) do
     notification
-    |> cast(attrs, [:sent_by, :from, :type, :message, :info, :user_id, :facilitator_id, :event_id, :meta1, :meta2, :seen, :hide])
+    |> cast(attrs, [:sent_by, :from, :type, :message, :info, :user_id, :facilitator_id, :event_id, :meta1, :meta2, :seen, :hide, :recipient])
   end
 end

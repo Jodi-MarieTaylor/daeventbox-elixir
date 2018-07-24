@@ -21,8 +21,38 @@
 
         background-attachment: fixed;
 }
+
+
+.star-rating {
+  direction: rtl;
+  display: inline-block;
+  padding: 20px
+}
+
+.star-rating label:before,
+.star-rating label:after {
+  display: none;
+}
+
+.star-rating label {
+  color: #bbb;
+  font-size: 18px;
+  padding: 0;
+  cursor: pointer;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label,
+.star-rating input[type=radio]:checked~label {
+  color: #f2b600
+}
+.checked {
+    color: orange;
+}
 </style>
-<div class="card headtab" style="width: 100%; color: white; height: 425px;">
+<div class="card headtab" style="width: 100%; color: white;">
     <div class="row">
         <div class ="col s12 m4" >
             <h4 style="color: white;">Event Details</h4>
@@ -37,14 +67,65 @@
     <div id="profile-page-header" class="card" style="padding: 0px;margin: 0 auto; ">
         
         <div class="card-image waves-effect waves-block waves-light" style="background-color: #1d1d1d;">
+            <%= if !is_nil(@event.is_deleted) do %>
+            <div class="left col s4" style="background-color: red; width: 100%">
+                <h4> CANCELLED </h4>
+                <br>
+            </div>
+            <%end%>
             <div class="left col s4">
-             <%= if !@liked do %>
-              <a href="/event/like/<%=@event.id %>">  Like</a>  
-            <% end %>
-            <%= if @liked do %>
-                <a href="/event/unlike/<%=@event.id %>"> Unlike</a>  
-            <% end %>
-              <a href="#"> Rate</a>
+                <%= if !@liked do %>
+                <a href="/event/like/<%=@event.id %>">  Like</a>  
+                <% end %>
+                <%= if @liked do %>
+                    <a href="/event/unlike/<%=@event.id %>"> Unlike</a>  
+                <% end %>
+                <a href="#modal2" class="modal-trigger"> Rate</a>
+                    <%= if @overall_rating == 0 or is_nil(@overall_rating) do %>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+                    <%= if @overall_rating == 1 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+
+                    <%= if @overall_rating == 2 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+                    <%= if @overall_rating == 3 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+                    <%= if @overall_rating == 4 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+                    <%= if @overall_rating == 5 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                    <%end%>
+                    <span style="color: white;">(<%= @total_reviews %>)</span>
+
             </div>
             <div class="right col s4">
                 <%= if !@saved do %>
@@ -53,7 +134,8 @@
                 <%= if @saved do %>
                     <a href="/event/unsave/<%=@event.id %>">Unsave</a>  
                 <% end %>
-                <a href="#">Share</a>
+                <a href="#modal3" class="modal-trigger">Share</a>
+                
             </div>
             <img class="activator" src="<%= @event.image_url %>" alt="user background" height="402">                    
         </div>
@@ -83,11 +165,13 @@
                       Type: PAID
                     <%end%>
                  </h5>
-                <%= if @event.admission_type == "registration" do %>
-                    <a href="/event/register/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Register </a>
-                <%end%>
-                <%= if @event.admission_type == "ticket" do %>
-                    <a href="/event/buyticket/<%=@event.id%>" class="btn waves-effect waves-light darken-2 right"> Buy Tickets </a>
+                <%= unless !is_nil(@event.is_deleted) do %>
+                    <%= if @event.admission_type == "registration" do %>
+                        <a href="/event/register/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Register </a>
+                    <%end%>
+                    <%= if @event.admission_type == "ticket" do %>
+                        <a href="/event/buyticket/<%=@event.id%>" class="btn waves-effect waves-light darken-2 right"> Buy Tickets </a>
+                    <%end%>
                 <%end%>
                 
             </div>
@@ -151,12 +235,13 @@
                         <h6> <%=@event.location_info["address2"]%>  </h6>
                         <h6> <%=@event.location_info["parish"]%>  </h6>
                     </div>
+                    <!--
                     <div>
                         <h5> Tags </h5>
                         <p >Performance,
                         Show </p>
                     </div>
-
+                    -->
                 </div>
             </div>
         </div>
@@ -173,13 +258,9 @@
         <div class="container">
             <div>
                 <div class="card-action row">
-                    <div class="col s4 card-action-share">
-                    <a href="#">Like</a>  
-                    <a href="#">Rate</a>                        
-                    <a href="#">Share</a>
-                    </div>
                     
-                    <div class="input-field col s8 margin">
+                    
+                    <div class="input-field col s8 m12 margin">
                     <%= if !is_nil(@comments) do %>
                         <%= for comment <- @comments do %>
                            
@@ -209,9 +290,136 @@
         <i class="material-icons">more</i>
     </a>
     <ul>
-        <li><a href="css-helpers.html" class="btn-floating red" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">thumb_up</i></a></li>
-        <li><a href="app-widget.html" class="btn-floating yellow darken-1" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">star</i></a></li>
-        <li><a href="app-calendar.html" class="btn-floating green" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">save</i></i></a></li>
-        <li><a href="app-email.html" class="btn-floating blue" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">share</i></i></a></li>
+         <%= if !@liked do %>
+            <li><a href="/event/like/<%=@event.id %>" class="btn-floating red" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">thumb_up</i></a></li>
+
+        <% end %>
+        <%= if @liked do %>
+            <li><a href="/event/unlike/<%=@event.id %>" class="btn-floating red" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">thumb_down</i></a></li>
+
+        <% end %>
+        <li><a  href="#modal2" class="modal-trigger btn-floating yellow darken-1" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">star</i></a></li>
+        <%= if !@saved do %>
+            <li><a href="/event/save/<%=@event.id %>" class="btn-floating green" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">save</i></i></a></li>
+
+        <% end %>
+        <%= if @saved do %>
+            <li><a href="/event/unsave/<%=@event.id %>" class="btn-floating green" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">save</i></i></a></li>
+
+        <% end %>
+        <li><a href="#modal3" class="btn-floating blue modal-trigger" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">share</i></i></a></li>
+        <li><a href="#modal1" class="btn-floating modal-trigger pink" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">flag</i></i></a></li>
+
     </ul>
 </div>
+ <!-- Modal Structure -->
+ <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Report Event</h4>
+      <form action="/event/report/add/<%= @event.id%>" method="POST" >
+         <div class="input-field col s4">
+          <input  id="title" name="title" type="text"  class = "active validate" required>
+          <label for="title">Title</label>
+        </div>
+        <div class = "row">
+            <div class = "input-field col s12">
+              <textarea id = "message" name="message" class = "materialize-textarea"></textarea>
+              <label for = "message">Message</label>
+            </div>
+        </div>
+         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+         <button class=" waves-effect waves-light btn btn-simple btn-primary pull-right" type="submit" name="submit">
+            Send
+        </button>
+        <br>
+        </form>
+      
+    </div>
+   
+    
+  </div>
+
+<!-- Modal Structure -->
+ <div id="modal2" class="modal">
+    <div class="modal-content">
+      <h4>Rate Event</h4>
+      <form action="/event/rate/add/<%= @event.id%>" method="POST" >
+
+            <!--[if lte IE 7]><style>#reviewStars-input{display:none}</style><![endif]-->
+
+        <div class="star-rating">
+            <input id="star-5" type="radio" name="rating" value="5">
+            <label for="star-5" title="5 stars">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+            <input id="star-4" type="radio" name="rating" value="4">
+            <label for="star-4" title="4 stars">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+            <input id="star-3" type="radio" name="rating" value="3">
+            <label for="star-3" title="3 stars">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+            <input id="star-2" type="radio" name="rating" value= "2">
+            <label for="star-2" title="2 stars">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+            <input id="star-1" type="radio" name="rating" value="1">
+            <label for="star-1" title="1 star">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+        </div>
+         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+         <button class=" waves-effect waves-light btn btn-simple btn-primary pull-right" type="submit" name="submit">
+            Submit
+        </button>
+        <br>
+        </form>
+      
+    </div>
+   
+    
+  </div>
+
+  <!-- Modal Structure -->
+ <div id="modal3" class="modal">
+    <div class="modal-content">
+      <h4>Share Event</h4>
+         <h5> Share on Facebook  </h5>
+        <div class="fb-share-button" 
+            data-href="https://www.dev.rfitzy.net:4000/event/details/38" 
+            data-layout="button_count">
+        </div>
+        <h5> Share on Google + </h5>
+        <!-- Place this tag where you want the share button to render. -->
+        <div class="g-plus" data-action="share"></div>
+        <h5> Share on Twitter  </h5>
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+         
+        <br>
+      
+    </div>
+   
+    
+  </div>
+   <!-- Place this tag in your head or just before your close body tag. -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+$(document).ready(function(){
+    $('.modal').modal();
+  });
+</script>
+
+
+ <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+  <!-- Your share button code -->
+ 

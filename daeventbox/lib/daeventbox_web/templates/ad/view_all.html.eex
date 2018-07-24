@@ -36,25 +36,27 @@
     <%= for ad <- @ads do %>
     <div class="card ">
         <div class="row">
-            <div class="col s5">
+            <div class="col s12 m5">
             <a href="#five!"><img witdh="200" height="200" src="<%= Enum.at(ad, 7)%>"></a>
             </div>
-            <div class="col s5"> 
+            <div class="col s12 m5"> 
                 <h6> Name: <b><%= Enum.at(ad, 0)%></b></h6>
                 <p> Event: <b> <%= Enum.at(ad, 1)%> </b></p>
                 <p> Purchased On:  <b><%= Enum.at(ad, 2)%> </b></p>
 
-                <p> Total Days : <b><%= Enum.at(ad, 4)%> Days</b> </p>
-                <p> Days Remaining: <b> 0  Days</b> </p>
+                <p> Total Days : <b><%= Enum.at(ad, 4)%> Days</b>   </p>
+                <p> Days Remaining: <b> <% time_in_secs =   NaiveDateTime.diff(NaiveDateTime.utc_now, Enum.at(ad, 2)) %> <%=Float.to_string(Enum.at(ad, 4) -(time_in_secs / 84400), decimals: 0)%>  Days</b> </p>
                 
             </div>
-            <div class="col s2">
+            <div class="col s12 m2">
                 <h6> Position: <b><%= Enum.at(ad, 3)%></b></h6>
-                <h6> Price: <b><%= Enum.at(ad, 5)%></b></h6>
-                <a  ><i class="material-icons">delete</i>  Delete/Cancel </a>
+                <h6> Price: <%= CurrencyFormatter.format( Float.to_string( Enum.at(ad, 5), decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h3>
+                </h6>
+                <a href="/ad/delete/<%= Enum.at(ad, 6)%>" onclick="return confirm('Are you sure you would like to delete this AD? you will not be refunded for days lost.');" ><i class="material-icons">delete</i>  Delete/Cancel </a>
 
             </div>
         </div>
     </div>
     <%end%>
 </div>
+

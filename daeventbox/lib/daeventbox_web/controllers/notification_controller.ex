@@ -22,7 +22,7 @@ defmodule DaeventboxWeb.NotificationController do
     # for all the users that like, save or are attending this event
     users = Repo.all(all_interested_users_query)
     for user <- users do
-      required_params = %{type: "Event Announcement" , sent_by: "Facilitator", from: facilitator.name, seen: false, user_id: user.id, facilitator_id: params["facilitator_id"], event_id: params["event_id"], message: params["message"] }
+      required_params = %{type: "Event Announcement" , sent_by: "Facilitator", from: facilitator.name, seen: false, user_id: user.id, facilitator_id: params["facilitator_id"], event_id: params["event_id"], message: params["message"], recipient: "Guests" }
       changeset = Notification.changeset(%Notification{}, required_params)
       case Repo.insert(changeset) do
             {:ok, _notification} ->
@@ -37,10 +37,34 @@ defmodule DaeventboxWeb.NotificationController do
     end
   end
 
+  def add_from_admin(recipient, type, message ) do
+    # for all the users that like, save or are attending this event
+    users =
+      if recipient == "Facilitators" do
+        Repo.all(from f in Facilitator)
+      else
+        Repo.all(from u in User)
+      end
+    for user <- users do
+      required_params = %{type: type , sent_by: "Daeventbox Admin", from: "Daeventbox", seen: false, user_id: user.id, facilitator_id: 0, event_id: nil, message: message, recipient: recipient }
+      changeset = Notification.changeset(%Notification{}, required_params)
+      case Repo.insert(changeset) do
+            {:ok, _notification} ->
+              IO.puts "Added Notification"
+
+            {:error, reason} -> IO.inspect reason
+      end
+    end
+  end
+
   def notify(conn, params) do
     user = Repo.get!(User, conn.assigns[:current_user].id)
-
-    unseen_ids = Repo.all(from n in Notification, where: n.seen == false and n.user_id == ^user.id )
+    unseen_ids =
+      if conn.cookies["daeventboxmode"] == "Guest" do
+        Repo.all(from n in Notification, where: n.seen == false and n.user_id == ^user.id )
+      else
+        Repo.all(from n in Notification, where: n.seen == false and n.user_id == ^user.id and n.recipient == "Facilitators" )
+      end
     #IO.inspect unseen_ids.inserted_at
     for i <- unseen_ids do
       IO.inspect i.inserted_at
@@ -102,7 +126,15 @@ defmodule DaeventboxWeb.NotificationController do
   def notifications(conn, params) do
 
     user = Repo.get!(User, conn.assigns[:current_user].id)
-    query = from n in Notification, where: n.user_id == ^user.id
+    query =
+      if conn.cookies["daeventboxmode"] == "Facilitator" do
+        from n in Notification, where: n.user_id == ^user.id and n.recipient == "Facilitators" and  is_nil(n.hide),  order_by: [desc: n.inserted_at]
+
+      else
+        from n in Notification, where: n.user_id == ^user.id and n.recipient == "Guests" and is_nil(n.hide) ,  order_by: [desc: n.inserted_at]
+
+
+      end
     notifications = Repo.all(query)
     render conn, "notifications.html", notifications: notifications
   end
@@ -114,11 +146,42 @@ defmodule DaeventboxWeb.NotificationController do
       case Repo.update(changeset) do
         {:ok, _notification} ->
           IO.puts "Notifications deleted/hiden"
-          conn
+          redirect(conn, to: "/notify")
         {:error, changeset} ->
-          IO.puts "Notifications deleted/hiden"
+          IO.puts "Error ! Notifications deleted/hiden"
           IO.inspect changeset
-          conn
+          redirect(conn, to: "/notify")
       end
   end
+
+
+ def filter(conn, params) do
+    cond do
+      params["date"] == "asc" ->
+        user = Repo.get!(User, conn.assigns[:current_user].id)
+        query =
+          if conn.cookies["daeventboxmode"] == "Facilitator" do
+            from n in Notification, where: n.user_id == ^user.id and n.recipient == "Facilitators", order_by: [asc: n.inserted_at]
+          else
+            from n in Notification, where: n.user_id == ^user.id,  order_by: [desc: n.inserted_at]
+
+          end
+        notifications = Repo.all(query)
+        render conn, "notifications.html", notifications: notifications
+
+      params["date"] == "desc" ->
+        user = Repo.get!(User, conn.assigns[:current_user].id)
+        query =
+          if conn.cookies["daeventboxmode"] == "Facilitator" do
+            from n in Notification, where: n.user_id == ^user.id and n.recipient == "Facilitators", order_by: [desc: n.inserted_at]
+          else
+            from n in Notification, where: n.user_id == ^user.id,  order_by: [desc: n.inserted_at]
+
+          end
+        notifications = Repo.all(query)
+        render conn, "notifications.html", notifications: notifications
+
+    end
+ end
+
 end

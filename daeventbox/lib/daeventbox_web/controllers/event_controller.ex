@@ -18,7 +18,12 @@ defmodule DaeventboxWeb.EventController do
   alias Daeventbox.Ad
   alias Daeventbox.Option
   alias Daeventbox.Follower
-
+  alias Daeventbox.Charge
+  alias Daeventbox.Notification
+  alias Daeventbox.TransactionRequest
+  alias Daeventbox.Complaints
+  alias Daeventbox.Rating
+  alias Daeventbox.News
 
   def index(conn, _params) do
 
@@ -70,7 +75,8 @@ defmodule DaeventboxWeb.EventController do
       changeset = Event.changeset(%Event{}, required_params)
       case Repo.insert(changeset) do
         {:ok, event} ->
-          if params["type"]== "paid" do
+          cond do
+          params["type"]== "paid" ->
             IO.puts "Event Created Successful"
             if params["admission_type"] == "ticket" do
               IO.puts "in ticket tin"
@@ -78,7 +84,7 @@ defmodule DaeventboxWeb.EventController do
               ticket1_params = %{active: "true", event_id: event.id, name: params["ticket1_name"], price: params["ticket1_price"], max_quantity:  params["ticket1_quantity"], info: %{notes: params["notes"]} }
               ticket2_params = %{active: "true", event_id: event.id,name: params["ticket2_name"], price: params["ticket2_price"], max_quantity:  params["ticket2_quantity"], info: %{notes: params["notes"]} }
               ticket3_params = %{active: "true", event_id: event.id,name: params["ticket3_name"], price: params["ticket3_price"], max_quantity:  params["ticket3_quantity"], info: %{notes: params["notes"]} }
-              if  ticket1_params.name && ticket1_params.price && ticket1_params.max_quantity do
+              if  !is_nil(ticket1_params.name) && !is_nil(ticket1_params.price) && !is_nil(ticket1_params.max_quantity) && ticket1_params.name != "" && ticket1_params.price !== ""  do
                   IO.puts "in ticket tin1"
 
                   ticket1_changeset = Ticketdetail.changeset(%Ticketdetail{}, ticket1_params)
@@ -87,7 +93,7 @@ defmodule DaeventboxWeb.EventController do
                     {:error, changeset} -> IO.inspect changeset
                   end
               end
-              if ticket2_params.name && ticket2_params.price && ticket2_params.max_quantity do
+              if !is_nil(ticket2_params.name) && !is_nil(ticket2_params.price) && !is_nil(ticket2_params.max_quantity) && ticket2_params.name != "" && ticket2_params.price !== ""  do
                    IO.puts "in ticket tin2"
 
                   ticket2_changeset = Ticketdetail.changeset(%Ticketdetail{}, ticket2_params)
@@ -96,7 +102,7 @@ defmodule DaeventboxWeb.EventController do
                     {:error, changeset} -> IO.inspect changeset
                   end
               end
-              if  ticket3_params.name && ticket3_params.price && ticket3_params.max_quantity do
+              if  !is_nil(ticket3_params.name) && !is_nil(ticket3_params.price) && !is_nil(ticket3_params.max_quantity) && ticket3_params.name != "" && ticket3_params.price !== ""  do
                   IO.puts "in ticket tin3"
 
                   ticket3_changeset = Ticketdetail.changeset(%Ticketdetail{}, ticket3_params)
@@ -114,17 +120,21 @@ defmodule DaeventboxWeb.EventController do
                 end
             end
             redirect(conn, to: "/payment/card-info" )
-          else
-            registration_params = %{event_id: event.id, max_quantity:  params["registration_quantity"], status: "pending", active: 1}
-            registration_changeset = Registrationdetails.changeset(%Registrationdetails{}, registration_params)
-              case Repo.insert(registration_changeset) do
-                  {:ok, reg} -> IO.puts "Reg free details good"
-                  {:error, changeset} -> IO.inspect changeset
-              end
-            conn
-              |> put_flash(:info, "Event created successfully.")
-              |> show_event_success_modal(params)
-              # Webapp.Mailer.send_welcome_email(user.email)
+          true ->
+            if params["admission_type"] == "registration" do
+              registration_params = %{name: params["registration_name"], price: params["registration_price"],event_id: event.id, max_quantity:  params["registration_quantity"], status: "pending", active: 1}
+              registration_changeset = Registrationdetails.changeset(%Registrationdetails{}, registration_params)
+                case Repo.insert(registration_changeset) do
+                    {:ok, reg} -> IO.puts "Reg free details good"
+                    {:error, changeset} -> IO.inspect changeset
+                end
+              conn
+                |> put_flash(:info, "Event created successfully.")
+                |> show_event_success_modal(params)
+                # Webapp.Mailer.send_welcome_email(user.email)
+            else
+              redirect(conn, to: "/facilitator/manage" )
+            end
           end
         {:error, changeset} ->
           IO.inspect changeset
@@ -147,11 +157,24 @@ defmodule DaeventboxWeb.EventController do
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(event)
+    # Repo.delete!(event)
+    required_params = %{is_deleted: true, status: "Cancelled"}
+    changeset = Event.changeset(event, required_params)
+    facilitator = Repo.get_by(Facilitator,user_id: conn.assigns[:current_user].id)
+    case Repo.update(changeset) do
+      {:ok, _event} ->
+        send_notification("Event Announcement", event, "#{facilitator.name} has cancelled #{event.title}", "Facilitator")
+
+        conn
+        |> put_flash(:info, "Event deleted successfully.")
+        |> redirect(to: "/facilitator/manage")
+
+      {:error, changeset} ->
+        IO.inspect changeset
+    end
 
     conn
-    |> put_flash(:info, "Event deleted successfully.")
-    |> redirect(to: "/facilitator")
+
 
   end
 
@@ -229,21 +252,53 @@ defmodule DaeventboxWeb.EventController do
     start_time = format_time(event.start_time)
     end_time = format_time(event.end_time)
     Action.add(conn, "viewed-event-details", 1, event.id )
-    render(conn, "details.html", comments: comments,  event: event, saved: saved, liked: liked, facilitator: facilitator, map: map_url, end_date: end_date, start_date: start_date, start_time: start_time, end_time: end_time)
+    # Sum of (weight * number of reviews at that weight) / total number of reviews
+    # (5*252 + 4*124 + 3*40 + 2*29 + 1*33) / 478 = 4.1
+    star5 = Repo.all(from r in Rating, where: r.rating == 5 and r.event_id == ^event.id) |> Enum.count
+    star4 = Repo.all(from r in Rating, where: r.rating == 4 and r.event_id == ^event.id) |> Enum.count
+    star3 = Repo.all(from r in Rating, where: r.rating == 3 and r.event_id == ^event.id) |> Enum.count
+    star2 = Repo.all(from r in Rating, where: r.rating == 2 and r.event_id == ^event.id) |> Enum.count
+    star1 = Repo.all(from r in Rating, where: r.rating == 1 and r.event_id == ^event.id) |> Enum.count
+    total_reviews =  Repo.all(from r in Rating, where: r.event_id == ^event.id) |> Enum.count
+    unless total_reviews == 0 do
+      overall_rating = (5 * star5 + 4 * star4 + 3 * star3 + 2 * star2 + 1 * star1) / total_reviews
+    else
+      overall_rating = 0
+    end
+    IO.puts "Overall rating"
+    IO.inspect overall_rating
+    IO.inspect total_reviews
+    render(conn, "details.html", total_reviews: total_reviews, overall_rating: overall_rating, comments: comments,  event: event, saved: saved, liked: liked, facilitator: facilitator, map: map_url, end_date: end_date, start_date: start_date, start_time: start_time, end_time: end_time)
 
   end
 
   def manage(conn, params) do
    # get all events saved
-   saved_events = Repo.all(from s in SavedEvent,join: e in Event, on: s.event_id == e.id, where: s.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date, e.id])
+   saved_events = Repo.all(from s in SavedEvent,join: e in Event, on: s.event_id == e.id, where: s.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date, e.id, e.image_url])
    # get all tickets bought and the event details
-   tequery = from t in Ticket, join: e in Event, on: t.event_id == e.id, join: ti in Ticketdetail, on: t.event_id == ti.event_id, where: t.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.image_url, t.inserted_at, ti.name, t.barcode, ti.price, t.status, e.id, t.id]
-   tickets_and_events = Repo.all(tequery)
-   # get all the registrations and the event details
-   requery = from r in Registration, join: e in Event, on: r.event_id == e.id, join: re in Registrationdetails, on: r.event_id == re.event_id, where: r.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, re.name,  e.image_url, r.inserted_at, re.type, re.id, r.id, r.status,r.persons_details]
-   registration_and_events = Repo.all(requery)
+   tequery =
+    Ticket
+    |> where([t], t.user_id == ^conn.assigns[:current_user].id)
+    |> join(:inner, [t], e in Event, e.id == t.event_id)
+    |> join(:inner, [t], ti in Ticketdetail, ti.id == t.ticket_id)
+    |> select([t,e,ti], [e.title, e.image_url, t.inserted_at, ti.name, t.barcode, ti.price, t.status, e.id, t.id, t.user_id])
+    #from t in Ticket,
+    #where: t.user_id ==  ^conn.assigns[:current_user].id,
+    #join: e in Event,
+    #on: t.event_id == e.id, join: ti in Ticketdetail,
+    #on: t.event_id == ti.event_id,
+    #select: [e.title, e.image_url, t.inserted_at, ti.name, t.barcode, ti.price, t.status, e.id, t.id, t.user_id]
 
-   render(conn, "manage.html", saved_events: saved_events, tickets_and_events: tickets_and_events, registration_and_events: registration_and_events )
+    IO.inspect tequery
+    tickets_and_events = Repo.all(tequery)
+    IO.inspect tickets_and_events
+   # get all the registrations and the event details
+   requery = from r in Registration, join: e in Event, on: r.event_id == e.id, join: re in Registrationdetails, on: r.event_id == re.event_id, where: r.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, re.name,  e.image_url, r.inserted_at, re.type, re.id, r.id, r.status,r.persons_details, re.price]
+   registration_and_events = Repo.all(requery)
+   # attending_events = Repo.all(from e in Event, join: t in Ticket, join: r in Registration, where:  t.event_id == e.id or r.event_id == e.id and t.user_id ==  ^conn.assigns[:current_user].id or r.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date, e.id, e.image_url])
+   attending_events = Repo.all(from s in SavedEvent,join: e in Event, on: s.event_id == e.id, where: s.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date, e.id, e.image_url])
+
+   render(conn, "manage.html", attending_events: attending_events, saved_events: saved_events, tickets_and_events: tickets_and_events, registration_and_events: registration_and_events )
   end
 
   def save(conn, params) do
@@ -313,7 +368,11 @@ defmodule DaeventboxWeb.EventController do
     render conn, "select_options.html", event: event, ticket_details: ticket_details, start_time: start_time, end_time: end_time, start_date: start_date, end_date: end_date
   end
   defp proceed_with_payment(conn, params) do
+
+
     event = Repo.get!(Event, params["id"])
+    IO.puts "jjnjhhhhhhh"
+
     IO.inspect params
     details =
       if params["type"] =="ticket" do
@@ -345,9 +404,14 @@ defmodule DaeventboxWeb.EventController do
     total = 0
     total =
       for item <- items do
-         total = total + item.price
+         total + item.price
       end
-    render conn, "payment_form.html", items: items, total: 1000, event: event, total_items: Enum.count(items)
+
+    IO.puts "The total is"
+    IO.inspect total
+     total = Enum.sum(total)
+     params = Poison.encode!(params)
+    render conn, "payment_form.html", items: items, total: total, event: event, total_items: Enum.count(items), registration_details_params: '#{params}'
   end
 
   def ticket_selection(conn, params) do
@@ -357,12 +421,8 @@ defmodule DaeventboxWeb.EventController do
   end
   def registration_selection(conn, params) do
     event = Repo.get!(Event, params["id"])
-    if event.type == "free" do
 
-      registration_form(conn,params, event)
-    else
-      proceed_with_payment(conn, params)
-    end
+    registration_form(conn,params, event)
   end
   defp registration_form(conn, params, event) do
        query = from r in Registrationdetails, where: r.event_id == ^event.id
@@ -384,21 +444,30 @@ defmodule DaeventboxWeb.EventController do
         render conn, "registration_form.html", event: event, items: items, total_items: Enum.count(items)
   end
 
+  def email_ticket(conn, params) do
+    user = conn.assigns[:current_user]
+    ticket  = Repo.get_by(Ticket, id: params["ticket_id"])
+    DaeventboxWeb.EmailController.ticket_email(ticket, user)
+    conn
+    |> put_flash(:info, "Ticket sent successful")
+    |> redirect(to: "/event/manage")
+  end
+
   def add_ticket(conn, params) do
     total_items = String.to_integer(params["total_items"])-1
     for count <- 0..total_items do
-       IO.puts "here"
+       IO.puts "here -event add ticket"
       unless params["item#{count}"] == "" do
         ticket = Repo.get!(Ticketdetail, String.to_integer(params["item#{count}"]))
         for i <- 1..String.to_integer(params["itemq#{count}"]) do
-
-          required_params = %{  barcode: Enum.random(1000000000000..999999999999), price: ticket.price , event_id: params["id"] , user_id: conn.assigns[:current_user].id , ticket_id: ticket.id }
-          changeset = Ticket.changeset(%Ticket{}, required_params)
-          IO.puts "ksdms"
-          case Repo.insert(changeset) do
-            {:ok, ticket} -> IO.puts "Added Tickets"
-            {:error, changeset} -> IO.inspect changeset
-          end
+          DaeventboxWeb.TicketController.create_ticket(conn, params, ticket)
+          #required_params = %{  barcode: Enum.random(1000000000000..999999999999), price: ticket.price , event_id: params["id"] , user_id: conn.assigns[:current_user].id , ticket_id: ticket.id }
+          #changeset = Ticket.changeset(%Ticket{}, required_params)
+          #IO.puts "ksdms"
+          #case Repo.insert(changeset) do
+          #  {:ok, ticket} -> IO.puts "Added Tickets"
+          #  {:error, changeset} -> IO.inspect changeset
+          #end
 
         end
       end
@@ -408,42 +477,49 @@ defmodule DaeventboxWeb.EventController do
   end
 
   def add_registrations(conn, params) do
+    event = Repo.get!(Event, params["id"])
+    if event.type == "free" do
+      total_items = String.to_integer(params["total_items"])-1
+      for count <- 0..total_items do
+        unless params["item#{count}"] == "" do
+          registration_details = Repo.get!(Registrationdetails, String.to_integer(params["item#{count}"]))
+          for i <- 1..String.to_integer(params["itemq#{count}"]) do
+            person_details =
+            [
+              %{
+                first_name: params["first_name#{registration_details.id}#{i}"],
+                last_name: params["last_name#{registration_details.id}#{i}"],
+                email: params["email#{registration_details.id}#{i}"],
+                contact: params["contact#{registration_details.id}#{i}"]
+              }
 
-    total_items = String.to_integer(params["total_items"])-1
-    for count <- 0..total_items do
-      unless params["item#{count}"] == "" do
-        registration_details = Repo.get!(Registrationdetails, String.to_integer(params["item#{count}"]))
-        for i <- 1..String.to_integer(params["itemq#{count}"]) do
-          person_details =
-          [
-            %{
-              first_name: params["first_name#{registration_details.id}#{i}"],
-              last_name: params["last_name#{registration_details.id}#{i}"],
-              email: params["email#{registration_details.id}#{i}"],
-              contact: params["contact#{registration_details.id}#{i}"]
-            }
+            ]
+            required_params = %{persons_details: person_details, event_id: params["id"] , user_id: conn.assigns[:current_user].id , registrationdetails_id: registration_details.id }
+            changeset = Registration.changeset(%Registration{}, required_params)
+            case Repo.insert(changeset) do
+              {:ok, ticket} -> IO.puts "Added Registration"
+              {:error, changeset} -> IO.inspect changeset
+            end
 
-          ]
-          required_params = %{persons_details: person_details, event_id: params["id"] , user_id: conn.assigns[:current_user].id , registrationdetails_id: registration_details.id }
-          changeset = Registration.changeset(%Registration{}, required_params)
-          case Repo.insert(changeset) do
-            {:ok, ticket} -> IO.puts "Added Registration"
-            {:error, changeset} -> IO.inspect changeset
           end
-
         end
       end
+      redirect conn, to: "/event/manage"
+    else
+      proceed_with_payment(conn, params)
     end
-    redirect conn, to: "/"
+
+
 
   end
 
   def upcoming_events(conn,params) do
-    query = from e in Event, where: e.id > 15 # where events are new
+    query = from e in Event, where: e.id > 15 and is_nil(e.is_deleted) , order_by: [desc: e.inserted_at] # where events are new
     events = Repo.all(query)
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
-    render conn, "upcoming_events.html", events: events,ads: ads
+    news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
+    render conn, "upcoming_events.html", events: events,ads: ads, news: news
   end
 
   def facilitators(conn, params) do
@@ -455,7 +531,8 @@ defmodule DaeventboxWeb.EventController do
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
     followers = Repo.all(from f in Follower, where: f.user_id == ^user.id )
-    render conn, "facilitators.html", facilitators: facilitators, ads: ads, followers: followers, user: user
+    news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
+    render conn, "facilitators.html", facilitators: facilitators, ads: ads, followers: followers, user: user, news: news
 
   end
 
@@ -471,10 +548,21 @@ defmodule DaeventboxWeb.EventController do
         query = from e in Event, where: e.type == ^params["price"] and e.id > 15
         events = Repo.all(query)
       params["date"] ->
-         query = from e in Event, where: e.id > 15, order_by: [asc: e.inserted_at]
+        query =
+        cond do
+          params["date"] == "today" -> from r in Event, where: fragment(" ? >= current_date and ? <= current_date + interval '1 day'", r.start_date,  r.start_date), order_by: [desc: r.inserted_at]
+          params["date"] == "this-week" -> from r in Event, where: fragment(" ? >= current_date and ? <= current_date + interval '1 week'", r.start_date,  r.start_date), order_by: [desc: r.inserted_at]
+          params["date"] == "this-month" -> from r in Event, where: fragment(" ? >= current_date and ? <= current_date + interval '1 month'", r.start_date,  r.start_date), order_by: [desc: r.inserted_at]
+          params["date"] == "this-year" -> from r in Event, where: fragment("? >= current_date and ? <= current_date + interval '1 year'", r.start_date,  r.start_date), order_by: [desc: r.inserted_at]
+
+
+        end
          events = Repo.all(query)
      end
-    render conn, "upcoming_events.html", events: events
+    ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
+    ads = Repo.all(ads_query)
+    news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
+    render conn, "upcoming_events.html", events: events, ads: ads, news: news
 
   end
 
@@ -493,6 +581,132 @@ defmodule DaeventboxWeb.EventController do
       end
   end
 
+  def earnings(conn, params) do
+    event = Repo.get_by(Event, id: params["event_id"])
+    facilitator = Repo.get_by(Facilitator, id: event.facilitator_id )
+
+    total_registrations = Repo.all(from r in Registration, where: r.event_id == ^event.id)|> Enum.count
+    total_tickets = Repo.all(from t in Ticket, where: t.event_id == ^event.id) |> Enum.count
+    total_paid_transactions = total_tickets + total_registrations
+    total_earnings =
+      if event.admission_type == "ticket" do
+        Repo.one(from t in Ticket, join: td in Ticketdetail, where: t.ticket_id == td.id and t.event_id == ^event.id, select: sum(td.price))
+      else
+        Repo.one(from r in Registration, join: rd in Registrationdetails, where: r.event_id == ^event.id and r.registrationdetails_id == rd.id, select: sum(rd.price))
+
+      end
+    total_charges = 0.00
+    charges  = Repo.all(from c in Charge, where: c.assigned_to == "facilitators")
+    total_charges =
+    for charge <- charges do
+      if charge.type == "fixed" do
+        total_charges + charge.charges
+      else
+        total_charges + (total_earnings*(charge.charges/100))
+      end
+    end
+    total_charges  =  Enum.sum(total_charges)
+    requests = Repo.all(from t in TransactionRequest, where: t.event_id == ^event.id)
+    total_recieved = Repo.one(from t in TransactionRequest, where: t.event_id == ^event.id and t.status=="Paid", select: sum(t.amount))
+    total_recieved  =
+      if is_nil(total_recieved) do
+        0.00
+      else
+        total_recieved
+      end
+    total_payable = total_earnings - total_charges - total_recieved
+    earnings_breakdown =
+      if event.admission_type == "ticket" do
+        Repo.all( from td in Ticketdetail, join: t in Ticket, where: t.ticket_id == td.id and td.event_id == ^event.id , distinct: td.name, group_by: [:name, :price], select: [ td.name, count(t.id), td.price ] )
+      else
+        Repo.all( from rd in Registrationdetails, join: r in Registration, where: r.registrationdetails_id == rd.id and rd.event_id == ^event.id , distinct: rd.name, group_by: [:name, :price], select: [ rd.name, count(r.id), rd.price ] )
+
+      end
+    requests = Repo.all(from t in TransactionRequest, where: t.event_id == ^event.id)
+    render conn, "earnings.html", total_recieved: total_recieved, requests: requests, event: event, facilitator: facilitator,  total_paid_transactions: total_paid_transactions, total_earnings: total_earnings, total_charges: total_charges, charges: charges, total_payable: total_payable, earnings_breakdown: earnings_breakdown
+  end
+
+  def transaction_request(conn, params) do
+    event = Repo.get_by(Event, id: params["event_id"])
+    facilitator = Repo.get_by(Facilitator, id: event.facilitator_id )
+    items =
+      if event.admission_type == "tickets" do
+        Repo.all(from t in Ticket, join: td in Ticketdetail, where: t.event_id == ^event.id and t.ticket_id == td.id)
+      else
+        Repo.all(from r in Registration, join: rd in Registrationdetails, where: r.event_id == ^event.id and r.registrationdetails_id == rd.id)
+      end
+    total_registrations = Repo.all(from r in Registration, where: r.event_id == ^event.id)|> Enum.count
+    total_tickets = Repo.all(from t in Ticket, where: t.event_id == ^event.id) |> Enum.count
+    total_paid_transactions = total_tickets + total_registrations
+
+    total_earnings = Repo.one(from t in Ticket, join: td in Ticketdetail, where: t.ticket_id == td.id and t.event_id == ^event.id, select: sum(td.price))
+    total_charges = 0.00
+    charges  = Repo.all(from c in Charge, where: c.assigned_to == "facilitators")
+    total_charges =
+    for charge <- charges do
+      if charge.type == "fixed" do
+        total_charges + charge.charges
+      else
+        total_charges + (total_earnings*(charge.charges/100))
+      end
+    end
+    total_charges  =  Enum.sum(total_charges)
+    total_recieved = Repo.one(from t in TransactionRequest, where: t.event_id == ^event.id and t.status=="Paid", select: sum(t.amount))
+    total_recieved  =
+      if is_nil(total_recieved) do
+        0.00
+      else
+        total_recieved
+      end
+    total_payable = total_earnings - total_charges - total_recieved
+    required_params = %{total_amount: total_earnings, charges: total_charges, amount_payable: total_payable, amount: params["amount"], facilitator_id: event.facilitator_id, event_id: event.id, title: params["reason"], status: "New" }
+
+    changeset = TransactionRequest.changeset(%TransactionRequest{}, required_params)
+    case Repo.insert(changeset) do
+          {:ok, request} ->
+            IO.puts "Added Request"
+            send_notification("Transaction Request", request, "#{facilitator.name} has made a transaction request for #{event.title}", "Facilitator")
+            conn
+            |> redirect(to: "/event/earnings/#{event.id}" )
+
+          {:error, reason} -> IO.inspect reason
+    end
+
+
+  end
+
+def send_notification(type, item, message, sent_by) do
+
+
+    if type == "Event Announcement"  do
+      event  = Repo.get_by(Event, id: item.id)
+      facilitator  = Repo.get_by(Facilitator, id: event.facilitator_id)
+      all_interested_users_query = from u in User, join: l in LikedEvent, join: s in SavedEvent, join: t in Ticket, where: t.event_id == ^event.id and s.event_id == ^event.id and l.event_id == ^event.id and l.user_id == u.id or s.user_id == u.id or t.user_id == t.id, distinct: u.id
+      # for all the users that like, save or are attending this event
+      users = Repo.all(all_interested_users_query)
+      for user <- users do
+        required_params = %{type: "Event Announcement" , sent_by: "Facilitator", from: facilitator.name, seen: false, user_id: user.id, facilitator_id: facilitator.id, event_id: event.id, message: message, recipient: "Guests" }
+        changeset = Notification.changeset(%Notification{}, required_params)
+        case Repo.insert(changeset) do
+              {:ok, _notification} ->
+                IO.puts "Added Notification"
+
+              {:error, reason} -> IO.inspect reason
+        end
+      end
+    else
+      event  = Repo.get_by(Event, id: item.event_id)
+      facilitator  = Repo.get_by(Facilitator, id: event.facilitator_id)
+      required_params = %{type: type , sent_by: sent_by, from: facilitator.name, seen: false, user_id: facilitator.id, facilitator_id: 0, event_id: item.event_id, message: message }
+      changeset = Notification.changeset(%Notification{}, required_params)
+      case Repo.insert(changeset) do
+            {:ok, _notification} ->
+              IO.puts "Added Notification"
+            {:error, reason} -> IO.inspect reason
+      end
+    end
+
+  end
 
   def filter_facilitators(conn, params) do
      cond do
@@ -507,30 +721,125 @@ defmodule DaeventboxWeb.EventController do
       params["ratings"] ->
        query =
          if  params["ratings"] == "most" do
-            from f in Facilitator,  order_by: [asc: f.name]
+            from(f in Facilitator, [
+                  join: fo in Follower, where: f.id == fo.facilitator_id ,
+                  group_by: f.id,
+                  select: [f.id, f.facilitator_email, count(fo.id), f.facilitator_phone, f.name, f.image_url, f.user_id],
+                  order_by: [desc: count(fo.id)]
+                ])
           else
-            from f in Facilitator, order_by: [desc: f.name]
-          end
+            from(f in Facilitator, [
+                  join: fo in Follower, where: f.id == fo.facilitator_id ,
+                  group_by: f.id,
+                  select: [f.id, f.facilitator_email, count(fo.id), f.facilitator_phone, f.name, f.image_url, f.user_id],
+                  order_by: [asc: count(fo.id)]
+                ])
+           end
         facilitators = Repo.all(query)
+        facilitators =
+          for f <- facilitators  do
+          %{
+            id: Enum.at(f, 0),
+            facilitator_email: Enum.at(f, 1),
+            event_count: Enum.at(f, 2),
+            facilitator_phone: Enum.at(f, 3),
+            name: Enum.at(f, 4),
+            image_url: Enum.at(f, 5),
+            user_id: Enum.at(f, 6),
+
+          }
+          end
       params["events"] ->
        query =
-        if  params["events"] == "asc" do
-            from f in Facilitator,  order_by: [asc: f.name]
-          else
-            from f in Facilitator, order_by: [desc: f.name]
-          end
+        if  params["events"] == "most" do
+        # "select facilitator_id , count(*) as count from events group by facilitator_id order by count desc;"
+         from(f in Facilitator, [
+                  join: e in Event, on: f.id == e.facilitator_id,
+                  group_by: f.id,
+                  select: [f.id, f.facilitator_email, count(e.id), f.facilitator_phone, f.name, f.image_url, f.user_id],
+                  order_by: [desc: count(e.id)]
+                ])
+        else
+        # "select facilitator_id , count(*) as count from events group by facilitator_id order by count desc;"
+         from(f in Facilitator, [
+                  join: e in Event, on: f.id == e.facilitator_id,
+                  group_by: f.id,
+                  select: [f.id, f.facilitator_email, count(e.id), f.facilitator_phone, f.name, f.image_url, f.user_id],
+                  order_by: [asc: count(e.id)]
+                ])
+        end
         facilitators = Repo.all(query)
+        facilitators =
+          for f <- facilitators  do
+          %{
+            id: Enum.at(f, 0),
+            facilitator_email: Enum.at(f, 1),
+            event_count: Enum.at(f, 2),
+            facilitator_phone: Enum.at(f, 3),
+            name: Enum.at(f, 4),
+            image_url: Enum.at(f, 5),
+            user_id: Enum.at(f, 6),
+
+          }
+        end
+        IO.puts "this is the facilitators"
+        IO.inspect facilitators
       params["date"] ->
          query =
-          if  params["date"] == "asc" do
+          if  params["date"] == "newest" do
             from f in Facilitator,  order_by: [asc: f.inserted_at]
           else
             from f in Facilitator, order_by: [desc: f.inserted_at]
           end
           facilitators = Repo.all(query)
      end
-    render conn, "facilitators.html", facilitators: facilitators
+    user = Repo.get!(User, conn.assigns[:current_user].id)
+    ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
+    ads = Repo.all(ads_query)
+    followers = Repo.all(from f in Follower, where: f.user_id == ^user.id )
+    news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
 
+    render conn, "facilitators.html", facilitators: facilitators, user: user, ads: ads, followers: followers, news: news
+
+  end
+
+  def report_event(conn, params) do
+    required_params = %{status: "New", title: params["title"], message: params["message"], user_id: conn.assigns[:current_user].id, event_id: params["event_id"], type: "Event", facilitator_id: nil}
+    changeset = Complaints.changeset(%Complaints{}, required_params)
+    case Repo.insert(changeset) do
+          {:ok, complaint} ->
+            IO.puts "Added Complaints"
+            send_notification("Complaint",complaint, "You have recieved a new complaint", "Guest")
+            redirect conn, to: "/event/details/#{params["event_id"]}"
+          {:error, reason} -> IO.inspect reason
+    end
+
+  end
+
+
+  def add_rating(conn, params) do
+    if is_nil(Repo.get_by(Rating, event_id: params["event_id"], user_id: conn.assigns[:current_user].id) ) do
+      event =  Repo.get_by(Event, id: params["event_id"])
+      required_params = %{status: "active", rating: params["rating"], user_id: conn.assigns[:current_user].id, event_id: params["event_id"], type: "Event", facilitator_id: event.facilitator_id}
+      changeset = Rating.changeset(%Rating{}, required_params)
+      case Repo.insert(changeset) do
+            {:ok, rating} ->
+
+              redirect conn, to: "/event/details/#{params["event_id"]}"
+            {:error, reason} -> IO.inspect reason
+      end
+    else
+      rating = Repo.get_by(Rating, event_id: params["event_id"] , user_id: conn.assigns[:current_user].id )
+      required_params = %{rating: params["rating"]}
+
+      changeset = Rating.changeset(rating, required_params)
+      case Repo.update(changeset) do
+                 {:ok, rating} ->
+
+              redirect conn, to: "/event/details/#{params["event_id"]}"
+            {:error, reason} -> IO.inspect reason
+      end
+    end
   end
    @months %{1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr",
             5 => "May", 6 => "Jun", 7 => "Jul", 8 => "Aug",
@@ -542,6 +851,7 @@ defmodule DaeventboxWeb.EventController do
    #|> Calendar.Strftime.strftime!("%A, %e %B %Y")
 
   end
+
 
   def format_time(time) do
     time

@@ -23,24 +23,24 @@
  </style>
 
 <ul id = "alphabet-filter-dropdown" class = "dropdown-content">
-            <li><span> <a href="/event/facilitators/filter?alphabetically=asc">Asc</a></span></li>
-            <li><span><a href="/event/facilitators/filter?alphabetically=desc">Desc</a></span></li>
+            <li> <a href="/event/facilitators/filter?alphabetically=asc">Asc</a></li>
+            <li><a href="/event/facilitators/filter?alphabetically=desc">Desc</a></li>
                         
         
 </ul>
  <ul id = "date-filter-dropdown" class = "dropdown-content">
-            <li><span><a href="/event/facilitators/filter?date=newest">Newest First</a></span> </li>
-            <li><span><a href="/event/facilitators/filter?date=oldest">Oldest First</a> </span> </li>
+            <li><a href="/event/facilitators/filter?date=newest">Newest First</a> </li>
+            <li><a href="/event/facilitators/filter?date=oldest">Oldest First</a> </li>
         
 </ul>
  <ul id = "popularity-filter-dropdown" class = "dropdown-content">
-            <li><span><a href="/event/facilitators/filter?ratings=most">Most Popular</a> </span> </li>
-            <li><span><a href="/event/facilitators/filter?ratings=least">Least Popular</a> </span> </li> 
+            <li><a href="/event/facilitators/filter?ratings=most">Most Popular</a> </li>
+            <li><a href="/event/facilitators/filter?ratings=least">Least Popular</a></li> 
 
 </ul>
  <ul id = "events-filter-dropdown" class = "dropdown-content">
-            <li><span> <a href="/event/facilitators/filter?events=most">Most Events</a></span> </li>
-            <li><span><a href="/event/facilitators/filter?events=least">Least Events</a> </span> </li>
+            <li> <a href="/event/facilitators/filter?events=most">Most Events</a> </li>
+            <li><a href="/event/facilitators/filter?events=least">Least Events</a> </li>
                         
         
 </ul>
@@ -117,7 +117,9 @@
                         <div class="col s5 m7"  >
                                 <h5> Summary </h5> 
                                 <h6>Name: <%=facilitator.name%></h6>
-                                <p> Number of Events: </p>
+                                <p> Number of Events: <%=  event_count = Daeventbox.Repo.one(from e in Daeventbox.Event, where: e.facilitator_id == ^facilitator.id, select: count(e.id) ) %> 
+                                
+                                </p>
                                 <p> Email: <%=facilitator.facilitator_email%> </p>
                                 <p> Phone: <%=facilitator.facilitator_phone%> </p>
                               
@@ -172,7 +174,7 @@
                 -->
           </div>
 
-       <div class="card col s12 m2 right" style="background-color: #1d1d1d; color: white;">
+       <div class="card col s12 m2 right" style="">
                    
                     <div class="carousel">
                      <h5 class="center"> Featured Events </h5>
@@ -187,8 +189,9 @@
                     </div>
                     <div>
                         <h5 class="center"> Latest News </h5>
-                        <p>Hurricen Jake Hurricane Jake is not really a hurrican but a friend. He smokes marijuana .... </p>
-                        <p> Who would fards of us cast and end name wish'd. To die, or to sleep; no more; for to oth the unwortal shocks the unworthy to, 'tis and, by a life; and the name office, but ther inst a life; .....</p>
+                         <%= for news <- @news do %>
+                        <p> <%= news.body %></p>
+                        <%end%>
                     </div>
             </div>
         </div>

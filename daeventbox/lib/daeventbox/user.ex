@@ -29,9 +29,12 @@ defmodule Daeventbox.User do
 
 
   def changeset(user, attrs) do
+
       user
       |> cast(attrs, Enum.concat(@required, @optional))
+      |> unique_constraint(:email)
       |> validate_required(@required)
+
   end
 
   def changeset_in(user, attrs) do

@@ -46,7 +46,7 @@
 				</div>
                 <div class = "input-field col s12">
                     <i class = "material-icons prefix">mode_edit</i>
-                    <textarea id = "about" class = "materialize-textarea" name="about" value="<%= @facilitator.about %>"></textarea>
+                    <textarea id = "about" class = "materialize-textarea" name="about" value="<%= @facilitator.about %>"><%= @facilitator.about %></textarea>
                     <label for = "about">About</label>
                 </div>
         
@@ -86,16 +86,15 @@
                         </label>
                     </div>
                 </div>
-                <a style="margin: 0 auto;" href="/facilitator/profile/preview" class="btn waves-effect waves-light darken-2 center"> Profile Preview </a>
 
                 <div class="row">
 
 				
-				<div style="margin:0 auto; width:25% ">
-                    <button data-target="modal1" class="modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
-                    Submit&rarr;
+				
+                  
+                    <button data-target="modal1" class="pull-right modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                    Submit
                     </button>
-				</div>
                 </div>
 			</form>
 		</div>

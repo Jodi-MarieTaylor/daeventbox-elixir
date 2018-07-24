@@ -37,11 +37,21 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/payment", DaeventboxWeb do
-    pipe_through :browser
+    pipe_through [:browser, :with_session] # Use the default browser stack
 
     get "/card-info", PaymentController, :payment_form
-    get "/process", PaymentController, :make_payment
+    get "/process", PaymentController, :home
+    post "/process/:event_id", PaymentController, :make_payment
   end
+
+
+  scope "/help", DaeventboxWeb do
+    pipe_through [:browser, :with_session] # Use the default browser stack
+
+    post "/contact", HelpController, :contact
+    get "/", HelpController, :index
+  end
+
 
 
 
@@ -54,6 +64,8 @@ defmodule DaeventboxWeb.Router do
     get "/room/:id", RoomController, :show
     get "/send", MessageController, :create
     get "/view/messages", RoomController, :view_rooms
+    get "/check" , MessageController, :check
+
   end
 
   scope "/event", DaeventboxWeb do
@@ -82,7 +94,12 @@ defmodule DaeventboxWeb.Router do
     get "/facilitators/filter", EventController, :filter_facilitators
     post "/add/comment/:event_id" , EventController, :add_comment
     post "/update/:id", EventController, :update
+    get "/earnings/:event_id", EventController, :earnings
+    post "/transaction/request/:event_id", EventController, :transaction_request
+    post "/report/add/:event_id", EventController, :report_event
+    post "/rate/add/:event_id", EventController, :add_rating
 
+    get "/manage/ticket/email/:ticket_id", EventController, :email_ticket
   end
 
   scope "/account", DaeventboxWeb do
@@ -102,6 +119,13 @@ defmodule DaeventboxWeb.Router do
     post "/delete/:notification_id/:user_id", NotificationController, :notifications
 
   end
+  scope "/notification", DaeventboxWeb do
+    pipe_through [:browser, :with_session] # Use the default browser stack
+    get "/filter", NotificationController, :filter
+    get "/hide/:notification_id/:user_id", NotificationController, :notification_delete_for_user
+
+
+  end
 
   scope "/ad", DaeventboxWeb do
       pipe_through [:browser, :with_session] # Use the default browser stack
@@ -110,6 +134,7 @@ defmodule DaeventboxWeb.Router do
       get "/selection/form/:option_id/:id", AdController, :ad_form
       post "/create", AdController, :create
       get "/view/all", AdController, :view_all
+      get "/delete/:id", AdController, :delete
   end
   scope "/facilitator", DaeventboxWeb do
     pipe_through [:browser, :with_session] # Use the default browser stack
@@ -128,8 +153,11 @@ defmodule DaeventboxWeb.Router do
     get "/profile", FacilitatorController, :profile
     get "/follow/:facilitator_id", FacilitatorController, :follow
     get "/unfollow/:facilitator_id", FacilitatorController, :unfollow
+    get "/manage/search/events", FacilitatorController, :search_events
     get "/" , FacilitatorController, :home
     post "/", FacilitatorController, :home
+
+    post "/report/add/:facilitator_id", FacilitatorController, :report_facilitator
   end
   scope "/guest", DaeventboxWeb do
     pipe_through [:secure, :with_session] # Use the default browser stack
@@ -141,7 +169,12 @@ defmodule DaeventboxWeb.Router do
   scope "/admin", DaeventboxWeb do
     pipe_through [:browser, :with_session] # Use the default browser stack
     post "/facilitator/create", AdminController, :index
+    get "/facilitators", AdminController, :facilitators
+    get "/facilitator/view", AdminController, :view_facilitator
+    get "/facilitator/delete", AdminController, :delete_facilitator
+    get "/dashboard", AdminController, :dashboard
     post "/event/create", AdminController, :index
+    get "/event/create", AdminController, :create_event_view
     get "/", AdminController, :index
     get "/user", AdminController, :user
     get "/login", AdminController, :login
@@ -150,6 +183,44 @@ defmodule DaeventboxWeb.Router do
     get "/event/view/:id", AdminController, :event_details
     get "/event/delete/:id", AdminController, :delete_event
     get "/tickets/:event_id", AdminController, :tickets
+    get "/tickets/:event_id/filter", AdminController, :filter_tickets
+    get "/registrations/:event_id", AdminController, :registrations
+    get "/registrations/:event_id/filter", AdminController, :filter_d_registrations
+     get "/email", AdminController, :email
+     get "/ads/settings", AdminController, :ads_settings
+    post "/ads/settings/options/edit/:option_id", AdminController, :ads_settings_edit
+     get "/ads/:event_id/filter", AdminController, :ads_filter
+    get "/ads/filter", AdminController, :ads_filter
+
+    get "/ads/:event_id", AdminController, :ads
+    get "/ads", AdminController, :ads
+    get "/faqs", AdminController, :faqs
+    post "/add/faq", AdminController, :add_faqs
+    get "/faq/delete/:faq_id", AdminController, :delete_faq
+    get "/news", AdminController, :news
+    get "/news/add", AdminController, :add_news
+    post "/news/add", AdminController, :create_news
+    get "/news/delete/:news_id", AdminController, :delete_news
+    get "/aboutus/edit", AdminController, :edit_aboutus
+    get "/contactus/edit", AdminController, :edit_contactus
+    get "/transaction/requests/payout/:event_id", AdminController, :payout
+    get  "/transaction/requests/transactions/:facilitator_id", AdminController, :transactions
+    get  "/transaction/requests/transactions", AdminController, :transactions_all
+
+    get "/transaction/requests/all", AdminController, :requests
+    post "/transaction/change/status/:transaction_request_id", AdminController, :change_transaction_status
+    get "/charges/edit/:charge_id", AdminController, :edit_charge
+    get "/charges/create", AdminController, :create_charge
+    post "/charges/add", AdminController, :add_charge
+    get "/charges/delete/:charge_id", AdminController, :delete_charge
+    get "/charges", AdminController, :charges
+    get "/notify/send", AdminController, :notifications
+    get "/announcements/create", AdminController, :create_announcement
+    post "/annoucements/add", AdminController, :add_announcement
+    get "/announcements", AdminController, :announcements
+    get "/complaints", AdminController, :complaints
+    post "/complaint/change/status/:complaint_id", AdminController, :change_complaint_status
+
   end
 
   scope "/", DaeventboxWeb do

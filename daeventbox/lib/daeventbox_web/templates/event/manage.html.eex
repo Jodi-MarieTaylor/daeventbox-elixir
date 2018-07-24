@@ -12,8 +12,8 @@
  </style>
 
 
-<div class="card headtab" style="width: 100%; color: white;">
-    <div class="row">
+<div class="card headtab" style="width: 100%; color: white; margin-bottom: 0px !important;">
+    <div class="row"  style="margin-bottom: 0px !important; "> 
         <div class ="col s12 m4"  style="padding: 10px;">
             <h4 style="color: white;">Saved Events</h4>
             
@@ -22,26 +22,33 @@
         
     </div>
 </div>
- <div class="row " style="background-color: #1d1d1d; width:100%; ">
+<div class="row " style="background-color: #1d1d1d; width:100%; margin: 0px !important;">
        
-    <div class="carousel"><a>
+    <div class="carousel saved"><a>
        <%= for saved <- @saved_events do %>
         <div class="carousel-item card" style="height: 280px !important;">  
              <div class="card-image">
-                <a href="#three!"><img src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg"></a>
+                <a href="#three!"><img src="<%=Enum.at(saved, 3)%>" width="200" height="200"></a>
                 <span class="card-title "></span>
             </div>
             <div class="card-content">
                 <p class="truncate">  <%= Enum.at(saved, 0)%> </p>
                 <p>  <%= Enum.at(saved, 1)%> </p>
+
+                    <a href="/event/details/<%= Enum.at(saved, 2)%>" class="btn  waves-effect waves-light darken-2 pull-right" style="font-size: 17px;"> Details </a>
                 
             </div>
-            <a href="/event/details/<%= Enum.at(saved, 2)%>" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Details </a>
-
+             
         </div>
         <%end%>
     </div>    
+
+    <div class="col s12 center">
+        <button class="prev z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-left fa-lg grey-text text-lighten-3"></i></button>
+        <button class="next z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-right fa-lg grey-text text-lighten-1"></i></button>
+    </div>
 </div>
+<!--
 <div class="card headtab" style="width: 100%; color: white;">
     <div class="row">
         <div class ="col s12 m4"  style="padding: 10px;">
@@ -52,32 +59,40 @@
         
     </div>
 </div>
-<div class="row">
+
+<div class="row " >
        
-    <div class="carousel"><a>
-       <%= for saved <- @saved_events do %>
+    <div class="carousel "><a>
+       <%= for attending <- @attending_events do %>
         <div class="carousel-item card" style="height: 280px !important;">  
              <div class="card-image">
-                <img src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg">
+                <a href="#three!"><img src="<%=Enum.at(attending, 3)%>" width="200" height="200"></a>
                 <span class="card-title "></span>
             </div>
             <div class="card-content">
-                <p class="truncate">  <%= Enum.at(saved, 0)%> </p>
-                <p>  <%= Enum.at(saved, 1)%> </p>
+                <p class="truncate">  <%= Enum.at(attending, 0)%> </p>
+                <p>  <%= Enum.at(attending, 1)%> </p>
+
+                    <a href="/event/details/<%= Enum.at(attending, 2)%>" class="btn  waves-effect waves-light darken-2 pull-right" style="font-size: 17px;"> Details </a>
                 
             </div>
-            <a href="/event/details/<%= Enum.at(saved, 2)%>" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Details </a>
-
+             
         </div>
         <%end%>
     </div>    
+
+    <div class="col s12 center">
+        <button class="prev z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-left fa-lg grey-text text-lighten-3"></i></button>
+        <button class="next z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-right fa-lg grey-text text-lighten-1"></i></button>
+    </div>
 </div>
+-->
 <div >
         <div class="col s2">
             <ul class="tabs center-align" style="background-color: #1d1d1d !important;">
                 <li class="tab col s3"><a href="#ticket_history" class="active">Ticket History</a></li>
                 <li class="tab col s3"><a class="" href="#registration_history">Registration History</a></li>
-                <li class="tab col s3 disabled"><a href="#test3">All History</a></li>
+                <!--<li class="tab col s3 disabled"><a href="#test3">All History</a></li>-->
                 <div class="indicator" style="right: 178.325px; left: 0px;"></div>
             </ul>
             
@@ -85,21 +100,25 @@
                 <%= for ticket <- @tickets_and_events do %>
                 <div class="card ">
                     <div class="row">
-                        <div class="col s5">
-                        <a href="#five!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/e41/orchid-1364881.jpg"></a>
+                        <div class="col s12 m4">
+                        <a href="#five!"><img witdh="300" height="200" src="<%= Enum.at(ticket, 1)%>" style="width: 300px;"></a>
                         </div>
-                        <div class="col s5"> 
+                        <div class="col s12 m5"> 
                             <h6> Ticket: <b><%= Enum.at(ticket, 3)%></b></h6>
                             <p> Event: <b> <%= Enum.at(ticket, 0)%> </b></p>
                             
-                            <p> Code: <b>FJ64QVIH7CGW58</b> </p>
-                            <p> Status: <b> Valid </b> </p>
+                            <p> Code: <b><%=Enum.at(ticket, 4)%></b> </p>
+                            <p> Status: <b> <%=Enum.at(ticket, 6)%> </b> </p>
                             <p> Purchased On:  <b><%= Enum.at(ticket, 2)%> </b></p>
                             
                         </div>
-                        <div class="col s2">
-                            <h6> Price: $<%=  :erlang.float_to_binary(Enum.at(ticket, 5), [:compact, { :decimals, 3 }]) %> </h6>
-                            <p> Print Now </p>
+                        <div class="col s12 m2">
+                                <h6> Price: <%= CurrencyFormatter.format(Float.to_string(Enum.at(ticket, 5), decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h6>
+                            <span>
+                            <i class="material-icons"> email </i>
+                            <a onclick="M.toast({html: 'Sent Email'})" href="/event/manage/ticket/email/<%= Enum.at(ticket, 8)%> "> Email  </a>
+
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -110,10 +129,10 @@
                 <%= for registration <- @registration_and_events do %>
                 <div class="card ">
                     <div class="row">
-                        <div class="col s5">
-                        <a href="#five!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/e41/orchid-1364881.jpg"></a>
+                        <div class="col s12 m4">
+                        <a href="#five!"><img witdh="300" height="200" src="<%= Enum.at(registration, 2)%>" style="width: 300px;"></a>
                         </div>
-                        <div class="col s5"> 
+                        <div class="col s12 m5"> 
                             <h6> Title: <b> <%= Enum.at(registration, 1)%></b></h6>
                             <p> Event: <b> <%= Enum.at(registration, 0)%> </b> </p>
                             <%= unless is_nil(List.first(Enum.at(registration,8))["email"]) do %>
@@ -125,8 +144,13 @@
                             <p> Status: <b> Active </b> </p>
                             
                         </div>
-                        <div class="col s2">
-                            <!--<h6> Price: :erlang.float_to_binary(item.price, [:compact, { :decimals, 3 }]) </h6> -->
+                        <div class="col s12 m2">
+                            <%= if !is_nil(Enum.at(registration, 9)) do %>
+                                <h6> Price: <%= CurrencyFormatter.format(Float.to_string(Enum.at(registration, 9), decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h6>
+                            <%end%> 
+                             <%= if is_nil(Enum.at(registration, 9)) do %>
+                                <h6> Price: Free </h6>
+                            <%end%>
                         </div>
                     </div>
                 </div>
@@ -256,8 +280,23 @@
 <script type="text/javascript">
    $(document).ready(function(){
     $('.carousel').carousel();
+   
       $('.parallax').parallax();
+        $('.slider').slider({
+    height: 200,
+    indicators: false,
+    interval: 12000
+});
 
+//$('.slider').slider('pause');
+
+$('.next').click(function() {
+ $('.carousel.saved').carousel('next');
+});
+$('.prev').click(function() {
+ $('.carousel.saved').carousel('prev');
+});
   });
-      
+  
+    
 </script>

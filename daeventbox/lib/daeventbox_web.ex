@@ -32,6 +32,10 @@ defmodule DaeventboxWeb do
       import Plug.Conn
       import DaeventboxWeb.Router.Helpers
       import DaeventboxWeb.Gettext
+
+      alias Daeventbox.{Repo, User, Facilitator, Ticketdetail, Registrationdetails, Ticket}
+      alias Daeventbox.{Registration, SavedEvent, LikedEvent, Ad, Option, Action, Event}
+      alias DaEventBox.{Follower, Comment, Chat, Chat.Message, Chat.Room, Notification}
     end
   end
 

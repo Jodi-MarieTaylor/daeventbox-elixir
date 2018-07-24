@@ -39,10 +39,13 @@ th, td {
 
 <div class="container">
     <div class="card">
+        
         <table>
             <tr>
                 
-                <th>Notifications</th> 
+                <th>  Notifications
+                </th> 
+
                 
             </tr>
             <%= for notification <- @notifications do %>
@@ -62,7 +65,7 @@ th, td {
                         </div>  
                         <div class="col s12 m1">
                          
-                         <a href="/notify/delete/<%=notification.id%>/<%=notification.user_id%>">   <i class="material-icons">delete</i> </a>
+                         <a href="/notification/hide/<%=notification.id%>/<%=notification.user_id%>">   <i class="material-icons">delete</i> </a>
                         </div>
 
 
@@ -80,3 +83,12 @@ th, td {
     </div>
 
 </div>
+
+
+
+ <script>
+    $(document).ready(function(){
+         $('.dropdown-trigger').dropdown();
+
+    });
+    </script>

@@ -22,8 +22,8 @@ defmodule DaeventboxWeb.AdController do
     facilitator = Repo.get_by(Facilitator, user_id: conn.assigns[:current_user].id)
     option = Repo.get(Option, String.to_integer(params["option_id"]))
     days_decimal = Decimal.new(params["days"])
-    price = Decimal.mult(days_decimal, option.price)
-    # price = String.to_integer(params["days"]) * option.price
+    # price = Decimal.mult(days_decimal, option.price)
+    price = String.to_integer(params["days"]) * option.price
     ad_params = %{type: "internal" ,option_id: params["option_id"] , event_id: params["event_id"], status: "active", name: params["name"], image_url:  image_url, user_id: conn.assigns[:current_user].id, facilitator_id: facilitator.id, days: params["days"], price: price}
     changeset = Ad.changeset(%Ad{}, ad_params)
 
@@ -31,7 +31,7 @@ defmodule DaeventboxWeb.AdController do
         {:ok, _ad} -> IO.puts "Created AD"
         {:error, reason} -> IO.inspect reason
       end
-    redirect conn, to:  "/facilitator"
+    redirect conn, to:  "/facilitator/manage"
   end
 
   def ad_option(conn, params) do
@@ -67,11 +67,20 @@ defmodule DaeventboxWeb.AdController do
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(ad)
+    #Repo.delete!(ad)
+    required_params = %{is_deleted: true}
+    changeset = Ad.changeset(ad, required_params)
 
-    conn
-    |> put_flash(:info, "ad deleted successfully.")
-    |> redirect(to: "/facilitator")
+    case Repo.update(changeset) do
+      {:ok, _facilitator} ->
+        conn
+        |> put_flash(:info, "AD deleted successfully.")
+        |> redirect(to: "/facilitator/manage")
+
+      {:error, changeset} ->
+        IO.inspect changeset
+    end
+
 
   end
 
@@ -82,7 +91,7 @@ defmodule DaeventboxWeb.AdController do
 
   def view_all(conn, params) do
     facilitator = Repo.get_by(Facilitator, user_id: conn.assigns[:current_user].id)
-    query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id , select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url]
+    query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id and  is_nil(a.is_deleted), select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url]
     ads = Repo.all(query)
     IO.inspect ads
     render conn, "view_all.html", ads: ads
@@ -90,15 +99,17 @@ defmodule DaeventboxWeb.AdController do
   def select(conn, params) do
 
     event = Repo.get!(Event, params["id"])
+    ad_options = Repo.all(from o in Option, where: o.status == "enabled" )
 
-    render conn, "options.html", event: event
+    render conn, "options.html", event: event, ad_options: ad_options
   end
 
   def ad_form(conn,params) do
     event = Repo.get!(Event, params["id"])
     option_id = params["option_id"]
+    option =  Repo.get!(Option, params["option_id"])
 
-    render conn, "form.html", event: event, option_id: option_id
+    render conn, "form.html", event: event, option_id: option_id, option: option
 
   end
   def convert_url(url) do

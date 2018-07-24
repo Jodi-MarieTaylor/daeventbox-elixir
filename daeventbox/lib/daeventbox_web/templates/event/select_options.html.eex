@@ -28,7 +28,7 @@
         <hr>
         <div class="row">
             <div class="col s3 left-align" >
-                <img  src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg" alt="user background" width="230" height="200">                    
+                <img  src="<%= @event.image_url %>" alt="user background" width="230" height="200">                    
             </div>
             <div class="col s5" >
                 <h5> <%= @event.title %> </h5>
@@ -74,11 +74,11 @@
                                 <p> FREE </p>
                                 <%end%>
                                 <%= if @event.type == "paid" do %>
-                                <p> $<%=  :erlang.float_to_binary(ticket.price, [:compact, { :decimals, 3 }]) %> </p> 
+                                <p> <%= CurrencyFormatter.format(Float.to_string(ticket.price, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %></p>
                                 <%end%>
                             </div>
                             <div class="input-field col s2">
-                                <input id="quantity" name="selected_quantity<%= Enum.find_index(@ticket_details, fn(x) -> x.id == ticket.id end) %>" value=0 type="number" class = "active validate" >
+                                <input id="quantity" name="selected_quantity<%= Enum.find_index(@ticket_details, fn(x) -> x.id == ticket.id end) %>" value="0" type="number" class = "active validate" required>
                                 <label for="quantity">Quantity</label>
                             </div>
                         </div>
@@ -107,11 +107,11 @@
                                 <p> FREE </p>
                                 <%end%>
                                 <%= if @event.type == "paid" do %>
-                                <p> $<%= registration.price %> </p>
+                                <p> <%= CurrencyFormatter.format(Float.to_string(registration.price, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %> </p>
                                 <%end%>
                             </div>
                             <div class="input-field col s2">
-                                <input id="quantity" value=0 name="selected_quantity<%= Enum.find_index(@registration_details, fn(x) -> x.id == registration.id end) %>" type="number" class = "active validate" >
+                                <input id="quantity" value=0 name="selected_quantity<%= Enum.find_index(@registration_details, fn(x) -> x.id == registration.id end) %>" type="number" class = "active validate" required>
                                 <label for="quantity">Quantity</label>
                             </div>
                         </div>
@@ -131,3 +131,4 @@
 
     </div>
 </div>
+

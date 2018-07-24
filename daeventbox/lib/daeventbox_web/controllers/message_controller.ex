@@ -1,6 +1,7 @@
 defmodule DaeventboxWeb.MessageController do
   use DaeventboxWeb, :controller
 
+  import Ecto.Query
   alias Daeventbox.Chat
   alias Daeventbox.Chat.Message
 
@@ -22,6 +23,7 @@ defmodule DaeventboxWeb.MessageController do
       message_params
       |> Map.put("recipient_id", recipient_id)
       |> Map.put("sender_id", sender_id)
+      |> Map.put("seen", false)
     case Chat.create_message(message_params) do
       {:ok, message} ->
         IO.inspect message
@@ -49,7 +51,9 @@ defmodule DaeventboxWeb.MessageController do
 
   def update(conn, %{"id" => id, "message" => message_params}) do
     message = Chat.get_message!(id)
-
+    message_params =
+      message_params
+      |> Map.put("seen", true)
     case Chat.update_message(message, message_params) do
       {:ok, message} ->
         conn
@@ -58,6 +62,22 @@ defmodule DaeventboxWeb.MessageController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", message: message, changeset: changeset)
     end
+
+  end
+
+  def check(conn, params) do
+    user = Repo.get!(User, conn.assigns[:current_user].id)
+
+    count =
+      if conn.cookies["daeventboxmode"] == "Guest" do
+        Repo.all(from m in Message, where:  m.seen == false) |> Enum.count
+      else
+        Repo.all(from m in Message, where: m.recipient_id == ^user.id and m.seen == false ) |> Enum.count
+
+      end
+
+    data =  %{ "unseen_messages" => count }
+    json(conn, data)
   end
 
   def delete(conn, %{"id" => id}) do

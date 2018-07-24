@@ -24,7 +24,7 @@
  
     <div class = "col s12 m8" >
         <div class = "card large white"style="height: 1000px;">
-        <form method="POST"  action="/event/add/ticket/<%= @event.id %>">
+        <form method="POST"  action="/payment/process/<%= @event.id %>">
         
             <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
         
@@ -113,9 +113,9 @@
                     </div>
                 </div>
             <div class = "card-action">
-               <div class="row" >
+               <!--<div class="row" >
                     <a href="/payment/process" class="waves-effect waves-light btn right"><i class="material-icons left">cloud</i> Pay Now</a>
-                </div>
+                </div>-->
                 
             </div>
 
@@ -140,7 +140,7 @@
                     <td><%=item.name%></td>
                     <td><%=item.unit_price%></td> 
                     <td><%=item.quantity%></td>
-                    <td><%=  :erlang.float_to_binary(item.price, [:compact, { :decimals, 3 }]) %></td>
+                    <td> <%= CurrencyFormatter.format(Float.to_string(item.price, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %> </td>
                     <input type="hidden" name="item<%= Enum.find_index(@items, fn(x) -> x.id == item.id end) %>" value="<%= item.id %>">
                     <input type="hidden" name="itemq<%= Enum.find_index(@items, fn(x) -> x.id == item.id end) %>" value="<%= item.quantity %>">
 
@@ -150,12 +150,14 @@
                     <td> </td>
                     <td></td> 
                     <td></td>
-                    <td> <div> <hr> <%= @total%> </div> </td>
+                    <td> <div> <hr> <%= CurrencyFormatter.format(Float.to_string(@total, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %> </div> </td>
 
                 </tr>
                 </table>
             </div>
             <input type="hidden" name="total_items" value="<%= @total_items%>">
+            <input type="hidden" name="registration_details_params" value= "<%= @registration_details_params%>">
+
              <div class=" footer text-center right-align" >
                 <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">   
                     Proceed

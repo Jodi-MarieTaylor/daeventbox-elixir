@@ -10,20 +10,20 @@ defmodule DaeventboxWeb.TicketController do
     {barcode.token, convert_url(resp.url)}
   end
 
-  def create_ticket(conn, params) do
+  def create_ticket(conn, params, ticket) do
     user = conn.assigns[:current_user]
-    event = Daeventbox.Repo.get(Daeventbox.Event, 28)
+    event = Daeventbox.Repo.get(Daeventbox.Event, params["event_id"])
     {barcode, url} = generate_barcode(user.id, event.id)
-    case Ticket.create(%{"ticket_url" => url, "barcode" => barcode, "event_id" => event.id, "user_id" => user.id}) do
-      {:ok, ticket} ->
-        conn
-        |> put_flash(:info, "Ticket Successfully created.")
-        |> redirect(to: "/")
+    case Ticket.create(%{"status"=> "Active", "ticket_url" => url, "barcode" => barcode, "event_id" => event.id, "user_id" => user.id, "ticket_id" => ticket.id}) do
+      {:ok, new_ticket} ->
+        ticket =
+          ticket
+          |> Map.put(:event, event)
+        DaeventboxWeb.EmailController.ticket_email(new_ticket, user)
+        {:ok, ticket}
       {:error, reason} ->
         errors = Changeset.errors(reason) |> Enum.join(",")
-        conn
-        |> put_flash(:error, errors)
-        |> redirect(to: "/")
+        {:error, errors}
     end
 
 
