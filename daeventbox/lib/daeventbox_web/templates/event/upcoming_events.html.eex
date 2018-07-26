@@ -5,7 +5,7 @@
     }
     
 .headtab {
-  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
    background-repeat: no-repeat;
 		   background-position: center center;
 		   background-size: cover;

@@ -49,10 +49,10 @@ defmodule Daeventbox.Action do
 
 
 
-   def add(conn, action, action_id, event_id) do
+   def add(conn, action, action_id, event_id, user_id) do
     params = conn.params
     # ^conn.assigns.current_store.id
-    user = Repo.get_by(User, zid: conn.cookies["daeventboxuser"])
+    user = Repo.get_by(User, id: user_id)
     IO.inspect user
     if user do
       req = Enum.into(conn.req_headers, %{})

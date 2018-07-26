@@ -112,6 +112,18 @@ defmodule DaeventboxWeb.AdController do
     render conn, "form.html", event: event, option_id: option_id, option: option
 
   end
+
+  def ad_search(conn, params) do
+
+      user_id = conn.assigns[:current_user].id
+      facilitator = Repo.get_by(Facilitator, user_id: user_id)
+      aname = String.strip(params["name"]) |> String.split(" ") |> Enum.map( &String.capitalize/1 )|> Enum.join(" ")
+      query = from a in Ad, join: e in Event, join: o in Option, where:  fragment("? ~* ?", a.name, ^aname) and  a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id and  is_nil(a.is_deleted), select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url]
+      ads = Repo.all(query)
+      IO.inspect ads
+      render conn, "view_all.html", ads: ads
+
+  end
   def convert_url(url) do
     String.replace(url, "https://d1l54leyvskqrr.cloudfront.net", "https://s3.us-east-2.amazonaws.com/daeventboximages")
   end

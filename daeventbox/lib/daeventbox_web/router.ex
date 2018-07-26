@@ -37,7 +37,7 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/payment", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 
     get "/card-info", PaymentController, :payment_form
     get "/process", PaymentController, :home
@@ -56,7 +56,7 @@ defmodule DaeventboxWeb.Router do
 
 
   scope "/chat", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 
     get "/", RoomController, :create
     post "/send", MessageController, :create
@@ -69,12 +69,12 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/event", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
+
     get "/create", EventController, :create
     post "/add", EventController, :add
     get "/edit/:id", EventController, :edit_form
     get "/delete/:id", EventController, :delete
-    get "/details/:id", EventController, :details
     get "/manage/", EventController, :manage
     get "/save/:id", EventController, :save
     get "/unsave/:id", EventController, :unsave
@@ -88,10 +88,7 @@ defmodule DaeventboxWeb.Router do
     get "/registrationform/:id", EventController, :registration_form
     post "/register/proceed/:id", EventController, :add_registrations
     post "/add/ticket/:id", EventController, :add_ticket
-    get "/upcoming/filter", EventController, :filter_events
-    get "/upcoming", EventController, :upcoming_events
-    get "/facilitators", EventController, :facilitators
-    get "/facilitators/filter", EventController, :filter_facilitators
+
     post "/add/comment/:event_id" , EventController, :add_comment
     post "/update/:id", EventController, :update
     get "/earnings/:event_id", EventController, :earnings
@@ -103,7 +100,7 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/account", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
     get "/settings", AccountController, :account_settings
     post "/submit/email-preferences/",AccountController, :update_email
     post "/submit/user-general/",AccountController, :update_user
@@ -112,7 +109,7 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/notify", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
     get "/send", NotificationController, :notify
     post "/send", NotificationController, :notify
     get "/", NotificationController, :notifications
@@ -128,16 +125,18 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/ad", DaeventboxWeb do
-      pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
       get "/options", AdController, :ad_option
       get "/select/:id", AdController, :select
       get "/selection/form/:option_id/:id", AdController, :ad_form
       post "/create", AdController, :create
+      get "/view/all/search/", AdController, :ad_search
       get "/view/all", AdController, :view_all
       get "/delete/:id", AdController, :delete
   end
+
   scope "/facilitator", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
     get "/switch", FacilitatorController, :switch
     get "/change/mode", FacilitatorController, :changemode
     get "/event/search", FacilitatorController, :eventsearch
@@ -159,15 +158,17 @@ defmodule DaeventboxWeb.Router do
 
     post "/report/add/:facilitator_id", FacilitatorController, :report_facilitator
   end
+
   scope "/guest", DaeventboxWeb do
-    pipe_through [:secure, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 
     get "/" , GuestController, :home
 
 
   end
+
   scope "/admin", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
     post "/facilitator/create", AdminController, :index
     get "/facilitators", AdminController, :facilitators
     get "/facilitator/view", AdminController, :view_facilitator
@@ -224,18 +225,45 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 
-    get "/", PageController, :index
-    get "/register", AuthController, :signup
-    get "/login", AuthController, :login
-    get "/logout", AuthController, :logout
-    post "/user/create", SessionController, :signup
-    post "/signin", SessionController, :signin
     resources "/messages", MessageController
     resources "/rooms", RoomController
 
+    get "/logout", SessionController, :signout
 
+  end
+
+  scope "/", DaeventboxWeb do
+    pipe_through [:browser, :with_session] # Use the default browser stack
+
+    get "/event/upcoming/filter", EventController, :filter_events
+    get "/event/upcoming", EventController, :upcoming_events
+    get "/event/facilitators", EventController, :facilitators
+    get "/event/facilitators/filter", EventController, :filter_facilitators
+    get "/event/details/:id", EventController, :details
+    get "/event/search", EventController, :search
+    get "/aboutus", PageController, :about_us
+    get "/contactus", PageController, :contact_us
+    get "/", PageController, :index
+
+    # render pages
+    get "/register", AuthController, :signup
+    get "/login", AuthController, :login
+
+    # process requests
+    post "/user/create", SessionController, :signup
+    post "/signin", SessionController, :signin
+
+    #render pages
+    get "/recover", SessionController, :reset_password
+    get "/reset-password", SessionController, :recover
+
+    #process requests
+    post "/recover", SessionController, :reset_password
+    post "/reset-password", SessionController, :recover
+
+    get "/*path", PageController, :index
   end
 
 

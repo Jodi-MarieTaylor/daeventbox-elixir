@@ -78,8 +78,10 @@ defmodule Daeventbox.User do
       |> validate_length(:password, min: 8)
       |> validate_confirmation(:password)
       |> hash_password
+      |> unique_constraint(:email)
+      |> validate_required(@required)
+      |> Daeventbox.Repo.update
   end
-
 
 
   defp hash_password(%{valid?: false} = changeset), do: changeset

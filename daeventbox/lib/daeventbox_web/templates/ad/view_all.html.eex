@@ -21,18 +21,89 @@
   /* width and height can be anything, as long as they're equal */
 }
 </style>
+<!--
+ <ul id = "position-filter-dropdown" class = "dropdown-content">
+               <li> <a href="/ad/view/all">All Positions</a></li><br>
+
+               <li> <a href="/ad/view/all/filter?position=bottom">Bottom</a></li><br>
+                <li><a href="/ad/view/all/filter?position=side">Side</a></li><br>
+                <li> <a href="/ad/view/all/filter?position=top">Top</a></li><br>
+                <li><a href="/ad/view/all/filter?position=home">Home</a></li><br>
+                
+        
+</ul>
+ <ul id = "days-filter-dropdown" class = "dropdown-content">
+         <li> <a href="/ad/view/all">All Days</a></li><br>
+
+         <li><a href="/ad/view/all/filter?days=least">Least Days</a> </li>
+         <li><a href="/ad/view/all/filter?days=most">Most Days</a> </li>
+         
+
+         
+
+</ul>
+-->
 <div class="card headtab" style="width: 100%; color: white;">
     <div class="row">
         <div class ="col s12 m4"  style="padding: 10px;">
-            <h4 style="color: white;"> Manage Banners </h4>
+            <h4 style="color: white;"> Manage AD Banners </h4>
             
         </div>
-
+        <!--
+        <div class ="right col s12 m4" style="padding-top: 20px; ">
+            <ul>
+                <li>
+                    <div class = "col s12 m6">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "position-filter-dropdown" style="color: white;"> Filter by Position<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s12 m6">
+                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "days-filter-dropdown" style="color: white;"> Filter by Days Remaining<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+               
+            </ul>
+        </div>
+        -->
+        <div  class ="col s12 m1 right" style="padding-top: 20px;">
+            <a class="waves-effect waves-light btn " href="/ad/view/all">Reset</a>
+        </div>
+        <form action="/ad/view/all/search/">
+            <div  class ="col s12 m1 right" style="padding-top: 20px;">
+                <button data-target="" class=" btn waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                Search
+                </button>
+            </div>
+            <div  class ="col s12 m3 right">
+                
+                    <div class="input-field">
+                
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <input name="name" id="search" type="search"  required>
+                    </div>
+            
+            </div>
+        </form>
+        
         
     </div>
 </div>
 
 <div class="container">
+    <%= if Enum.count(@ads) == 0 do %>
+        Currently No ADs
+    <%end%>
     <%= for ad <- @ads do %>
     <div class="card ">
         <div class="row">

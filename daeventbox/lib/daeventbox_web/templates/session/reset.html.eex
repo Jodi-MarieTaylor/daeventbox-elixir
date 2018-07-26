@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+login
+-->
+
+ <style>
+
+ body {
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        /* background-image: url("https://preview.ibb.co/mybhcS/background.png");*/
+		   background-image: url("https://image.ibb.co/gpHrNS/backgroundwebsite.png" );
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        background-size: cover;
+        }
+
+</style>
+
+
+<form  method="POST" action="/signin">
+<input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+<div >
+  <div class="row">
+    <div width="100%">
+        <img src="https://preview.ibb.co/f6Fprn/logo_1.png" alt="logo_1" width="35%"  style=" display:table-cell; vertical-align:middle; text-align:center; margin: 0 auto;">
+    </div>
+
+  <div class="card card-signup content" style="max-width: 60%; margin: 0 auto;" >
+    <form class="col-s8" method="post" action="/reset-password">
+      <h4 class="center-align">Recover Password</h4>
+      <p class="center-align"> Enter Your New Password </p>
+      <div class="row">
+        <div class="input-field col s12">
+          <input class="form-control" name="password" type="password" required="" placeholder="Super Hard Password">
+          <label for="password">PASSWORD</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center-align">
+          <button class="btn-large waves-effect waves-light" style="background-color: #ee226f;" type="submit" name="action">
+            RESET
+          </button>
+        </div>
+      </div>
+     </div>
+     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+     <input class="form-control" value="<%= @params["key"] %>" name="token" type="hidden">
+    </form>
+  </div>
+</div>
+</div>
+</form>
+</html>
+
+<script>
+
+$("nav").hide()
+
+</script>

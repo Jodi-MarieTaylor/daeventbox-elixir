@@ -213,7 +213,12 @@ defmodule DaeventboxWeb.EventController do
 
   def details(conn, params) do
     event = Repo.get!(Event, params["id"])
-    user_id = conn.assigns[:current_user].id
+    user_id  =
+      if conn.assigns[:current_user] do
+        conn.assigns[:current_user].id
+      else
+        0
+      end
 
     #facilitator = Repo.get!(Facilitator, event.facilitator_id)
     #if event.admission_type == "ticket" do
@@ -251,7 +256,7 @@ defmodule DaeventboxWeb.EventController do
     end_date =  format_datetime(event.end_date)
     start_time = format_time(event.start_time)
     end_time = format_time(event.end_time)
-    Action.add(conn, "viewed-event-details", 1, event.id )
+    Action.add(conn, "viewed-event-details", 1, event.id, user_id )
     # Sum of (weight * number of reviews at that weight) / total number of reviews
     # (5*252 + 4*124 + 3*40 + 2*29 + 1*33) / 478 = 4.1
     star5 = Repo.all(from r in Rating, where: r.rating == 5 and r.event_id == ^event.id) |> Enum.count
@@ -514,8 +519,10 @@ defmodule DaeventboxWeb.EventController do
   end
 
   def upcoming_events(conn,params) do
-    query = from e in Event, where: e.id > 15 and is_nil(e.is_deleted) , order_by: [desc: e.inserted_at] # where events are new
-    events = Repo.all(query)
+    per_page = params["page_size"] || 9
+    page = params["page"] || "1"
+    query = from e in Event, where: e.id > 15 and is_nil(e.is_deleted) , order_by: [desc: e.inserted_at]
+    events = Paginate.query(query, per_page, page)
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
     news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
@@ -840,6 +847,33 @@ def send_notification(type, item, message, sent_by) do
             {:error, reason} -> IO.inspect reason
       end
     end
+  end
+
+  def search(conn, params) do
+    IO.puts "in the search worl!"
+    cond do
+      params["title"] ->
+        ename = String.strip(params["title"]) |> String.split(" ") |> Enum.map( &String.capitalize/1 )|> Enum.join(" ")
+        query = from e in Event, where:  fragment("? ~* ?", e.title, ^ename)
+        events =  Repo.all(query)
+      params["parish"] ->
+         query = from e in Event, where: fragment("?->>'parish' LIKE ?", e.location_info, ^params["location"]) and e.id > 15
+         events = Repo.all(query)
+
+      params["date"] ->
+        query = from e in Event, where: e.start_date == ^params["date"] and is_nil(e.is_deleted)
+
+         events = Repo.all(query)
+      params["category"] ->
+          query = from e in Event, where: e.category == ^params["category"] and e.id > 15
+          events = Repo.all(query)
+     end
+    ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
+    ads = Repo.all(ads_query)
+    news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
+    render conn, "upcoming_events.html", events: events, ads: ads, news: news
+
+
   end
    @months %{1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr",
             5 => "May", 6 => "Jun", 7 => "Jul", 8 => "Aug",

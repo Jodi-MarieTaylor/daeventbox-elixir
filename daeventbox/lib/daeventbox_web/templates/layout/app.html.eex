@@ -25,7 +25,7 @@
       
    <style>
    .truncate {
-  width: 200px;
+  width: 300px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -60,10 +60,11 @@
        background-repeat: no-repeat;
         background-size: cover;
         border-top: solid thin transparent;
-        margin-bottom: 0px;
-       bottom:0;
+        margin-bottom: 0px !important;
+       bottom:0 !important;
        left:0;
        width:100%;
+       padding-top: 200px;
     }
      
 
@@ -339,7 +340,48 @@
             
           });
     </script>
+ <footer class="new-footer">
+          <div class="container">
+            <div class="row">
+             
+              <div class="col l4 m4 s4">
+                <h5 class="white-text">Quick Links</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">Home</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Upcoming Events</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Create An Event</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Event Organizers</a></li>
+                </ul>
+              </div>
+              <div class="col l4 m4 s4">
+                 <h5 class="white-text">Other Links</h5>
 
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">News</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">FAQs</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">About Us</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Contact Us</a></li>
+                </ul>
+              </div>
+                <div class="col l4 m4 s4">
+                 <h5 class="white-text">Connect With Us</h5>
+
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!"> <i class="fa fa-facebook-square"></i>  Facebook</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"><i class="fa fa-instagram"></i>  Instagram</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"><i class="fa fa-twitter"></i>  Twitter</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container grey-text text-lighten-4 ">
+            © 2018 Copyright Da EventBox
+            <a class="grey-text text-lighten-4 right" href="#!">Made with FleekSite</a>
+            </div>
+          </div>
+    </footer>
+            
 
 </body>
 </html>

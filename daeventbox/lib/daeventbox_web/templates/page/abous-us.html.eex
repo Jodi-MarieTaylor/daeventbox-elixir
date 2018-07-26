@@ -1,0 +1,124 @@
+<style>
+.none {
+    display:none;
+}
+
+
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}  
+
+p{
+    color: black;
+    font-size: 16px;
+}  
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">About Us</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+
+
+<div class="container">
+
+<p style="color:black;"><b>Our Mission – To provide awareness and admissions of events.</b></p>
+
+<p style="color:black;"><img src="https://s3.us-east-2.amazonaws.com/daeventboximages/Da+Eventbox+Logo+PNG+(JayBone+Designz)+(1).png
+" alt="Pineapple" style="width:170px;height:170px;margin-right:15px; float: left;">
+At Da EventBox, we all come to work every day because we want to help
+you to become more aware of events going on around you. Advertisers &
+Brands don’t know where their target users are, how to reach them, or even
+how much they need to spend in order to do so. People aren’t aware what is
+going on around them.
+
+Throughout the history of advertising, people tend to rely mostly on
+information from the television and radio to help them decide what events to
+attend. While these are very effective mediums, it is not easily accessible by
+all and even if you do get access to it, the cost is just ridiculous. Our mission
+at Da EventBox is to make the advertising economy more accessible to
+everyone right across the board. Today we provide our services to not just
+corporate entities, or your high school friends trying to organize a reunion
+but also the man around the corner who is organizing a fish fry to help raise
+funds to send his daughter to school.</p>
+
+
+<div>
+    <h4> Our Team </h4>
+
+    <div class="row">
+          <div class="col s12 m3">
+        <div class="card">
+            <div class="card-image">
+            <img src="http://georgiastatesociety.org/wp-content/uploads/2015/02/Individual-Membership.png">
+          
+            </div>
+            <div class="card-content">
+            <p>Name: </p>
+            <p>About: I am a very simple card. I am good at containing small bits of information.
+            I am convenient because I require little markup to use effectively.</p>
+            </div>
+           
+        </div>
+        </div>
+        <div class="col s12 m3">
+        <div class="card">
+            <div class="card-image">
+            <img src="http://georgiastatesociety.org/wp-content/uploads/2015/02/Individual-Membership.png">
+           
+            </div>
+            <div class="card-content">
+            <p>Name: </p>
+            <p>About: I am a very simple card. I am good at containing small bits of information.
+            I am convenient because I require little markup to use effectively.</p>
+            </div>
+           
+        </div>
+        </div>
+          <div class="col s12 m3">
+        <div class="card">
+            <div class="card-image">
+            <img src="http://georgiastatesociety.org/wp-content/uploads/2015/02/Individual-Membership.png">
+           
+            </div>
+            <div class="card-content">
+            <p>Name: </p>
+            <p>About: I am a very simple card. I am good at containing small bits of information.
+            I am convenient because I require little markup to use effectively.</p>
+            </div>
+           
+        </div>
+        </div>  <div class="col s12 m3">
+        <div class="card">
+            <div class="card-image">
+            <img src="http://georgiastatesociety.org/wp-content/uploads/2015/02/Individual-Membership.png">
+            
+            </div>
+            <div class="card-content">
+           <p>Name: </p>
+            <p>About: I am a very simple card. I am good at containing small bits of information.
+            I am convenient because I require little markup to use effectively.</p>
+            </div>
+            </div>
+            
+        </div>
+        </div>
+
+    </div>
+
+</div>

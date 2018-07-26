@@ -27,13 +27,12 @@
      .slantedDivB{
       position: relative;
       width: 100%;
-      height: 400px;
        background-color: #f2f2f2;
       
       
     }
 
-    .slantedDivB:after{
+    /*.slantedDivB:after{
       position: absolute;
       width: 100%;
        background: inherit;
@@ -47,7 +46,7 @@
       transform-origin: bottom right;
       transform: skewY(4deg);
     }
-
+    */
     .pandn {
         background-image: url("https://images6.alphacoders.com/438/438444.jpg");
     }
@@ -56,14 +55,14 @@
 
 
 <div class="slantedDivA"> 
-            <img style=" display: block; margin-left: auto;   margin-right: auto; margin-top: 40px;   width: 50%;" src="http://www.pripsjamaica.com/sites/default/files/images/events/21015803_1507239632696316_2801831096280515445_o.jpg" alt="Smiley face" height="280" width="600">
+            <img style=" display: block; margin-left: auto;   margin-right: auto; margin-top: 40px;   width: 50%;" src="https://s3.us-east-2.amazonaws.com/daeventboximages/dream+weekend+image.jpg" alt="Smiley face" height="280" width="600">
 
             <div class="card" style="  margin: 20px  auto; width: 50%; ">
                 <div class="row">
-                   <form>
+                   <form action="/event/search" method="get">
                    
-                    <div class=" col s12 m4 l4">
-                    <input id="search" type="text" placeholder="Search for Event" style="" required>
+                    <div class=" col s12 m4 l3">
+                    <input id="search" name="title" type="text" placeholder="Search for Event" style="" >
 
                     </div>
                     <div class="col s12 m4 l3" >
@@ -86,14 +85,13 @@
                         <option value = "Manchester">Portland</option>
                     </select>               
                 </div>
-                <div class=" col s12 m4 l3">
-                    <input id="datep" type="text" placeholder="Select Date" class="datepicker">
+                <div class=" col s12 m3 l3"  >
+                    <input id="datep" type="text" name="date" placeholder="Select Date" class="datepicker">
                 </div>
-                <div class="col s12 m4 l2" >
-                <button class=" pull-right btn-small waves-effect waves-light btn btn-simple btn-primary " style="margin-top: 10px; margin-right: 0px;" type="submit" name="submit">
+                
+                <button class=" pull-right btn-small waves-effect waves-light btn btn-simple btn-primary " style="margin-top: 10px; margin-right: 10px;" type="submit" name="submit">
                     Search
                     </button>
-                </div>
                 </form>
                 </div>
                <!-- <div class="row">
@@ -135,12 +133,12 @@
 <div class="featureEvents" style="margin-top: 0px;">
      <h4 class="center" style="margin-top: 0px;">
          <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
-           Featured Events
+          Trending Events
         <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
      </h4>
 
     <div class="col s12 m2">
-                   
+                   <!--
                     <div class="carousel" style="padding-top: 0px !important; height: 400px;">
                         <%= for ad <- @ads do %>
                             <div class="carousel-item card " style="width: 400px !important;">  
@@ -149,96 +147,140 @@
                             </div>
                         <%end%>
                         
-                    </div>
+                    </div>-->
+                    <div class="carousel saved " style="padding-top: 0px !important; height: 400px;"><a>
+                         <%= for event <- @events do %>
+                        <div class="carousel-item card" style=" width:400px !important; height: 380px  !important; ">  
+                            <div class="card-image">
+                                <a href="#three!"><img src="<%=event.image_url%>" style=" width: 400px !important; height: 250px !important; "></a>
+                                <span class="card-title "></span>
+                            </div>
+                            <div class="card-content">
+                                <p class="truncate" style="text-transform: capitalize; font-size: 25px;" >   <%= event.title %> </p>
+
+                                <p style="font-size: 16px;">  <%= Calendar.Strftime.strftime!(event.start_date, "%B %e,  %Y") %> </p>
+
+                                    <a href="/event/details/<%= event.id %>" class="btn  waves-effect waves-light darken-2 pull-right" style="font-size: 17px;"> Details </a>
+                                
+                            </div>
+                            
+                        </div>
+                        <%end%>
+                    </div>    
+
                     
+        <div class="col s12 center">
+            <button class="prev z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-left fa-lg grey-text text-lighten-3"></i></button>
+            <button class="next z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-right fa-lg grey-text text-lighten-1"></i></button>
+        </div>
             </div>
         </div>  
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<div class="slantedDivB" style="z-index: -1; color: white" > 
-    <div class="row">
-    <h4 class="center" style="padding-bottom: 0px;"> Events Near You</h4>
-         <div class="carousel center " style="padding-top: 0px !important; height: 300px; margin: 0 auto;">
-        <div class="carousel-item card" >  
-             <div class="card-image">
-                <a href="#three!"><img width="400" height=" 400" src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg" style="width: 400px !important;"></a>
-                <span class="card-title "></span>
-            </div>
-            <div class="card-content">
-                
-                
-            </div>
 
-        </div>
-        <div class="carousel-item card" >  
-             <div class="card-image">
-                <a href="#three!"><img width="400" height=" 400" src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg" style="width: 400px !important;"></a>
-                <span class="card-title "></span>
-            </div>
-            <div class="card-content">
-                
-                
-            </div>
+<br>
+<br>
+<div class="slantedDivB"> 
+     <h4 class="center" style="margin-top: 10px;">
+         <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+          Latest Events
+        <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+     </h4>
 
+    <div class="row container">
+        <div class="col s12 m12 l12" >
+            
+            
+            <div class="row">
+                <%= for event <- @latest_events do %>
+                    <div class="col s12 m4 ">
+                    <div class="card">
+                        <div class="card-image">
+                        <!--<img src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg">-->
+                        <img src="https://jodipodi.resize.fleeksite.com/flow/600x564/<%= event.image_url %>" style="height: 200px">
+                        <span class="card-title "></span>
+                        </div>
+                        <div class="card-content">
+                        <p class="truncate" style="font-size: 20px;"> <%= event.title %> </p>
+                        <p style="font-size: 14px;"> <%= event.start_date %>  </p>
+                        <a href="/event/details/<%=event.id %>" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Details </a>
+                        
+                        </div>
+                    
+                    </div>
+                    </div>
+                <%end%>
+             </div>
+          
         </div>
-        <div class="carousel-item card" >  
-             <div class="card-image">
-                <a href="#three!"><img width="400" height=" 400" src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg" style="width: 400px !important;"></a>
-                <span class="card-title "></span>
-            </div>
-            <div class="card-content">
-                
-                
-            </div>
-
         </div>
-        <div class="carousel-item card" >  
-             <div class="card-image">
-                <a href="#three!"><img width="400" height=" 400" src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg" style="width: 400px !important;"></a>
-                <span class="card-title "></span>
-            </div>
-            <div class="card-content">
-                
-                
-            </div>
-
-        </div>
-        <div class="carousel-item card" >  
-             <div class="card-image">
-                <a href="#three!"><img width="400" height=" 400" src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg" style="width: 400px !important;"></a>
-                <span class="card-title "></span>
-            </div>
-            <div class="card-content">
-                
-                
-            </div>
-
-        </div>
-    </div>  
     </div>
+    
 </div>
-
 <div>
-    <div class="row">
-         <h4 class="center" style="padding-bottom: 0px;"> Categories</h4>
-         <div class = "row container">
-            <div class="col s12 m4 pandn card " >
-                <h5> Parties and Nightlife </h5>
+    <h4 class="center" style="margin-top: 10px;">
+         <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+          Categories
+        <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+     </h4>
 
-            </div>
-             <div class="col s12 m4 card" style="color: blue;">
-                <h5> Concerts and Live Performances </h5>
+    <div class=" container" style="margin: 0 auto;  " >
+         <div class = "row " style="color: white; margin: 0px; " >
+            <a href="/event/search?category=Parties and Nightlife" class="col s12 m6 l6 pandn card " style="height: 100px !important;  " >
+                <h5 style="text-align: center; margin: 40px auto; color: white;"> Parties and Nightlife </h5>
+
+            </a>
+             <a href="/event/search?category=Concerts and Live Performances" class="col s12 m6 l6  card" style=" height: 100px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Concerts and Live Performances </h5>
                 
-            </div>
+            </a>
+         </div> 
+          <div class = "row " style="color: white; margin: 0px; " >
+            <a href="/event/search?category=Seminars and Conferences"  class="col s12 m6 l4 pandn card " style="height: 150px !important;  " >
+                <h5 style="text-align: center; margin: 40px auto;  color: white;"> Seminars and Conferences </h5>
+
+            </a>
+             <a href="/event/search?category=Sports and Leisure"  class="col s12 m6 l4  card" style="   height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Sports and Leisure </h5>
+                
+            </a>
+             <a href="/event/search?category=Business and Exhibitions"  class="col s12 m6 l4  card" style="  height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Business and Exhibitions </h5>
+                
+            </a>
+         </div> 
+         <div class = "row " style="color: white; margin: 0px;  " >
+            <a href="/event/search?category=Fairs and Festivals" class="col s12 m6 l4 pandn card " style="  height: 150px !important; " >
+                <h5 style="text-align: center; margin: 40px auto;  color: white;"> Fairs and Festivals </h5>
+
+            </a>
+             <a href="/event/search?category=Celebrations" class="col s12 m6 l4  card" style="   height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Celebrations </h5>
+                
+            </a>
+             <a href="/event/search?category=Fund Raisers and Galas" class="col s12 m6 l4  card" style="  height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Fund Raisers and Galas </h5>
+                
+            </a>
+         </div> 
+          <div class = "row " style="color: white; margin: 0px; " >
+            <a href="/event/search?category=Private Lessons" class="col s12 m6 l4 pandn card " style="  height: 150px !important; " >
+                <h5 style="text-align: center; margin: 40px auto;  color: white;"> Private Lessons</h5>
+
+            </a>
+             <a href="/event/search?category=Clubs and Societies" class="col s12 m6 l4  card" style="height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Clubs and Societies  </h5>
+                
+            </a>
+            <a href="/event/search?category=Miscellaneous" class="col s12 m6 l4  card" style="height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Miscellaneous </h5>
+                
+            </a>
          </div> 
 
     </div>
 </div>
+
+   
 
 <script>
 $('.datepicker').pickadate({
@@ -252,6 +294,15 @@ $('.datepicker').pickadate({
   $('.carousel').carousel({
         padding: 500
     });
+    
+    
+$('.next').click(function() {
+ $('.carousel.saved').carousel('next');
+});
+$('.prev').click(function() {
+ $('.carousel.saved').carousel('prev');
+});
+  
     autoplay()   
     function autoplay() {
         $('.carousel').carousel('next');

@@ -15,23 +15,36 @@
         background-attachment: fixed;
 }
 </style>
+
 <div class="card headtab" style="width: 100%; color: white;">
     <div class="row">
         <div class ="col s12 m4"  style="padding: 10px;">
             <h4 style="color: white;">Manage Your Own Events</h4>
             
-              
+
+            
         </div>
-        <div  class ="col s12 m4 right">
-            <form action="/facilitator/manage/search/events">
-                <div class="input-field">
-              
-                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                <input name="title" id="search" type="search" style="padding-left: 30px ;"  required>
-                <i class="material-icons">close</i>
-                </div>
-            </form>
+      
+        
+        <div  class ="col s12 m1 right" style="padding-top: 20px;">
+            <a class="waves-effect waves-light btn " href="/facilitator/manage/">Reset</a>
         </div>
+        <form action="/facilitator/manage/search/events">
+            <div  class ="col s12 m1 right" style="padding-top: 20px;">
+                <button data-target="" class=" btn waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                Search
+                </button>
+            </div>
+            <div  class ="col s12 m3 right">
+                
+                    <div class="input-field">
+                
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <input name="title" id="search" type="search"  required>
+                    </div>
+            
+            </div>
+        </form>
         
 
         

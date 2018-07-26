@@ -1,0 +1,75 @@
+<style>
+.none {
+    display:none;
+}
+
+
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}  
+
+p{
+    color: black;
+    font-size: 16px;
+}  
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Contact Us</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+
+<div class="row container">
+    <div class="col s12 m6 l8">
+        <h4>Contact Form</h4>
+            <form action="/contact/daeventbox" method="POST" >
+                <div class="row">
+                    <div class="input-field col s6">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="icon_prefix" type="text" class="validate" name="name">
+                    <label for="icon_prefix">Full Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                    <i class="material-icons prefix">email</i>
+                    <input id="email" type="email" class="validate">
+                    <label for="email" data-error="wrong" data-success="right" name="email">Email</label>
+                    </div>        
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                    <i class="material-icons prefix">message</i>
+                    <textarea id="textarea1" class="materialize-textarea" name="message"></textarea>
+                    <label for="textarea1">Message</label>
+                    </div>
+                </div>
+                 <div >
+                                <a href="/contact/send" class="btn  waves-effect waves-light darken-2 right"> Send </a>
+
+                </div>
+            </form>
+    </div>
+       
+    <div class="col s12 m6 l2">
+        <p>Address: </p>
+        <p>Email: </p>
+        <p>Contact: </p>
+        </div>
+       
+    </div>
+   
+</div>

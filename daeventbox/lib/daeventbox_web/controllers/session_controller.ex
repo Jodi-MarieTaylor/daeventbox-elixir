@@ -83,13 +83,72 @@ defmodule DaeventboxWeb.SessionController do
       end
     end
 
-    def reset_password(conn, %{"email" => email}) do
-      user = Data.Repo.get_by(Data.Account.User, email: email)
-      template = Data.Repo.get(Data.Content.Post, 4079)
-      MmsWeb.EmailController.user_email(user, template)
+    #logout user
+    def signout(conn, _) do
       conn
-      |> put_flash(:info, "Please Check Your Email for your reset link")
-      |> render("recover.html")
+      |> Daeventbox.Auth.logout
+      |> Plug.Conn.clear_session
+      |> put_flash(:info, "See you later!")
+      |> redirect(to: "/")
+    end
+
+    def reset_password(conn, %{"email" => email}) do
+      user = Repo.get_by(User, email: email)
+      case user do
+        nil ->
+          conn
+          |> put_flash(:error, "Email Not Found.")
+          |> render("recover.html")
+        _ ->
+            DaeventboxWeb.EmailController.generic_email(user, %{"template" => "reset_password.html", "title" => "Password Reset"})
+#          template = Repo.get_by(Data.Content.Template, site_id: 1, permalink: "/password-reset")
+#          MmsWeb.EmailController.user_email(user, template)
+          conn
+          |> put_flash(:info, "Please Check Your Email for your reset link")
+          |> render("recover.html")
+      end
+    end
+
+    def reset_password(conn, params) do
+      render(conn, "recover.html", params: params)
+    end
+
+    def recover(conn, %{"password" => password, "token" => token}) do
+      user = Repo.get_by(User, zid: token)
+      IO.inspect user
+      if password && password != "" do
+        if user do
+          case User.updatepass(user, %{"password" => password}) do
+            {:ok, user} ->
+              conn
+              |> put_flash(:info, "Successfully Reset Password")
+              |> redirect(to: "/login")
+            {:error, reason} ->
+              conn
+              |> put_flash(:error, "Failed To Update Password")
+              |> redirect(to: "/recover")
+          end
+        else
+          conn
+          |> put_flash(:error, "This password reset token has expired.")
+          |> redirect(to: "/recover")
+        end
+      else
+        conn
+        |> put_flash(:error, "Failed To Update Password Due To Empty Submission")
+        |> redirect(to: "/recover")
+      end
+    end
+
+    def recover(conn, params) do
+      case Repo.get_by(User, zid: params["key"]) do
+        nil ->
+          conn
+          |> put_flash(:error, "This password reset token has expired.")
+          |> redirect(to: "/recover")
+        _ ->
+          render(conn, "reset.html", params: params)
+      end
     end
 
     def recover(conn, params) do
@@ -99,5 +158,6 @@ defmodule DaeventboxWeb.SessionController do
     def verify_email(user) do
       DaeventboxWeb.EmailController.user_email(user)
     end
+
 
 end
