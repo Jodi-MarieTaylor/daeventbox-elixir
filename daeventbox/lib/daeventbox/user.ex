@@ -1,7 +1,7 @@
 defmodule Daeventbox.User do
   use Ecto.Schema
   import Ecto.Changeset
-
+  alias Daeventbox.Repo
 
   schema "users" do
     field :address, :string
@@ -19,14 +19,26 @@ defmodule Daeventbox.User do
     field :alt_phone, :string
     field :alt_email, :string
     field :profile_pic_url, :string
+    field :fb_id, :string
 
     timestamps()
   end
 
   @required [:firstname, :lastname, :email, :password]
 
-  @optional [:firstname, :lastname, :email, :address, :password, :phone, :username, :bio, :zid, :details, :meta1, :meta2, :alt_phone, :alt_email, :profile_pic_url]
+  @optional [:firstname, :lastname, :email, :address, :password, :phone, :username, :bio, :zid, :details, :meta1, :meta2, :alt_phone, :alt_email, :profile_pic_url, :fb_id]
 
+  def create(attrs) do
+    %Daeventbox.User{}
+    |> changeset(attrs)
+    |> Repo.insert
+  end
+
+  def update(user, attrs) do
+    user
+    |> changeset_in(attrs)
+    |> Repo.update
+  end
 
   def changeset(user, attrs) do
 

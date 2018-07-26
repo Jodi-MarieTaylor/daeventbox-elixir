@@ -129,10 +129,10 @@
                                
                                         <a href="/facilitator/profile?id=<%=facilitator.id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px; margin: 10px;"> Profile </a>
                                         <!--<a href="#modal1" data-id="ISBN-001122" class=" model-trigger btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Contact  </a>-->
-                                        <%= if is_nil(Daeventbox.Repo.get_by(Daeventbox.Follower,user_id: @user.id, facilitator_id: facilitator.id ) ) do %>
+                                        <%= if is_nil(@user) || is_nil(Daeventbox.Repo.get_by(Daeventbox.Follower,user_id: @user.id, facilitator_id: facilitator.id ) ) do %>
                                             <a href="/facilitator/follow/<%=facilitator.id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;  margin: 10px;"> Follow </a>
                                         <% end%>
-                                          <%= if !is_nil(Daeventbox.Repo.get_by(Daeventbox.Follower,user_id: @user.id, facilitator_id: facilitator.id ) ) do %>
+                                          <%= if  !is_nil(@user) && !is_nil(Daeventbox.Repo.get_by(Daeventbox.Follower,user_id: @user.id, facilitator_id: facilitator.id ) ) do %>
                                             <a href="/facilitator/unfollow/<%=facilitator.id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;  margin: 10px;"> Unfollow </a>
                                         <% end%>
                                         <a href="/chat?fuid=<%=facilitator.user_id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;  margin: 10px;"> Contact </a>

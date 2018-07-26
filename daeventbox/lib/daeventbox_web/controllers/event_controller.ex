@@ -530,16 +530,20 @@ defmodule DaeventboxWeb.EventController do
   end
 
   def facilitators(conn, params) do
-    user = Repo.get!(User, conn.assigns[:current_user].id)
+    user =
+      if conn.assigns[:current_user] do
+        Repo.get!(User, conn.assigns[:current_user].id)
+      else
+        nil
+      end
     query = from f in Facilitator
     facilitators = Repo.all(query)
     IO.puts "THESE ARE FACILIS"
     IO.inspect facilitators
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
-    followers = Repo.all(from f in Follower, where: f.user_id == ^user.id )
     news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
-    render conn, "facilitators.html", facilitators: facilitators, ads: ads, followers: followers, user: user, news: news
+    render conn, "facilitators.html", facilitators: facilitators, ads: ads, user: user, news: news
 
   end
 
@@ -800,13 +804,17 @@ def send_notification(type, item, message, sent_by) do
           end
           facilitators = Repo.all(query)
      end
-    user = Repo.get!(User, conn.assigns[:current_user].id)
+    user =
+      if conn.assigns[:current_user] do
+        Repo.get!(User, conn.assigns[:current_user].id)
+      else
+        nil
+      end
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
-    followers = Repo.all(from f in Follower, where: f.user_id == ^user.id )
     news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
 
-    render conn, "facilitators.html", facilitators: facilitators, user: user, ads: ads, followers: followers, news: news
+    render conn, "facilitators.html", facilitators: facilitators, user: user, ads: ads,  news: news
 
   end
 

@@ -56,7 +56,8 @@ defmodule Daeventbox.Mixfile do
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
       {:poison, "~> 3.1"},
-      {:currency_formatter, "~> 0.4"}
+      {:currency_formatter, "~> 0.4"},
+      {:ueberauth_facebook, "~> 0.5"},
     ]
   end
 

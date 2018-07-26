@@ -34,6 +34,15 @@ config :daeventbox, Daeventbox.Guardian,
                   "y" => "ALdxLuo6oKLoQ-xLSkShv_TA0di97I9V92sg1MKFava5hKGST1EKiVQnZMrN3HO8LtLT78SNTgwJSQHAXIUaA-lV"
                 }
 
+config :ueberauth, Ueberauth,
+  providers: [
+    facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email,public_profile,user_friends"]},
+  ]
+
+config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
+  client_id: "1667764676590362",
+  client_secret: "e3e6beccc350eb9215b84d31cc603c5f",
+  redirect_uri: "http://1f937a7e.ngrok.io/auth/facebook/callback"
 
 config :arc,
    bucket: "daeventboximages",
