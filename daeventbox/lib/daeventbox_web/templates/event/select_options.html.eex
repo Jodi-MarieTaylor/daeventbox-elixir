@@ -6,10 +6,11 @@
     }
     
 .headtab {
-  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
-
-        background-attachment: fixed;
-}    
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
  </style>
 
  <div class="card headtab" style="width: 100%; color: white;">
@@ -111,7 +112,7 @@
                                 <%end%>
                             </div>
                             <div class="input-field col s2">
-                                <input id="quantity" value=0 name="selected_quantity<%= Enum.find_index(@registration_details, fn(x) -> x.id == registration.id end) %>" type="number" class = "active validate" required>
+                                <input id="quantity" min="1" value=0 name="selected_quantity<%= Enum.find_index(@registration_details, fn(x) -> x.id == registration.id end) %>" type="number" class = "active validate" required>
                                 <label for="quantity">Quantity</label>
                             </div>
                         </div>

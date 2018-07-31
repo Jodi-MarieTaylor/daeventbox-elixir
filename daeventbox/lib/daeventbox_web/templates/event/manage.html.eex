@@ -5,10 +5,11 @@
     }
     
 .headtab {
-  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
-
-        background-attachment: fixed;
-}    
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}      
  </style>
 
 
@@ -131,6 +132,24 @@
                     </div>
                 </div>
                 <%end%>
+                <div class="pull-right">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <%= for i <- 1..@page_count1 do %>
+                    <%= if is_nil(@page) do %>
+                        <li class="active"><a href="/event/manage?page=<%=i%>"><%=i%> </a></li>
+                    <%end%>
+                    <%= if String.to_integer(@page) == i do %>
+                        <li class="active"><a href="/event/manage?page=<%=i%>"><%=i%> </a></li>
+                    <%end%>
+                    <%= if String.to_integer(@page) != i do %>
+                    <li class="waves-effect"><a href="/event/manage?page=<%=i%>"><%=i%>  </a></li>
+                    <%end%>
+                
+                <%end%>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
               
             </div>
             <div id="registration_history" style="width: 80%; margin: 0px auto;">
@@ -163,7 +182,22 @@
                     </div>
                 </div>
                 <%end%>
-              
+                 <ul class="pagination" class="pull-right">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <%= for i <- 1..@page_count2 do %>
+                    <%= if is_nil(@page) do %>
+                        <li class="active"><a href="/event/manage?page=<%=i%>"><%=i%> </a></li>
+                    <%end%>
+                    <%= if String.to_integer(@page) == i do %>
+                        <li class="active"><a href="/event/manage?page=<%=i%>"><%=i%> </a></li>
+                    <%end%>
+                    <%= if String.to_integer(@page) != i do %>
+                    <li class="waves-effect"><a href="/event/manage?page=<%=i%>"><%=i%>  </a></li>
+                    <%end%>
+                
+                <%end%>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
             </div>
         </div>
 

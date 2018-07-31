@@ -90,11 +90,16 @@ defmodule DaeventboxWeb.AdController do
   end
 
   def view_all(conn, params) do
+    per_page = params["page_size"] || 9
+    page = params["page"] || "1"
     facilitator = Repo.get_by(Facilitator, user_id: conn.assigns[:current_user].id)
-    query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id and  is_nil(a.is_deleted), select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url]
-    ads = Repo.all(query)
+    query = from a in Ad, join: e in Event, join: o in Option,  where: a.event_id == e.id and a.option_id == o.id and a.facilitator_id== ^facilitator.id and  is_nil(a.is_deleted), select: [a.name, e.title, a.inserted_at, o.position, a.days, a.price, a.id, a.image_url], order_by: [desc: a.inserted_at]
+    ad_num = Repo.all(query)  |> Enum.count
+    pages = ad_num / per_page
+    pages = Float.ceil(pages) |> Kernel.round
+    ads = Paginate.query(query, per_page, page)
     IO.inspect ads
-    render conn, "view_all.html", ads: ads
+    render conn, "view_all.html", ads: ads, page_count: pages, page: page
   end
   def select(conn, params) do
 

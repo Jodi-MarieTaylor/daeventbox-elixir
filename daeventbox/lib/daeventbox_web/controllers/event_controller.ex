@@ -278,6 +278,8 @@ defmodule DaeventboxWeb.EventController do
   end
 
   def manage(conn, params) do
+    per_page = params["page_size"] || 2
+    page = params["page"] || "1"
    # get all events saved
    saved_events = Repo.all(from s in SavedEvent,join: e in Event, on: s.event_id == e.id, where: s.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date, e.id, e.image_url])
    # get all tickets bought and the event details
@@ -287,6 +289,7 @@ defmodule DaeventboxWeb.EventController do
     |> join(:inner, [t], e in Event, e.id == t.event_id)
     |> join(:inner, [t], ti in Ticketdetail, ti.id == t.ticket_id)
     |> select([t,e,ti], [e.title, e.image_url, t.inserted_at, ti.name, t.barcode, ti.price, t.status, e.id, t.id, t.user_id])
+    |> order_by([t], [desc: t.inserted_at])
     #from t in Ticket,
     #where: t.user_id ==  ^conn.assigns[:current_user].id,
     #join: e in Event,
@@ -295,15 +298,22 @@ defmodule DaeventboxWeb.EventController do
     #select: [e.title, e.image_url, t.inserted_at, ti.name, t.barcode, ti.price, t.status, e.id, t.id, t.user_id]
 
     IO.inspect tequery
-    tickets_and_events = Repo.all(tequery)
+    tickets_and_events = Paginate.query(tequery, per_page, page)
     IO.inspect tickets_and_events
+    teevents_num = Repo.all(tequery) |> Enum.count
+    pages = teevents_num / per_page
+    pages = Float.ceil(pages) |> Kernel.round
    # get all the registrations and the event details
-   requery = from r in Registration, join: e in Event, on: r.event_id == e.id, join: re in Registrationdetails, on: r.event_id == re.event_id, where: r.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, re.name,  e.image_url, r.inserted_at, re.type, re.id, r.id, r.status,r.persons_details, re.price]
-   registration_and_events = Repo.all(requery)
+   requery = from r in Registration, join: e in Event, on: r.event_id == e.id, join: re in Registrationdetails, on: r.event_id == re.event_id, where: r.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, re.name,  e.image_url, r.inserted_at, re.type, re.id, r.id, r.status,r.persons_details, re.price], order_by: [desc: r.inserted_at]
+   registration_and_events = Paginate.query(requery, per_page, page)
+
+   reevents_num = Repo.all(requery) |> Enum.count
+   pages2 = reevents_num / per_page
+   pages2 = Float.ceil(pages2) |> Kernel.round
    # attending_events = Repo.all(from e in Event, join: t in Ticket, join: r in Registration, where:  t.event_id == e.id or r.event_id == e.id and t.user_id ==  ^conn.assigns[:current_user].id or r.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date, e.id, e.image_url])
    attending_events = Repo.all(from s in SavedEvent,join: e in Event, on: s.event_id == e.id, where: s.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date, e.id, e.image_url])
 
-   render(conn, "manage.html", attending_events: attending_events, saved_events: saved_events, tickets_and_events: tickets_and_events, registration_and_events: registration_and_events )
+   render(conn, "manage.html", page_count1: pages, page: page, page_count2: pages, attending_events: attending_events, saved_events: saved_events, tickets_and_events: tickets_and_events, registration_and_events: registration_and_events )
   end
 
   def save(conn, params) do
@@ -522,14 +532,19 @@ defmodule DaeventboxWeb.EventController do
     per_page = params["page_size"] || 9
     page = params["page"] || "1"
     query = from e in Event, where: e.id > 15 and is_nil(e.is_deleted) , order_by: [desc: e.inserted_at]
+    events_num = Repo.all(query) |> Enum.count
+    pages = events_num / per_page
+    pages = Float.ceil(pages) |> Kernel.round
     events = Paginate.query(query, per_page, page)
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
     news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
-    render conn, "upcoming_events.html", events: events,ads: ads, news: news
+    render conn, "upcoming_events.html", events: events,ads: ads, news: news,  page_count: pages, page: page
   end
 
   def facilitators(conn, params) do
+    per_page = params["page_size"] || 9
+    page = params["page"] || "1"
     user =
       if conn.assigns[:current_user] do
         Repo.get!(User, conn.assigns[:current_user].id)
@@ -537,27 +552,32 @@ defmodule DaeventboxWeb.EventController do
         nil
       end
     query = from f in Facilitator
-    facilitators = Repo.all(query)
+    facilitators_num = Repo.all(query) |> Enum.count
+    pages = facilitators_num / per_page
+    pages = Float.ceil(pages) |> Kernel.round
+    facilitators = Paginate.query(query, per_page, page)
     IO.puts "THESE ARE FACILIS"
     IO.inspect facilitators
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
     news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
-    render conn, "facilitators.html", facilitators: facilitators, ads: ads, user: user, news: news
+    render conn, "facilitators.html", facilitators: facilitators, ads: ads, user: user, news: news, page_count: pages, page: page
 
   end
 
   def filter_events(conn, params) do
+    per_page = params["page_size"] || 9
+    page = params["page"] || "1"
      cond do
       params["category"] ->
         query = from e in Event, where: e.category == ^params["category"] and e.id > 15
-        events = Repo.all(query)
+
       params["location"] ->
          query = from e in Event, where: fragment("?->>'parish' LIKE ?", e.location_info, ^params["location"]) and e.id > 15
-         events = Repo.all(query)
+
       params["price"] ->
         query = from e in Event, where: e.type == ^params["price"] and e.id > 15
-        events = Repo.all(query)
+
       params["date"] ->
         query =
         cond do
@@ -568,12 +588,16 @@ defmodule DaeventboxWeb.EventController do
 
 
         end
-         events = Repo.all(query)
+
      end
+    events_num = Repo.all(query) |> Enum.count
+    pages = events_num / per_page
+    pages = Float.ceil(pages) |> Kernel.round
+    events = Paginate.query(query, per_page, page)
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
     news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
-    render conn, "upcoming_events.html", events: events, ads: ads, news: news
+    render conn, "upcoming_events.html", events: events, ads: ads, news: news, page_count: pages, page: page
 
   end
 
@@ -720,6 +744,8 @@ def send_notification(type, item, message, sent_by) do
   end
 
   def filter_facilitators(conn, params) do
+    per_page = params["page_size"] || 9
+    page = params["page"] || "1"
      cond do
       params["alphabetically"] ->
         query =
@@ -728,7 +754,6 @@ def send_notification(type, item, message, sent_by) do
           else
             from f in Facilitator, order_by: [desc: f.name]
           end
-        facilitators = Repo.all(query)
       params["ratings"] ->
        query =
          if  params["ratings"] == "most" do
@@ -746,20 +771,7 @@ def send_notification(type, item, message, sent_by) do
                   order_by: [asc: count(fo.id)]
                 ])
            end
-        facilitators = Repo.all(query)
-        facilitators =
-          for f <- facilitators  do
-          %{
-            id: Enum.at(f, 0),
-            facilitator_email: Enum.at(f, 1),
-            event_count: Enum.at(f, 2),
-            facilitator_phone: Enum.at(f, 3),
-            name: Enum.at(f, 4),
-            image_url: Enum.at(f, 5),
-            user_id: Enum.at(f, 6),
 
-          }
-          end
       params["events"] ->
        query =
         if  params["events"] == "most" do
@@ -779,30 +791,14 @@ def send_notification(type, item, message, sent_by) do
                   order_by: [asc: count(e.id)]
                 ])
         end
-        facilitators = Repo.all(query)
-        facilitators =
-          for f <- facilitators  do
-          %{
-            id: Enum.at(f, 0),
-            facilitator_email: Enum.at(f, 1),
-            event_count: Enum.at(f, 2),
-            facilitator_phone: Enum.at(f, 3),
-            name: Enum.at(f, 4),
-            image_url: Enum.at(f, 5),
-            user_id: Enum.at(f, 6),
 
-          }
-        end
-        IO.puts "this is the facilitators"
-        IO.inspect facilitators
       params["date"] ->
          query =
-          if  params["date"] == "newest" do
+          if  params["date"] == "oldest" do
             from f in Facilitator,  order_by: [asc: f.inserted_at]
           else
             from f in Facilitator, order_by: [desc: f.inserted_at]
           end
-          facilitators = Repo.all(query)
      end
     user =
       if conn.assigns[:current_user] do
@@ -810,11 +806,30 @@ def send_notification(type, item, message, sent_by) do
       else
         nil
       end
+    facilitators_num = Repo.all(query) |> Enum.count
+    pages = facilitators_num / per_page
+    pages = Float.ceil(pages) |> Kernel.round
+    facilitators = Paginate.query(query, per_page, page)
+    if !is_nil(params["events"]) or !is_nil(params["ratings"]) do
+      facilitators =
+        for f <- facilitators  do
+        %{
+          id: Enum.at(f, 0),
+          facilitator_email: Enum.at(f, 1),
+          event_count: Enum.at(f, 2),
+          facilitator_phone: Enum.at(f, 3),
+          name: Enum.at(f, 4),
+          image_url: Enum.at(f, 5),
+          user_id: Enum.at(f, 6),
+
+        }
+        end
+    end
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
     news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
 
-    render conn, "facilitators.html", facilitators: facilitators, user: user, ads: ads,  news: news
+    render conn, "facilitators.html", facilitators: facilitators, user: user, ads: ads,  news: news, page_count: pages, page: page
 
   end
 
@@ -858,28 +873,56 @@ def send_notification(type, item, message, sent_by) do
   end
 
   def search(conn, params) do
-    IO.puts "in the search worl!"
-    cond do
-      params["title"] ->
-        ename = String.strip(params["title"]) |> String.split(" ") |> Enum.map( &String.capitalize/1 )|> Enum.join(" ")
-        query = from e in Event, where:  fragment("? ~* ?", e.title, ^ename)
-        events =  Repo.all(query)
-      params["parish"] ->
-         query = from e in Event, where: fragment("?->>'parish' LIKE ?", e.location_info, ^params["location"]) and e.id > 15
-         events = Repo.all(query)
+    IO.puts "Regular params"
+    IO.inspect params
+    per_page = params["page_size"] || 9
+    page = params["page"] || "1"
+    events  =
+      Event
+      |> where([e], is_nil(e.is_deleted) )
+      |> where([e], e.id > 15)
+    events =
+      if params["title"] != "" and params["title"] != nil do
+        events
+          |> where([e], fragment("? ~* ?", e.title, ^params["title"]))
+      else
+        events
+      end
 
-      params["date"] ->
-        query = from e in Event, where: e.start_date == ^params["date"] and is_nil(e.is_deleted)
+    events =
+      if params["parish"] != "" and params["parish"] != nil do
+        events
+          |> where([e],  fragment("?->>'parish' LIKE ?", e.location_info, ^params["parish"]) )
+      else
+        events
+      end
 
-         events = Repo.all(query)
-      params["category"] ->
-          query = from e in Event, where: e.category == ^params["category"] and e.id > 15
-          events = Repo.all(query)
-     end
+    events =
+      if params["date"] != "" and params["date"] != nil do
+        events
+          |> where([e], e.start_date == ^params["date"] )
+      else
+        events
+      end
+    events =
+      if params["category"] != "" and params["category"] != nil do
+        events
+          |> where([e], e.category == ^params["category"] )
+      else
+        events
+      end
+
+
+
+    all_events = events  |> Repo.all
+    events_num = all_events |> Enum.count
+    pages = events_num / per_page
+    pages = Float.ceil(pages) |> Kernel.round
+    events = Paginate.query(events, per_page, page)
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
     ads = Repo.all(ads_query)
     news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
-    render conn, "upcoming_events.html", events: events, ads: ads, news: news
+    render conn, "upcoming_events.html", events: events, ads: ads, news: news, page_count: pages, page: page
 
 
   end

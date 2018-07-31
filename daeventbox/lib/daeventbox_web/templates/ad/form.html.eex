@@ -10,10 +10,11 @@
   font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
 }
 .headtab {
-  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
-
-        background-attachment: fixed;
-}
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
 .circle {
   border-radius: 50%;
   width: 200px;

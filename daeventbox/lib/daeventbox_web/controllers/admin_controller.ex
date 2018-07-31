@@ -23,6 +23,7 @@ defmodule DaeventboxWeb.AdminController do
   alias Daeventbox.Announcement
   alias Daeventbox.Complaints
   alias Daeventbox.Option
+  alias Daeventbox.SiteContent
 
   def login(conn, params) do
     IO.puts "IN THE ADMIN CONTROLLER BOUT TA RENDER LOGIN"
@@ -663,12 +664,73 @@ defmodule DaeventboxWeb.AdminController do
     |> render "about-us.html"
   end
 
+  def update_aboutus(conn, params) do
+    if Repo.get_by(SiteContent, page: "about-us") do
+      about = Repo.get_by(SiteContent, page: "about-us")
+      changeset = SiteContent.changeset(about, %{ info: %{body: params["about"]}})
+      case Repo.update changeset do
+        {:ok, struct}       -> redirect conn, to: "/admin/aboutus/edit"
+        {:error, changeset} -> IO.inspect changeset
+      end
+    else
+      required_params = %{page: "about-us", info: %{body: params["about"]}}
+
+      changeset = SiteContent.changeset(%SiteContent{}, required_params)
+      case Repo.insert(changeset) do
+        {:ok, content} ->
+          conn
+          |> put_layout(:false)
+          |> put_flash(:info, "About Us Item successfully added.")
+          |> redirect(to: "/admin/aboutus/edit")
+
+        {:error, changeset} ->
+          IO.inspect changeset
+          conn
+          |> put_layout(:false)
+          |> put_flash(:error, "Oops error! Please try again")
+          |> redirect( to: "/admin/aboutus/edit")
+      end
+    end
+
+  end
+
   def edit_contactus(conn, params) do
 
     conn
     |> put_layout(:false)
     |> render "contact-us.html"
 
+  end
+
+  def update_contactus(conn, params) do
+    if Repo.get_by(SiteContent, page: "contact-us") do
+      required_params = %{page: "contact-us", info: %{ mobile_phone: params["mobile_phone"], work_phone: params["work_phone"], other_phone: params["other_phone"], email: params["email"], address: params["address"], start_time: params["start_time"], end_time: params["end_time"]}}
+
+      contact = Repo.get_by(SiteContent, page: "contact-us")
+      changeset = SiteContent.changeset(contact, required_params)
+      case Repo.update changeset do
+        {:ok, struct}       -> redirect conn, to: "/admin/contactus/edit"
+        {:error, changeset} -> IO.inspect changeset
+      end
+    else
+      required_params = %{page: "contact-us", info: %{ mobile_phone: params["mobile_phone"], work_phone: params["work_phone"], other_phone: params["other_phone"], email: params["email"], address: params["address"], start_time: params["start_time"], end_time: params["end_time"]}}
+
+      changeset = SiteContent.changeset(%SiteContent{}, required_params)
+      case Repo.insert(changeset) do
+        {:ok, content} ->
+          conn
+          |> put_layout(:false)
+          |> put_flash(:info, "About Us Item successfully added.")
+          |> redirect(to: "/admin/contactus/edit")
+
+        {:error, changeset} ->
+          IO.inspect changeset
+          conn
+          |> put_layout(:false)
+          |> put_flash(:error, "Oops error! Please try again")
+          |> redirect( to: "/admin/contactus/edit")
+      end
+    end
   end
 
   def transactions(conn, params) do

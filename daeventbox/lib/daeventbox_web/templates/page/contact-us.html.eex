@@ -46,14 +46,14 @@ p{
                     </div>
                     <div class="input-field col s6">
                     <i class="material-icons prefix">email</i>
-                    <input id="email" type="email" class="validate">
+                    <input id="email" name="email" type="email" class="validate">
                     <label for="email" data-error="wrong" data-success="right" name="email">Email</label>
                     </div>        
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                     <i class="material-icons prefix">message</i>
-                    <textarea id="textarea1" class="materialize-textarea" name="message"></textarea>
+                    <textarea rows="5" cols="50" id="textarea1" class="materialize-textarea" name="message" ></textarea>
                     <label for="textarea1">Message</label>
                     </div>
                 </div>
@@ -64,10 +64,15 @@ p{
             </form>
     </div>
        
-    <div class="col s12 m6 l2">
-        <p>Address: </p>
-        <p>Email: </p>
-        <p>Contact: </p>
+    <div class="col s12 m6 l3">
+        <p> <b>Phone Numbers: </b> </p>
+        <p> Mobile: <%= @info["mobile_phone"]%> </p>
+        <p> Work: <%= @info["work_phone"]%> </p>
+        <p> Other: <%= @info["other_phone"]%> </p>
+        
+        <p> <b>Address:  </b> <%= @info["address"]%></p>
+        <p> <b>Email: </b> <%= @info["email"]%>  </p>
+        <p> <b> Business Hours: </b> <%= @info["start_time"]%> -  <%= @info["end_time"]%>  </p>
         </div>
        
     </div>

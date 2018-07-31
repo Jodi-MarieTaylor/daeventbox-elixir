@@ -3,7 +3,8 @@
       position: relative;
       width: 100%;
       height: 600px;
-      background-image: url("https://resize.fleeksite.com/flow/2666x1067/https://image.ibb.co/kY1xeJ/webdev_01.png");
+      /*background-image: url("https://resize.fleeksite.com/flow/2666x1067/https://image.ibb.co/kY1xeJ/webdev_01.png");*/
+      background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/homepagebg.png");
        background-repeat: no-repeat;
         background-size: cover;
         border-top: solid thin transparent;
@@ -225,49 +226,49 @@
 
     <div class=" container" style="margin: 0 auto;  " >
          <div class = "row " style="color: white; margin: 0px; " >
-            <a href="/event/search?category=Parties and Nightlife" class="col s12 m6 l6 pandn card " style="height: 100px !important;  " >
+            <a href="/event/search?category=Parties and Nightlife" class="col s12 m6 l6 pandn card " style="height: 100px !important; background-image: url('https://jamaicadreamweekend.com/jm/wp-content/uploads/2014/08/Dream-party.jpg'); " >
                 <h5 style="text-align: center; margin: 40px auto; color: white;"> Parties and Nightlife </h5>
 
             </a>
-             <a href="/event/search?category=Concerts and Live Performances" class="col s12 m6 l6  card" style=" height: 100px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+             <a href="/event/search?category=Concerts and Live Performances" class="col s12 m6 l6  card" style=" height: 100px !important; background-image: url('http://beaveronthebeats.com/wp-content/uploads/2013/07/Beres-Hammond-@-Reggae-Sumfest-2013-International-Night-1-Beaver-on-the-Beats-e1375206478987.jpg');">
                 <h5 style="text-align: center; margin: 40px auto;  color: white;">  Concerts and Live Performances </h5>
                 
             </a>
          </div> 
           <div class = "row " style="color: white; margin: 0px; " >
-            <a href="/event/search?category=Seminars and Conferences"  class="col s12 m6 l4 pandn card " style="height: 150px !important;  " >
+            <a href="/event/search?category=Seminars and Conferences"  class="col s12 m6 l4 pandn card " style="height: 150px !important;  background-image: url('http://plantandmicrobiology.berkeley.edu/sites/default/files/styles/featured/public/seminar_0.jpg?itok=GbM0dEcY');" >
                 <h5 style="text-align: center; margin: 40px auto;  color: white;"> Seminars and Conferences </h5>
 
             </a>
-             <a href="/event/search?category=Sports and Leisure"  class="col s12 m6 l4  card" style="   height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+             <a href="/event/search?category=Sports and Leisure"  class="col s12 m6 l4  card" style="   height: 150px !important; background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEuCQ_F4lm5L2gMEcoOHfzL1jA4RRXLfhoEU6P2fOjRQ4p8s8q1w');">
                 <h5 style="text-align: center; margin: 40px auto;  color: white;">  Sports and Leisure </h5>
                 
             </a>
-             <a href="/event/search?category=Business and Exhibitions"  class="col s12 m6 l4  card" style="  height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+             <a href="/event/search?category=Business and Exhibitions"  class="col s12 m6 l4  card" style="  height: 150px !important; background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzH2KyWqTfPyL5E9pa2M28fsPULMZIv2KVsU0Otw8iRUiV7tyEgA');">
                 <h5 style="text-align: center; margin: 40px auto;  color: white;">  Business and Exhibitions </h5>
                 
             </a>
          </div> 
          <div class = "row " style="color: white; margin: 0px;  " >
-            <a href="/event/search?category=Fairs and Festivals" class="col s12 m6 l4 pandn card " style="  height: 150px !important; " >
+            <a href="/event/search?category=Fairs and Festivals" class="col s12 m6 l4 pandn card " style="  height: 150px !important;  background-image: url('https://www.my-island-jamaica.com/images/independence-in-jamaica-events-activities-21737817.jpg');" >
                 <h5 style="text-align: center; margin: 40px auto;  color: white;"> Fairs and Festivals </h5>
 
             </a>
-             <a href="/event/search?category=Celebrations" class="col s12 m6 l4  card" style="   height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+             <a href="/event/search?category=Celebrations" class="col s12 m6 l4  card" style="   height: 150px !important; background-image: url('https://cdn.shopify.com/s/files/1/0267/0241/products/CPT_Key_Art_600x600_995b3c1d-e1b6-4091-b65e-cfb9c1bcad6c_grande.jpg?v=1517251369');">
                 <h5 style="text-align: center; margin: 40px auto;  color: white;">  Celebrations </h5>
                 
             </a>
-             <a href="/event/search?category=Fund Raisers and Galas" class="col s12 m6 l4  card" style="  height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+             <a href="/event/search?category=Fund Raisers and Galas" class="col s12 m6 l4  card" style="  height: 150px !important; background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkpns0Pb-hxHFYVuJiq1a6FOKZvSn7W0TflvuolczLQTzUajPy');">
                 <h5 style="text-align: center; margin: 40px auto;  color: white;">  Fund Raisers and Galas </h5>
                 
             </a>
          </div> 
           <div class = "row " style="color: white; margin: 0px; " >
-            <a href="/event/search?category=Private Lessons" class="col s12 m6 l4 pandn card " style="  height: 150px !important; " >
+            <a href="/event/search?category=Private Lessons" class="col s12 m6 l4 pandn card " style="  height: 150px !important;  background-image: url('http://jamaica-gleaner.com/sites/default/files/styles/jg_article_image/public/media/article_images/2017/01/18/customsb20170118ng.jpg?itok=kMDtQvOI'); " >
                 <h5 style="text-align: center; margin: 40px auto;  color: white;"> Private Lessons</h5>
 
             </a>
-             <a href="/event/search?category=Clubs and Societies" class="col s12 m6 l4  card" style="height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+             <a href="/event/search?category=Clubs and Societies" class="col s12 m6 l4  card" style="height: 150px !important; background-image: url('https://4.bp.blogspot.com/-HXIXcf_QZMA/V756CWe8goI/AAAAAAAAAWo/NFk15Zu4kJIlxuW27jxAgspRI7EsjGr7ACLcB/s1600/usu.jpg');">
                 <h5 style="text-align: center; margin: 40px auto;  color: white;">  Clubs and Societies  </h5>
                 
             </a>
@@ -289,7 +290,8 @@ $('.datepicker').pickadate({
     today: 'Today',
     clear: 'Clear',
     close: 'Ok',
-    closeOnSelect: false // Close upon selecting a date,
+    closeOnSelect: false, // Close upon selecting a date,
+    format: 'yyyy-mm-dd'
   });
   $('.carousel').carousel({
         padding: 500

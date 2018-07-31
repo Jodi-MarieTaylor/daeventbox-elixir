@@ -124,7 +124,8 @@ defmodule DaeventboxWeb.NotificationController do
   end
 
   def notifications(conn, params) do
-
+    per_page = params["page_size"] || 9
+    page = params["page"] || "1"
     user = Repo.get!(User, conn.assigns[:current_user].id)
     query =
       if conn.cookies["daeventboxmode"] == "Facilitator" do
@@ -135,8 +136,13 @@ defmodule DaeventboxWeb.NotificationController do
 
 
       end
-    notifications = Repo.all(query)
-    render conn, "notifications.html", notifications: notifications
+
+
+    notifications_num = Repo.all(query) |> Enum.count
+    pages = notifications_num / per_page
+    pages = Float.ceil(pages) |> Kernel.round
+    notifications =  Paginate.query(query, per_page, page)
+    render conn, "notifications.html", notifications: notifications,  page_count: pages, page: page
   end
 
   def notification_delete_for_user(conn, params) do

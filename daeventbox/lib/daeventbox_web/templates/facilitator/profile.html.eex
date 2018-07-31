@@ -2,9 +2,10 @@
 
     
 .headtab {
-  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
-
-        background-attachment: fixed;
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
 }    
  </style>
 
@@ -38,13 +39,12 @@
     </div>
     
     <div class="col s12 m6 card" style="background-color: white; height: 450px !important; padding: 5px;">
-        <h6 class="left"> <i class="fa fa-users"></i> <%=Enum.count(@followers)%> followers </h6>
+        <h6 class="left"> <i class="fa fa-users"></i> <%=Enum.count(@followers)%> follower(s) </h6>
         <br>
         <br>
         <h5 style="text-align: center"> About Facilitator </h5>
-        <p> <%= @facilitator.about%> </p>
-        <br>
-        <br>
+        <p class="truncate-para"> <%= @facilitator.about%> </p>
+        
         <h5 style="text-align: center"> Contact </h5>
         <hr style="background-color: blue; color: blue;">
         <div class="row" style="padding: 10px;">
@@ -54,7 +54,7 @@
                 <h6> Email: <%= @facilitator.facilitator_email%> </h6>
             </div>
             <div class="col s12 m4">
-                <h6> Address: <%= @facilitator.facilitator_address%>
+                <h6 > Address: <%= @facilitator.facilitator_address%>
             </div>
         </div>
         <%= if @visitor do %>
@@ -101,7 +101,8 @@
    
     
 </div>
-<h4> Events (<%= @events_total%>)</h4>
+<hr>
+<h4 style="text-align: center; "> Events (<%= @events_total%>)</h4>
    <div class="carousel saved" style="padding-top: 0px !important; height: 400px;"><a>
        <%= for event <- @events do %>
         <div class="carousel-item card" style=" width:400px !important; height: 380px  !important; ">  

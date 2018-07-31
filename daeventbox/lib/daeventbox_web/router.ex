@@ -36,13 +36,6 @@ defmodule DaeventboxWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/auth", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
-
-    get "/:provider", OAuthController, :request
-    get "/:provider/callback", OAuthController, :callback
-  end
-
   scope "/payment", DaeventboxWeb do
     pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 
@@ -210,7 +203,10 @@ defmodule DaeventboxWeb.Router do
     post "/news/add", AdminController, :create_news
     get "/news/delete/:news_id", AdminController, :delete_news
     get "/aboutus/edit", AdminController, :edit_aboutus
+    post "/aboutus/update", AdminController, :update_aboutus
     get "/contactus/edit", AdminController, :edit_contactus
+    post "/contactus/update", AdminController, :update_contactus
+
     get "/transaction/requests/payout/:event_id", AdminController, :payout
     get  "/transaction/requests/transactions/:facilitator_id", AdminController, :transactions
     get  "/transaction/requests/transactions", AdminController, :transactions_all
@@ -237,7 +233,7 @@ defmodule DaeventboxWeb.Router do
     resources "/messages", MessageController
     resources "/rooms", RoomController
 
-    get "/logout", SessionController, :signout
+    get "/logout", SessionController, :logout
 
   end
 

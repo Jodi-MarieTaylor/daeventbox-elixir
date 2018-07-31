@@ -10,10 +10,11 @@
   font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
 }
 .headtab {
-  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
-
-        background-attachment: fixed;
-}
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
 .circle {
   border-radius: 50%;
   width: 200px;
@@ -116,7 +117,10 @@
                 <p> Purchased On:  <b><%= Enum.at(ad, 2)%> </b></p>
 
                 <p> Total Days : <b><%= Enum.at(ad, 4)%> Days</b>   </p>
-                <p> Days Remaining: <b> <% time_in_secs =   NaiveDateTime.diff(NaiveDateTime.utc_now, Enum.at(ad, 2)) %> <%=Float.to_string(Enum.at(ad, 4) -(time_in_secs / 84400), decimals: 0)%>  Days</b> </p>
+                <p> Days Remaining: <b> <% time_in_secs =   NaiveDateTime.diff(NaiveDateTime.utc_now, Enum.at(ad, 2)) %> <% days_left = Enum.at(ad, 4) -(time_in_secs / 84400)%> 
+                    <%= if days_left > 0 do %> <%=Float.to_string(days_left, decimals: 0)%>  Days <%end%>
+                      <%= if days_left < 0 do %>0  Days <%end%>
+                    </b> </p>
                 
             </div>
             <div class="col s12 m2">
@@ -129,5 +133,23 @@
         </div>
     </div>
     <%end%>
+    <div class="pull-right">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <%= for i <- 1..@page_count do %>
+                    <%= if is_nil(@page) do %>
+                        <li class="active"><a href=/ad/view/all?page=<%=i%>"><%=i%> </a></li>
+                    <%end%>
+                    <%= if String.to_integer(@page) == i do %>
+                        <li class="active"><a href="/ad/view/all?page=<%=i%>"><%=i%> </a></li>
+                    <%end%>
+                    <%= if String.to_integer(@page) != i do %>
+                    <li class="waves-effect"><a href="/ad/view/all?page=<%=i%>"><%=i%>  </a></li>
+                    <%end%>
+                
+                <%end%>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
 </div>
 

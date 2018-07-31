@@ -7,6 +7,7 @@ defmodule DaeventboxWeb.PageController do
   alias Daeventbox.SavedEvent
   alias Daeventbox.LikedEvent
   alias Daeventbox.Action
+  alias Daeventbox.SiteContent
   import Ecto.Query
   import Plug.Conn
 
@@ -26,9 +27,12 @@ defmodule DaeventboxWeb.PageController do
   end
 
   def about_us(conn, params) do
-    render conn, "abous-us.html"
+    content = Repo.get_by(SiteContent, page: "about-us")
+    about = content.info["body"]
+    render conn, "abous-us.html", about: about
   end
   def contact_us(conn, params) do
-    render conn, "contact-us.html"
+    content = Repo.get_by(SiteContent, page: "contact-us")
+    render conn, "contact-us.html", info: content.info
   end
 end
