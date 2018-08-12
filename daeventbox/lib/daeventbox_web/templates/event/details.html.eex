@@ -55,6 +55,11 @@
 }
 .checked {
     color: orange;
+} .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
 }
 </style>
 <div class="card headtab" style="width: 100%; color: white;">
@@ -67,10 +72,10 @@
         
     </div>
 </div>
-
 <div class="container  cont" style="padding: 0px;margin: 0 auto; top: 80px;" >
     <div id="profile-page-header" class="card" style="padding: 0px;margin: 0 auto; ">
-        
+        <img class=" center activator" src="<%= @event.image_url%>" alt="user background" height="402" >
+
         <div class="card-image waves-effect waves-block waves-light" style="background-color: #1d1d1d;">
             <%= if !is_nil(@event.is_deleted) do %>
             <div class="left col s4 l4 m4" style="background-color: red; width: 100%">
@@ -78,7 +83,6 @@
                 <br>
             </div>
             <%end%>
-            <img class="activator" src="<%= @event.image_url %>" alt="user background" height="402">  
             <div style="padding: 10px" class="left col s4 l3 m4">
                 <%= if !@liked do %>
                 <a href="/event/like/<%=@event.id %>">  Like &nbsp </a>  
@@ -172,7 +176,7 @@
                       Type: PAID
                     <%end%>
                  </h5>
-                <%= unless !is_nil(@event.is_deleted) do %>
+                <%= unless !is_nil(@event.is_deleted) or @conn.cookies["daeventboxmode"] == "Facilitator" do %>
                     <%= if @event.admission_type == "registration" do %>
                         <a href="/event/register/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 "> Register </a>
                     <%end%>

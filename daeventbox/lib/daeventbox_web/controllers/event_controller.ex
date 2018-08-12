@@ -188,9 +188,14 @@ defmodule DaeventboxWeb.EventController do
 
   def update(conn,params) do
     event = Repo.get!(Event, params["id"])
+    image_url =
+    unless is_nil(params["file"]) do
     {:ok, resp} = Utils.AmazonS3.file_upload(params)
     IO.inspect resp
-    image_url = convert_url(resp.url)
+    convert_url(resp.url)
+    else
+      event.image_url
+    end
     required_params = %{title: params["title"], facilitator_name: event.facilitator_name,
        image_url: image_url, start_date: params["start_date"], start_time: event.start_time, end_date: params["end_date"], end_time: params["end_time"], category: params["category"], description: params["description"],
        fb_link: params["fb_link"], insta_link: params["insta_link"],  twitter_link: params["twitter_link"], type: event.type, admission_type: event.admission_type, location: "#{params["address1"]}, #{params["address2"]}, #{params["parish"]}, Jamaica",
@@ -198,16 +203,19 @@ defmodule DaeventboxWeb.EventController do
       IO.inspect params
     changeset = Event.changeset(event, required_params)
     case Repo.update(changeset) do
-      {:ok, _event} ->
+      {:ok, event} ->
+        facilitator= Repo.get_by(Facilitator, id: event.facilitator_id)
+        send_notification("Event Announcement", event, "#{facilitator.name} has made changes to event #{event.title}. Please view the event for such changes. Contact the Facilitator directly if there are any issues or concerns. Please speak with the Facilitator for any refund requests.", "Facilitator")
+
         conn
-        |> put_flash(:info, "Event updated successfully.")
-        |> redirect(to: "/facilitator")
+        |> put_flash(:info, "Event Updated Successfully!")
+        |> redirect(to: "/event/edit/#{event.id}")
 
       {:error, changeset} ->
         IO.inspect changeset
         conn
         |> put_flash(:error, "Oops error!")
-        |> redirect(to: "/event/edit/#{params['id']}")
+        |> redirect(to: "/event/edit/#{params["id"]}")
     end
   end
 

@@ -66,7 +66,7 @@ defmodule DaeventboxWeb.MessageController do
   end
 
   def check(conn, params) do
-    user = Repo.get!(User, conn.assigns[:current_user].id)
+    user = conn.assigns[:current_user]
     count =
       if conn.cookies["daeventboxmode"] == "Guest" do
         Repo.all(from m in Message, where:  is_nil(m.seen) and  m.owner_id == ^user.id) |> Enum.count

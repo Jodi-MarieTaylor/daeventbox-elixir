@@ -98,6 +98,7 @@ alias Elixlsx.{Workbook, Sheet}
     Event
     |> where([e], e.facilitator_id == ^facilitator.id)
     |> where([e], is_nil(e.is_deleted) )
+    |> order_by([e], desc: e.inserted_at)
 
     events =
       if params["title_search"] != "" and params["title_search"] != nil do
@@ -426,8 +427,8 @@ alias Elixlsx.{Workbook, Sheet}
     case Repo.update(changeset) do
       {:ok, _facilitator} ->
         conn
-        |> put_flash(:info, "Event updated successfully.")
-        |> redirect(to: "/facilitator/manage")
+        |> put_flash(:info, "Profile Updated Successfully!")
+        |> redirect(to: "/facilitator/profile/edit")
 
       {:error, changeset} ->
         IO.inspect changeset

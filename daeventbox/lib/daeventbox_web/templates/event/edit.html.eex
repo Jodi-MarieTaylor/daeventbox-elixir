@@ -26,6 +26,19 @@
         
     </div>
 </div>
+      <%= if !is_nil(get_flash(@conn, :info) ) do %>
+		<div class="materialert success" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :info) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+
+        <%= if !is_nil(get_flash(@conn, :error) ) do %>
+		<div class="materialert error" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :error) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
 
 <div class="container">
 
@@ -50,8 +63,8 @@
         </div>
         <div class="row col s4">
             <label>Category</label>
-               <select name = "category">
-                  <option value = "<%= @event.category%>" disabled selected><%= @event.category%></option>
+               <select name = "category" class="form-control">
+                  <option value="<%=@event.category%>" disabled selected><%=@event.category%></option>
                   <option value = "Business and Exhibitions">Business and Exhibitions</option>
                   <option value = "Celebrations">Celebrations</option>
                   <option value = "Clubs and Societies">Clubs and Societies</option>
@@ -163,19 +176,19 @@
         <p>Link Your Social Media Accounts and Pages to this event! </p>
         <div class="row">
             <div class = "input-field col s4 ">
-              <i class="fa fa-facebook-square"></i>
+             
               <input name = "fb_link"  value="<%= @event.fb_link%>" id = "fb_link" type = "text" />
-              <label for = "fb_link">Facebook URL</label>
+              <label for = "fb_link">  <i class="fa fa-facebook-square"></i> Facebook URL</label>
             </div>
             <div class = "input-field col s4">
-               <i class="fa fa-instagram"></i>
+              
               <input name= "insta_link"  value="<%= @event.insta_link%>" id = "name" type = "url" />
-              <label for = "insta_link">Instagram URL</label>
+              <label for = "insta_link">  <i class="fa fa-instagram"></i> Instagram URL</label>
             </div>
             <div class = "input-field col s4">
-             <i class="fa fa-twitter"></i>
+             
               <input name= "twitter_link"  value="<%= @event.twitter_link%>" id = "name" type = "url" />
-              <label for = "twitter_link">Twitter URL</label>
+              <label for = "twitter_link"> <i class="fa fa-twitter"></i> Twitter URL</label>
             </div>
         </div>
         <br>
@@ -200,11 +213,11 @@
              -->
         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
-        <div class=" footer text-center" style="margin: 0 auto;">
-            <button data-target="modal1" class="modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+      
+            <button  class="pull-right  waves-effect waves-light btn btn-simple btn-primary" type="submit" name="submit">
               EDIT YOUR EVENT&rarr;
             </button>
-       </div>
+       
 
         
       </div>

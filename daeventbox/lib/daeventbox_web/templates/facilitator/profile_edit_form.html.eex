@@ -6,6 +6,19 @@
         </div>
     </div>
 </div>
+   <%= if !is_nil(get_flash(@conn, :info) ) do %>
+		<div class="materialert success" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :info) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+
+        <%= if !is_nil(get_flash(@conn, :error) ) do %>
+		<div class="materialert error" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :error) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
 	<div class="container" style= " ">
                 <form class="col s12" method="POST"  action="/facilitator/profile/update" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
@@ -60,7 +73,7 @@
 
                                 
 				<div class="input-field col s12 m6">
-					<input id="website" type="url" name="website"  class="validate" >
+					<input id="website" value="<%= @facilitator.website_link%>" type="url" name="website"  class="validate" >
 				 	<label for="website"><i class="material-icons">insert_link </i>Website URL:</label>
 				</div>
                 <hr>
@@ -69,20 +82,20 @@
                 <h5> Connect Your Accounts </h5>
                 <hr>
                 <div class="row">
-                    <h3 style="font-size: 20px"><i class="material-icons">insert_link </i>Social Media URL:</h3>
+                    <h3 style="font-size: 20px; text-align:center;">Social Media </h3>
                     <div class="input-field col s12 m4" >
                         <input id="facebook" type="text" name="facebook" value="<%= @facilitator.fb_link %>" class="validate" >
-                        <label for="facebook"><i class="fa fa-facebook" aria-hidden="true"></i>:
+                        <label for="facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook URL:
                         </label>
                     </div>
                     <div class="input-field col s12 m4">
                         <input id="twitter" type="text" name="twitter"  value="<%= @facilitator.twitter_link %>"  class="validate" >
-                        <label for="twitter"><i class="fa fa-twitter" aria-hidden="true"></i>:
+                        <label for="twitter"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter URL:
                         </label>
                     </div>
                     <div class="input-field col s12 m4" >
                         <input id="instagram" type="text" name="instagram"   value="<%= @facilitator.insta_link %>"  class="validate" >
-                        <label for="instagram"><i class="fa fa-instagram" aria-hidden="true"></i>:
+                        <label for="instagram"><i class="fa fa-instagram" aria-hidden="true"> </i> Instagram URL:
                         </label>
                     </div>
                 </div>
@@ -92,7 +105,7 @@
 				
 				
                   
-                    <button data-target="modal1" class="pull-right modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                    <button  class="pull-right btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
                     Submit
                     </button>
                 </div>
