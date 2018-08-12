@@ -32,6 +32,10 @@ defmodule DaeventboxWeb.Router do
         handler: Daeventbox.GuardianErrorHandler
   end
 
+  pipeline :facilitator_required do
+    plug Daeventbox.FaciliatorRequired
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -136,9 +140,8 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/facilitator", DaeventboxWeb do
-    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
-    get "/switch", FacilitatorController, :switch
-    get "/change/mode", FacilitatorController, :changemode
+    pipe_through [:browser, :with_session, :login_required, :facilitator_required] # Use the default browser stack
+
     get "/event/search", FacilitatorController, :eventsearch
     get "/event/dashboard/:title/:id", FacilitatorController, :dashboard
     get "/profile/create", FacilitatorController, :profile_form
@@ -230,6 +233,8 @@ defmodule DaeventboxWeb.Router do
   scope "/", DaeventboxWeb do
     pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 
+    get "/switch", FacilitatorController, :switch
+    get "/change/mode", FacilitatorController, :changemode
     resources "/messages", MessageController
     resources "/rooms", RoomController
 
