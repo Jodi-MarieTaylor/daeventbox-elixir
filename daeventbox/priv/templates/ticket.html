@@ -35,8 +35,10 @@
                <p>Time: <%= Timex.format!( data["ticket"].event.start_time, "%I:%M %p", :strftime)   %></p>
                <p>Purchased By: <%= data["user"].firstname %> <%= data["user"].lastname %></p>
                <p>Location: <%= data["ticket"].event.location %></p>
-               <p>Number of person(s): <%= data["ticket"].quantity %> </p>
-               <p>Price: <%= if data["ticket"].price do round(data["ticket"].price) else "FREE" end %> </p>
+               <p>Ticket:  <%= data["ticket_details"].name %>  </p>
+               <p>Price: <%= if data["ticket_details"].price do                             
+                 CurrencyFormatter.format(Float.to_string(data["ticket_details"].price, decimals: 2 ) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true)
+                else "FREE" end %> </p>
               <center>
                 <img src="<%= data["ticket"].ticket_url %>"/>
               </center>

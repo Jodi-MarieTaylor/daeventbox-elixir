@@ -273,7 +273,19 @@ defmodule DaeventboxWeb.EventController do
     IO.puts "Overall rating"
     IO.inspect overall_rating
     IO.inspect total_reviews
-    render(conn, "details.html", total_reviews: total_reviews, overall_rating: overall_rating, comments: comments,  event: event, saved: saved, liked: liked, facilitator: facilitator, map: map_url, end_date: end_date, start_date: start_date, start_time: start_time, end_time: end_time)
+    prices =
+      if event.type == "paid" do
+          if event.admission_type == "ticket" do
+           Repo.all(from t in Ticketdetail, where: t.event_id == ^event.id, select: t.price )
+          else
+            Repo.all(from r in Registrationdetails, where: r.event_id == ^event.id, select: r.price )
+          end
+      else
+          nil
+      end
+    IO.puts "prices"
+    IO.inspect prices
+    render(conn, "details.html", prices: prices, total_reviews: total_reviews, overall_rating: overall_rating, comments: comments,  event: event, saved: saved, liked: liked, facilitator: facilitator, map: map_url, end_date: end_date, start_date: start_date, start_time: start_time, end_time: end_time)
 
   end
 

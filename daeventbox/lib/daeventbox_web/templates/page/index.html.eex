@@ -69,7 +69,7 @@
                     <div class="col s12 m4 l3" >
                     
                     <select name = "parish">
-                        <option  value = "" disabled selected>Select Parish</option>
+                        <option  value = "" disabled selected>Select Location</option>
                         <option value = "Kingston">Kingston</option>
                         <option value = "St. Andrew">St. Andrew</option>
                         <option value = "St. Catherine">St. Catherine</option>

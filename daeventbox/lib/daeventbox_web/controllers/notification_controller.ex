@@ -58,7 +58,7 @@ defmodule DaeventboxWeb.NotificationController do
   end
 
   def notify(conn, params) do
-    user = Repo.get!(User, conn.assigns[:current_user].id)
+    user = conn.assigns[:current_user]
     unseen_ids =
       if conn.cookies["daeventboxmode"] == "Guest" do
         Repo.all(from n in Notification, where: n.seen == false and n.user_id == ^user.id )

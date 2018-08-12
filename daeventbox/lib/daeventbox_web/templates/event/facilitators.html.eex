@@ -120,7 +120,7 @@
                         <div class="col s12 m10 l3" >
                             <a href="#five!"><img witdh="200" height="200" style="padding: 10px !important;width: 200px;" src="<%=facilitator.image_url%>"></a>
                         </div>
-                        <div class="col s12 m10 l7"   style="">
+                        <div class="col s12 m10 l6"   style="">
                                 <h5 style="padding-left: 10px !important;"> Summary </h5> 
                                 <h6 style="padding-left: 10px !important;">Name: <%=facilitator.name%></h6>
                                
@@ -143,7 +143,7 @@
 
                         </div>       
                        
-                         <div class="col s12 m10 l2"  > 
+                         <div class="col s12 m10 l3"  > 
                          <p style="padding-left: 10px !important;"> <b> Number of Events: <%=  event_count = Daeventbox.Repo.one(from e in Daeventbox.Event, where: e.facilitator_id == ^facilitator.id, select: count(e.id) ) %> 
                               </b>  
                                 </p>

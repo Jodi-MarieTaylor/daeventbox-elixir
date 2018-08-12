@@ -24,24 +24,17 @@
 
 <div class="card headtab" style="width: 100%; color: white;">
     <div class="row">
-        <div class ="col s12 m4"  style="padding: 10px;">
-            <h4 style="color: white;">Manage Your Own Events</h4>
+        <div class ="col s12 m3"  style="padding: 10px;">
+            <h4 style="color: white;">Manage Your Events</h4>
             
 
             
         </div>
       
-        
-        <div  class ="col s12 m1 right" style="padding-top: 20px;">
-            <a class="waves-effect waves-light btn " href="/facilitator/manage/">Reset</a>
-        </div>
-        <form action="/facilitator/manage/search/events">
-            <div  class ="col s12 m1 right" style="padding-top: 20px;">
-                <button data-target="" class=" btn waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
-                Search
-                </button>
-            </div>
-            <div  class ="col s12 m3 right">
+        <div class="right  " style="  width: 50%; padding-right: 0px;"> 
+          <form action="/facilitator/manage/search/events">
+           
+            <div  class ="col s12 m4 l6 ">
                 
                     <div class="input-field">
                 
@@ -50,8 +43,17 @@
                     </div>
             
             </div>
+             <div  class ="col s12 m2 l3" style="padding-top: 20px;">
+                <button data-target="" class=" btn waves-effect waves-light btn btn-simple btn-primary btn-small" type="submit" name="submit">
+                Search
+                </button>
+            </div>
         </form>
-        
+        <div  class ="col s12 m2 l3  " style="padding-top: 20px;">
+            <a class="waves-effect waves-light btn btn-small" href="/facilitator/manage/">Reset</a>
+        </div>
+      
+        </div>
 
         
     </div>

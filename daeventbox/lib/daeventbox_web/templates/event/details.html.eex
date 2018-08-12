@@ -22,8 +22,8 @@
 }   
 @media (min-width: 600px) {
     iframe {
-        width: 800px ;
-        height: 450px ;
+        width: 100% ;
+        height: 450px;
         position: relative !important;
     }
 }
@@ -78,14 +78,16 @@
                 <br>
             </div>
             <%end%>
-            <div class="left col s4 l3 m4">
+            <img class="activator" src="<%= @event.image_url %>" alt="user background" height="402">  
+            <div style="padding: 10px" class="left col s4 l3 m4">
                 <%= if !@liked do %>
-                <a href="/event/like/<%=@event.id %>">  Like</a>  
+                <a href="/event/like/<%=@event.id %>">  Like &nbsp </a>  
                 <% end %>
+                
                 <%= if @liked do %>
-                    <a href="/event/unlike/<%=@event.id %>"> Unlike</a>  
+                    <a href="/event/unlike/<%=@event.id %>"> Unlike  &nbsp</a>  
                 <% end %>
-                <a href="#modal2" class="modal-trigger"> Rate</a>
+                <a href="#modal2" class="modal-trigger"> Rate &nbsp</a>
                     <%= if @overall_rating == 0 or is_nil(@overall_rating) do %>
                         <span class="fa fa-star "></span>
                         <span class="fa fa-star "></span>
@@ -132,17 +134,17 @@
                     <span style="color: white;">(<%= @total_reviews %>)</span>
 
             </div>
-            <div class="right col s4">
+            <div style="padding: 10px" class="right col s4">
                 <%= if !@saved do %>
-                    <a href="/event/save/<%=@event.id %>">Save</a>  
+                    <a href="/event/save/<%=@event.id %>" >Save &nbsp</a>  
                 <% end %>
                 <%= if @saved do %>
-                    <a href="/event/unsave/<%=@event.id %>">Unsave</a>  
+                    <a href="/event/unsave/<%=@event.id %>">Unsave &nbsp</a>  
                 <% end %>
                 <a href="#modal3" class="modal-trigger">Share</a>
                 
             </div>
-            <img class="activator" src="<%= @event.image_url %>" alt="user background" height="402">                    
+                              
         </div>
         
         <div class="card-content">
@@ -225,6 +227,14 @@
                 </div>
                 <div class="row col s4">
                     <div>
+                        <%= if !is_nil(@prices) do %>
+                            <h5> Prices:  </h5>
+                            <h6> <%= for price <- @prices do %> 
+                          
+                             <%= CurrencyFormatter.format(Float.to_string(price, decimals: 2 ) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>
+                            <%end%>
+                            </h6>
+                        <%end%>
                         <%= if @start_date != @end_date do %>
                             <h5> Date: <h6><%= @start_date  %> - <%= @end_date  %> </h6> </h5>
                         <%end%>
@@ -250,7 +260,7 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container" >
             <div class="row">
                 <div class="col s2 m4 l12">
                 <iframe
@@ -270,8 +280,8 @@
                     <%= if !is_nil(@comments) do %>
                         <%= for comment <- @comments do %>
                            
-                            <span><%=Calendar.Strftime.strftime!(comment.inserted_at, "%B %e,  %Y")%> 
-                            <%= comment.message %> </span>
+                            <span><%=Calendar.Strftime.strftime!(comment.inserted_at, "%B %e,  %Y")%> </span>
+                            <span style="text-align: right"><%= comment.message %> </span>
                             <br> 
                         <% end %>
                     <%end%>
@@ -314,12 +324,12 @@
 
         <% end %>
         <li><a href="#modal3" class="btn-floating blue modal-trigger" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">share</i></i></a></li>
-        <li><a href="#modal1" class="btn-floating modal-trigger pink" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">flag</i></i></a></li>
+        <li><a href="#report" class="btn-floating modal-trigger pink" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">flag</i></i></a></li>
 
     </ul>
 </div>
  <!-- Modal Structure -->
- <div id="modal1" class="modal">
+ <div id="report" class="modal">
     <div class="modal-content">
       <h4>Report Event</h4>
       <form action="/event/report/add/<%= @event.id%>" method="POST" >

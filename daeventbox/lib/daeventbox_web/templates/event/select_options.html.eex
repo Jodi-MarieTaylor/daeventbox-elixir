@@ -28,10 +28,10 @@
         <h4> Event Details </h4>
         <hr>
         <div class="row">
-            <div class="col s3 left-align" >
+            <div class="col s12 m3 l4 left-align" >
                 <img  src="<%= @event.image_url %>" alt="user background" width="230" height="200">                    
             </div>
-            <div class="col s5" >
+            <div class="col s12 m5 l5" >
                 <h5> <%= @event.title %> </h5>
                 
                 <p> 
@@ -66,11 +66,11 @@
                     <div class="card-content" >
                    
                         <div class="row">
-                            <div class="col s3"> 
+                            <div class="col s12 m3 l3"> 
                                 <h5> <%= ticket.name %> </p>
                                
                             </div>
-                            <div class= "col s3">
+                            <div class= "col s12 m3 l3">
                                 <%= if @event.type == "free" do %>
                                 <p> FREE </p>
                                 <%end%>
@@ -78,7 +78,7 @@
                                 <p> <%= CurrencyFormatter.format(Float.to_string(ticket.price, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %></p>
                                 <%end%>
                             </div>
-                            <div class="input-field col s2">
+                            <div class="input-field col s12 m2 l2">
                                 <input id="quantity" name="selected_quantity<%= Enum.find_index(@ticket_details, fn(x) -> x.id == ticket.id end) %>" value="0" type="number" class = "active validate" required>
                                 <label for="quantity">Quantity</label>
                             </div>
@@ -102,7 +102,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="row">
-                            <div class="col s3"> 
+                            <div class="col s12 m3 l3"> 
                                 <h5> <%= registration.name %> </p>
                                 <%= if @event.type == "free" do %>
                                 <p> FREE </p>
@@ -111,7 +111,7 @@
                                 <p> <%= CurrencyFormatter.format(Float.to_string(registration.price, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %> </p>
                                 <%end%>
                             </div>
-                            <div class="input-field col s2">
+                            <div class="input-field col s12 m2 l2">
                                 <input id="quantity" min="1" value=0 name="selected_quantity<%= Enum.find_index(@registration_details, fn(x) -> x.id == registration.id end) %>" type="number" class = "active validate" required>
                                 <label for="quantity">Quantity</label>
                             </div>

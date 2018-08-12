@@ -52,6 +52,15 @@
         </div>
     </div>
 <%end%>
+<%= if Enum.count(@saved_events) == 0 do %>
+     <div class="row " >
+        
+        <div class=" ">
+        <h5  class="center"> No Saved Events </h5>
+      
+        </div>  
+    </div>
+<%end%>
 
 
 

@@ -29,7 +29,7 @@ defmodule DaeventboxWeb.EmailController do
     #template = Data.Repo.get(Data.Content.Post, 4078)
     #event must be preloaded for ticket.event to be used in the email template
     event = Repo.get(Event, ticket.event_id)
-
+    ticket_details = Repo.get_by(Ticketdetail, id: ticket.ticket_id)
     ticket =
       ticket
       |> Map.put(:event, event)
@@ -38,6 +38,7 @@ defmodule DaeventboxWeb.EmailController do
       Map.new
       |> Map.put("user", user)
       |> Map.put("ticket", ticket)
+      |> Map.put("ticket_details", ticket_details)
       |> Map.put("year", Timex.now.year)
       |> Map.put("month", Timex.now.month)
       |> Map.put("day", Timex.now.day)

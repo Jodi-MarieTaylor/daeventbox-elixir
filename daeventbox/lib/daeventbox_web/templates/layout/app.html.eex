@@ -88,6 +88,69 @@ pre{
        padding-top: 200px;
     }
      
+html {
+    line-height: 1.5;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+.materialert{
+    position: relative;
+    min-width: 150px;
+    padding: 15px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.1s linear;
+    webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.materialert .material-icons{
+    margin-right: 10px;
+}
+.materialert .close-alert{
+    -webkit-appearance: none;
+    border: 0;
+    cursor: pointer;
+    color: inherit;
+    background: 0 0;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .7);
+    filter: alpha(opacity=40);
+    margin-bottom: -5px;
+    position: absolute;
+    top: 16px;
+    right: 5px;
+}
+.materialert.info{
+    background-color: #039be5;
+    color: #fff;
+}
+.materialert.success{
+    background-color: #43a047;
+    color: #fff;
+}
+.materialert.error{
+    background-color: #c62828;
+    color: #fff;
+}
+.materialert.danger{
+    background-color: #c62828;
+    color: #fff;
+}
+.materialert.warning{
+    background-color: #fbc02d;
+    color: #fff;
+}
 
  @media (max-width: 50px) {
   .brand-logo img {
@@ -117,7 +180,7 @@ pre{
        <nav role="navigation" >
        <div class="nav-wrapper nav nav-fixed" >
        
-       <a href="/" class="brand-logo">  
+       <a href="/daeventbox" class="brand-logo">  
          <img src="https://image.ibb.co/b3UkWy/daeventlogo2_copy.png" alt="daeventlogo2" border="0"  class="brand-logo">
        </a>
 
@@ -202,7 +265,7 @@ pre{
 
            <%end%>
 
-            <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
+            <%= if @conn.cookies["daeventboxmode"] == "Facilitator"  and @conn.cookies["daeventboxuser"] do %>
               <li><a href="/facilitator/change/mode">Home</a></li>
                <li>
                  <div class = "col s12 m12 l12">
@@ -281,7 +344,7 @@ pre{
        <%= render @view_module, @view_template, assigns %>
      </main>
        
-    <footer class="new-footer">
+    <footer class="new-footer" id="new-footer">
           <div class="container">
             <div class="row">
              
@@ -412,6 +475,11 @@ pre{
             }
             
           });
+
+          function hideAlert() {
+             var ele = document.getElementById("materialert");
+             ele.style.display = "none";
+          }
     </script>
  
             

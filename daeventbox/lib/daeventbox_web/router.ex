@@ -168,7 +168,7 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/admin", DaeventboxWeb do
-    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
+    pipe_through [:browser, :with_session] # Use the default browser stack
     post "/facilitator/create", AdminController, :index
     get "/facilitators", AdminController, :facilitators
     get "/facilitator/view", AdminController, :view_facilitator
@@ -248,6 +248,8 @@ defmodule DaeventboxWeb.Router do
     get "/event/search", EventController, :search
     get "/aboutus", PageController, :about_us
     get "/contactus", PageController, :contact_us
+    post "/contact/send", PageController, :contact_send
+    get "/daeventbox", PageController, :daeventbox
     get "/", PageController, :index
 
     # render pages
