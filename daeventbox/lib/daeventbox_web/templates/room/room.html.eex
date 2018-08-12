@@ -14,7 +14,7 @@
    background-repeat: no-repeat;
 		   background-position: center center;
 		   background-size: cover;
-}  
+}
 
 .container1 {
     border: 2px solid #dedede;
@@ -57,60 +57,60 @@
     <div class="row">
         <div class ="col s12 m4"  style="padding: 10px;">
             <h4 style="color: white;">Chat Messages</h4>
-            
+
         </div>
 
-        
+
     </div>
 </div>
 <div class="  row" style="width: 70%; margin: 0 auto;">
 
 
 <div class="card col  s12 m3" >
-  
+
         <div >
          <%= if !is_nil(@facilitator) do %>
-         <img src="<%= @facilitator.image_url %>" height="100" width="100" style=" border-radius: 50%;"> 
+          <img src="<%= @facilitator.image_url %>" height="100" width="100" style=" border-radius: 50%;">
            <%end%>
          <%= if is_nil(@facilitator) do %>
-        <img src="http://benu.edu.mx/wp-content/uploads/2015/03/icon-user-default.png" height="100" width="100" style=" border-radius: 50%;"> 
-
+          <img src="http://benu.edu.mx/wp-content/uploads/2015/03/icon-user-default.png" height="100" width="100" style=" border-radius: 50%;">
           <%end%>
         </div>
-        
+
         <div>
             <%= if !is_nil(@facilitator) do %>
                 <h6>Name: <%= @facilitator.name%></h6>
                 <p> Email: <%= @facilitator.facilitator_email%> </p>
                 <p> Phone: <%= @facilitator.facilitator_phone%> </p>
-            <%end%>
-             <%= if is_nil(@facilitator) do %>
+            <% else %>
                 <h6>Name: <%=@user.firstname%> <%=@user.lastname%></h6>
                 <p> Email: <%=@user.email%> </p>
                 <p> Phone: <%=@user.phone%> </p>
-            <%end%>
+            <% end %>
         </div>
-    
+
 
 </div>
 
-<div class="container1 col s12 m9" >
+<div class="container1 col s12 m9 " style="padding-bottom: 1rem;">
+  <div class="scroll400">
     <%= if Enum.count(@messages) > 0 do %>
     <%= for message <- @messages do %>
         <%= if message.sender_id == @user.id do %>
         <div class="container1">
-            
+
             <p style="text-align: right;"><%= message.body %></p>
-            <span class="time-right"><%= message.inserted_at %></span>
+            <span class="time-right"><%= message.inserted_at |> Timex.from_now %></span>
         </div>
         <% else %>
         <div class="container1 darker">
             <p><%= message.body %></p>
-            <span class="time-left"><%= message.inserted_at %></span>
+            <span class="time-left"><%= message.inserted_at |> Timex.from_now %></span>
         </div>
         <% end %>
     <% end %>
     <% end %>
+  </div>
     <form action="/chat/send" method="post">
     <input type="text" name="message[body]">
     <input type="hidden" name="message[room_id]" value="<%= @room.id %>">
@@ -120,3 +120,10 @@
     </form>
 </div>
 </div>
+<style>
+  .scroll400 {
+    width: 100%;
+    max-height: 400px;
+    overflow-y:auto;
+  }
+</style>

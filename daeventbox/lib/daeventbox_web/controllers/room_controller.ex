@@ -65,7 +65,7 @@ defmodule DaeventboxWeb.RoomController do
     messages = Chat.list_messages(room.id)
     facilitator =
         if conn.cookies["daeventboxmode"] == "Guest" do
-          Repo.get_by(Daeventbox.Facilitator, user_id: user.id )
+          Repo.get_by(Daeventbox.Facilitator, user_id: recipient.id )
         else
           nil
         end
