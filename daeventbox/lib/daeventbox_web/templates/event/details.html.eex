@@ -1,9 +1,7 @@
 <style>
 .cont{
-    position: absolute;
-    left: 15%;
-    top: 148px;
-    z-index: 0 ;
+    
+    top: 1008px;
 }
 
 .none {
@@ -14,14 +12,21 @@
     background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
 }
 .bgimg h3 .title{
-  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;  
 }
 .headtab {
-  background-image: url("https://preview.ibb.co/n98Zb7/labelsheader.png");
-
-        background-attachment: fixed;
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
+@media (min-width: 600px) {
+    iframe {
+        width: 100% ;
+        height: 450px;
+        position: relative !important;
+    }
 }
-
 
 .star-rating {
   direction: rtl;
@@ -50,6 +55,11 @@
 }
 .checked {
     color: orange;
+} .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
 }
 </style>
 <div class="card headtab" style="width: 100%; color: white;">
@@ -62,25 +72,26 @@
         
     </div>
 </div>
-
 <div class="container  cont" style="padding: 0px;margin: 0 auto; top: 80px;" >
     <div id="profile-page-header" class="card" style="padding: 0px;margin: 0 auto; ">
-        
+        <img class=" center activator" src="<%= @event.image_url%>" alt="user background" height="402" >
+
         <div class="card-image waves-effect waves-block waves-light" style="background-color: #1d1d1d;">
             <%= if !is_nil(@event.is_deleted) do %>
-            <div class="left col s4" style="background-color: red; width: 100%">
+            <div class="left col s4 l4 m4" style="background-color: red; width: 100%">
                 <h4> CANCELLED </h4>
                 <br>
             </div>
             <%end%>
-            <div class="left col s4">
+            <div style="padding: 10px" class="left col s4 l3 m4">
                 <%= if !@liked do %>
-                <a href="/event/like/<%=@event.id %>">  Like</a>  
+                <a href="/event/like/<%=@event.id %>">  Like &nbsp </a>  
                 <% end %>
+                
                 <%= if @liked do %>
-                    <a href="/event/unlike/<%=@event.id %>"> Unlike</a>  
+                    <a href="/event/unlike/<%=@event.id %>"> Unlike  &nbsp</a>  
                 <% end %>
-                <a href="#modal2" class="modal-trigger"> Rate</a>
+                <a href="#modal2" class="modal-trigger"> Rate &nbsp</a>
                     <%= if @overall_rating == 0 or is_nil(@overall_rating) do %>
                         <span class="fa fa-star "></span>
                         <span class="fa fa-star "></span>
@@ -127,36 +138,36 @@
                     <span style="color: white;">(<%= @total_reviews %>)</span>
 
             </div>
-            <div class="right col s4">
+            <div style="padding: 10px" class="right col s4">
                 <%= if !@saved do %>
-                    <a href="/event/save/<%=@event.id %>">Save</a>  
+                    <a href="/event/save/<%=@event.id %>" >Save &nbsp</a>  
                 <% end %>
                 <%= if @saved do %>
-                    <a href="/event/unsave/<%=@event.id %>">Unsave</a>  
+                    <a href="/event/unsave/<%=@event.id %>">Unsave &nbsp</a>  
                 <% end %>
                 <a href="#modal3" class="modal-trigger">Share</a>
                 
             </div>
-            <img class="activator" src="<%= @event.image_url %>" alt="user background" height="402">                    
+                              
         </div>
         
         <div class="card-content">
             <div class="row">                    
-            <div class="col s3 m3 offset-s2">                        
+            <div class="col s12 m3  center-align">                        
                 <h4 class="card-title grey-text text-darken-4"><%=@event.title%></h4>
                 <p class="medium-small grey-text">Name</p>                        
             </div>
-            <div class="col s3 m3 center-align">
+            <div class="col s12 m3 center-align">
                 <h4 class="card-title grey-text text-darken-4"><%= @start_date%></h4>
                 <p class="medium-small grey-text">Date</p>                        
             </div>
-            <div class="col s3 m3 center-align">
+            <div class="col s12 m3 center-align">
                 <h4 class="card-title grey-text text-darken-4"><a class="activator">
                 <%= @facilitator.name %>
                 </a></h4>
                 <p class="medium-small grey-text">Facilitator</p>                        
             </div>                                 
-            <div class="col s3 right-align">
+            <div class="col s12 m3 center-align">
                 <h5 class="card-title grey-text text-darken-4"> 
                     <%= if @event.type == "free" do %>
                        Type: FREE
@@ -165,14 +176,15 @@
                       Type: PAID
                     <%end%>
                  </h5>
-                <%= unless !is_nil(@event.is_deleted) do %>
+                <%= unless !is_nil(@event.is_deleted) or @conn.cookies["daeventboxmode"] == "Facilitator" do %>
                     <%= if @event.admission_type == "registration" do %>
-                        <a href="/event/register/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Register </a>
+                        <a href="/event/register/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 "> Register </a>
                     <%end%>
                     <%= if @event.admission_type == "ticket" do %>
-                        <a href="/event/buyticket/<%=@event.id%>" class="btn waves-effect waves-light darken-2 right"> Buy Tickets </a>
+                        <a href="/event/buyticket/<%=@event.id%>" class="btn waves-effect waves-light darken-2 "> Buy Tickets </a>
                     <%end%>
                 <%end%>
+                
                 
             </div>
             </div>
@@ -220,6 +232,14 @@
                 </div>
                 <div class="row col s4">
                     <div>
+                        <%= if !is_nil(@prices) do %>
+                            <h5> Prices:  </h5>
+                            <h6> <%= for price <- @prices do %> 
+                          
+                             <%= CurrencyFormatter.format(Float.to_string(price, decimals: 2 ) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>
+                            <%end%>
+                            </h6>
+                        <%end%>
                         <%= if @start_date != @end_date do %>
                             <h5> Date: <h6><%= @start_date  %> - <%= @end_date  %> </h6> </h5>
                         <%end%>
@@ -245,14 +265,15 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container" >
             <div class="row">
+                <div class="col s2 m4 l12">
                 <iframe
-                    width="800"
-                    height="450"
-                    frameborder="0" style="border:0"
+                    
+                    frameborder="0" 
                     src="<%=@map%>" allowfullscreen>
                 </iframe>
+                </div>
             </div>
         </div>
         <div class="container">
@@ -264,8 +285,8 @@
                     <%= if !is_nil(@comments) do %>
                         <%= for comment <- @comments do %>
                            
-                            <span><%=Calendar.Strftime.strftime!(comment.inserted_at, "%B %e,  %Y")%> 
-                            <%= comment.message %> </span>
+                            <span><%=Calendar.Strftime.strftime!(comment.inserted_at, "%B %e,  %Y")%> </span>
+                            <span style="text-align: right"><%= comment.message %> </span>
                             <br> 
                         <% end %>
                     <%end%>
@@ -308,12 +329,12 @@
 
         <% end %>
         <li><a href="#modal3" class="btn-floating blue modal-trigger" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">share</i></i></a></li>
-        <li><a href="#modal1" class="btn-floating modal-trigger pink" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">flag</i></i></a></li>
+        <li><a href="#report" class="btn-floating modal-trigger pink" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">flag</i></i></a></li>
 
     </ul>
 </div>
  <!-- Modal Structure -->
- <div id="modal1" class="modal">
+ <div id="report" class="modal">
     <div class="modal-content">
       <h4>Report Event</h4>
       <form action="/event/report/add/<%= @event.id%>" method="POST" >
