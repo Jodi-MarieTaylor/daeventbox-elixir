@@ -139,7 +139,7 @@ defmodule DaeventboxWeb.Router do
     get "/" , FacilitatorController, :home
     post "/", FacilitatorController, :home
   end
-
+ 
   scope "/guest", DaeventboxWeb do
     pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 
