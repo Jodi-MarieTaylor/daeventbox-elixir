@@ -148,7 +148,7 @@ defmodule DaeventboxWeb.Router do
     get "/profile/edit", FacilitatorController, :profile_edit
     get "/manage", FacilitatorController, :manage
     get "/export/:id", FacilitatorController, :export
-    post "/add", FacilitatorController, :add_facilitator
+
     get "/profile/preview", FacilitatorController, :profile_preview
     post "/profile/update", FacilitatorController, :update_profile
     post "/add/announcement/:event_id/:facilitator_id", NotificationController, :add_from_facilitator
@@ -160,7 +160,7 @@ defmodule DaeventboxWeb.Router do
   end
   scope "/facilitator", DaeventboxWeb do
     pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
-
+    post "/add", FacilitatorController, :add_facilitator
 
 
     get "/profile", FacilitatorController, :profile
@@ -169,7 +169,7 @@ defmodule DaeventboxWeb.Router do
 
     post "/report/add/:facilitator_id", FacilitatorController, :report_facilitator
   end
- 
+
   scope "/guest", DaeventboxWeb do
     pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 

@@ -203,7 +203,7 @@ html {
               <li><a href="/chat/view/messages"><i class="material-icons">mail</i><div id="messagesnum"></div></a></li>
 
               <li class = "divider"></li>
-              <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and !is_nil(@conn.cookies["daeventboxuser"]) and !is_nil(Daeventbox.Repo.get_by(Daeventbox.Facilitator, user_id:  @conn.assigns[:current_user].id )) do %>
+              <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and !is_nil(@conn.cookies["daeventboxuser"]) and !is_nil(@conn.assigns[:current_user] ) and !is_nil(Daeventbox.Repo.get_by(Daeventbox.Facilitator, user_id:  @conn.assigns[:current_user].id )) do %>
 
                   <li><a href = "/facilitator/profile">Profile</a></li>
               <%end%>

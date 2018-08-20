@@ -82,7 +82,7 @@
             <a class="waves-effect waves-light btn modal-trigger pull-right" href="/event/create">Create Event</a>
             <br>
             <br>
-            <%= if is_nil(@events) do %>
+            <%= if is_nil(@events) or Enum.count(@events) == 0 do %>
                 <p> No Events </p>
             <% end %>
             <%= if !is_nil(@events)  and Enum.count(@events) > 0 do %>
