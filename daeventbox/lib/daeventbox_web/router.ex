@@ -129,7 +129,7 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/ad", DaeventboxWeb do
-    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
+    pipe_through [:browser, :with_session, :login_required, :facilitator_required] # Use the default browser stack
       get "/options", AdController, :ad_option
       get "/select/:id", AdController, :select
       get "/selection/form/:option_id/:id", AdController, :ad_form
@@ -144,7 +144,7 @@ defmodule DaeventboxWeb.Router do
 
     get "/event/search", FacilitatorController, :eventsearch
     get "/event/dashboard/:title/:id", FacilitatorController, :dashboard
-    get "/profile/create", FacilitatorController, :profile_form
+
     get "/profile/edit", FacilitatorController, :profile_edit
     get "/manage", FacilitatorController, :manage
     get "/export/:id", FacilitatorController, :export
@@ -152,12 +152,20 @@ defmodule DaeventboxWeb.Router do
     get "/profile/preview", FacilitatorController, :profile_preview
     post "/profile/update", FacilitatorController, :update_profile
     post "/add/announcement/:event_id/:facilitator_id", NotificationController, :add_from_facilitator
-    get "/profile", FacilitatorController, :profile
-    get "/follow/:facilitator_id", FacilitatorController, :follow
-    get "/unfollow/:facilitator_id", FacilitatorController, :unfollow
+
     get "/manage/search/events", FacilitatorController, :search_events
     get "/" , FacilitatorController, :home
     post "/", FacilitatorController, :home
+
+  end
+  scope "/facilitator", DaeventboxWeb do
+    pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
+
+
+
+    get "/profile", FacilitatorController, :profile
+    get "/follow/:facilitator_id", FacilitatorController, :follow
+    get "/unfollow/:facilitator_id", FacilitatorController, :unfollow
 
     post "/report/add/:facilitator_id", FacilitatorController, :report_facilitator
   end
@@ -233,8 +241,7 @@ defmodule DaeventboxWeb.Router do
   scope "/", DaeventboxWeb do
     pipe_through [:browser, :with_session, :login_required] # Use the default browser stack
 
-    get "/switch", FacilitatorController, :switch
-    get "/change/mode", FacilitatorController, :changemode
+
     resources "/messages", MessageController
     resources "/rooms", RoomController
 
@@ -245,6 +252,9 @@ defmodule DaeventboxWeb.Router do
   scope "/", DaeventboxWeb do
     pipe_through [:browser, :with_session] # Use the default browser stack
 
+    get "/facilitator/switch", FacilitatorController, :switch
+    get "/facilitator/change/mode", FacilitatorController, :changemode
+    get "/facilitator/profile/create", FacilitatorController, :profile_form
     get "/event/upcoming/filter", EventController, :filter_events
     get "/event/upcoming", EventController, :upcoming_events
     get "/event/facilitators", EventController, :facilitators

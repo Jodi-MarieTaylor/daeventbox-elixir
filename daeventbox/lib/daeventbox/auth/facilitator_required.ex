@@ -7,10 +7,11 @@ defmodule Daeventbox.FaciliatorRequired do
      case Daeventbox.Repo.get_by(Daeventbox.Facilitator, user_id: current_user.id) do
        nil ->
          conn
-         |> Phoenix.Controller.redirect(to: "/profile/create")
+         |> Phoenix.Controller.redirect(to: "/facilitator/profile/create")
         _ ->
           conn
      end
+
   end
 
 end

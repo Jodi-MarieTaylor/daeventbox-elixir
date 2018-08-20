@@ -148,7 +148,7 @@
           </div>
           <div class="row col s3">
             <label>Parish</label>
-               <select name = "parish">
+               <select name= "parish"  class="form-control">
                   <option  value="<%= @event.location_info["parish"]%>" disabled selected><%= @event.location_info["parish"]%></option>
                   <option value = "Kingston">Kingston</option>
                   <option value = "St. Andrew">St. Andrew</option>

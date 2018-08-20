@@ -27,6 +27,9 @@ th, td {
     padding: 15px;
     text-align: left;
 }
+.added_height{
+    height: 300px !important; 
+}
 </style>
 <div class="card headtab" style="width: 100%; color: white;">
     <div class="row">
@@ -53,11 +56,19 @@ th, td {
             <tr>
                 <td>
                     <div class="row">
-                        <div class="col s12 m3">
+                        <div class="col s12 m1">
                             <!--<img src="https://placeholdit.co//i/30x30?"> -->
                             <p><%=notification.from%> </p>
                         </div>
-                        <div class= "col s12 m6">
+                         <div class= "col s12 m1">
+                            <%= unless is_nil(notification.event_id) do %>
+                             <p><% event= Daeventbox.Repo.get_by(Daeventbox.Event, id: notification.event_id) %> <%= event.title %></p>
+                            <%end%>
+                            <%= if  is_nil(notification.event_id) do %>
+                                <p>  </p>
+                            <%end%>
+                        </div>
+                        <div class= "col s12 m7">
                             <p><%= notification.message %></p>
                         </div>
 
@@ -78,26 +89,39 @@ th, td {
                
             </tr>
             <% end %>
+            <tr>
+            <td>
+               <%= if @page_count == 0 do %>
+                    <div class="added_height"> 
+                    <p style= "text-align: center;"> No Notifications </p>
+                     </div>
+                <%end%>
+                </td>
+                
+               
+            </tr>
             
         </table>
          <div class="pull-right">
+           <%= unless @page_count == 0 do %>
             <ul class="pagination">
-                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
                 <%= for i <- 1..@page_count do %>
                     <%= if is_nil(@page) do %>
-                        <li class="active"><a href="/event/upcoming?page=<%=i%>"><%=i%> </a></li>
+                        <li class="active"><a href="/notify?page=<%=i%>"><%=i%> </a></li>
                     <%end%>
                     <%= if String.to_integer(@page) == i do %>
-                        <li class="active"><a href="/event/upcoming?page=<%=i%>"><%=i%> </a></li>
+                        <li class="active"><a href="/notify?page=<%=i%>"><%=i%> </a></li>
                     <%end%>
                     <%= if String.to_integer(@page) != i do %>
-                    <li class="waves-effect"><a href="/event/upcoming?page=<%=i%>"><%=i%>  </a></li>
+                    <li class="waves-effect"><a href="/notify?page=<%=i%>"><%=i%>  </a></li>
                     <%end%>
                 
                 <%end%>
-                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                <li class="waves-effect"><a href="/notify?page=<%= String.to_integer(@page)+ 1%>"><i class="material-icons">chevron_right</i></a></li>
             </ul>
+            <%end%>
         </div>
+       
     </div>
 
 </div>

@@ -91,7 +91,8 @@
                         <tr>
                             <th></th>
                             <th>Name</th>
-                            <th>Date</th>
+                            <th>Date Created </th>
+                            <th>Event Date</th>
                             <th>Type</th>
                             <th> Status </th>
                         </tr>
@@ -102,7 +103,8 @@
                                 <tr>
                                     <td> <img style="width: 70px;" src="<%=event.image_url %>"> </td>
                                     <td><a href="/facilitator/event/dashboard/<%=event.title%>/<%= event.id %>" style="text-transform: capitalize;"><%=event.title%></a></td>
-                                    <td><%=event.start_date%></td>
+                                    <td><%=Calendar.Strftime.strftime!(event.inserted_at, "%B %e,  %Y")%></td>
+                                    <td><%=Calendar.Strftime.strftime!(event.start_date, "%B %e,  %Y")%></td>
                                     <td style="text-transform: capitalize;"><%=event.admission_type%></td>
                                     <td style="text-transform: capitalize;"><%=event.status%></td>
                                     <td><a href="/event/delete/<%=event.id%>" onclick="return confirm('Are you sure you would like to cancel this event?');" ><i class="material-icons">delete</i> </a>
@@ -131,6 +133,6 @@
     nextText:'Siguiente',
     showPrevNext:true,
     hidePageNumbers:false,
-    perPage: 3
+    perPage: 5
   });
 </script>

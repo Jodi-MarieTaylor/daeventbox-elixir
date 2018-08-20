@@ -16,7 +16,7 @@
 				<div class="input-field col s12 m6">
                     <i class="material-icons prefix">face</i>
 					<input id="name" type="text" name="name" class="validate" autofocus="true">
-					<label for="name">Facilitator Name:
+					<label for="name">Facilitator Name: (Company)
 					</label>
 				</div>
                 
@@ -76,7 +76,7 @@
                 <h5> Connect Your Accounts </h5>
                 <hr>
                 <div class="row">
-                    <h3 style="font-size: 20px"><i class="material-icons">insert_link </i>Social Media URL:</h3>
+                    <h3 style="font-size: 20px; text-align: center;">Social Media URLs:</h3>
                     <div class="input-field col s12 m4" >
                         <input id="facebook" type="text" name="facebook" class="validate" >
                         <label for="facebook"><i class="fa fa-facebook" aria-hidden="true"></i>:
@@ -97,7 +97,7 @@
                 <!--<a href="/facilitator/profile/preview" class="btn activator waves-effect waves-light darken-2 right"> Profile Preview </a> -->
 
 				
-                    <button data-target="modal1" class="pull-right modal-trigger btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                    <button  class="pull-right  btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
                     Submit
                     </button>
                 </div>

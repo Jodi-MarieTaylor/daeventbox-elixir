@@ -148,7 +148,7 @@ defmodule DaeventboxWeb.AccountController do
      changeset = Daeventbox.ClosedAccount.changeset(%Daeventbox.ClosedAccount{}, required_params)
 
     case Repo.insert(changeset) do
-      {:ok, _closedaccounts} -> IO.puts "Closed Account Reason Added"
+      {:ok, _closedaccounts} -> IO.puts "Closed "
       {:error, reason} -> IO.inspect reason
     end
      case Repo.delete user do

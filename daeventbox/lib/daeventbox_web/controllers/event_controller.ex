@@ -298,7 +298,7 @@ defmodule DaeventboxWeb.EventController do
   end
 
   def manage(conn, params) do
-    per_page = params["page_size"] || 2
+    per_page = params["page_size"] || 6
     page = params["page"] || "1"
    # get all events saved
    saved_events = Repo.all(from s in SavedEvent,join: e in Event, on: s.event_id == e.id, where: s.user_id ==  ^conn.assigns[:current_user].id, select: [e.title, e.start_date, e.id, e.image_url])
@@ -484,7 +484,7 @@ defmodule DaeventboxWeb.EventController do
     ticket  = Repo.get_by(Ticket, id: params["ticket_id"])
     DaeventboxWeb.EmailController.ticket_email(ticket, user)
     conn
-    |> put_flash(:info, "Ticket sent successful")
+    |> put_flash(:info, "Success! Tickets were sent to your email.")
     |> redirect(to: "/event/manage")
   end
 
@@ -539,7 +539,9 @@ defmodule DaeventboxWeb.EventController do
           end
         end
       end
-      redirect conn, to: "/event/manage"
+      conn
+      |> put_flash(:info, "Registration Done Successfully!")
+      |> redirect(to: "/event/manage")
     else
       proceed_with_payment(conn, params)
     end
@@ -860,7 +862,9 @@ def send_notification(type, item, message, sent_by) do
           {:ok, complaint} ->
             IO.puts "Added Complaints"
             send_notification("Complaint",complaint, "You have recieved a new complaint", "Guest")
-            redirect conn, to: "/event/details/#{params["event_id"]}"
+            conn
+            |> put_flash(:info, "Report Sent Successfully.")
+            |> redirect to: "/event/details/#{params["event_id"]}"
           {:error, reason} -> IO.inspect reason
     end
 

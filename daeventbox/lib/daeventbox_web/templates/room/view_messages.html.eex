@@ -28,6 +28,9 @@ th, td {
     padding: 15px;
     text-align: left;
 }
+.added_height{
+    height: 300px !important; 
+}
 </style>
 <div class="card headtab" style="width: 100%; color: white;">
     <div class="row">
@@ -49,7 +52,13 @@ th, td {
                 
             </tr>
             <%= if Enum.count(@rooms) == 0 do %>
-            <tr> <td> No Messages Yet </td> <tr>
+            <tr> <td> 
+         
+                    <div class="added_height"> 
+                    <p style= "text-align: center;"> No Messages </p>
+                     </div>
+                     </td>
+             </tr>
             <%end%>
             <%= for room <- @rooms do %>
             <tr>

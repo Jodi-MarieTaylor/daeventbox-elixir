@@ -1,7 +1,7 @@
 <style>
 .sidenav {
     height: 100%;
-    width: 200px;
+    width:150px;
     position: fixed;
     
    
@@ -22,7 +22,7 @@
 }
 
 .main {
-    margin-left: 300px !important; /* Same as the width of the sidenav */
+    margin-left: 250px !important; /* Same as the width of the sidenav */
     height: 100%;
     
 }
@@ -63,24 +63,38 @@
     </div>
 </div>
 -->
+
+<%= if !is_nil(get_flash(@conn, :info) ) do %>
+		<div class="materialert success" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :info) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+
+        <%= if !is_nil(get_flash(@conn, :error) ) do %>
+		<div class="materialert error" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :error) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
 <div class="container row">
     <div class="col s12 m2  sidenav">
-        <a href="#user_general"> User General Information </a>
-        <a href="#password">  Passwords </a>
-        <a href="#email"> Email Preferences </a>
+        <a href="#user_general"> Account Details </a>
+        <a href="#password">  Password </a>
+        <a href="#email1"> Email Preferences </a>
         <a href="#close"> Close Account </a>
     </div>
 
-    <div class="col s12 m8 main">   
+    <div class="col s12 m8 main card">   
         <div id="user_general">
-            <h4> User General Information </h4>
+            <h4> Account Details </h4>
             <form  action="/account/submit/user-general/" method="POST">            
                 <div class="input-field col s4 m6">
-                    <input  id="firstname" name="firstname" type="text" value="<%= @user.firstname %>" class = "active validate" required>
+                    <input  id="firstname" name="firstname" type="text" value="<%= @user.firstname %>" class = "active validate" >
                     <label for="firstname">First Name</label>
                 </div>
                 <div class="input-field col s4 m6">
-                    <input  id="lastname" name="lastname" type="text" value="<%= @user.lastname %>" class = "active validate" required>
+                    <input  id="lastname" name="lastname" type="text" value="<%= @user.lastname %>" class = "active validate" >
                     <label for="lastname">First Name</label>
                 </div>
                 <div class="input-field col s4 m6">
@@ -92,16 +106,16 @@
                     <label for="backup_email">Another Email</label>
                 </div>
                 <div class="input-field col s4 m6">
-                    <input  id="phone" name="phone" type="text" value="<%= @user.phone %>" class = "active validate" required>
+                    <input  id="phone" name="phone" type="text" value="<%= @user.phone %>" class = "active validate" >
                     <label for="phone">Phone</label>
                 </div>
                 <div class="input-field col s4 m6">
                     <label for="additional_phone">Other Phone</label>
-                    <input  id="additional_phone" name="alt_phone" type="text" value="<%= @user.alt_phone%>"  class = "active validate" required>
+                    <input  id="additional_phone" name="alt_phone" type="text" value="<%= @user.alt_phone%>"  class = "active validate" >
 
                 </div>
                 <div class="input-field col s4 m12">
-                    <input  id="address" name="address" type="text" value="<%= @user.address %>" class = "active validate" required>
+                    <input  id="address" name="address" type="text" value="<%= @user.address %>" class = "active validate" >
                     <label for="address">Address</label>
                 </div>
                 <div class = "row">
@@ -129,7 +143,7 @@
                 </div>
                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
-                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg " type="submit" name="submit">
+                <button class=" waves-effect waves-light btn btn-simple btn-primary  " type="submit" name="submit">
                             Update Account 
                 </button>
             </form>
@@ -156,13 +170,13 @@
                 </div>
                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
-                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg " type="submit" name="submit">
+                <button class=" waves-effect waves-light btn btn-simple btn-primary  " type="submit" name="submit">
                    Change Password
                 </button>
             </form>
         </div>
         <hr>
-        <div id="email">
+        <div id="email1">
             <h4> Email Preferences </h4>
             <div class="box">
                 <form action="/account/submit/email-preferences/" method="POST">
@@ -194,8 +208,8 @@
                         <input type='checkbox' name='preference4' value='Unsubscribe from all Daeventbox newsletters and updates for event organizers' id="thing3"/><label for="thing3"></label> Unsubscribe from all Daeventbox newsletters and updates for event organizers
                     <%end%>
                     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
-
-                    <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg " type="submit" name="submit">
+                    <br>
+                    <button class=" waves-effect waves-light btn btn-simple btn-primary  " type="submit" name="submit">
                         Submit Preferences
                     </button>
                     
@@ -219,11 +233,13 @@
                 <br>
                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
-                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg " type="submit" name="submit">
+                <button class=" waves-effect waves-light btn btn-simple btn-primary  " type="submit" name="submit">
                     Close Your Account
                 </button>
+                <br>
+                <br>
             </form>
         </div>
     </div>
-
+ 
 </div>

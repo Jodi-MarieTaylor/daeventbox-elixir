@@ -29,6 +29,7 @@ defmodule DaeventboxWeb.PaymentController do
           |> Map.put("template", "payment_confirmation.html")
         DaeventboxWeb.EmailController.generic_email(conn.assigns[:current_user], email)
         conn
+        |> put_flash(:info, "Registration was done successfully!")
         |> redirect(to: "/event/manage")
       else
 
@@ -39,6 +40,7 @@ defmodule DaeventboxWeb.PaymentController do
           |> Map.put("template", "payment_confirmation.html")
         DaeventboxWeb.EmailController.generic_email(conn.assigns[:current_user], email)
         conn
+        |> put_flash(:info, "Success! Tickets were sent to your email.")
         |> redirect(to: "/event/manage")
         #show_event_success_modal(conn, params)
       end

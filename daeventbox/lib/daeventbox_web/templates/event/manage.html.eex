@@ -10,6 +10,10 @@
 		   background-position: center center;
 		   background-size: cover;
 }      
+
+.added_height{
+    height: 300px !important; 
+}
  </style>
 
 
@@ -23,11 +27,24 @@
         
     </div>
 </div>
+  <%= if !is_nil(get_flash(@conn, :info) ) do %>
+		<div class="materialert success" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :info) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+
+        <%= if !is_nil(get_flash(@conn, :error) ) do %>
+		<div class="materialert error" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :error) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
 <%= unless Enum.count(@saved_events) == 0 do %>
-    <div class="row " style="background-color: #1d1d1d; width:100%; margin: 0px !important;">
+    <div class="row " style="width:100%; margin: 0px !important;">
         
         <div class="carousel saved"><a>
-        <h5 style="color: white;" class="center"> Saved Events </h5>
+        <h5  class="center"> Saved Events </h5>
         <%= for saved <- @saved_events do %>
             <div class="carousel-item card" style="height: 280px !important;">  
                 <div class="card-image">
@@ -47,20 +64,15 @@
         </div>    
 
         <div class="col s12 center">
-            <button class="prev z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-left fa-lg grey-text text-lighten-3"></i></button>
+            <button class="prev z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-left fa-lg grey-text text-lighten-1"></i></button>
             <button class="next z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-right fa-lg grey-text text-lighten-1"></i></button>
+            <br>
         </div>
-    </div>
-<%end%>
-<%= if Enum.count(@saved_events) == 0 do %>
-     <div class="row " >
-        
-        <div class=" ">
-        <h5  class="center"> No Saved Events </h5>
       
-        </div>  
     </div>
+   
 <%end%>
+
 
 
 
@@ -142,8 +154,9 @@
                 </div>
                 <%end%>
                 <div class="pull-right">
+            <%= unless @page_count1 == 0 do %>
             <ul class="pagination">
-                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+               
                 <%= for i <- 1..@page_count1 do %>
                     <%= if is_nil(@page) do %>
                         <li class="active"><a href="/event/manage?page=<%=i%>"><%=i%> </a></li>
@@ -156,10 +169,18 @@
                     <%end%>
                 
                 <%end%>
-                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+             
+
+                <li class="waves-effect"><a href="/event/manage?page=<%=  String.to_integer(@page) + 1 %>"><i class="material-icons">chevron_right</i></a></li>
             </ul>
+               <%end%>
+            
         </div>
-              
+                 <%= if @page_count1 == 0 do %>
+                    <div class="added_height"> 
+                    <p style="text-align: center;"> No Ticket History </p>
+                     </div>
+                <%end%>
             </div>
             <div id="registration_history" style="width: 80%; margin: 0px auto;">
                 <%= for registration <- @registration_and_events do %>
@@ -191,8 +212,8 @@
                     </div>
                 </div>
                 <%end%>
+                <%= unless @page_count2 == 0 do %>
                  <ul class="pagination" class="pull-right">
-                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
                 <%= for i <- 1..@page_count2 do %>
                     <%= if is_nil(@page) do %>
                         <li class="active"><a href="/event/manage?page=<%=i%>"><%=i%> </a></li>
@@ -205,7 +226,13 @@
                     <%end%>
                 
                 <%end%>
-                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                <li class="waves-effect"><a href="/event/manage?page=<%= String.to_integer(@page)+ 1%>"><i class="material-icons">chevron_right</i></a></li>
+                <%end%>
+                <%= if @page_count2 == 0 do %>
+                    <div class="added_height"> 
+                    <p style="text-align: center;"> No Registration History </p>
+                     </div>
+                <%end%>
             </ul>
             </div>
         </div>
