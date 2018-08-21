@@ -15,35 +15,23 @@ defmodule DaeventboxWeb.OAuthController do
     |> redirect(to: "/")
   end
 
-  def delete_target(conn, params) do
-    id = params["target"]
-    post = Daeventbox.Repo.get!(Daeventbox.Account.Target, id)
-    Daeventbox.Repo.delete(post)
-    conn |> redirect(to: "/posts")
-  end
-
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, params) do
-    IO.puts "FAIL BIG TIME"
-    IO.inspect conn.assigns
-    IO.inspect params
-    IO.inspect conn
-
     conn
     |> put_flash(:error, "Failed to authenticate.")
-    |> redirect(to: "/posts")
+    |> redirect(to: "/login")
   end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, params) do
-    IO.inspect auth
-    IO.inspect params
     current_user = conn.assigns[:current_user]
     auth = auth |> Map.put(:params, params)
     case find_or_create(auth) do
       {:ok, user} ->
           facebook_handler(auth, user, current_user, conn)
       {:error, reason} ->
-          IO.inspect reason
           {:error, reason}
+          conn
+          |> put_flash(:error, "Failed To Authenticate You.")
+          |> redirect(to: "/login")
     end
   end
 
@@ -129,45 +117,10 @@ defmodule DaeventboxWeb.OAuthController do
         |> put_flash(:info, "Successfully Logged In")
         |> redirect(to: "/")
       {:error, reason} ->
-        IO.inspect reason
         conn
         |> put_flash(:error, "Failed To Log In")
         |> redirect(to: "/login")
     end
-  end
-
-  def client do
-    OAuth2.Client.new([
-      strategy: __MODULE__,
-      client_id: "be0ac59d0ddc4f329f9da4c500416578",
-      client_secret: "21e26f0406774f228e076d781e99e5f9",
-      redirect_uri: "https://4cc5e2b9.ngrok.io/auth/instagram/callback",
-      site: "https://https://www.instagram.com",
-      authorize_url: "https://www.instagram.com/oauth/authorize",
-      token_url: "https://www.instagram.com/oauth/access_token"
-    ])
-  end
-
-  def authorize_url! do
-    OAuth2.Client.authorize_url!(client())
-  end
-
-  # you can pass options to the underlying http library via `opts` parameter
-  def get_token!(params \\ [], headers \\ [], opts \\ []) do
-    OAuth2.Client.get_token!(client(), params, headers, opts)
-  end
-
-  # Strategy Callbacks
-
-  def authorize_url(client, params) do
-    OAuth2.Strategy.AuthCode.authorize_url(client, params)
-  end
-
-  def get_token(client, params, headers) do
-    client
-    |> put_param(:client_secret, client.client_secret)
-    |> put_header("accept", "application/json")
-    |> OAuth2.Strategy.AuthCode.get_token(params, headers)
   end
 
 end

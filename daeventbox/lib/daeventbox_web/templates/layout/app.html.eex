@@ -6,26 +6,291 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description" content="">
    <meta name="author" content="">
-   <meta property="og:url"           content="https://www.your-domain.com/your-page.html" />
-  <meta property="og:type"          content="website" />
-  <meta property="og:title"         content="Your Website Title" />
-  <meta property="og:description"   content="Your description" />
-  <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
+
    <title>Hello Daeventbox!</title>
    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
 
    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
    <script src="https://maps.googleapis.com/maps//jsvv=3.exp&sensor=false&libraries=places"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.js"></script> -->
-        <script type="text/javascript" src="<%= static_path(@conn, "/js/materialize.js") %>"></script>
-
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <style>
 
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
 
+ .btn.social > :first-child,
+ .btn-large.social > :first-child,
+ .col.social > :first-child {
+   border-right: 1px solid rgba(0, 0, 0, 0.2);
+ }
+ .btn.social,
+ .btn-large.social,
+ .col.social {
+   padding: 0 2rem 0 0;
+ }
+ .btn.social i,
+ .btn-large.social i,
+ .col.social i {
+   padding: 0 1rem;
+   margin-right: 1rem;
+ }
+ .btn.social-icon,
+ .btn-large.social-icon,
+ .col.social-icon {
+   padding: 0;
+ }
+ .btn.social-icon i,
+ .btn-large.social-icon i,
+ .col.social-icon i {
+   padding: 0 1rem;
+   margin-right: 0;
+ }
+ .btn-large.social-icon {
+   padding: 0 1rem;
+ }
+ .col.social {
+   width: 100%;
+   text-align: left;
+ }
+ .col.social i.fa-fw {
+   width: 3.2rem;
+ }
+ .adn {
+   background-color: #d87a68 !important;
+   color: #fff !important;
+ }
+ .adn i {
+   color: #fff !important;
+ }
+ .adn:hover {
+   background-color: #e29e91 !important;
+ }
+ .bitbucket {
+   background-color: #205081 !important;
+   color: #fff !important;
+ }
+ .bitbucket i {
+   color: #fff !important;
+ }
+ .bitbucket:hover {
+   background-color: #2a69aa !important;
+ }
+ .dropbox {
+   background-color: #1087dd !important;
+   color: #fff !important;
+ }
+ .dropbox i {
+   color: #fff !important;
+ }
+ .dropbox:hover {
+   background-color: #309ff0 !important;
+ }
+ .facebook {
+   background-color: #3b5998 !important;
+   color: #fff !important;
+ }
+ .facebook i {
+   color: #fff !important;
+ }
+ .facebook:hover {
+   background-color: #4c70ba !important;
+ }
+ .flickr {
+   background-color: #ff0084 !important;
+   color: #fff !important;
+ }
+ .flickr i {
+   color: #fff !important;
+ }
+ .flickr:hover {
+   background-color: #ff339d !important;
+ }
+ .foursquare {
+   background-color: #f94877 !important;
+   color: #fff !important;
+ }
+ .foursquare i {
+   color: #fff !important;
+ }
+ .foursquare:hover {
+   background-color: #fb799c !important;
+ }
+ .github {
+   background-color: #444444 !important;
+   color: #fff !important;
+ }
+ .github i {
+   color: #fff !important;
+ }
+ .github:hover {
+   background-color: #5e5e5e !important;
+ }
+ .google {
+   background-color: #dd4b39 !important;
+   color: #fff !important;
+ }
+ .google i {
+   color: #fff !important;
+ }
+ .google:hover {
+   background-color: #e47365 !important;
+ }
+ .instagram {
+   background-color: #405de6 !important;
+   color: #fff !important;
+ }
+ .instagram i {
+   color: #fff !important;
+ }
+ .instagram:hover {
+   background-color: #6d83ec !important;
+ }
+ .linkedin {
+   background-color: #007bb6 !important;
+   color: #fff !important;
+ }
+ .linkedin i {
+   color: #fff !important;
+ }
+ .linkedin:hover {
+   background-color: #009de9 !important;
+ }
+ .microsoft {
+   background-color: #2672ec !important;
+   color: #fff !important;
+ }
+ .microsoft i {
+   color: #fff !important;
+ }
+ .microsoft:hover {
+   background-color: #5590f0 !important;
+ }
+ .windows {
+   background-color: #2672ec !important;
+   color: #fff !important;
+ }
+ .windows i {
+   color: #fff !important;
+ }
+ .windows:hover {
+   background-color: #5590f0 !important;
+ }
+ .odnoklassniki {
+   background-color: #f4731c !important;
+   color: #fff !important;
+ }
+ .odnoklassniki i {
+   color: #fff !important;
+ }
+ .odnoklassniki:hover {
+   background-color: #f6914d !important;
+ }
+ .openid {
+   background-color: #f7931e !important;
+   color: #fff !important;
+ }
+ .openid i {
+   color: #fff !important;
+ }
+ .openid:hover {
+   background-color: #f9ab4f !important;
+ }
+ .pinterest {
+   background-color: #cb2027 !important;
+   color: #fff !important;
+ }
+ .pinterest i {
+   color: #fff !important;
+ }
+ .pinterest:hover {
+   background-color: #e03e44 !important;
+ }
+ .reddit {
+   background-color: #eff7ff !important;
+   color: #000 !important;
+ }
+ .reddit i {
+   color: #000 !important;
+ }
+ .reddit:hover {
+   background-color: #ffffff !important;
+ }
+ .soundcloud {
+   background-color: #ff5500 !important;
+   color: #fff !important;
+ }
+ .soundcloud i {
+   color: #fff !important;
+ }
+ .soundcloud:hover {
+   background-color: #ff7733 !important;
+ }
+ .tumblr {
+   background-color: #2c4762 !important;
+   color: #fff !important;
+ }
+ .tumblr i {
+   color: #fff !important;
+ }
+ .tumblr:hover {
+   background-color: #3c6085 !important;
+ }
+ .twitter {
+   background-color: #55acee !important;
+   color: #fff !important;
+ }
+ .twitter i {
+   color: #fff !important;
+ }
+ .twitter:hover {
+   background-color: #83c3f3 !important;
+ }
+ .vimeo {
+   background-color: #1ab7ea !important;
+   color: #fff !important;
+ }
+ .vimeo i {
+   color: #fff !important;
+ }
+ .vimeo:hover {
+   background-color: #49c6ee !important;
+ }
+ .vk {
+   background-color: #587ea3 !important;
+   color: #fff !important;
+ }
+ .vk i {
+   color: #fff !important;
+ }
+ .vk:hover {
+   background-color: #7897b6 !important;
+ }
+ .yahoo {
+   background-color: #720e9e !important;
+   color: #fff !important;
+ }
+ .yahoo i {
+   color: #fff !important;
+ }
+ .yahoo:hover {
+   background-color: #9412cd !important;
+ }
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
 
 pre{
       padding: 16px 20px 0px;
@@ -39,22 +304,12 @@ pre{
   text-align: center;
 }
    .truncate {
-  width: 300px;
+  width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.truncate-para {
- display: block;
-    display: -webkit-box;
-    max-width: 100%;
-    height: 109.2px;
-   
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+
    nav{
       background: linear-gradient(#1d76d6,#4dc9ff);
     /*background-color: #2999c6;  */
@@ -66,30 +321,19 @@ pre{
    .btn{
      background-color: #ee226f;
    }
-  body {
-     display: flex;
-     min-height: 100vh;
-     flex-direction: column;
- }
- main {
-     flex: 1 0 auto;
- }
-
-
-   .new-footer{
-     
-      width: 100%;
-      height: 400px;
-      background-image: url("https://image.ibb.co/fuq8Td/webdevbottom_01.png");
-       background-repeat: no-repeat;
-        background-size: cover;
-        border-top: solid thin transparent;
-       
-       padding-top: 200px;
-    }
-     
-
- @media (max-width: 50px) {
+   body{
+         /*background-color: #f2f2f2; */
+         background-color:
+       -webkit-background-size: cover;
+		   -moz-background-size: cover;
+		   -o-background-size: cover;
+		  /*  background-image: url("https://preview.ibb.co/e3DKr7/backgroundwebsitegeneralgrey.jpg" ); */
+		   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-attachment: fixed;
+		   background-size: cover;
+   }
+ @media (max-width: 600px) {
   .brand-logo img {
     height: 56px;
 
@@ -97,28 +341,23 @@ pre{
    </style>
    <script>
         $(document).ready(function() {
-              $('.modal').modal();
-
            $('select').material_select();
-           $(".button-collapse").sideNav(  );
-             $('.button-collapse').click(removeOverlay);
+           $(".button-collapse").sideNav();
 
-          function removeOverlay() {
-  $('div[id^=sidenav-overlay]').remove();
-}
-        });           
+
+        });
    </script>
  </head>
  <body>
-   
+   <div >
      <header class="header">
       <div class="navbar-fixed">
 
        <nav role="navigation" >
-       <div class="nav-wrapper nav nav-fixed" >
-       
-       <a href="/" class="brand-logo">  
-         <img src="https://image.ibb.co/b3UkWy/daeventlogo2_copy.png" alt="daeventlogo2" border="0"  class="brand-logo">
+       <div class="nav-wrapper nav">
+
+       <a href="#" class="brand-logo">
+       <img src="https://preview.ibb.co/exb7u7/daeventlogo2.png" alt="daeventlogo2" border="0" class="brand-logo">
        </a>
 
          <ul id = "javaDropDown" class = "dropdown-content">
@@ -131,13 +370,13 @@ pre{
 
               <li><a href = "/event/upcoming">Upcoming Events</a></li>
               <li class = "divider"></li>
-              <li><a href = "/event/facilitators">Event Facilitators</a></li>
+              <li><a href = "/event/facilitators">Event Organizers</a></li>
         </ul>
         <ul id = "userdropdown" class = "dropdown-content">
               <li><a href="/notify" onclick="return removenum();" ><i class="material-icons">notifications</i><div id="notificationnum"></div></a></li>
 
               <!--<li><a href="/chat/start"><i class="material-icons">mail</i><span class="new badge">1</span></a></li> -->
-              <li><a href="/chat/view/messages"><i class="material-icons">mail</i><div id="messagesnum"></div></a></li>
+              <li><a href="/chat/view/messages"><i class="material-icons">mail</i><span class="new badge">1</span></a></li>
 
               <li class = "divider"></li>
               <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
@@ -203,7 +442,7 @@ pre{
            <%end%>
 
             <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
-              <li><a href="/facilitator/change/mode">Home</a></li>
+              <li><a href="/facilitator">Home</a></li>
                <li>
                  <div class = "col s12 m12 l12">
                     <ul id = "nav-mobile" class = "right hide-on-med-and-down">
@@ -236,103 +475,25 @@ pre{
            <%end%>
 
             <%= unless @conn.cookies["daeventboxmode"] do %>
-               <li><a href="/home"> Home <a><li>
-               <li>
-                 <div class = "col s12 m12 l12">
-                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
-                            
-                            <li><a class = "dropdown-button" href = "#!"
-                            data-activates = "javasDropDown">Events<i class = "material-icons
-                            right">arrow_drop_down</i></a></li>
-                    </ul>    
-          
-                 </div>
-                </li>
-              <li><a href="/aboutus">About Us<a><li>
-               <li><a href="/contactus">Contact Us<a><li>
-               
-              <li>   <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Get Started</a>
- </li>
-               
-               
+
+               <li><a href="/register">Register<a><li>
+               <li><a href="/login">Login<a><li>
            <%end%>
          </ul>
-          <a data-activates="mobile-demo" class="button-collapse right" ><i class="material-icons">menu</i></a>
-
-         <ul class="side-nav right" id="mobile-demo">
-           <%= unless @conn.cookies["daeventboxmode"] do %>
-
-            <li><a href="/register">Register</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/aboutus">About Us<a></li>
-               <li><a href="/contactus">Contact Us<a></li>
-          <%end%>
-        </ul>
        </nav>
         </div>
        <span class="logo"></span>
      </header>
-   <!-- <div class="alerts">
+    <div class="alerts">
      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-    
-    </div>-->
+
+    </div>
      <main role="main">
        <%= render @view_module, @view_template, assigns %>
      </main>
-       
-    <footer class="new-footer">
-          <div class="container">
-            <div class="row">
-             
-              <div class="col l4 m4 s4">
-                <h5 class="white-text">Quick Links</h5>
-                <ul>
-                  <li><a class="grey-text text-lighten-3" href="/">Home</a></li>
-                  <li><a class="grey-text text-lighten-3" href="/event/upcoming">Upcoming Events</a></li>
-                  <li><a class="grey-text text-lighten-3" href="/event/create">Create An Event</a></li>
-                  <li><a class="grey-text text-lighten-3" href="/event/facilitators">Event Organizers</a></li>
-                </ul>
-              </div>
-              <div class="col l4 m4 s4">
-                 <h5 class="white-text">Other Links</h5>
-
-                <ul>
-                  <li><a class="grey-text text-lighten-3" href="/news">News</a></li>
-                  <li><a class="grey-text text-lighten-3" href="/help">FAQs</a></li>
-                  <li><a class="grey-text text-lighten-3" href="/aboutus">About Us</a></li>
-                  <li><a class="grey-text text-lighten-3" href="/contactus">Contact Us</a></li>
-                </ul>
-              </div>
-                <div class="col l4 m4 s4">
-                 <h5 class="white-text">Connect With Us</h5>
-
-                <ul>
-                  <li><a class="grey-text text-lighten-3" href="#!"> <i class="fa fa-facebook-square"></i>  Facebook</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!"><i class="fa fa-instagram"></i>  Instagram</a></li>
-                  <li><a class="grey-text text-lighten-3" href="#!"><i class="fa fa-twitter"></i>  Twitter</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="footer-copyright">
-            <div class="container grey-text text-lighten-4 ">
-            © 2018 Copyright Da EventBox
-            <a class="grey-text text-lighten-4 right" href="#!">Made with FleekSite</a>
-            </div>
-          </div>
-    </footer>
-      <!-- Modal Structure -->
-  <div id="modal1" class="modal">
-    <div class="modal-content center">
-      <h4> Welcome to Da Eventbox </h4>
-      <a href="/register" class="btn btn-large"> Sign Up Now </a>
-      <h6> - OR - </h6>
-     <a href="/login" class="btn btn-large"> Log In Now </a>
-    </div>
-   
-  </div>
-   
+   </div>
+   </div> <!-- /container -->
    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 
  <script>
@@ -372,23 +533,6 @@ pre{
               }
              }
             });
-             $.ajax({
-             url:"/chat/check",
-             method:"GET",
-             data:{view:view},
-             dataType:"json",
-             success:function(data)
-             {
-              console.log("in message here")
-              console.log(data);
-              $('.messages-content').html(data.messages);
-              if(data.unseen_messages > 0)
-              {
-                $('#messagesnum').html('<span class="new badge" id="messagesnum">' + data.unseen_messages + '</span>');
-                notify();
-              }
-             }
-            });
           }
 
           load_unseen_notification();
@@ -402,19 +546,18 @@ pre{
             function notify(view = '')
             {
               if(window.Notification && Notification.permission !== "denied") {
-              	Notification.requestPermission(function(status) {  // status is "granted", if accepted by user
-              		var n = new Notification('Daeventbox', {
+              	//Notification.requestPermission(function(status) {  // status is "granted", if accepted by user
+                //line above is irrelevant as permission needs to be grandted to get here
+                	var n = new Notification('Daeventbox', {
               			body: 'New Notifications! Check them now!',
               			icon: '/path/to/icon.png' // optional
               		});
-              	});
+            //  	});
               }
             }
-            
           });
     </script>
- 
-            
+
 
 </body>
 </html>
