@@ -1,6 +1,74 @@
+<style>
+.slider{
+ position: fixed;
+  top: 56px; 
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+height: 100% !important;
+}
+.slides{
+    height: 100% !important;
+}
+</style>
+    <div class="slider ">
+        <ul class="slides">
+        <li>
+            <img src="http://www.cih.org/resources/images/event_header.jpg"> <!-- random image -->
+            <div class="caption center-align">
+            <!--   <h3>Post 1</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+            </div>
+        </li>
+        <li>
+            <img src="http://ourpolitics.net/wp-content/uploads/2017/12/events.jpg"> <!-- random image -->
+            <div class="caption center-align">
+            <!-- <h3>Post 2</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+            </div>
+        </li>
+        <li>
+            <img src="http://www.catalyst.org/uploads/styles/content-large/public/Events.jpg"> <!-- random image -->
+            <div class="caption center-align">
+            <!-- <h3>Post 3</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+            </div>
+        </li>
+        <li>
+            <img src="https://www.budapest.com/w/promoart/promo_1032_en.jpg"> <!-- random image -->
+            <d<div class="caption center-align">
+            <!-- <h3>Post 4</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
 
+            </div>
+        </li>
+        </ul>
+        <div class="card row center container" style="width: 40%; margin: 15% auto; padding: 10px;" >
+           
+            <h5> Search Your Events </h5>
+              <div  class ="col s12 m12 ">
+                <form action="/facilitator/manage/search/events">
+                    <div class="input-field">
+                
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <input name="title" id="search" type="search" style="padding-left: 30px ;"  required>
+                    <i class="material-icons">close</i>
+                    </div>
+                </form>
+            </div>
+            <i> Press Enter When Complete </i>
+
+        </div>
+  </div>
+<script>
+$(document).ready(function(){
+      $('.slider').slider({full_width: true});
+    });
+</script>
+<!--
 <div class="row right">
-    <a href= "/event/create/ad" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create An Ad</a>
+    <a href= "/event/create/ad" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create An Ad NOW</a>
 
 
 </div>
@@ -139,7 +207,7 @@
          </div>
     </div>
 </div>
-<!--
+
 <div class="card col s10 center !important" style=" margin: 0 auto;width: 80%"> 
     <div class="row center">
        <%= if is_nil(@events) do %>
@@ -177,6 +245,7 @@
     </div>
 </div>
 -->
+
 <script>
 function showhide()
  {
@@ -189,3 +258,61 @@ else {
 }
  }
 </script>
+
+<!--
+<style>
+.buttons-wrapper {
+  position: absolute;
+  height: calc(100vh);
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 997;
+  top: 0;
+  pointer-events: none;
+  width: 100%;
+}
+.buttons-wrapper a {
+  pointer-events: auto;
+}
+.mg-rg {
+  margin-right: 1rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+</style>
+
+<div class="slider fullscreen ">
+  <ul class="slides">
+    <li>
+      <img src="http://www.theatercomplex.nl/wp-content/uploads/2013/10/theater-logo-theatercomplexnl.png">
+      <div class="caption left-align">
+        <h3>XXXX</h3> 
+        <h5 class="light grey-text text-lighten-3">YYYYY</h5> 
+      </div>
+    </li>
+    <li>
+      <img src="http://www.directdutch.com/wp-content/uploads/2015/09/table-restaurant.jpg">
+      <div class="caption right-align">
+        <h3>XXXX</h3> 
+        <h5 class="light grey-text text-lighten-3">DDD</h5> 
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="buttons-wrapper">
+  <div class="row center">
+    <a class="waves-effect waves-light btn hoverable mg-rg">Click to login further</a>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+      $('.slider').slider({
+        full_width: true
+      });
+    });
+</script>
+-->

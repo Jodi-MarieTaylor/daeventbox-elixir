@@ -1,0 +1,135 @@
+
+<style>
+  .carousel .carousel-item {
+      width:300px !important;
+      height: 300px !important;
+    }
+    
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
+ </style>
+
+ <div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;"> Selection</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+<div class="card container "  style= "width: 80% ; margin: 0 auto; ">
+    <div class ="card-content">
+        <h4> Event Details </h4>
+        <hr>
+        <div class="row">
+            <div class="col s12 m3 l4 left-align" >
+                <img  src="<%= @event.image_url %>" alt="user background" width="230" height="200">                    
+            </div>
+            <div class="col s12 m5 l5" >
+                <h5> <%= @event.title %> </h5>
+                
+                <p> 
+                    <%= if @start_date != @end_date do %>
+                        <%= @start_date  %> - <%= @end_date  %> 
+                    <%end%>
+                        <%= if @start_date == @end_date do %>
+                        <%= @start_date  %> 
+                    <%end%>
+                </p>
+                <p> <%= @start_time%> - <%= @end_time %> </p>
+                <p> <%= @event.venue_name%> </p>
+                <p> <%= @event.location %> </p>
+            </div>
+        </div>
+    
+        <%= if @event.admission_type == "registration" do %>
+            <h4> Registration Items </h4>
+            <h6> <i> Please Select Quantity Below</i> </h6>
+        <% end %>   
+        <%= if @event.admission_type == "ticket" do %>
+            <h4> Ticket Items </h4>
+            <h6> <i> Please Select Quantity Below</i> </h6>
+        <% end %> 
+        <hr>
+       
+        <%= if @event.admission_type == "ticket" do %>
+        <form  method="POST"  action="/event/ticket/selection/<%=@event.id %>">
+            <%= for ticket <- @ticket_details do %>
+                
+                <div class="card" >
+                    <div class="card-content" >
+                   
+                        <div class="row">
+                            <div class="col s12 m3 l3"> 
+                                <h5> <%= ticket.name %> </p>
+                               
+                            </div>
+                            <div class= "col s12 m3 l3">
+                                <%= if @event.type == "free" do %>
+                                <p> FREE </p>
+                                <%end%>
+                                <%= if @event.type == "paid" do %>
+                                <p> <%= CurrencyFormatter.format(Float.to_string(ticket.price, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %></p>
+                                <%end%>
+                            </div>
+                            <div class="input-field col s12 m2 l2">
+                                <input id="quantity" name="selected_quantity<%= Enum.find_index(@ticket_details, fn(x) -> x.id == ticket.id end) %>" value="0" type="number" class = "active validate" required>
+                                <label for="quantity">Quantity</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+            <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+            <input type="hidden" name="type" value="ticket">
+
+            <div class=" footer text-center right-align" >
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">   
+                    Proceed
+                </button>            
+            </div>
+        </form>
+        <% end %>
+        <%= if @event.admission_type == "registration" do %>
+        <form  method="POST"  action="/event/registration/selected/<%=@event.id %>">
+            <%= for registration <- @registration_details do %>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col s12 m3 l3"> 
+                                <h5> <%= registration.name %> </p>
+                                <%= if @event.type == "free" do %>
+                                <p> FREE </p>
+                                <%end%>
+                                <%= if @event.type == "paid" do %>
+                                <p> <%= CurrencyFormatter.format(Float.to_string(registration.price, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %> </p>
+                                <%end%>
+                            </div>
+                            <div class="input-field col s12 m2 l2">
+                                <input id="quantity" min="1" value=0 name="selected_quantity<%= Enum.find_index(@registration_details, fn(x) -> x.id == registration.id end) %>" type="number" class = "active validate" required>
+                                <label for="quantity">Quantity</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+            <div class=" footer text-center right-align" >
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                    Proceed
+                </button>           
+            </div>
+            <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+            <input type="hidden" name="type" value="registration">
+
+        </form>
+        <% end %>
+
+    </div>
+</div>
+

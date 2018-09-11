@@ -1,0 +1,94 @@
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+
+                            <div class="header">
+                                <h4 class="title">Create Charge</h4>
+                            </div>
+
+                            <div class="content">
+                                <form action="/admin/charges/add" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                <input type="text" name="name" class="form-control" placeholder="Company">
+                                            </div>
+                                        </div>
+                                        
+                                         
+                                    </div>
+                                   <div class="col-md-8">
+                                            <div class="form-group">
+                                                <p> Assigned To </p>
+                                                <label class="checkbox-inline"><input type="checkbox" value= "facilitators" name="assigned_to">Facilitators</label>
+                                                <label class="checkbox-inline"><input type="checkbox" value = "guests" name="assigned_to">Guests</label>
+                                            </div>                                     
+                                    </div>
+                                    <div class="col-md-8">
+                                            <div class="form-group">
+                                                <p> Type </p>
+                                                <label class="radio-inline"><input type="radio" name="type" onclick="myFunction()" value="fixed">Fixed</label>
+                                                <label class="radio-inline"><input type="radio" name="type" onclick="myFunction()" value="percentage">Percentage</label>
+                                            </div>                                     
+                                    </div>
+
+                                    <div hidden id="fixedchargediv">
+                                         <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Fixed Rate Charge Amount</label>
+                                                <input type="number" step="any" name="amount" placeholder="eg. 100.00"/>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div hidden id="percentagechargediv">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Percentage Rate Charge Amount</label>
+                                                <input type="number" step="any" name="amount" placeholder="eg. 1.65"/>
+
+                                            </div>
+                                        </div>
+                                    </div> 
+                                   <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+                                    <div>
+                                        <button type="submit" class="btn btn-info btn-fill pull-left">Submit</button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+          
+        <script>
+     
+             function myFunction() {
+                        var target = event.target || event.srcElement;
+                        var name = target.name                        
+                        if (target.value == "fixed" ) {
+                            var y = document.getElementById("fixedchargediv");
+                            y.style.display = "block";
+                            var z = document.getElementById("percentagechargediv");
+                            z.style.display = "none";
+
+                        } else if (target.value == "percentage" ) {
+                            var y = document.getElementById("percentagechargediv");
+                            y.style.display = "block";
+                            var z = document.getElementById("fixedchargediv");
+                            z.style.display = "none";
+
+                        }
+            
+
+            }
+            
+    
+        </script>
+
+

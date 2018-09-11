@@ -1,0 +1,94 @@
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
+.circle {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px; 
+  /* width and height can be anything, as long as they're equal */
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">AD Details</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+<div class="container" style="">
+    <div class="card" style="padding: 30px;">
+        <h5> AD's Banner Information </h5>
+        <div class="row">
+            
+            <div class="col s12 m12">
+                <p style="text-transform: capitalize;"> <b> Position:  <%=@option.position %> </b> </p>
+                <p> <b> Price Per Day: $<%= @option.price %> </b> </p>
+                <p> <b> Max Days: <%= @option.max_days %></b> </p>
+                <p> <b> Size of Image: <%= @option.size %> </b> </p> 
+                <p> Tips </p>
+                <i> - Please ensure that image size is correct so that it can be displayed well </i> <br>
+                <i> - Limit the amount of words in a Banner, the less words the better! </i>
+            </div>
+        </div>
+    </div>
+         <div class="card" style="padding: 30px;">
+                <h5> AD Banner Form </h5>
+                <p> Please fill out the details below about your AD. </p>
+                <form class="col s12" method="POST" action="/ad/create" enctype="multipart/form-data">
+                    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+                    <input type="hidden" name="event_id" value="<%= @event.id %>">
+                    <input type="hidden" name="option_id" value="<%= @option_id %>">
+                    
+                    <div class="row">
+                        
+                            <div class = "row col s6 m6">
+                                <label>Upload Banner Image</label>
+                                <div>
+                                        <input  name="file" type="file" required/>
+                            
+                                </div>
+                            
+                            </div>
+                        
+                        <div class="input-field col s12 m6">
+                            <input  id="title" name="title" type="text"  value="<%=@event.title%>" class = "active validate" disabled>
+                            <label for="title">Event title</label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <input  id="name" name="name" type="text"  class = "active validate" >
+                            <label for="name">AD Banner Name </label>
+                        </div>
+                        
+                        <div class="input-field col s12 m6">
+                            <input id="days" name="days" type="number" max = "<%=@option.max_days%>" class = "active validate" required >
+                            <label for="days">Number of Days (Max <%= @option.max_days%>)</label>
+                        </div>
+                        
+                    </div>
+
+                    <div class=" footer text-center" style="margin: 0 auto;">
+                        <button  class="btn-small waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                        Proceed To Pay
+                        </button>
+                    </div>
+                </form>
+        </div>
+    </div>
+<div>

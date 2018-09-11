@@ -1,0 +1,129 @@
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}
+
+.container1 {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+.container1::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.container1 img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+.container1 img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right:0;
+}
+.time-right {
+    float: right;
+    color: #aaa;
+}
+.time-left {
+    float: left;
+    color: #999;
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Chat Messages</h4>
+
+        </div>
+
+
+    </div>
+</div>
+<div class="  row" style="margin:20px;">
+
+
+<div class="card col  s12 m3 l2 "  style="margin-right:20px;" >
+
+        <div >
+         <%= if !is_nil(@facilitator) do %>
+          <img src="<%= @facilitator.image_url %>" height="100" width="100" style=" border-radius: 50%;">
+           <%end%>
+         <%= if is_nil(@facilitator) do %>
+          <img src="http://benu.edu.mx/wp-content/uploads/2015/03/icon-user-default.png" height="100" width="100" style=" border-radius: 50%;">
+          <%end%>
+        </div>
+
+        <div>
+            <%= if !is_nil(@facilitator) do %>
+                <h6>Name: <%= @facilitator.name%></h6>
+                <p> Email: <%= @facilitator.facilitator_email%> </p>
+                <p> Phone: <%= @facilitator.facilitator_phone%> </p>
+            <% else %>
+                <h6>Name: <%=@user.firstname%> <%=@user.lastname%></h6>
+                <p> Email: <%=@user.email%> </p>
+                <p> Phone: <%=@user.phone%> </p>
+            <% end %>
+        </div>
+
+
+</div>
+
+<div class="container1 col s12 m9 " style="padding-bottom: 1rem;">
+  <div class="scroll400">
+    <%= if Enum.count(@messages) > 0 do %>
+    <%= for message <- @messages do %>
+        <%= if message.sender_id == @user.id do %>
+        <div class="container1">
+
+            <p style="text-align: right;"><%= message.body %></p>
+            <span class="time-right"><%= message.inserted_at |> Timex.from_now %></span>
+        </div>
+        <% else %>
+        <div class="container1 darker">
+            <p><%= message.body %></p>
+            <span class="time-left"><%= message.inserted_at |> Timex.from_now %></span>
+        </div>
+        <% end %>
+    <% end %>
+    <% end %>
+  </div>
+    <form action="/chat/send" method="post">
+    <input type="text" name="message[body]">
+    <input type="hidden" name="message[room_id]" value="<%= @room.id %>">
+    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token %>">
+    <button type="submit" class="btn btn-success right">Send </button>
+    <br>
+    </form>
+</div>
+</div>
+<style>
+  .scroll400 {
+    width: 100%;
+    max-height: 400px;
+    overflow-y:auto;
+  }
+</style>

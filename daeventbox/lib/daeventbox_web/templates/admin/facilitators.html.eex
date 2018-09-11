@@ -1,0 +1,117 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">Manage Facilitators</h4>
+                <p class="category">Here are your Facilitators</p>
+                <button  type="" class="btn btn-info btn-fill pull-right" > <a href="/admin?p=create-facilitator" style="color: white;">Add + </a></button>
+                <button type="" onclick="myFunction()" class="btn btn-info btn-fill pull-right" style="margin-right: 5px;">Filter </button>
+            </div>
+
+            <div hidden id="filterdiv">
+                <div class="row">
+                        <div class="dropdown col-md-2" style="margin-left: 10px;">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Alphabet
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                            <li><a href="/admin?p=facilitators&filter=asc">Ascending</a></li>
+                            <li><a href="/admin?p=facilitators&filter=desc">Descending</a></li>
+                            </ul>
+
+                        </div>
+                        <div class="dropdown col-md-2">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Date
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                            <li><a href="/admin?p=facilitators&filter=latestdate">Latest</a></li>
+                            <li><a href="/admin?p=facilitators&filter=oldestdate">Oldest</a></li>
+                            </ul>
+                            
+                        </div>
+                        <div class="dropdown col-md-2">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Popularity
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                            <li><a href="/admin?p=facilitators&filter=mostpopular">Most Popular</a></li>
+                            <li><a href="/admin?p=facilitators&filter=leastpopular">Least Popular</a></li>
+                            </ul>
+                            
+                        </div>
+                        <div class="dropdown col-md-2">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Number of Events
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                            <li><a href="/admin?p=facilitators&filter=mostevents">Most Events</a></li>
+                            <li><a href="/admin?p=facilitators&filter=leastevents">Least Events</a></li>
+                            </ul>
+                            
+                        </div>
+                </div>
+            </div>
+            <div class="content table-responsive table-full-width">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <th>Date Added</th>
+                        <th>Company</th>
+                        <th>Email</th>
+                        <th>Website</th>
+                        <th>Number of Events</th>
+                    </thead>
+                    <tbody>
+                    <%= for facilitator <- @facilitators do %>
+                        <tr>
+                            
+                            <td> <%=   Calendar.Strftime.strftime!(facilitator.inserted_at, "%B %e,  %Y") %></td>
+                            <td><%= facilitator.name%></td>
+                            
+                            <td><%= facilitator.facilitator_email%></td>
+                            
+                            <td><%= if !is_nil(facilitator.website_link) do %>
+                                <a href="<%= facilitator.website_link %>"> Go </a>
+                                <%end%>
+                                </td>
+                            <td>
+                                
+                                <%=  Daeventbox.Repo.all(from u in Daeventbox.Event, where: u.facilitator_id == ^facilitator.id) |> Enum.count %> 
+                            </td>
+                            <td>
+                                <div class="dropdown col-md-2">
+                            <div class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="pe-7s-more"></i>
+                            </div>
+                            <ul class="dropdown-menu">
+                            <li><a href="/admin?p=view-facilitator&i=<%= facilitator.id %>">View</a></li>
+                            <li><a href="/admin?p=delete-facilitator&fid=<%= facilitator.id %>">Delete</a></li>
+                            </ul>
+                            
+                        </div>
+                            </td>
+                        </tr>
+                        
+                    <%end%>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+    
+
+</div>
+
+
+
+
+<script>
+function myFunction() {
+    var x = document.getElementById("filterdiv");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+</script>

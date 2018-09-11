@@ -11,17 +11,41 @@ defmodule DaeventboxWeb.PaymentController do
     render conn, "index.html"
   end
 
+  def home(conn, params) do
+    redirect conn, to: "/"
+  end
+
   def payment_form(conn, params) do
     render conn, "payment_form.html", success: "false"
   end
 
-  def make_payment(conn, params) do
+  def make_payment(conn, %{"event_id" => event_id} = params) do
+      event = Repo.get!(Event, params["event_id"])
+      if event.admission_type == "registration" do
+        add_registration(conn, params)
+        email =
+          Map.new
+          |> Map.put("title", "Payment Confirmation")
+          |> Map.put("template", "payment_confirmation.html")
+        DaeventboxWeb.EmailController.generic_email(conn.assigns[:current_user], email)
+        conn
+        |> put_flash(:info, "Registration was done successfully!")
+        |> redirect(to: "/event/manage")
+      else
 
-
-
-      conn
-      show_event_success_modal(conn, params)
+        add_ticket(conn, params)
+        email =
+          Map.new
+          |> Map.put("title", "Payment Confirmation")
+          |> Map.put("template", "payment_confirmation.html")
+        DaeventboxWeb.EmailController.generic_email(conn.assigns[:current_user], email)
+        conn
+        |> put_flash(:info, "Success! Tickets were sent to your email.")
+        |> redirect(to: "/event/manage")
+        #show_event_success_modal(conn, params)
+      end
   end
+
   defp save_card(conn,params) do
       #case Repo.insert(changeset) do
       #  {:ok, event} ->
@@ -42,6 +66,26 @@ defmodule DaeventboxWeb.PaymentController do
   defp show_event_success_modal(conn, params) do
     #render(conn, "success_event_modal.html", success: true)
     render(conn, "payment_form.html", success: "true")
+  end
+
+  def add_ticket(conn, params) do
+    total_items = String.to_integer(params["total_items"])-1
+    for count <- 0..total_items do
+       IO.puts "here is itemq"
+       IO.inspect params["itemq#{count}"]
+      unless params["itemq#{count}"] == "0"  do
+        ticket = Repo.get!(Ticketdetail, String.to_integer(params["item#{count}"]))
+        for i <- 1..String.to_integer(params["itemq#{count}"]) do
+          DaeventboxWeb.TicketController.create_ticket(conn, params, ticket)
+        end
+      end
+    end
+  end
+
+  def add_registration(conn, params) do
+
+    DaeventboxWeb.RegistrationController.add_registration(conn, params)
+
   end
 
 end

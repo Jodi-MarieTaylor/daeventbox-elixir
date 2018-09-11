@@ -19,22 +19,18 @@ defmodule DaeventboxWeb.AuthController do
       render conn, "login.html"
   end
 
-  def create_user(conn, user_params) do
-    hashed_password = Hasher.salted_password_hash(user_params["password"])
-    firstname = IO.inspect String.strip(user_params["firstname"]) |> String.split(" ") |> Enum.map( &String.capitalize/1 )|> Enum.join(" ")
+  def create_user(user_params) do
+  IO.inspect user_params
+    required_params =
+      Map.new
+      |> Map.put("firstname", Format.name(user_params["firstname"]))
+      |> Map.put("lastname", Format.name(user_params["lastname"]))
+      |> Map.put("zid", Ecto.UUID.generate)
+      |> Map.put("email",  Format.email((user_params["email"])))
+      |> Map.put("password", user_params["password"])
 
-    required_params = %{firstname: firstname ,zid: Ecto.UUID.generate, email: String.downcase(user_params["email"]), password: hashed_password, lastname: IO.inspect String.strip(user_params["lastname"]) |> String.split(" ") |> Enum.map( &String.capitalize/1 )|> Enum.join(" ")}
-    changeset = User.changeset(%User{}, required_params)
-    case Repo.insert(changeset) do
-     {:ok, user} ->
-       conn
-       |> put_flash(:info, "User created successfully.")
-       |> redirect(to: "/login" )
-      # Webapp.Mailer.send_welcome_email(user.email)
-     {:error, changeset} ->
-       IO.inspect changeset
-       render(conn, "signup.html", changeset: changeset, params: user_params)
-     end
+    changeset = User.changeset_in(%User{}, required_params)
+    Repo.insert(changeset)
   end
 
   def signin(conn,  user_params) do
@@ -53,8 +49,8 @@ defmodule DaeventboxWeb.AuthController do
            |> put_resp_cookie("daeventboxuser", user.zid, max_age: time_in_secs_from_now)
            |> put_resp_cookie("daeventboxmode", "Guest", max_age: time_in_secs_from_now)
 
-           |> put_flash(:info, "Logged in")
-           |> redirect(to: "/guest"  )
+           |> put_flash(:info, "Your are now logged in")
+           |> redirect(to: "/"  )
 
       user->
             conn
@@ -79,4 +75,3 @@ defmodule DaeventboxWeb.AuthController do
     end
 
 end
-

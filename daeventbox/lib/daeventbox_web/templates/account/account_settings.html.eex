@@ -1,0 +1,248 @@
+<style>
+.sidenav {
+    height: 100%;
+    width:150px;
+    position: fixed;
+    
+   
+    overflow-x: hidden;
+    padding-top: 30px;
+}
+
+.sidenav a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+@media only screen and (min-width: 768px) {
+    .main {
+    margin-left: 250px !important; /* Same as the width of the sidenav */
+    height: 100%;
+    color: black;
+    
+}
+}
+
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
+</style>
+<!--
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Account Settings</h4>
+            
+        </div>
+        
+
+        
+    </div>
+</div>
+-->
+
+<%= if !is_nil(get_flash(@conn, :info) ) do %>
+		<div class="materialert success" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :info) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+
+        <%= if !is_nil(get_flash(@conn, :error) ) do %>
+		<div class="materialert error" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :error) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+<div class=" row">
+    <div class="col s12 m2  sidenav  hide-on-med-and-down">
+        <a href="#user_general"> Account Details </a>
+        <a href="#password">  Password </a>
+        <a href="#email1"> Email Preferences </a>
+        <a href="#close"> Close Account </a>
+    </div>
+
+    <div class="col s12 m9 main card">   
+        <div id="user_general">
+            <h4> Account Details </h4>
+            <form  action="/account/submit/user-general/" method="POST">            
+                <div class="input-field col s12  m6">
+                    <input  id="firstname" name="firstname" type="text" value="<%= @user.firstname %>" class = "active validate" >
+                    <label for="firstname">First Name</label>
+                </div>
+                <div class="input-field col s12  m6">
+                    <input  id="lastname" name="lastname" type="text" value="<%= @user.lastname %>" class = "active validate" >
+                    <label for="lastname">First Name</label>
+                </div>
+                <div class="input-field col s12  m6">
+                    <input  id="email" name="email" type="email" value="<%= @user.email%>" class = "active validate" disabled>
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-field col s12  m6">
+                    <input  id="backup_email" name="alt_email" type="email" value="<%= @user.alt_email%>"  class = "active validate" >
+                    <label for="backup_email">Another Email</label>
+                </div>
+                <div class="input-field col s12  m6">
+                    <input  id="phone" name="phone" type="text" value="<%= @user.phone %>" class = "active validate" >
+                    <label for="phone">Phone</label>
+                </div>
+                <div class="input-field col s12  m6">
+                    <label for="additional_phone">Other Phone</label>
+                    <input  id="additional_phone" name="alt_phone" type="text" value="<%= @user.alt_phone%>"  class = "active validate" >
+
+                </div>
+                <div class="input-field col s12  m12">
+                    <input  id="address" name="address" type="text" value="<%= @user.address %>" class = "active validate" >
+                    <label for="address">Address</label>
+                </div>
+                <div class = "row">
+                    <div class = "input-field col s12  m12">
+                        <i class = "material-icons prefix">mode_edit</i>
+                        <textarea id = "description" name="bio" value="<%= @user.bio%>" class = "materialize-textarea"> <%= @user.bio %></textarea>
+                        <label for = "description">BIO</label>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "row col s12  m8">
+                        <label>Upload Profile Picture</label>
+                        <div class = "file-field input-field">
+                            <div class = "btn">
+                                <span>Browse</span>
+                                <input  type = "file" />
+                            </div>
+                            
+                            <div class = "file-path-wrapper">
+                                <input name="image" class = "file-path validate" type = "text"
+                                    placeholder = "Upload file" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+                <button class=" waves-effect waves-light btn btn-simple btn-primary  " type="submit" name="submit">
+                            Update Account 
+                </button>
+            </form>
+        </div>
+        <hr>
+        <div id="password">
+            <h4> Change Password </h4>
+            <form  action="/account/submit/password-change/" method="POST">
+                <div class="input-field col s12  m10">
+                    <input  id="current_password" name="current_password" type="password" class = "active validate" required>
+                    <label for="current_password">Current Password</label>
+                </div>
+                <div class="input-field col s12  m10">
+                    <input  id="new_password" name="new_password" type="password" class = "active validate" required>
+                    <label for="new_password">New Password</label>
+                </div>
+                <div class="input-field col s12  m10">
+                    <input  id="new_password" name="confirm_password" type="password" class = "active validate" required>
+                    <label for="new_password">Confirm Password</label>
+                </div>
+                <div class="input-field col s12  m10">
+                    <input  id="hint" name="hint" type="text" placeholder="Something to remind you!" class = "active validate" >
+                    <label for="hint">Hint</label>
+                </div>
+                <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+                <button class=" waves-effect waves-light btn  btn-primary right-align "  type="submit" name="submit">
+                   Change Password
+                </button>
+            </form>
+        </div>
+        <hr>
+        <div id="email1">
+            <h4> Email Preferences </h4>
+            <div class="box">
+                <form action="/account/submit/email-preferences/" method="POST">
+                    <%= if !is_nil(@preference1) do %>
+                        <input checked type='checkbox' name='preference1' value="Updates about new Daeventbox features and announcements" id="thing"/><label for="thing"></label> Updates about new Daeventbox features and announcements
+                    <%end%>
+                    <%= if is_nil(@preference1) do %>
+                        <input type='checkbox' name='preference1' value="Updates about new Daeventbox features and announcements" id="thing"/><label for="thing"></label> Updates about new Daeventbox features and announcements
+                    <%end%>
+                    <br>
+                    <%= if !is_nil(@preference2) do %>
+                        <input checked type='checkbox' name='preference2' value='Monthly tips and tools for organizing events' id="thing1"/><label for="thing1"></label> Monthly tips and tools for organizing events
+                    <%end%>
+                     <%= if is_nil(@preference2) do %>
+                        <input  type='checkbox' name='preference2' value='Monthly tips and tools for organizing events' id="thing1"/><label for="thing1"></label> Monthly tips and tools for organizing events
+                    <%end%>
+                    <br>
+                    <%= if !is_nil(@preference3) do %>
+                        <input checked type='checkbox' name='preference3' value='Event Sales Report' id="thing2"/><label for="thing2"></label> Event Sales Report
+                    <%end%>
+                    <%= if is_nil(@preference3) do %>
+                        <input type='checkbox' name='preference3' value='Event Sales Report' id="thing2"/><label for="thing2"></label> Event Sales Report
+                    <%end%>
+                    <br>
+                     <%= if !is_nil(@preference4) do %>
+                        <input checked type='checkbox' name='preference4' value='Unsubscribe from all Daeventbox newsletters and updates for event organizers' id="thing3"/><label for="thing3"></label> Unsubscribe from all Daeventbox newsletters and updates for event organizers
+                    <%end%>
+                     <%= if is_nil(@preference4) do %>
+                        <input type='checkbox' name='preference4' value='Unsubscribe from all Daeventbox newsletters and updates for event organizers' id="thing3"/><label for="thing3"></label> Unsubscribe from all Daeventbox newsletters and updates for event organizers
+                    <%end%>
+                    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+                    <br>
+                    <button class=" waves-effect waves-light btn btn-simple btn-primary  " type="submit" name="submit">
+                        Submit Preferences
+                    </button>
+                    
+                </form>
+            
+            </div>
+            <br>        
+        </div>
+        <hr>
+        <div id="close">
+            <h4> Close Account </h4>
+            <p> Thank you for using Daeventbox Events. </p>
+            <p> It's sad to see you go! Please let us know why your leaving </p>
+            <form  action="/account/submit/close-account/" method="POST">
+                <input type="radio" name="reason" value="Price" id="q_1_1"><label for="q_1_1" >Price</label><br>
+                <input type="radio" name="reason" value="Difficult to use" id="q_1_2"><label for="q_1_2">Difficult to use</label><br>
+                <input type="radio" name="reason" value="Not needed anymore" id="q_1_3"><label for="q_1_3">Not needed anymore</label><br>
+                <input type="radio" name="reason" value="Lack features" id="q_1_4"><label for="q_1_4">Lack features</label><br>
+                <input type="radio" name="reason" value="Found a better solution" id="q_1_5"><label for="q_1_5">Found a better solution</label><br>
+                <input type="radio" name="reason" value="Other" id="q_1_5"><label for="q_1_5">Other</label><br>
+                <br>
+                <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+                <button class=" waves-effect waves-light btn btn-simple btn-primary  " type="submit" name="submit">
+                    Close Your Account
+                </button>
+                <br>
+                <br>
+            </form>
+        </div>
+    </div>
+ 
+</div>

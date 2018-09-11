@@ -1,0 +1,458 @@
+<style>
+.cont{
+    
+    top: 1008px;
+}
+
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;  
+}
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
+@media (min-width: 600px) {
+    iframe {
+        width: 100% ;
+        height: 450px;
+        position: relative !important;
+    }
+}
+
+.star-rating {
+  direction: rtl;
+  display: inline-block;
+  padding: 20px
+}
+
+.star-rating label:before,
+.star-rating label:after {
+  display: none;
+}
+
+.star-rating label {
+  color: #bbb;
+  font-size: 18px;
+  padding: 0;
+  cursor: pointer;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label,
+.star-rating input[type=radio]:checked~label {
+  color: #f2b600
+}
+.checked {
+    color: orange;
+} .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4" >
+            <h4 style="color: white;">Event Details</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+<%= if !is_nil(get_flash(@conn, :info) ) do %>
+		<div class="materialert success" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :info) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+
+        <%= if !is_nil(get_flash(@conn, :error) ) do %>
+		<div class="materialert error" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :error) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+<div class="container  cont" style="padding: 0px;margin: 0 auto; top: 80px;" >
+    <div id="profile-page-header" class="card" style="padding: 0px;margin: 0 auto; ">
+        <img class=" center activator" src="<%= @event.image_url%>" alt="user background" height="402" >
+
+        <div class="card-image waves-effect waves-block waves-light" style="background-color: #1d1d1d;">
+            <%= if !is_nil(@event.is_deleted) do %>
+            <div class="left col s4 l4 m4" style="background-color: red; width: 100%">
+                <h4> CANCELLED </h4>
+                <br>
+            </div>
+            <%end%>
+            <div style="padding: 10px" class="left col s4 l3 m4">
+                <%= if !@liked do %>
+                <a href="/event/like/<%=@event.id %>">  Like &nbsp </a>  
+                <% end %>
+                
+                <%= if @liked do %>
+                    <a href="/event/unlike/<%=@event.id %>"> Unlike  &nbsp</a>  
+                <% end %>
+                <a href="#modal2" class="modal-trigger"> Rate &nbsp</a>
+                    <%= if @overall_rating == 0 or is_nil(@overall_rating) do %>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+                    <%= if @overall_rating == 1 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+
+                    <%= if @overall_rating == 2 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+                    <%= if @overall_rating == 3 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+                    <%= if @overall_rating == 4 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                    <%end%>
+                    <%= if @overall_rating == 5 do %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                    <%end%>
+                    <span style="color: white;">(<%= @total_reviews %>)</span>
+
+            </div>
+            <div style="padding: 10px" class="right col s4">
+                <%= if !@saved do %>
+                    <a href="/event/save/<%=@event.id %>" >Save &nbsp</a>  
+                <% end %>
+                <%= if @saved do %>
+                    <a href="/event/unsave/<%=@event.id %>">Unsave &nbsp</a>  
+                <% end %>
+                <a href="#modal3" class="modal-trigger">Share</a>
+                
+            </div>
+                              
+        </div>
+        
+        <div class="card-content">
+            <div class="row">                    
+            <div class="col s12 m3  center-align">                        
+                <h4 class="card-title grey-text text-darken-4"><%=@event.title%></h4>
+                <p class="medium-small grey-text">Name</p>                        
+            </div>
+            <div class="col s12 m3 center-align">
+                <h4 class="card-title grey-text text-darken-4"><%= @start_date%></h4>
+                <p class="medium-small grey-text">Date</p>                        
+            </div>
+            <div class="col s12 m3 center-align">
+                <h4 class="card-title grey-text text-darken-4"><a class="activator">
+                <%= @facilitator.name %>
+                </a></h4>
+                <p class="medium-small grey-text">Facilitator</p>                        
+            </div>                                 
+            <div class="col s12 m3 center-align">
+                <h5 class="card-title grey-text text-darken-4"> 
+                    <%= if @event.type == "free" do %>
+                       Type: FREE
+                    <%end%>
+                    <%= if @event.type == "paid" do %>
+                      Type: PAID
+                    <%end%>
+                 </h5>
+                <%= unless !is_nil(@event.is_deleted) or @conn.cookies["daeventboxmode"] == "Facilitator" do %>
+                    <%= if @event.admission_type == "registration" do %>
+                        <a href="/event/register/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 "> Register </a>
+                    <%end%>
+                    <%= if @event.admission_type == "ticket" do %>
+                        <a href="/event/buyticket/<%=@event.id%>" class="btn waves-effect waves-light darken-2 "> Buy Tickets </a>
+                    <%end%>
+                <%end%>
+                
+            </div>
+            </div>
+        </div>
+        <div class="card-reveal ">
+                  <span class="card-title grey-text text-darken-4">Quick Facilitator Information <i class="material-icons right">close</i></span>
+
+            <p>
+                <span class="card-title grey-text text-darken-4"><%=@facilitator.name%> <i class="material-icons right"></i></span>
+                <span><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> Facilitator</span>
+            </p>
+
+            <p><%= @facilitator.about%></p>
+            <p><i class="mdi-communication-email cyan-text text-darken-2"></i> <%= @facilitator.facilitator_contact%></p>
+
+            <p><i class="mdi-communication-email cyan-text text-darken-2"></i> <%= @facilitator.facilitator_email%></p>
+
+            <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i><%= @facilitator.facilitator_phone%></p>
+            <p><i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> <%= @facilitator.facilitator_address%></p>
+            <a href="/facilitator/profile?id=<%=@facilitator.id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;"> Profile </a>
+
+        </div>
+        <hr>
+        <div class = "container">
+            <div class="row ">
+                
+                <div class="col s8">
+                    <h5> Description </h5>
+                    <!--
+                    <p> Sonship Training Center invites you to a time of Fellowship around the word of God ,involving worship ,teaching and impartation.The meetings will seek to strengthen the believers and bring back the church to an understanding of the unchanging purpose of God and its link and roots in Judaism and the Kingdom of God . This is necessary in light of the many tangents and emphases being promoted today which does not center in the kingdom of God . Faulty foundations have led to faulty building in the lives of believers ,with most believers today being spectators instead of participators .
+
+                        The presenters will be Dr Moshe Halak Gurion, a man of many years in working in the vineyard of the Lord and bringing an understanding of the Hebrew background of the scriptures ,rather than the Greek and link to paganism , and Host minister Locksley Smith.
+
+                        The topic is "Equipping the Saints for the work of the Ministry and Dominion and will be held at Fellowship Tabernacle over three days April 26-28,2018.
+
+                        Registration is to better enable us to identify and serve you, especially members of the five-fold ministry.
+
+                        Attendance to the conference is free .
+                    </p>
+                    -->
+                    <%= if is_nil(@event.description) do %>
+                    <p> No Description </p>
+                    <%end%>
+                    <%=@event.description%>
+                </div>
+                <div class="row col s4">
+                    <div>
+                        <%= if !is_nil(@prices) do %>
+                            <h5> Prices:  </h5>
+                            <h6> <%= for price <- @prices do %> 
+                          
+                             <%= CurrencyFormatter.format(Float.to_string(price, decimals: 2 ) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>
+                            <%end%>
+                            </h6>
+                        <%end%>
+                        <%= if @start_date != @end_date do %>
+                            <h5> Date: <h6><%= @start_date  %> - <%= @end_date  %> </h6> </h5>
+                        <%end%>
+                         <%= if @start_date == @end_date do %>
+                            <h5> Date: <h6><%= @start_date  %> </h6> </h5>
+                        <%end%>
+                        <h5> Time: <h6><%= @start_time%> - <%= @end_time%> </h6> <h5>
+                    </div>
+                    <div>
+                        <h5> Location: </h5>
+                        <h6> <%=@event.venue_name%> </h6>
+                        <h6> <%=@event.location_info["address1"]%>  </h6>
+                        <h6> <%=@event.location_info["address2"]%>  </h6>
+                        <h6> <%=@event.location_info["parish"]%>  </h6>
+                    </div>
+                    <!--
+                    <div>
+                        <h5> Tags </h5>
+                        <p >Performance,
+                        Show </p>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+        <div class="container" >
+            <div class="row">
+                <div class="col s2 m4 l12">
+                <iframe
+                    
+                    frameborder="0" 
+                    src="<%=@map%>" allowfullscreen>
+                </iframe>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div>
+                <div class="card-action row">
+                    
+                    
+                    <div class="input-field col s8 m12 margin">
+                    <%= if !is_nil(@comments) do %>
+                        <%= for comment <- @comments do %>
+                           
+                            <span><%=Calendar.Strftime.strftime!(comment.inserted_at, "%B %e,  %Y")%> </span>
+                            <span style="text-align: right"><%= comment.message %> </span>
+                            <br> 
+                        <% end %>
+                    <%end%>
+                    <form action="/event/add/comment/<%= @event.id %>" method="POST">
+                        <input id="comment" placeholder="Add A Comment Here" name="comment" type="text" class="validate">
+                        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+                        <button class=" btn-small waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                            Comment
+                        </button>
+                    </form>
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+        <i class="material-icons">more</i>
+    </a>
+    <ul>
+         <%= if !@liked do %>
+            <li><a href="/event/like/<%=@event.id %>" class="btn-floating red" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">thumb_up</i></a></li>
+
+        <% end %>
+        <%= if @liked do %>
+            <li><a href="/event/unlike/<%=@event.id %>" class="btn-floating red" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">thumb_down</i></a></li>
+
+        <% end %>
+        <li><a  href="#modal2" class="modal-trigger btn-floating yellow darken-1" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">star</i></a></li>
+        <%= if !@saved do %>
+            <li><a href="/event/save/<%=@event.id %>" class="btn-floating green" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">save</i></i></a></li>
+
+        <% end %>
+        <%= if @saved do %>
+            <li><a href="/event/unsave/<%=@event.id %>" class="btn-floating green" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">save</i></i></a></li>
+
+        <% end %>
+        <li><a href="#modal3" class="btn-floating blue modal-trigger" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">share</i></i></a></li>
+        <li><a href="#report" class="btn-floating modal-trigger pink" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;"><i class="material-icons">flag</i></i></a></li>
+
+    </ul>
+</div>
+ <!-- Modal Structure -->
+ <div id="report" class="modal">
+    <div class="modal-content">
+      <h4>Report Event</h4>
+      <form action="/event/report/add/<%= @event.id%>" method="POST" >
+         <div class="input-field col s4">
+          <input  id="title" name="title" type="text"  class = "active validate" required>
+          <label for="title">Title</label>
+        </div>
+        <div class = "row">
+            <div class = "input-field col s12">
+              <textarea id = "message" name="message" class = "materialize-textarea"></textarea>
+              <label for = "message">Message</label>
+            </div>
+        </div>
+         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+         <button class=" waves-effect waves-light btn btn-simple btn-primary pull-right" type="submit" name="submit">
+            Send
+        </button>
+        <br>
+        </form>
+      
+    </div>
+   
+    
+  </div>
+
+<!-- Modal Structure -->
+ <div id="modal2" class="modal">
+    <div class="modal-content">
+      <h4>Rate Event</h4>
+      <form action="/event/rate/add/<%= @event.id%>" method="POST" >
+
+            <!--[if lte IE 7]><style>#reviewStars-input{display:none}</style><![endif]-->
+
+        <div class="star-rating">
+            <input id="star-5" type="radio" name="rating" value="5">
+            <label for="star-5" title="5 stars">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+            <input id="star-4" type="radio" name="rating" value="4">
+            <label for="star-4" title="4 stars">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+            <input id="star-3" type="radio" name="rating" value="3">
+            <label for="star-3" title="3 stars">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+            <input id="star-2" type="radio" name="rating" value= "2">
+            <label for="star-2" title="2 stars">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+            <input id="star-1" type="radio" name="rating" value="1">
+            <label for="star-1" title="1 star">
+                <i class="active fa fa-star" aria-hidden="true"></i>
+            </label>
+        </div>
+         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+         <button class=" waves-effect waves-light btn btn-simple btn-primary pull-right" type="submit" name="submit">
+            Submit
+        </button>
+        <br>
+        </form>
+      
+    </div>
+   
+    
+  </div>
+
+  <!-- Modal Structure -->
+ <div id="modal3" class="modal">
+    <div class="modal-content">
+      <h4>Share Event</h4>
+         <h5> Share on Facebook  </h5>
+        <div class="fb-share-button" 
+            data-href="https://www.dev.rfitzy.net:4000/event/details/38" 
+            data-layout="button_count">
+        </div>
+        <h5> Share on Google + </h5>
+        <!-- Place this tag where you want the share button to render. -->
+        <div class="g-plus" data-action="share"></div>
+        <h5> Share on Twitter  </h5>
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+         
+        <br>
+      
+    </div>
+   
+    
+  </div>
+   <!-- Place this tag in your head or just before your close body tag. -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script>
+$(document).ready(function(){
+    $('.modal').modal();
+  });
+</script>
+
+
+ <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+  <!-- Your share button code -->
+ 

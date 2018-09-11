@@ -6,94 +6,112 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description" content="">
    <meta name="author" content="">
-
+   <meta property="og:url"           content="https://www.your-domain.com/your-page.html" />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="Your Website Title" />
+  <meta property="og:description"   content="Your description" />
+  <meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" />
    <title>Hello Daeventbox!</title>
-   <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-   <link rel = "stylesheet"  href = "https://fonts.googleapis.com/icon?family=Material+Icons">
-   <link rel = "stylesheet"href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
-   <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>          
-   <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"> </script>
+ 
+
    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
    <script src="https://maps.googleapis.com/maps//jsvv=3.exp&sensor=false&libraries=places"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.js"></script> -->
+        <script type="text/javascript" src="<%= static_path(@conn, "/js/materialize.js") %>" ></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>" >
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <style>
-   nav{
-    /*  background: linear-gradient(#2999c6,#012d46);  */
-    background-color: #2999c6;
-    
-   }
-   h4{
-       color: #10263f;
-   }
-   body{
-      /*background-color: #f2f2f2;*/
-       -webkit-background-size: cover;
-		   -moz-background-size: cover;
-		   -o-background-size: cover;
-		   background-image: url("https://preview.ibb.co/dsLPe7/facilitatorbg.png");
-		   background-repeat: no-repeat;
-		   background-position: center center;
-		   background-attachment: fixed;
-		   background-size: cover;
-   }
- @media (max-width: 600px) {
-  .brand-logo img {
-    height: 56px;
-    
-  }}
+
    </style>
    <script>
         $(document).ready(function() {
+              $('.modal').modal();
            $('select').material_select();
-           $(".button-collapse").sideNav();
-
+           $(".button-collapse").sideNav(  );
+             $('.button-collapse').click(removeOverlay);
+          function removeOverlay() {
+  $('div[id^=sidenav-overlay]').remove();
+}
         });           
    </script>
  </head>
  <body>
-   <div >
+   
      <header class="header">
+      <div class="navbar-fixed">
+
        <nav role="navigation" >
-       <div class="nav-wrapper nav">
+       <div class="nav-wrapper nav nav-fixed" >
        
-       <a href="#" class="brand-logo">  
-       <img src="https://preview.ibb.co/exb7u7/daeventlogo2.png" alt="daeventlogo2" border="0" class="brand-logo">
+       <a href="/daeventbox" class="brand-logo">  
+         <img src="https://image.ibb.co/b3UkWy/daeventlogo2_copy.png" alt="daeventlogo2" border="0"  class="brand-logo">
        </a>
-      
+
          <ul id = "javaDropDown" class = "dropdown-content">
               <li><a href = "/event/create">Create Event</a></li>
-              <li><a href = "/event/browse">Browse Events</a></li>
-              <li><a href = "/event/manage">Manage Events</a></li>
+               <li><a href = "/facilitator/manage">Manage Events</a></li>
+                <li class = "divider"></li>
+              <li><a href = "/ad/view/all">Manage ADs</a></li>
+        </ul>
+          <ul id = "javasDropDown" class = "dropdown-content">
 
+              <li><a href = "/event/upcoming">Upcoming Events</a></li>
               <li class = "divider"></li>
-              <li><a href = "#!">Servlets</a></li>
+              <li><a href = "/event/facilitators">Event Facilitators</a></li>
         </ul>
         <ul id = "userdropdown" class = "dropdown-content">
-              <li><a href = "#!">JSF</a></li>
-              <li><a href = "#!">JSP</a></li>
+              <li><a href="/notify" onclick="return removenum();" ><i class="material-icons">notifications</i><div id="notificationnum"></div></a></li>
+
+              <!--<li><a href="/chat/start"><i class="material-icons">mail</i><span class="new badge">1</span></a></li>
+              <li><a href="/chat/view/messages"><i class="material-icons">mail</i><div id="messagesnum"></div></a></li> -->
+
               <li class = "divider"></li>
-              <li><a href = "/login">Login</a></li>
-              <li><a href = "/register">Signup</a></li>
+              <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and !is_nil(@conn.cookies["daeventboxuser"]) and !is_nil(@conn.assigns[:current_user] ) and !is_nil(Daeventbox.Repo.get_by(Daeventbox.Facilitator, user_id:  @conn.assigns[:current_user].id )) do %>
+
+                  <li><a href = "/facilitator/profile">Profile</a></li>
+              <%end%>
+              <li><a href = "/account/settings">Account settings</a></li>
+              <li><a href = "/help">Help</a></li>
+              <li><a href = "/logout">Logout</a></li>
+
         </ul>
          <ul class=" nav-pills right hide-on-med-and-down" id="nav-mobile" >
 
-           
+
            <%= if @conn.cookies["daeventboxmode"] == "Guest" and @conn.cookies["daeventboxuser"] do %>
-              <li><a href="/guest">Home</a></li>
+              <li><a href="/">Home</a></li>
+              <!--
                 <li>
                  <div class = "col s12 m12 l12">
-                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
-                            <!-- Dropdown Trigger -->
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">
                             <li><a class = "dropdown-button" href = "#!"
-                            data-activates = "javaDropDown">Events<i class = "material-icons
+                            data-activates = "javaDropDown">Your Events<i class = "material-icons
                             right">arrow_drop_down</i></a></li>
-                    </ul>    
-          
+                    </ul>
                  </div>
                 </li>
+                -->
 
                 <li>
                  <div class = "col s12 m12 l12">
-                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">
+
+                            <li><a class = "dropdown-button" href = "#!"
+                            data-activates = "javasDropDown">Events<i class = "material-icons
+                            right">arrow_drop_down</i></a></li>
+                    </ul>
+
+                 </div>
+                </li>
+
+                <li><a href="/event/manage">Manage Your Events</a></li>
+
+                <li>
+                 <div class = "col s12 m12 l12">
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">
                             <!-- Dropdown Trigger -->
                             <li><a class = "dropdown-button" href = "#!"
                             data-activates = "userdropdown">
@@ -102,73 +120,256 @@
                             <% end %>
                             <i class = "material-icons
                             right">arrow_drop_down</i></a></li>
-                    </ul>    
-          
+                    </ul>
+
                  </div>
                 </li>
 
                <li><a href="/facilitator/change/mode">Switch to Facilitator Mode<a><li>
-               
-               <li><a href="/logout">Logout<a><li>
+
            <%end%>
-           
-            <%= if @conn.cookies["daeventboxmode"] == "Facilitator" and @conn.cookies["daeventboxuser"] do %>
-              <li><a href="/facilitator">Home</a></li>
+
+            <%= if @conn.cookies["daeventboxmode"] == "Facilitator"  and @conn.cookies["daeventboxuser"] do %>
+              <li><a href="/facilitator/change/mode">Home</a></li>
                <li>
                  <div class = "col s12 m12 l12">
-                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">
                             <!-- Dropdown Trigger -->
                             <li><a class = "dropdown-button" href = "#!"
                             data-activates = "javaDropDown">Events<i class = "material-icons
                             right">arrow_drop_down</i></a></li>
-                    </ul>    
-          
+                    </ul>
+
                  </div>
                 </li>
-
+                <!--
+                 <li><a href="/">Products<a><li>-->
                 <li>
+
                  <div class = "col s12 m12 l12">
-                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">
                             <!-- Dropdown Trigger -->
                             <li><a class = "dropdown-button" href = "#!"
                             data-activates = "userdropdown"> <%= unless is_nil(@conn.assigns[:current_user]) do %>
                               <%= @conn.assigns[:current_user].firstname %>
                             <% end %><i class = "material-icons
                             right">arrow_drop_down</i></a></li>
+                    </ul>
+
+                 </div>
+                </li>
+
+                <li><a href="/facilitator/change/mode">Switch to Guest Mode<a><li>
+
+           <%end%>
+
+            <%= unless @conn.cookies["daeventboxmode"] do %>
+               <li><a href="/home"> Home <a><li>
+               <li>
+                 <div class = "col s12 m12 l12">
+                    <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                            
+                            <li><a class = "dropdown-button" href = "#!"
+                            data-activates = "javasDropDown">Events<i class = "material-icons
+                            right">arrow_drop_down</i></a></li>
                     </ul>    
           
                  </div>
                 </li>
-               <li><a href="/facilitator/change/mode">Switch to Guest Mode<a><li>        
+              <li><a href="/aboutus">About Us<a><li>
+               <li><a href="/contactus">Contact Us<a><li>
                
-
-               <li><a href="/logout">Logout<a><li>
-           <%end%>
-
-            <%= unless @conn.cookies["daeventboxmode"] do %>
-
-               <li><a href="/register">Register<a><li>
-               <li><a href="/login">Login<a><li>
+              <li>   <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Get Started</a>
+ </li>
+               
+               
            <%end%>
          </ul>
-       </nav>
+          <a data-activates="mobile-demo" class="button-collapse right" ><i class="material-icons">menu</i></a>
 
+         <ul class="side-nav right" id="mobile-demo">
+           <%= unless @conn.cookies["daeventboxmode"] do %>
+
+            <li><a href="/event/upcoming">Upcoming Events</a></li>
+            <li><a href="/event/facilitators">Event Facilitators</a></li>
+            <li><a href="/aboutus">About Us</a></li>
+            <li><a href="/contactus">Contact Us</a></li>
+            <li><a href="/register">Register</a></li>
+            <li><a href="/login">Login</a></li>
+          
+          <%end%>
+            <%= if @conn.cookies["daeventboxmode"] == "Guest" and @conn.cookies["daeventboxuser"] do %>
+             <li><a href="/home">Home</a></li>
+            <li><a href="/event/upcoming">Upcoming Events</a></li>
+            <li><a href="/event/facilitators">Event Facilitators</a></li>
+           
+            <li><a href="/event/manage">Manage Events</a></li>
+          
+            <li><a href="/notify">Notifications</a></li>
+           <!-- <li><a href="/chat/view/messages">Messages</a></li> -->
+            <li><a href="/account/settings">Account Settings</a></li>
+                 
+            <li><a href="/facilitator/change/mode">Switch to Facilitator</a></li>
+            <li><a href="/logout">Logout</a></li>
+            <%end%>
+              <%= if @conn.cookies["daeventboxmode"] == "Facilitator"  and @conn.cookies["daeventboxuser"] do %>
+               <li><a href="/home">Home</a></li>
+             <li><a href = "/event/create">Create Event</a></li>
+               <li><a href = "/facilitator/manage">Manage Events</a></li>
+              <li><a href = "/ad/view/all">Manage ADs</a></li>
+            <li><a href="/notify">Notifications</a></li>
+            <li><a href="/facilitator/change/mode">Switch to Guest</a></li>
+            <li><a href="/logout">Logout</a></li>
+              <%end%>
+        </ul>
+       </nav>
+        </div>
        <span class="logo"></span>
      </header>
-
+   <!-- <div class="alerts">
      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-     <div class="container">
-
+    
+    </div>-->
      <main role="main">
        <%= render @view_module, @view_template, assigns %>
      </main>
-   </div>
-   </div> <!-- /container -->
+       
+    <footer class="new-footer" id="new-footer">
+          <div class="container">
+            <div class="row">
+             
+              <div class="col l4 m4 s4">
+                <h5 class="white-text">Quick Links</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="/">Home</a></li>
+                  <li><a class="grey-text text-lighten-3" href="/event/upcoming">Upcoming Events</a></li>
+                  <li><a class="grey-text text-lighten-3" href="/event/create">Create An Event</a></li>
+                  <li><a class="grey-text text-lighten-3" href="/event/facilitators">Event Organizers</a></li>
+                </ul>
+              </div>
+              <div class="col l4 m4 s4">
+                 <h5 class="white-text">Other Links</h5>
+
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="/help">FAQs</a></li>
+                  <li><a class="grey-text text-lighten-3" href="/aboutus">About Us</a></li>
+                  <li><a class="grey-text text-lighten-3" href="/contactus">Contact Us</a></li>
+                                    <li><a class="grey-text text-lighten-3" href="/privacypolicy">Privacy Policy</a></li>
+
+                </ul>
+              </div>
+            
+                <div class="col l4 m4 s4">
+                 <h5 class="white-text">Connect With Us</h5>
+
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!"> <i class="fa fa-facebook-square"></i>  Facebook</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"><i class="fa fa-instagram"></i>  Instagram</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"><i class="fa fa-twitter"></i>  Twitter</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container grey-text text-lighten-4 ">
+            © 2018 Copyright Da EventBox
+            <a class="grey-text text-lighten-4 right" href="#!">Made with FleekSite</a>
+            </div>
+          </div>
+    </footer>
+      <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content center">
+      <h4> Welcome to Da Eventbox </h4>
+      <a href="/register" class="btn btn-large"> Sign Up Now </a>
+      <h6> - OR - </h6>
+     <a href="/login" class="btn btn-large"> Log In Now </a>
+    </div>
+   
+  </div>
+   
    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-
+ <script>
+     function removenum () {
+             console.log("in je");
+                $('#notificationnum').html('');
+              var myKeyVals = { seen : true}
+              var saveData = $.ajax({
+                    type: 'GET',
+                    url: "/notify/send",
+                    data: myKeyVals,
+                    dataType: "text",
+                    success: function(resultData) { console.log("in notification"); }
+              });
+              saveData.error(function() { alert("Something went wrong"); });
+            }
+    $(document).ready(function(){
+          function load_unseen_notification(view = '')
+          {
+            $.ajax({
+             url:"/notify/send",
+             method:"GET",
+             data:{view:view},
+             dataType:"json",
+             success:function(data)
+             {
+              console.log("in here")
+              console.log(data);
+              $('.notif-content').html(data.notification);
+              if(data.unseen_notification > 0)
+              {
+                $('#notificationnum').html('<span class="new badge" id="notificationnum">' + data.unseen_notification + '</span>');
+                notify();
+              }
+             }
+            });
+             $.ajax({
+             url:"/chat/check",
+             method:"GET",
+             data:{view:view},
+             dataType:"json",
+             success:function(data)
+             {
+              console.log("in message here")
+              console.log(data);
+              $('.messages-content').html(data.messages);
+              if(data.unseen_messages > 0)
+              {
+                $('#messagesnum').html('<span class="new badge" id="messagesnum">' + data.unseen_messages + '</span>');
+                notify();
+              }
+             }
+            });
+          }
+          load_unseen_notification();
+          $(document).on('click', '.bz', function(){
+            $('.bz').html('<i class="material-icons " >notifications  </i>');
+            });
+          setInterval(function(){
+              load_unseen_notification();
+            }, 100000);
+            function notify(view = '')
+            {
+              if(window.Notification && Notification.permission !== "denied") {
+              	Notification.requestPermission(function(status) {  // status is "granted", if accepted by user
+              		var n = new Notification('Daeventbox', {
+              			body: 'New Notifications! Check them now!',
+              			icon: '/path/to/icon.png' // optional
+              		});
+              	});
+              }
+            }
+            
+          });
+          function hideAlert() {
+             var ele = document.getElementById("materialert");
+             ele.style.display = "none";
+          }
+    </script>
   
-
+    <script type="text/javascript" src="https://cdn.rawgit.com/pinzon1992/materialize_table_pagination/f9a8478f/js/pagination.js"></script>
+   
+            
 </body>
 </html>
-

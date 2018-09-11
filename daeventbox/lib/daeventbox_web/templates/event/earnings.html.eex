@@ -1,0 +1,223 @@
+<style>
+  .carousel .carousel-item {
+      width:300px !important;
+      height: 300px !important;
+    }
+    
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
+ </style>
+
+ <div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Earnings</h4>
+            
+        </div>
+        <div  style="padding: 10px;" >
+                    <a href="#modal1" class="btn modal-trigger  card-stats-compare btn pull-right"> Request Payment</a>
+
+                </div> 
+
+        
+    </div>
+</div>
+ 
+
+    <div class="row center">   
+            <div class="card col s12 m4 l2"style="margin: 10px;">
+                <div class="row">
+                    <div >
+                    <h5><%=@total_paid_transactions %></h5>
+                        <small>Paid Transactions</small>
+                    
+                    </div>
+                    <!-- <div class="icon col-md-2">
+                        <i class="fa fa-eye fa-5x red"></i>
+                        </div> -->
+                </div>
+            </div>    
+            <div class="card col s12 m4 l2" style="margin: 10px;" >
+                <div class="row">
+                    <div >
+                        <h5>  <%= CurrencyFormatter.format( Float.to_string(@total_earnings, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h5>
+                        <small>Total Earnings</small>
+                    
+                    </div>
+                    
+                </div>
+            </div>    
+             <div class="card col s12 m4 l2" style="margin: 10px;">
+                <div class="row">
+                    <div>
+                        <h5>  <%= CurrencyFormatter.format( Float.to_string(@total_recieved, decimals: 2)  |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h5>
+                        <small>Total Recieved</small>
+                    
+                    </div>
+                    
+                </div>
+            </div> 
+    
+            <div class="card col s12 m4 l2" style="margin: 10px;">
+                <div class="row">
+                    <div>
+                        <h5>  <%= CurrencyFormatter.format( Float.to_string(@total_charges, decimals: 2)|> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h5>
+                        <small>Total Charges</small>
+                    
+                    </div>
+                    
+                </div>
+            </div>    
+            <div class="card col s12 m4 l3" style="margin: 10px;" >
+                <div class="row">
+                    <div class=" col s2 m11" >
+                        <h5>  <%= CurrencyFormatter.format(  Float.to_string(@total_payable, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h5>
+                        <small>Payout</small>
+                    
+                    </div>
+                   
+                    
+                </div>
+            </div>   
+          
+             
+    </div>
+ 
+    <div class="row" style="padding: 0 10px;">
+        <ul class="collapsible">
+            <li class="active" >
+            <div class="collapsible-header">  Payment Breakdown  <i class="fa fa-chevron-down"></i>
+
+
+            
+            </div>
+            <div class="collapsible-body">
+                <table>
+                <th> </th>
+                <th> Quantity</th>
+                <th> Unit Price </th>
+                <th> Total<th>
+                <%= for earnings <- @earnings_breakdown do %>
+                    <tr>
+                        <td><%= Enum.at(earnings, 0) %> </td>
+                        <td><%= Enum.at(earnings, 1) %></td>
+                        <td>  <%= CurrencyFormatter.format(Float.to_string(Enum.at(earnings, 2), decimals: 2)  |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </td>
+                        <td>  <%= CurrencyFormatter.format(Float.to_string((Enum.at(earnings,1) * Enum.at(earnings, 2)), decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </td>
+                    </tr>
+                <%end%>
+                    <%= for charge <- @charges do %>
+                    <tr>
+                        <td> <%= charge.name%> </td>
+                        <td> </td>
+                        <td> <%=if charge.type == "fixed" do %>
+                                <%= CurrencyFormatter.format(Float.to_string(charge.charges, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  
+
+                                <%end%> 
+                                <%=if charge.type == "percentage" do %>
+                                <%= charge.charges %>%
+                                <%end%> 
+                        </td>
+                        <td> 
+                        <%=if charge.type== "fixed" do %>
+                            -<%= CurrencyFormatter.format( Float.to_string(charge.charges, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  
+
+                        
+                        <%end%> 
+                        <%=if charge.type== "percentage" do %>
+                            -<%= CurrencyFormatter.format( Float.to_string((@total_earnings*(charge.charges/100)), decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  
+
+                        <%end%> </td>
+                    </tr>
+                <%end%>
+                <tr>
+                </tr>
+                    <tr>
+                    <td> Amount Recieved </td>
+                    <td> </td>
+                    <td> </td>
+                    <td>  -<%= CurrencyFormatter.format(  Float.to_string(@total_recieved, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>   </td>
+
+                </tr>
+                <tr> 
+                    <td> Balance Due </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> <hr> -<%= CurrencyFormatter.format(Float.to_string(@total_payable, decimals: 2)|> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>
+                    </td>
+                </tr>
+                </table>
+            </div>
+            </li>
+        </ul>
+    </div>
+
+
+    <div>
+         <h4 style="text-align: center;"> Requests </h4>
+         
+        <%= if is_nil(@requests) do %>
+            <p> No Request </p>
+        <%end%>
+            <table class = "  responsive-table" id="myTable"  style="margin: 0 10px;">
+                    <thead>
+                        <tr>
+                            <th> Requested On</th>
+                            <th>Requested Amount</th>
+                            <th>Requested Reason</th>
+                            <th>Request Status </th>
+                        </tr>
+                    </thead>
+                     <tbody>
+                        <%= for request <- @requests do %>
+                        
+                                <tr>
+                                    <td><%= Calendar.Strftime.strftime!(request.inserted_at, "%B %e,  %Y")%> </td>
+                                    <td><%= CurrencyFormatter.format(   Float.to_string(request.amount, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %></td>
+                                    <td><%= request.title%></td>
+                                    <td style="text-transform: capitalize;"><%= request.status%></td>
+                                    
+                                </tr>                  
+
+                        <% end %>
+                        </tbody>
+                </table>
+    </div>
+ 
+    <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Request Earnings</h4>
+      <form action="/event/transaction/request/<%= @event.id%>" method="POST" >
+         <div class="input-field col s4">
+          <i class = "material-icons prefix">attach_money</i>
+          <input  id="amount" name="amount" type="number" step="0.01" max="<%= @total_payable%>"  class = "active validate" required>
+          
+          <label for="amount">Request Amount(Out of $<%= @total_payable%>)</label>
+        </div>
+        <div class = "row">
+            <div class = "input-field col s12">
+              <i class = "material-icons prefix">mode_edit</i>
+              <textarea id = "reason" name="reason" class = "materialize-textarea"></textarea>
+              <label for = "reason">Reason for request</label>
+            </div>
+        </div>
+         <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+         <button class=" waves-effect waves-light btn btn-simple btn-primary pull-right" type="submit" name="submit">
+            Send
+        </button>
+        <br>
+        </form>
+      
+    </div>
+   
+    
+  </div>
+<script>
+$(document).ready(function(){
+    $('.modal').modal();
+  });
+</script>

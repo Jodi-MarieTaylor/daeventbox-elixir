@@ -1,0 +1,199 @@
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Manage Reports</h4>
+                        <p class="category">Here are your Reports</p>
+                        </div>
+
+                    
+                    <div class="content table-responsive table-full-width">
+                        <p style="text-align: center;"> Today </p>
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <th>Events</th>
+                                <th>Facilitators</th>
+                                <th>Active Users</th>
+                                <th>Inactive Users</th>
+                                <th>Paid Transactions</th>
+                                <th> Paid Registrations</th>
+                                    <th>Registrations</th>  
+                                <th> Tickets</th>
+                                <th> Complaints </th>
+                                <th>Message (Inquiry)</th>
+                                <th> Sales </th>
+
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    
+                                    <td><%=   @this_day["events"] %></td>
+                                    <td><%= @this_day["facilitators"] %></td>        
+                                    <td> <%= @this_day["active_users"] %>  </td>
+                                    <td> <%= @this_day["inactive_users"] %>  </td>
+                                    <td> <%= @this_day["paid_transactions"] %>  </td>
+                                    <td> <%= @this_day["paid_registrations"] %>  </td>
+                                    <td> <%= @this_day["registrations"]%>  </td>
+                                    <td> <%= @this_day["tickets"]%>  </td>
+                                    <td> <%= @this_day["complaints"] %>  </td>
+                                    <td> <%= @this_day["inquiries"] %>  </td>
+                                    <td> <%= @this_day["sales"] %>  </td>
+
+
+                                
+
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="content table-responsive table-full-width">
+                        <p style="text-align: center;"> This Week </p>
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <th>Events</th>
+                                <th>Facilitators</th>
+                                <th>Active Users</th>
+                                <th>Inactive Users</th>
+                                <th>Paid Transactions</th>
+                                <th> Paid Registrations</th>
+                                    <th>Registrations</th>  
+                                <th> Tickets</th>
+                                <th> Complaints </th>
+                                <th>Message (Inquiry)</th>
+                                <th> Sales </th>
+
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    
+                                    <td><%=   @this_week["events"] %></td>
+                                    <td><%= @this_week["facilitators"] %></td>        
+                                    <td> <%= @this_week["active_users"] %>  </td>
+                                    <td> <%= @this_week["inactive_users"] %>  </td>
+                                    <td> <%= @this_week["paid_transactions"] %>  </td>
+                                    <td> <%= @this_week["paid_registrations"] %>  </td>
+                                    <td> <%= @this_week["registrations"]%>  </td>
+                                    <td> <%= @this_week["tickets"]%>  </td>
+                                    <td> <%= @this_week["complaints"] %>  </td>
+                                    <td> <%= @this_week["inquiries"] %>  </td>
+                                    <td> <%= @this_week["sales"] %>  </td>
+
+
+                                
+
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+
+                    </div>
+                        <div class="content table-responsive table-full-width">
+                        <p style="text-align: center;"> This Month </p>
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <th>Events</th>
+                                <th>Facilitators</th>
+                                <th>Active Users</th>
+                                <th>Inactive Users</th>
+                                <th>Paid Transactions</th>
+                                <th> Paid Registrations</th>
+                                    <th>Registrations</th>  
+                                <th> Tickets</th>
+                                <th> Complaints </th>
+                                <th>Message (Inquiry)</th>
+                                <th> Sales </th>
+
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    
+                                    <td><%=   @this_month["events"] %></td>
+                                    <td><%= @this_month["facilitators"] %></td>        
+                                    <td> <%= @this_month["active_users"] %>  </td>
+                                    <td> <%= @this_month["inactive_users"] %>  </td>
+                                    <td> <%= @this_month["paid_transactions"] %>  </td>
+                                    <td> <%= @this_month["paid_registrations"] %>  </td>
+                                    <td> <%= @this_month["registrations"]%>  </td>
+                                    <td> <%= @this_month["tickets"]%>  </td>
+                                    <td> <%= @this_month["complaints"] %>  </td>
+                                    <td> <%= @this_month["inquiries"] %>  </td>
+                                    <td> <%= @this_month["sales"] %>  </td>
+
+
+                                
+
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+
+                    </div>
+                        <div class="content table-responsive table-full-width">
+                        <p style="text-align: center;"> This Year </p>
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <th>Events</th>
+                                <th>Facilitators</th>
+                                <th>Active Users</th>
+                                <th>Inactive Users</th>
+                                <th>Paid Transactions</th>
+                                <th> Paid Registrations</th>
+                                    <th>Registrations</th>  
+                                <th> Tickets</th>
+                                <th> Complaints </th>
+                                <th>Message (Inquiry)</th>
+                                <th> Sales </th>
+
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    
+                                    <td><%=   @this_year["events"] %></td>
+                                    <td><%= @this_year["facilitators"] %></td>        
+                                    <td> <%= @this_year["active_users"] %>  </td>
+                                    <td> <%= @this_year["inactive_users"] %>  </td>
+                                    <td> <%= @this_year["paid_transactions"] %>  </td>
+                                    <td> <%= @this_year["paid_registrations"] %>  </td>
+                                    <td> <%= @this_year["registrations"]%>  </td>
+                                    <td> <%= @this_year["tickets"]%>  </td>
+                                    <td> <%= @this_year["complaints"] %>  </td>
+                                    <td> <%= @this_year["inquiries"] %>  </td>
+                                    <td> <%= @this_year["sales"] %>  </td>
+
+
+                                
+
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+            
+
+        </div>
+    
+    
+        <script>
+        function myFunction() {
+            var x = document.getElementById("filterdiv");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        </script>
+

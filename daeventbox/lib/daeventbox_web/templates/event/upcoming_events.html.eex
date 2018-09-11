@@ -1,0 +1,310 @@
+ <style>
+  .carousel .carousel-item {
+      width:300px !important;
+      height: 300px !important;
+    }
+    
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}    
+ </style>
+
+ <ul id = "category-filter-dropdown" class = "dropdown-content">
+               <li> <a href="/event/upcoming">All Categories</a></li><br>
+
+               <li> <a href="/event/upcoming/filter?category=Business and Exhibitions">Business and Exhibitions</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Celebrations">Celebrations</a></li><br>
+                <li> <a href="/event/upcoming/filter?category=Clubs and Societies">Clubs and Societies</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Concerts and Live Performances">Concerts and Live Performances</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Fairs and Festivals">Fairs and Festivals</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Fundraisers and Galas">Fundraisers and Galas</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Parties and Nightlife">Parties and Nightlife</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Private Lessons">Private Lessons</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Seminars and Conferences">Seminars and Conferences</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Sports and Leisure">Sports and Leisure</a></li><br>
+                <li><a href="/event/upcoming/filter?category=Miscellaneous">Miscellaneous</a> </li>
+                        
+        
+</ul>
+ <ul id = "date-filter-dropdown" class = "dropdown-content">
+         <li> <a href="/event/upcoming">All Dates</a></li><br>
+
+         <li><a href="/event/upcoming/filter?date=today">A Day From Now</a> </li>
+         <li><a href="/event/upcoming/filter?date=this-week">A Week From Now</a> </li>
+         <li><a href="/event/upcoming/filter?date=this-month">A Month From Now</a> </li>
+         <li><a href="/event/upcoming/filter?date=this-year">A Year From Now</a> </li>
+
+
+         
+
+</ul>
+ <ul id = "location-filter-dropdown" class = "dropdown-content">
+             <li> <a href="/event/upcoming">All Parishes</a></li><br>
+
+            <li> <a href="/event/upcoming/filter?location=Kingston">Kingston</a></li> 
+            <li><a href="/event/upcoming/filter?location=St. Andrew">St. Andrew</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St. Catherine">St. Catherine</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Clarendon">Clarendon</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St. Ann">St. Ann</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St. Thomas">St. Thomas</a> </li> 
+            <li> <a href="/event/upcoming/filter?location=St. James">St. James</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St. Mary">St. Mary</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Trelawny">Trelawny</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Westmoreland">Westmoreland</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Hanover">Hanover</a> </li> 
+            <li><a href="/event/upcoming/filter?location=St.Elizabeth">St.Elizabeth</a> </li> 
+            <li><a href="/event/upcoming/filter?location=Portland">Portland</a> </li> 
+
+</ul>
+ <ul id = "type-filter-dropdown" class = "dropdown-content">
+             <li> <a href="/event/upcoming">All Types</a></li><br>
+
+            <li> <a href="/event/upcoming/filter?price=paid">Paid</a></li> <br>
+            <li> <a href="/event/upcoming/filter?price=free">Free</a></li> <br>
+                        
+        
+</ul>
+<div class="card headtab" style="width: 100%; color: white; ">
+    <div class="row">
+        <div class ="col s12 m3"  style="padding: 10px; ">
+            <h4 style="color: white;"> Upcoming Events </h4>
+            
+        </div>
+
+          <div class ="right col s12 m9" style="padding: 20px;  ">
+            <ul>
+                <li>
+                    <div class = "col s3">
+                        <ul id = "nav-mobile" class = "right">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "category-filter-dropdown" style="color: white;"> Filter by Category<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s3">
+                        <ul id = "nav-mobile" class = "right ">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "location-filter-dropdown" style="color: white;"> Filter by Location<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s3">
+                        <ul id = "nav-mobile" class = "right ">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "type-filter-dropdown" style="color: white;"> Filter by Event Type<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                <li>
+                    <div class = "col s3">
+                        <ul id = "nav-mobile" class = "right ">                   
+                                <!-- Dropdown Trigger -->
+                                <li><a class = "dropdown-button" href = "#!"
+                                data-activates = "date-filter-dropdown" style="color: white;"> Filter by the Date<i class = "material-icons
+                                right">arrow_drop_down</i></a></li>
+                        </ul>    
+            
+                    </div>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+    
+</div>
+
+<div  style="width: 98%"> 
+    <div class="row">
+        <div class="col s12 m12 l10" >
+            
+            
+            <div class="row">
+                <%= for event <- @events do %>
+                    <div class="col s12 m4 ">
+                    <div class="card">
+                        <div class="card-image">
+                        <!--<img src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg">-->
+                        <img src="https://jodipodi.resize.fleeksite.com/clip/600x564/<%= event.image_url %>" style="height: 200px">
+                        <span class="card-title "></span>
+                        </div>
+                        <div class="card-content">
+                        <p class="truncate" style="font-size: 20px;"> <%= event.title %> </p>
+                        <p style="font-size: 14px;"> <%= event.start_date %>  </p>
+                        <a href="/event/details/<%=event.id %>" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Details </a>
+                        
+                        </div>
+                    
+                    </div>
+                    </div>
+                <%end%>
+             </div>
+        <div class="pull-right">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <%= for i <- 1..@page_count do %>
+                    <%= if is_nil(@page) do %>
+                        <li class="active"><a href="/event/upcoming?page=<%=i%>"><%=i%> </a></li>
+                    <%end%>
+                    <%= if String.to_integer(@page) == i do %>
+                        <li class="active"><a href="/event/upcoming?page=<%=i%>"><%=i%> </a></li>
+                    <%end%>
+                    <%= if String.to_integer(@page) != i do %>
+                    <li class="waves-effect"><a href="/event/upcoming?page=<%=i%>"><%=i%>  </a></li>
+                    <%end%>
+                
+                <%end%>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
+        </div>
+        <div>
+        <div class=" col s12 m2" >
+                   
+                    <div class="carousel">
+                     <h5 class="center"> Featured Events </h5>
+                        <%= for ad <- @ads_side do %>
+                            <div class="carousel-item card">  
+                                <a href="#three!"><img witdh="200" height="300" src="<%=Enum.at(ad, 1)%>"></a>
+                            
+                            </div>
+                        <%end%>
+                        
+                    </div>
+                    <div>
+                    
+                        <h5 class="center"> Latest News </h5>
+                         <%= for news <- @news do %>
+                        <p> <%= news.body %></p>
+                        <%end%>
+                        </div>
+            </div>
+        </div>
+    <!--
+        <div class="row">
+      
+            <div class="card col s12 m3">
+
+                <ul class="collapsible">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">filter_drama</i>Filter By Category</div>
+                        <div class="collapsible-body">
+
+                        <span> <a href="/event/upcoming/filter?category=Business and Exhibitions">Business and Exhibitions</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Celebrations">Celebrations</a></span><br>
+                        <span> <a href="/event/upcoming/filter?category=Clubs and Societies">Clubs and Societies</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Concerts and Live Performances">Concerts and Live Performances</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Fairs and Festivals">Fairs and Festivals</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Fundraisers and Galas">Fundraisers and Galas</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Parties and Nightlife">Parties and Nightlife</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Private Lessons">Private Lessons</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Seminars and Conferences">Seminars and Conferences</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Sports and Leisure">Sports and Leisure</a></span><br>
+                        <span><a href="/event/upcoming/filter?category=Miscellaneous">Miscellaneous</a> </span>
+                        
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">place</i>Filter By Location</div>
+                        <div class="collapsible-body">
+                            <span> <a href="/event/upcoming/filter?location=Kingston">Kingston</a></span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Andrew">St. Andrew</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Catherine">St. Catherine</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Clarendon">Clarendon</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Ann">St. Ann</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Thomas">St. Thomas</a> </span> <br>
+                            <span> <a href="/event/upcoming/filter?location=St. James">St. James</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St. Mary">St. Mary</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Trelawny">Trelawny</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Westmoreland">Westmoreland</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Hanover">Hanover</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=St.Elizabeth">St.Elizabeth</a> </span> <br>
+                            <span><a href="/event/upcoming/filter?location=Portland">Portland</a> </span> <br>
+                        </div>
+                    </li>
+
+                    <li>
+                    <div class="collapsible-header"><i class="material-icons">attach_money</i>Filter By Price</div>
+                        <div class="collapsible-body">
+                            <span> <a href="/event/upcoming/filter?price=paid">Paid</a></span> <br>
+                            <span><a href="/event/upcoming/filter?price=free">Free</a> </span> <br>
+                        
+                        </div>
+                    </li>
+                    <li>
+                    <div class="collapsible-header"><i class="material-icons">date_range</i>Filter By Date</div>
+                        <div class="collapsible-body">
+                        <div>
+                        <input id="datep" type="text" class="datepicker">
+                        <label for="datep">Select Date</label>
+
+                        </div>
+            
+                        
+                        </div>
+                    </li>
+                </ul>
+                
+            </div>
+            <div class="card col s12 m3">
+                   
+                    <div class="carousel">
+                     <h5> Featured Events </h5>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        <div class="carousel-item card">  
+                            <a href="#three!"><img witdh="200" height="200" src="https://images.freeimages.com/images/large-previews/2fe/butterfly-1390152.jpg"></a>
+                          
+                        </div>
+                        
+                    </div>
+            </div>
+        </div>
+    -->
+    </div>
+</div>
+
+
+<script>
+ $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false // Close upon selecting a date,
+  });
+
+  $('.carousel').carousel({
+        padding: 200    
+    });
+    autoplay()   
+    function autoplay() {
+        $('.carousel').carousel('next');
+        setTimeout(autoplay, 4500);
+    }
+</script>
+ 

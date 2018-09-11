@@ -20,7 +20,7 @@ defmodule Daeventbox.Mixfile do
   def application do
     [
       mod: {Daeventbox.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :bamboo, :hackney, :ex_aws]
     ]
   end
 
@@ -41,7 +41,23 @@ defmodule Daeventbox.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:hasher, "~> 0.1.0"}
+      {:hasher, "~> 0.1.0"},
+      {:comeonin, "~> 4.0"},
+      {:guardian, "~> 1.0"},
+      {:bcrypt_elixir, "~> 1.0"},
+      {:calecto, "~> 0.16.0"},
+      {:elixlsx, "~> 0.4.0"},
+      {:bamboo, "~> 0.8"},
+      {:fitz, github: "SirFitz/fitz", override: true},
+      {:data, git: "git@bitbucket.org:sirfitz/data.git"},
+      {:arc, "~> 0.8.0"},
+      {:ex_aws, "~> 2.0", override: true},
+      {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"},
+      {:poison, "~> 3.1"},
+      {:currency_formatter, "~> 0.4"},
+      {:ueberauth_facebook, "~> 0.5"},
     ]
   end
 

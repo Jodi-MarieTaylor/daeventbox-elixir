@@ -17,12 +17,25 @@ defmodule DaeventboxWeb do
   and import those modules here.
   """
 
+  def model do
+    quote do
+      use Ecto.Schema
+      use Calecto.Schema, usec: true
+
+      # ...
+    end
+  end
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: DaeventboxWeb
       import Plug.Conn
       import DaeventboxWeb.Router.Helpers
       import DaeventboxWeb.Gettext
+
+      alias Daeventbox.{Repo, User, Facilitator, Ticketdetail, Registrationdetails, Ticket}
+      alias Daeventbox.{Registration, SavedEvent, LikedEvent, Ad, Option, Action, Event}
+      alias DaEventBox.{Follower, Comment, Chat, Chat.Message, Chat.Room, Notification}
     end
   end
 

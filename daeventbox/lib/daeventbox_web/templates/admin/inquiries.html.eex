@@ -1,0 +1,69 @@
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Manage Inquiries</h4>
+                        <p class="category">Here are your Inquiries</p>
+                        </div>
+
+                    
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <th>Date Added</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th> Status</th>
+                            </thead>
+                            <tbody>
+                            <%= for inquiry <- @inquiries do %>
+                                <tr>
+                                    
+                                    <td><%=   Calendar.Strftime.strftime!(inquiry.inserted_at, "%B %e,  %Y") %></td>
+                                    <td><%= inquiry.name %></td>        
+                                    <td> <%= inquiry.email%>  </td>
+                                    <td> <%= inquiry.message %>  </td>
+                                    <td>
+                                    <form method="POST" action="/admin/message/change/status/<%= inquiry.id%>">
+                                        <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+                                        <div class="form-group col-md-12">
+                                            <label>Change Status</label>
+                                            <select name = "status" id="status"  class="form-control"  onchange="this.form.submit()">
+                                                <option value="<%=inquiry.status%>" disabled selected><%= inquiry.status%></option>
+                                                <option value = "New">New</option>
+                                                <option value = "Responded">Responded</option>
+                                                <option value = "Ignored"> Ignored </option>
+                                            
+                                                
+                                            </select>               
+                                        </div>
+                                    </form>
+                                    </td>
+                                </tr>
+                                
+                            <%end%>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+            
+
+        </div>
+          
+    
+        <script>
+        function myFunction() {
+            var x = document.getElementById("filterdiv");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        </script>

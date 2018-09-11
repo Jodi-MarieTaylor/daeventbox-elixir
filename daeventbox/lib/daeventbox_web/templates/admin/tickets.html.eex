@@ -1,0 +1,135 @@
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Manage Tickets</h4>
+                                <p class="category">Here are your Tickets for event <%= @event.title %></p>
+                                <p class="category">Showing <%= @tickets |> Enum.count %> Tickets</p>
+                                <button  type="" class="btn btn-info btn-fill pull-right" > <a href="/admin?p=events&action=create" style="color: white;">Export</a></button>
+                                <button type="" onclick="myFunction()" class="btn btn-info btn-fill pull-right" style="margin-right: 5px;">Filter </button>
+                            </div>
+
+                            <div hidden id="filterdiv">
+                                <div class="row">
+                                        <div class="dropdown col-md-2" style="margin-left: 10px;">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Name
+                                            <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                            <%= for ticket_detail <- @ticket_details do %>
+                                             <li> <a href="/admin/tickets/<%= @event.id %>/filter?name=<%=ticket_detail.name%>"><%=ticket_detail.name%></a></li><br>
+                                            <%end%>
+                                            </ul>
+
+                                        </div>
+                                        <div class="dropdown col-md-2">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Date
+                                            <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                            <li><a href="/admin/tickets/<%= @event.id%>/filter?date=desc">Latest</a></li>
+                                            <li><a href="/admin/tickets/<%= @event.id%>/filter?date=asc">Oldest</a></li>
+                                            </ul>
+                                            
+                                        </div>
+                                        <div class="dropdown col-md-2">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Price
+                                            <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                            <%= for ticket_detail <- @ticket_details do %>
+                                             <li> <a href="/admin/tickets/<%= @event.id%>/filter?price=<%=ticket_detail.price%>">$<%=Float.to_string(ticket_detail.price,  decimals: 2)%></a></li><br>
+                                            <%end%>
+                                            </ul>
+                                            
+                                        </div>
+                                        <div class="dropdown col-md-2">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> Status
+                                            <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                            <li><a href="/admin/tickets/<%= @event.id%>/filter?status=active">Active</a></li>
+                                            <li><a href="/admin/tickets/<%= @event.id%>/filter?status=inactive">Not Active</a></li>
+                                            </ul>
+                                            
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary " type="button" > <a href = "/admin/tickets/<%= @event.id%>"> Reset </a>
+                                            </button>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <th> Ticket ID </th>
+                                        <th>Date Purchased</th>
+                                        <th>User ID</th>
+                                    	<th>Ticket Name</th>
+                                    	<th>Price</th>
+                                        <th>Barcode ID</th>
+                                        <th>Status</th>
+                                       
+                                    </thead>
+                                    <tbody>
+                                    <%= for ticket <- @tickets do %>
+                                        <tr>
+                                            
+                                        	<td><%= ticket.id %></td>
+                                            <td><%=   Calendar.Strftime.strftime!(ticket.inserted_at, "%B %e,  %Y") %></td>
+                                        	<td><% user = Daeventbox.Repo.get_by(Daeventbox.User, id: ticket.user_id)%> <%= user.id%>
+                                            </td>
+                                            <td> <% ticket_details= Daeventbox.Repo.get_by(Daeventbox.Ticketdetail, id: ticket.ticket_id)%> 
+                                            <%= ticket_details.name%>
+                                        	<td>
+
+                                            <% ticket_details= Daeventbox.Repo.get_by(Daeventbox.Ticketdetail, id: ticket.ticket_id)%> 
+                                            $<%=Float.to_string(ticket_details.price,  decimals: 2)%>
+                                          
+                                            </td>
+                                            
+                                        	<td> <%= ticket.barcode%>
+                                             </td>
+                                            <td>
+                                                <%= ticket.status  %> 
+                                                   
+                                            </td>
+
+                                            <td>
+                                             <div class="dropdown col-md-2">
+                                            <div class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="pe-7s-more"></i>
+                                            </div>
+                                            <ul class="dropdown-menu">
+                                            <!--<li><a href="/admin?p=events&action=view&eid=<%= @event.id %>">View</a></li>
+                                            <li><a href="/admin?p=events&action=delete&eid=<%= @event.id %>">Delete</a></li>-->
+                                            <li><a href="/admin/ticket/view/<%= ticket.id %>">View Ticket</a></li>
+                                            <li><a href="/admin/ticket/print/<%=ticket.id %>">Print Ticket</a>
+                                            </ul>
+                                            
+                                        </div>
+                                            </td>
+                                        </tr>
+                                       
+                                    <%end%>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                   
+
+                </div>
+          
+
+    
+        <script>
+        function myFunction() {
+            var x = document.getElementById("filterdiv");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        </script>

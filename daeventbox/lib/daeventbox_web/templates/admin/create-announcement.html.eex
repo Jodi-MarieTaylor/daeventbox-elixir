@@ -1,0 +1,57 @@
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+
+                            <div class="header">
+                                <h4 class="title">Create Announcement</h4>
+                            </div>
+
+                            <div class="content">
+                                <form method="POST" action="/admin/annoucements/add">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>From:</label>
+                                                <input type="text" name="from"  class="form-control" placeholder="Company">
+                                            </div>
+                                        </div>
+                                        
+                                         
+                                    </div>
+                                    
+                                    <div class="col-md-8">
+                                            <p> To: </p>
+                                            <div class="form-group">
+                                              
+                                                <label class="radio-inline"><input type="radio" name="recipient" value="Facilitators">Facilitators</label>
+                                                <label class="radio-inline"><input type="radio" name="recipient" value="Guests">Guests</label>
+                                                <label class="radio-inline"><input type="radio" name="recipient" value="All">Facilitators and Guests</label>
+
+                                            </div>  
+
+                                  
+
+                                    
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Message</label>
+                                                <textarea rows="10" class="form-control" name="message" placeholder="Here can be your message" ></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+                                    <button type="submit" class="btn btn-info btn-fill pull-left">Submit</button>
+
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            

@@ -20,6 +20,7 @@ defmodule Daeventbox.Repo.Migrations.CreateFacilitators do
       add :facilitator_address, :string
       add :facilitator_contact, :string
       add :facilitator_zid, :uuid
+      add :website_link, :string
 
       timestamps()
     end

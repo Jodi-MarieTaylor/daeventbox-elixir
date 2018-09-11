@@ -1,0 +1,120 @@
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
+.circle {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px; 
+  /* width and height can be anything, as long as they're equal */
+}
+</style>
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m4"  style="padding: 10px;">
+            <h4 style="color: white;">Banner Options</h4>
+            
+        </div>
+
+        
+    </div>
+</div>
+<div  style="container" > 
+    <div class="row" style="margin: 0 auto; width: 90%;">
+
+        <%= for ad_option <-  @ad_options do %>
+        <div class="col s12 m2 card " style="margin: 20px; width: 300px !important; height: 450px !important;">
+            <a href="/ad/selection/form/<%= ad_option.id %>/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+
+            <h4 style="color: black !important; text-transform: capitalize;"> <%= ad_option.position %>  </h4>
+
+            <div >
+              <h5> Price: <%= CurrencyFormatter.format( Float.to_string( ad_option.price, decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h5>
+              <p> Per Day </p>
+              <img src ="<%=ad_option.image_url%>" style=" display: block;  margin-left: auto; margin-right: auto;  width: 50%; padding: 0px; border: solid; width: 150px; height: 150px;">
+
+            </div>
+            <p> <%= ad_option.description%> </p>
+            <p> Banner Size:  <%= ad_option.size%>  </p>
+            <br>
+            <br>
+
+             
+        </div>
+        <%end%>
+
+        
+    </div>
+
+</div>
+<!--
+<div class="row" style="width: 100%">
+    <div class="card col s12 m2 red" style ="color: white;">
+        <h4> BOTTOM AREA </h4>
+        <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show near footer </p>
+        <p> Banner Size:  780px X 100px  </p>
+        <a href="/ad/select/bottom/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+
+    </div>
+</div>
+
+
+
+<div class="row" style="width: 100%">
+    
+    <div class="card col s12 m4 red center-align" style ="color: white;">
+        <h4> BOTTOM AREA </h4>
+        <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show near footer </p>
+        <p> Banner Size:  780px X 100px  </p>
+        <a href="/ad/select/bottom/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+
+    </div>
+    <div class="card col s12 m4 blue center-align" style ="color: white;">
+        <h4> SIDE AREA </h4>
+                <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show on the right side of the events page	 </p>
+        <p> Banner Size:  240px X 240px  </p>
+        <a href="/ad/select/side/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+    </div>
+    <div class="card col s12 m4 pink center-align"  style ="color: white;">
+        <h4> TOP AREA </h4>
+        <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show at the top of the site on the homepage </p>
+        <p> Banner Size:  7728px X 100px   </p>
+        <a href="/ad/select/top/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+        
+    </div>
+    <div class="card col s12 m4 green center-align"  style ="color: white;">
+        <h4> All 3 Areas </h4>
+                <div class="circle">
+            <h5> $10.00 <h5>
+        <div>
+        <p> Banner will show at the footer, side, and top </p>
+        <p> Banner Size:  780px X 100px,  240px X 240px, 728px X 100px   </p>
+        <a href="/ad/select/all/<%=@event.id%>" class="btn  waves-effect waves-light darken-2 right"> Select </a>
+    </div>
+<div> 
+-->

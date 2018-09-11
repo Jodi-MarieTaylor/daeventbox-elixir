@@ -1,10 +1,70 @@
+ 
+
+<script>
+
+$(document).ready(function(){
+    $("nav").hide()
+
+      $('.slider').slider({full_width: true});
+        var ele = document.getElementById("new-footer");
+             ele.style.display = "none";
+    });
+</script>
+
+<style>
+body{
+            background-color: #1d1d1d; 
+
+
+}
+</style>
  <div class="row">
-      <a href= "/event/create" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create Event</a>
+    <div class="row col s12 m3" style="margin: 50px 5px;">
+     <img src="https://preview.ibb.co/exb7u7/daeventlogo2.png" alt="daeventlogo2" border="0">
+     <h4 style="text-align: center; color: white">  Welcome to Facilitator Mode </h4>
+     <!--<h5> What would you like to do first? </h5>
+     
+        <a href= "/event/create" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create MY Event</a>
+         <br> 
+         <br>
+         -->
+        <a style=" margin-left: 10%;" href="/facilitator/profile/create" class="waves-effect waves-light btn btn-small center"><i class="material-icons left">cloud</i>Create My Profile</a>
+        
+    </div>
+    <div class="col s12 m8 ">
+ <div class="slider ">
+        <ul class="slides">
+        <li>
+            <img src="http://www.cih.org/resources/images/event_header.jpg"> <!-- random image -->
+            <div class="caption center-align">
+            <!--   <h3>Post 1</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+            </div>
+        </li>
+        <li>
+            <img src="http://ourpolitics.net/wp-content/uploads/2017/12/events.jpg"> <!-- random image -->
+            <div class="caption center-align">
+            <!-- <h3>Post 2</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+            </div>
+        </li>
+        <li>
+            <img src="http://www.catalyst.org/uploads/styles/content-large/public/Events.jpg"> <!-- random image -->
+            <div class="caption center-align">
+            <!-- <h3>Post 3</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+            </div>
+        </li>
+        <li>
+            <img src="https://www.budapest.com/w/promoart/promo_1032_en.jpg"> <!-- random image -->
+            <d<div class="caption center-align">
+            <!-- <h3>Post 4</h3>
+            <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
 
+            </div>
+        </li>
+        </ul>
+     
+  </div>
+    </div>
  </div>
-  <div class="row">
-       <a href="/facilitator/profile" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create Your Facilitator Profile</a>
-
- </div>
-
- <!-- https://preview.ibb.co/hVYXGn/Group_2.png -->

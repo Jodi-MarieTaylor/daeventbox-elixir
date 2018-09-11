@@ -1,0 +1,66 @@
+
+
+
+       
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+
+                            <div class="header">
+                                <h4 class="title">Send Email</h4>
+                            </div>
+
+                            <div class="content">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>From:</label>
+                                                <input type="text" class="form-control" placeholder="Company">
+                                            </div>
+                                        </div>
+                                        
+                                         
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>To:</label>
+                                                <input type="text" class="form-control" placeholder="Company">
+                                            </div>
+                                        </div>
+                                       
+                                         
+                                    </div>
+                                    <div class="col-md-8">
+                                            <div class="form-group">
+                                              
+                                                <label class="radio-inline"><input type="radio" name="type" value="paid">Facilitators</label>
+                                                <label class="radio-inline"><input type="radio" name="type" value="free">Guests</label>
+                                                <label class="radio-inline"><input type="radio" name="type" value="free">Facilitators and Guests</label>
+
+                                            </div>  
+
+                                  
+
+                                    
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Message</label>
+                                                <textarea rows="10" class="form-control" placeholder="Here can be your message" ></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-info btn-fill pull-left">Send</button>
+
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+           

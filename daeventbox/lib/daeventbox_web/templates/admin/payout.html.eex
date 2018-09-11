@@ -1,0 +1,125 @@
+
+
+                <div class="row">   
+                        <div class="card col-md-2"style="margin: 10px;">
+                            <div class="row">
+                                <div >
+                                <h3><%=@total_paid_transactions %></h3>
+                                    <small>Paid Transactions</small>
+                                
+                                </div>
+                               <!-- <div class="icon col-md-2">
+                                    <i class="fa fa-eye fa-5x red"></i>
+                                    </div> -->
+                            </div>
+                        </div>    
+                         <div class="card col-md-2" style="margin: 10px;" >
+                            <div class="row">
+                                <div >
+                                    <h3> <%= Float.to_string(@total_earnings, decimals: 2)%> </h3>
+                                    <small>Total Earnings</small>
+                                
+                                </div>
+                                
+                            </div>
+                        </div>    
+                         <div class="card col-md-2" style="margin: 10px;" >
+                            <div class="row">
+                                <div >
+                                    <h3> <%= Float.to_string(@total_paid, decimals: 2)%> </h3>
+                                    <small>Total Paid</small>
+                                
+                                </div>
+                                
+                            </div>
+                        </div>    
+                         <div class="card col-md-2" style="margin: 10px;">
+                            <div class="row">
+                                <div>
+                                    <h3><%= Float.to_string(@total_charges, decimals: 2)%></h3>
+                                    <small>Total Charges</small>
+                                
+                                </div>
+                                
+                            </div>
+                        </div>    
+                         <div class="card col-md-2"  style="margin: 10px;">
+                            <div class="row">
+                                <div >
+                                    <h3><%=Float.to_string(@total_balance, decimals: 2)%></h3>
+                                    <small>Balance</small>
+                                
+                                </div>
+                                
+                            </div>
+                        </div>    
+                </div>
+                <hr>
+                <h4>Requests</h4>
+                <%= if is_nil(@transaction_requests) do %>
+                    <p> No requests </p>
+                <% else %>
+                    <%= for transaction_request <- @transaction_requests do %>
+                    <div class="row">   
+                            <div class="card col-md-2" style="margin: 10px;" >
+                                <h3><%=   Calendar.Strftime.strftime!(transaction_request.inserted_at, "%B %e,  %Y") %> </h3>
+                                <small> Date </small>
+                            </div>
+                            
+                            <div class="card col-md-2" style="margin: 10px;">
+                                <h3><%= Float.to_string(transaction_request.amount_payable, decimals: 2)%> </h3>
+                                <small> Total Payable </small>
+                            </div>
+                             <div class="card col-md-2" style="margin: 10px;" >
+                                <h3><%= Float.to_string(transaction_request.amount,  decimals: 2)%> </h3>
+                                <small> Total  Requested </small>
+                            </div>
+                            <div class="col-md-3 row" style="margin: 10px;">
+                                   <form method="POST" action="/admin/transaction/change/status/<%= transaction_request.id%>">
+                                    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+                                    <div class="form-group col-md-8">
+                                        <label>Change Status</label>
+                                        <select name = "status" id="status"  class="form-control"  onchange="this.form.submit()">
+                                            <option value="<%=transaction_request.status%>" disabled selected><%= transaction_request.status%></option>
+                                            <option value = "New">New</option>
+                                            <option value = "Processing">Processing</option>
+                                            <option value = "Sent"> Sent </option>
+                                            <option value = "Complete"> Complete </option>
+                                            <option value = "Paid"> Paid </option>
+                                            <option value = "Decline"> Decline </option>
+                                            
+                                        </select>               
+                                    </div>
+                                    </form>
+                                     <div class="col-md-4">
+                                        <a class="btn" href =  "/admin/pay/<%= transaction_request.id%>"> Pay Now </a>
+                                    </div>
+
+                            </div>
+                    </div>
+                    <%end%>
+                  
+                <%end%>
+        
+
+
+	<script type="text/javascript">
+    	$(document).ready(function(){
+
+        	demo.initChartist();
+
+        	$.notify({
+            	icon: 'pe-7s-gift',
+            	message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
+
+            },{
+                type: 'info',
+                timer: 4000
+            });
+
+    	});
+	</script>
+
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+

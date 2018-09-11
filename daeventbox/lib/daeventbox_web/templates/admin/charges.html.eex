@@ -1,0 +1,85 @@
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Charges</h4>
+                                <p class="category">Here are all charges </p>
+                                <button  type="" class="btn btn-info btn-fill pull-right" > <a href="/admin/charges/create" style="color: white;">Add + </a></button>
+                            </div>
+
+                        
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <th>Date Added</th>
+                                    	<th>Name</th>
+                                    	<th>Charge Amount</th>
+                                        <th>Type</th>
+                                        <th>Assigned To</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                    <%= for charge <- @charges do %>
+                                        <tr>
+                                            
+                                        	<td> <%=   Calendar.Strftime.strftime!(charge.inserted_at, "%B %e,  %Y") %></td>
+                                        	<td><%= charge.name%> </td>
+                                           
+                                        	<td> <%= if charge.type == "fixed" do %>
+                                                        $<%= charge.charges%>
+                                                 <%end%>
+                                                 <%= if charge.type == "percentage" do %>
+                                                        <%= charge.charges%>%
+                                                 <%end%>     
+                                            </td>
+                                            
+                                        	<td><%= charge.type %>
+                                             </td>
+                                            <td>
+                                                
+                                                <%=  charge.assigned_to %> 
+                                            </td>
+
+                                            <td> <%= charge.status%> </td>
+                                            <td>
+                                             <div class="dropdown col-md-2">
+                                            <div class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="pe-7s-more"></i>
+                                            </div>
+                                            <ul class="dropdown-menu">
+                                            <li><a href="/admin/charges/edit/<%= charge.id %>">Edit</a></li>
+                                            <li><a href="/admin/charges/delete/<%=charge.id%>">Delete</a></li>
+                                            </ul>
+                                            
+                                        </div>
+                                            </td>
+                                        </tr>
+                                       
+                                    <%end%>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                   
+
+                </div>
+       
+    
+        <script>
+        function myFunction() {
+            var x = document.getElementById("filterdiv");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+        </script>
+
+

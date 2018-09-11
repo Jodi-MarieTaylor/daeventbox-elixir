@@ -1,0 +1,457 @@
+<style>
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+.sidenav a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+.main {
+    margin: 30px; /* Same as the width of the sidenav */
+    height: 100%;
+    
+}
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+<div class="row">
+
+    <div class="sidenav  hide-on-med-and-down">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#your_event">Event</a>
+        
+        <a href="#ads"> Ads</a>
+        <a href="#attendees">Attendees</a> 
+        
+
+    </div>
+    <div class="main card s12 m9">
+          <div id="dashboard" style="padding: 10px;">
+            <h4 style="text-align: center;">Dashboard Analytics</h4>
+            <p style="text-align: center;">View Below How Your Event is Doing.</p>
+             <div class="row">
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content  green white-text">
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Purchasers</p>
+                            <h4 class="card-stats-number"><%= Enum.count(@registrationuser)%></h4>
+                            </p>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content  green white-text">
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> New Registrations This Week</p>
+                            <h4 class="card-stats-number"><%= Enum.count(@new_registrations)%></h4>
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="col s12 m6 l3">
+                    <div class="card">
+                        <div class="card-content  green white-text">
+                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Total Registrations</p>
+                            <h4 class="card-stats-number"><%= Enum.count(@registrations)%></h4>
+                            </p>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="col s12 m6 l3">
+                    <div class="card" href="/event/earnings/<% @event.id %>">
+                        <div class="card-content  green white-text" >
+                            <p><i class="mdi-social-group-add"></i> Current Earnings</p>
+                            <h4 class="card-stats-number"> 
+                            
+                                 $0.00
+                           
+                            </h4>
+                            
+                            </a>
+                        </div>
+                    
+                    </div>
+                </div>
+
+            </div>
+          
+            <div class="row container">
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content purple white-text">
+                            <div class="row">
+                                <div class="left">
+                                    <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Views</p>
+                                    <h4 class="card-stats-number"><%= Enum.count(@views)%></h4>
+                                    </p>
+                                </div>
+                                <div class="right">
+                                    <img src="https://i.pinimg.com/originals/5d/0c/d6/5d0cd65acbf955128cade2d92cf41725.png" width="100" height="100" alt="Eyes">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>       
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content purple white-text">
+                            <div class="row">
+                                <div class="left">
+                                    <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Ratings</p>
+                                    <h4 class="card-stats-number"><%=@overall_rating%> </h4>
+                                    </p>
+                                </div>
+                                <div class="right">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/BlackStar.PNG" width="100" height="100" alt="Eyes">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>        
+                        
+                <div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-content purple white-text">
+                            <div class="row">
+                                <div class="left">
+                                    <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Likes</p>
+                                    <h4 class="card-stats-number"><%= Enum.count(@likes)%></h4>
+                                    </p>
+                                </div>
+                                <div class="right">
+                                    <img src="http://cdn.onlinewebfonts.com/svg/img_424919.png" width="100" height="100" alt="Eyes">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>             
+            </div>
+            <div class="row container" >
+                <div class="col s12 m6">
+                    <h6> COMMENTS </h6>
+                    <ul id="profile-page-about-details" class="collection z-depth-1">
+                    <%= if Enum.count(@comments) > 0 do %>
+                        <%= for comment <- @comments do %>
+                            <li class="collection-item">
+                                <div class="row">
+                                <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> <%=Calendar.Strftime.strftime!(comment.inserted_at, "%B %e,  %Y")%> </div>
+                                <div class="col s7 grey-text text-darken-4 right-align"> <%= comment.message %></div>
+                                </div>
+                            </li>
+                        <%end%>
+                    <%end%>
+                    <%= if Enum.count(@comments) == 0 do %>
+                        <li class="collection-item">
+                                <div class="row">
+                                <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i>No Comment Yet To Preview </div>
+                                </div>
+                        </li>
+                    <%end%>
+                    </ul>
+                </div>
+                <div class="col s12 m6">
+                    <h6> ANNOUNCEMENTS </h6>
+                    <ul id="profile-page-about-details" class="collection z-depth-1">
+                    <%= for notification <- @notifications do %>
+                        <li class="collection-item">
+                            <div class="row">
+                            <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> <%=Calendar.Strftime.strftime!(notification.inserted_at, "%B %e,  %Y")%></div>
+                            <div class="col s7 grey-text text-darken-4 right-align"><%=notification.message%></div>
+                            </div>
+                        </li>
+                    <%end%>
+                    <li class="collection-item">
+                        <div class="row">
+                        <div class="col s5 grey-text darken-1"><i class="mdi-social-cake"></i> Add New Announcement</div>
+                        <form action="/facilitator/add/announcement/<%= @event.id %>/<%= @facilitator.id %>" method="POST">
+                                <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+
+                            <input id="message" name="message" type="text" class = "active validate" required>
+                                <button class="modal-trigger btn-small waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+                                    Add 
+                                </button>
+                        </form>
+                        
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr>
+        </div>
+        <div id="your_event" style="padding: 40px;">
+        
+            <h4 style="text-align: center;"> Your Event </h4>
+            <p style="text-align: center;"> What do you want to do with your event? </p>
+            <div class="row" style="width: 100%; ">
+                <div class="col s12 m9 center" style="width: 100%; ">
+                    <ul id="profile-page-about-details" class="collection z-depth-1">
+                        <li class="collection-item">
+                            <div class="row">
+                            <div class="col s5 grey-text darken-1 left-align "><i class="mdi-action-wallet-travel"></i> Edit Event</div>
+                            <div class="col s7 grey-text text-darken-4 right-align"> <a href="/event/edit/<%=@event.id%>"><i class="material-icons">arrow_forward_ios</i></a></div>
+                            </div>
+                        </li>
+                        <li class="collection-item">
+                            <div class="row">
+                            <div class="col s5 grey-text darken-1 left-align"><i class="mdi-social-poll"></i> View Event</div>
+                            <div class="col s7 grey-text text-darken-4 right-align"><a href="/event/details/<%=@event.id%>"><i class="material-icons">arrow_forward_ios</i></a></div>
+                            </div>
+                        </li>
+                         <li class="collection-item">
+                            <div class="row">
+                            <div class="col s5 grey-text darken-1 left-align"><i class="mdi-social-poll"></i> Cancel Event</div>
+                            <div class="col s7 grey-text text-darken-4 right-align"><a href="/event/delete/<%=@event.id%>" onclick="return confirm('Are you sure you would like to cancel this event?');" ><i class="material-icons">arrow_forward_ios</i></a></div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <hr>
+        </div>
+        
+        <div id="attendees" style="padding: 40px;">
+             <h4 style="text-align: center;"> Attendees </h4>
+            <p style="text-align: center;"> Manage Your Attendees From Here </p>
+            <a href="/facilitator/export/<%= @event.id %>" class="btn  waves-effect waves-light darken-2 right"> Export To Excel </a>
+            <!--<a href="/event/register/" class="btn  waves-effect waves-light darken-2 right"> Export to CSV </a> -->
+
+            <p style="text-align: left; margin: 0 0 0 0px;"><b> Orders This Week </b> </p>
+            <p style="text-align: left; margin: 0 0 0 0px;">(<i> To View All Attendees Select Export to Excel </i>) </p>
+            <div class="row">
+                <table class = "responsive-table">
+                    <thead>
+                        <tr>
+                            <th>Purchaser </th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th> Contact </th>
+                            <th>Date</th>
+                            <th> Type </th>
+                            <th> Price </th>
+                        </tr>
+                    </thead>
+                     <tbody>
+                    
+                       <%= for registration <- @registrations do %>
+                        
+                                <tr>
+                                    <td> <% user = Daeventbox.Repo.get!(Daeventbox.User, registration.user_id)%> <%=user.firstname%> <%=user.lastname%> </td>
+                                    <td><%=  Enum.at(registration.persons_details, 0)["first_name"]%> <%=  Enum.at(registration.persons_details, 0)["last_name"]%></td>
+                                    <td><%=  Enum.at(registration.persons_details, 0)["email"]%></td>
+                                    <td><%=  Enum.at(registration.persons_details, 0)["contact"]%></td>
+                                    <td><%= registration.inserted_at%></td>
+                                    <td> <% rd = Daeventbox.Repo.get_by(Daeventbox.Registrationdetails, id: registration.registrationdetails_id)%> <%= rd.name%></td>
+                                    <td> Free </td>
+                                </tr>                  
+
+                        <% end %>
+                      
+                    </tbody>
+                </table>
+                 <%= if Enum.count(@registrations)  == 0 do %>
+                      <p style="margin: 0 0 0 20px;"> No Persons Have Registered For This Event </p>  
+                 <%end%>
+            </div>
+            <hr>
+        </div>
+       <div id="ads" style="padding: 40px;">
+            
+            <h4 style="text-align: center;"> ADs </h4>
+            <p style="text-align: center;"> Promote Your Event Now </p>
+            <!--
+            <div class="  text-center center" >
+                <button class="btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" >   
+                    CREATE YOUR AD NOW
+                </button>            
+            </div> 
+            -->
+            <a href="/ad/select/<%= @event.id %>" class="btn  waves-effect waves-light darken-2 right"> CREATE YOUR AD NOW </a>
+            
+            <br>
+            <h6 style="margin: 0 0 0 20px;"> <b> Your ADs </b></h6>
+                 <%= if Enum.count(@ads) == 0 do %>
+                <div >
+                      <p style="margin: 10px 0 0 20px;"> No Ads For This Event </p>  
+                </div>
+                <%end%>
+                <%= if Enum.count(@ads) > 0 do %>
+
+                    <%= for ad <- @ads do %>
+                        <div class="card ">
+                            <div class="row">
+                                <div class="col s12 m12 l5">
+                                <a href="#five!"><img witdh="200" height="200" src="<%= Enum.at(ad, 7)%>" style="width: 350px; height:200px;"></a>
+                                </div>
+                                <div class="col  s12 m12 l5"> 
+                                    <h6> Name: <b><%= Enum.at(ad, 0)%></b></h6>
+                                    <p> Event: <b> <%= Enum.at(ad, 1)%> </b></p>
+                                    <p> Purchased On:  <b><%= Enum.at(ad, 2)%> </b></p>
+
+                                    <p> Total Days : <b><%= Enum.at(ad, 4)%> Days</b> </p>
+                                    <p> Days Remaining: <b> <% time_in_secs =   NaiveDateTime.diff(NaiveDateTime.utc_now, Enum.at(ad, 2)) %> <%=Float.to_string( Enum.at(ad, 4) -(time_in_secs / 84400), decimals: 0)%>  Days</b>  </p>
+                                    
+                                </div>
+                                <div class="col  s12 m12 l2">
+                                    <h6> Position: <b><%= Enum.at(ad, 3)%></b></h6>
+                                    <h6> Price: <%= CurrencyFormatter.format( Float.to_string( Enum.at(ad, 5), decimals: 2) |> String.replace(".", "") |> String.to_integer, "JMD", disambiguate: true) %>  </h3>
+
+                                    <!-- <p><i class="material-icons">edit</i>  Edit Now </p> -->
+                                    <a href="/ad/delete/<%= Enum.at(ad, 6)%>" onclick="return confirm('Are you sure you would like to delete this AD? you will not be refunded for days lost.');" ><i class="material-icons">delete</i>  Delete/Cancel </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    <%end%>
+                <%end%>
+            </div>
+          
+        </div>
+     
+    </div>
+     
+</div>
+  
+
+<!--
+<div style=" background-color:#484f5b; margin: 0 auto;" > 
+    <h3 style=" font-size:30px;  color:white; " class="center-align">DASHBOARD FOR  </h3>
+</div>
+<div class="card " style= "width: 100% ; padding: 30px; margin: 0 auto;">
+<div class="row right">
+    <a href= "/event/create/ad" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Create An Ad NOW</a>
+    <a href= "/event/edit" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Edit Your Event</a>
+    <a href= "/event/view" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>View Your Event</a>
+    <a href= "/event/view" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Go back</a>
+</div>
+<br>
+  
+    <div id="card-stats">
+        <div class="row">
+            <div class="col s12 m6 l3">
+                <div class="card">
+                    <div class="card-content  green white-text">
+                        <p class="card-stats-title"><i class="mdi-social-group-add"></i> New Attendees</p>
+                        <h4 class="card-stats-number">566</h4>
+                        <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
+                        </p>
+                    </div>
+                    <div class="card-action  green darken-2">
+                        <div id="clients-bar"><canvas width="290" height="25" style="display: inline-block; width: 290px; height: 25px; vertical-align: top;"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="card">
+                    <div class="card-content pink lighten-2 white-text">
+                        <p class="card-stats-title"><i class="mdi-editor-insert-drive-file"></i>Total Attendees</p>
+                        <h4 class="card-stats-number">1806</h4>
+                        <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-down"></i> 3% <span class="deep-purple-text text-lighten-5">from last month</span>
+                        </p>
+                    </div>
+                    <div class="card-action  pink darken-2">
+                        <div id="invoice-line"><canvas width="323" height="25" style="display: inline-block; width: 323px; height: 25px; vertical-align: top;"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="card">
+                    <div class="card-content purple white-text">
+                        <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Total Sales</p>
+                        <h4 class="card-stats-number">$8990.63</h4>
+                        <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 70% <span class="purple-text text-lighten-5">last month</span>
+                        </p>
+                    </div>
+                    <div class="card-action purple darken-2">
+                        <div id="sales-compositebar"><canvas width="286" height="25" style="display: inline-block; width: 286px; height: 25px; vertical-align: top;"></canvas></div>
+                    </div>
+                </div>
+            </div>                            
+            <div class="col s12 m6 l3">
+                <div class="card">
+                    <div class="card-content blue-grey white-text">
+                        <p class="card-stats-title"><i class="mdi-action-trending-up"></i> Current Payout</p>
+                        <h4 class="card-stats-number">$806.52</h4>
+                        <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 80% <span class="blue-grey-text text-lighten-5">from yesterday</span>
+                        </p>
+                    </div>
+                    <div class="card-action blue-grey darken-2">
+                        <div id="profit-tristate"><canvas width="290" height="25" style="display: inline-block; width: 290px; height: 25px; vertical-align: top;"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+   
+    <div id="card-stats">
+        <div class="row">
+            <div class="col s12 m6 l3">
+                <div class="card">
+                    <div class="card-content  green white-text">
+                        <p class="card-stats-title"><i class="mdi-social-group-add"></i> Views</p>
+                        <h4 class="card-stats-number">566</h4>
+                        <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 15% <span class="green-text text-lighten-5">from yesterday</span>
+                        </p>
+                    </div>
+                    <div class="card-action  green darken-2">
+                        <div id="clients-bar"><canvas width="290" height="25" style="display: inline-block; width: 290px; height: 25px; vertical-align: top;"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="card">
+                    <div class="card-content pink lighten-2 white-text">
+                        <p class="card-stats-title"><i class="mdi-editor-insert-drive-file"></i>Likes</p>
+                        <h4 class="card-stats-number">1806</h4>
+                        <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-down"></i> 3% <span class="deep-purple-text text-lighten-5">from last month</span>
+                        </p>
+                    </div>
+                    <div class="card-action  pink darken-2">
+                        <div id="invoice-line"><canvas width="323" height="25" style="display: inline-block; width: 323px; height: 25px; vertical-align: top;"></canvas></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6 l3">
+                <div class="card">
+                    <div class="card-content purple white-text">
+                        <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Ratings</p>
+                        <h4 class="card-stats-number">$8990.63</h4>
+                        <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i> 70% <span class="purple-text text-lighten-5">last month</span>
+                        </p>
+                    </div>
+                    <div class="card-action purple darken-2">
+                        <div id="sales-compositebar"><canvas width="286" height="25" style="display: inline-block; width: 286px; height: 25px; vertical-align: top;"></canvas></div>
+                    </div>
+                </div>
+            </div>                            
+           
+            
+            
+        </div>
+    </div>
+</div>
+--><>

@@ -1,0 +1,108 @@
+
+
+
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Create Facilitator</h4>
+                    </div>
+                    <div class="content">
+                        <form action="/admin/facilitator/create" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Facilitator Name</label>
+                                        <input type="text" class="form-control" name="name" placeholder="Company" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Contact Name</label>
+                                        <input type="text" class="form-control" name="contactname" placeholder="Contact" >
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="email" class="form-control" name="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input type="text" class="form-control" name="phone " placeholder="Phone">
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" class="form-control" name="address" placeholder="Home Address" >
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>About</label>
+                                        <textarea rows="5" class="form-control" name="about" placeholder="Here can be your description" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5> Connections </h5>
+                            <hr>
+                                <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Website Url</label>
+                                        <input type="text" class="form-control" name="website" placeholder="Website Url" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Facebook Url</label>
+                                        <input type="text" class="form-control" name="facebook" placeholder="Facebook Url" >
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Instagram Url</label>
+                                        <input type="text" class="form-control" name="instagram" placeholder="Instagram Url" >
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Twitter Url</label>
+                                        <input type="number" class="form-control" name="twitter" placeholder="Twitter Url">
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="custom-file">
+                                <label class="custom-file-label" name="file" for="validatedCustomFile">Profile Picture</label>
+
+                                <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-fill pull-right">Create Facilitator</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+    

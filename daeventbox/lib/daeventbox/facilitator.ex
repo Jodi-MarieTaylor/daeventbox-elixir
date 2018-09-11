@@ -20,6 +20,7 @@ defmodule Daeventbox.Facilitator do
     field :role, :string
     field :twitter_link, :string
     field :type, :string
+    field :website_link, :string
     field :user_id, :integer
 
     timestamps()
@@ -28,7 +29,7 @@ defmodule Daeventbox.Facilitator do
   @doc false
   def changeset(facilitator, attrs) do
     facilitator
-    |> cast(attrs, [:user_id, :meta1, :meta2, :type, :role, :name, :about, :fb_link, :insta_link, :twitter_link, :image, :image_url, :facilitator_email, :facilitator_phone, :facilitator_address, :facilitator_contact, :facilitator_zid])
+    |> cast(attrs, [:user_id, :meta1, :meta2, :type, :role, :name, :about, :fb_link, :insta_link, :twitter_link, :image, :image_url, :facilitator_email, :facilitator_phone, :facilitator_address, :facilitator_contact, :facilitator_zid, :website_link])
     |> validate_required([:user_id, :name, :facilitator_zid])
   end
 end

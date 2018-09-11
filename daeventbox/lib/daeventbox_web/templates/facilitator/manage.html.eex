@@ -1,0 +1,138 @@
+
+   
+<style>
+.none {
+    display:none;
+}
+
+.bgimg {
+    background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/vector-design-background-banner-png-11.jpg');
+}
+.bgimg h3 .title{
+  font-family: "Roboto";   color: red;   text-transform: uppercase;   line-height: 0.101;   text-shadow: 0px 7px 0px rgba(20, 37, 73, 0.21);   -moz-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -webkit-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   -ms-transform: matrix( 0.66884350466372,0,0,0.66884350466372,0,0);   position: absolute;   left: 1038.639px;   top: 867.007px;   z-index: 3;
+}
+.headtab {
+  background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/80046376-d749-414e-90b3-0254d2082399.png");
+   background-repeat: no-repeat;
+		   background-position: center center;
+		   background-size: cover;
+}   
+</style>
+
+<div class="card headtab" style="width: 100%; color: white;">
+    <div class="row">
+        <div class ="col s12 m3"  style="padding: 10px;">
+            <h4 style="color: white;">Manage Your Events</h4>
+            
+
+            
+        </div>
+      
+        <div class="right hide-on-med-and-down " style="  width: 50%; padding-right: 0px;"> 
+          <form action="/facilitator/manage/search/events">
+           
+            <div  class ="col s12 m4 l6 ">
+                
+                    <div class="input-field">
+                
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <input name="title" id="search" type="search"  required>
+                    </div>
+            
+            </div>
+             <div  class ="col s12 m2 l3" style="padding-top: 20px;">
+                <button data-target="" class=" btn waves-effect waves-light btn btn-simple btn-primary btn-small" type="submit" name="submit">
+                Search
+                </button>
+            </div>
+        </form>
+        <div  class ="col s12 m2 l3  " style="padding-top: 20px;">
+            <a class="waves-effect waves-light btn btn-small" href="/facilitator/manage/">Reset</a>
+        </div>
+      
+        </div>
+
+        
+    </div>
+</div>
+<div class="row center container">
+        <a href= "/facilitator/profile" ><h4><%= @facilitator.name %></h4></a>
+
+           
+</div>
+<div class="card container" style="width: 90%; margin: 30px auto; background-color: light-grey;">
+   <div class="center row  ">
+       <!-- <div class="col s12  m12 " >
+            <div class="row" id="topbarsearch">
+                <div class="col s12 center-align">
+                    <ul class="tabs center-align" style="background-color: #1d1d1d !important; margin: 0 auto;">
+                        <li class="tab col s3"><a href="#test1">Upcoming Events</a></li>
+                        <li class="tab col s3"><a class="active" href="#test2">Past Events</a></li>
+                        <li class="tab col s3 disabled"><a href="#test3">All Events</a></li>
+                    </ul>
+                </div>
+           
+            </div>
+        </div>
+        -->
+        <div class="col s12 m12">
+            <a class="waves-effect waves-light btn modal-trigger pull-right" href="/event/create">Create Event</a>
+            <br>
+            <br>
+            <%= if is_nil(@events) or Enum.count(@events) == 0 do %>
+                <p> No Events </p>
+            <% end %>
+            <%= if !is_nil(@events)  and Enum.count(@events) > 0 do %>
+                <table class = "  responsive-table" id="myTable">
+                    <thead>
+                        <tr>
+                            <th class=" hide-on-med-and-down">Image</th>
+                            <th>Name</th>
+                            <th>Date Created </th>
+                            <th>Event Date</th>
+                            <th>Type</th>
+                            <th> Status </th>
+                        </tr>
+                    </thead>
+                     <tbody>
+                        <%= for event <- @events do %>
+                        
+                                <tr>
+                                    <td class=" hide-on-med-and-down"> <img style="width: 70px;" src="<%=event.image_url %>"> </td>
+                                    <td><a href="/facilitator/event/dashboard/<%=event.title%>/<%= event.id %>" style="text-transform: capitalize;"><%=event.title%></a></td>
+                                    <td><%=Calendar.Strftime.strftime!(event.inserted_at, "%B %e,  %Y")%></td>
+                                    <td><%=Calendar.Strftime.strftime!(event.start_date, "%B %e,  %Y")%></td>
+                                    <td style="text-transform: capitalize;"><%=event.admission_type%></td>
+                                    <td style="text-transform: capitalize;"><%=event.status%></td>
+                                    <td><a href="/event/delete/<%=event.id%>" onclick="return confirm('Are you sure you would like to cancel this event?');" ><i class="material-icons">delete</i> </a>
+                                    <a href="/facilitator/event/dashboard/<%=event.title%>/<%= event.id %>"><i class="material-icons">dashboard</i> </a>
+                                    <a href="/event/edit/<%=event.id%>">   <i class="material-icons">edit</i> </a> </td>
+                                </tr>                  
+
+                        <% end %>
+                        </tbody>
+                </table>
+
+            <%end%>
+            <div class="col l12 right ">
+	    <span class="left" ></span>
+            <ul class="pagination pager" id="myPager"></ul>
+          </div>
+        </div>
+    </div>      
+</div>
+<!--
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>-->
+    <script type="text/javascript" src="https://cdn.rawgit.com/pinzon1992/materialize_table_pagination/f9a8478f/js/pagination.js"></script>
+   
+<script>
+ $('#myTable').pageMe({
+    pagerSelector:'#myPager',
+    activeColor: 'pink',
+    prevText:'Anterior',
+    nextText:'Siguiente',
+    showPrevNext:true,
+    hidePageNumbers:false,
+    perPage: 5
+  });
+</script>

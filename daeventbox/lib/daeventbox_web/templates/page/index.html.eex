@@ -1,35 +1,330 @@
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
-</div>
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="https://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
-  </div>
+<style>
+    .slantedDivA{
+      position: relative;
+      width: 100%;
+      height: 600px;
+      /*background-image: url("https://resize.fleeksite.com/flow/2666x1067/https://image.ibb.co/kY1xeJ/webdev_01.png");*/
+      background-image: url("https://s3.us-east-2.amazonaws.com/daeventboximages/homepagebg.png");
+       background-repeat: no-repeat;
+        background-size: cover;
+        border-top: solid thin transparent;
+        margin-bottom: 0px;
+    }
 
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
-  </div>
+    /*.slantedDivA:after{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      content: '';
+      background: inherit;
+      z-index: -1;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transform-origin: top right;
+      transform: skewY(-4deg);
+    }*/
+     .slantedDivB{
+      position: relative;
+      width: 100%;
+       background-color: #f2f2f2;
+      
+      
+    }
+
+    /*.slantedDivB:after{
+      position: absolute;
+      width: 100%;
+       background: inherit;
+      height: 100%;
+      content: '';
+      z-index: -1;
+      top: 300;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transform-origin: bottom right;
+      transform: skewY(4deg);
+    }
+    */
+    .pandn {
+        background-image: url("https://images6.alphacoders.com/438/438444.jpg");
+    }
+    @media only screen and (max-width: 600px) {
+   
+    .headz{
+        width: 100%
+    }
+    }
+    @media only screen and (min-width: 600px) {
+   
+    .headz img{
+        width: 50%
+    }
+    
+    .headz {
+        width: 50%
+    }
+    
+    }
+}
+</style>
+
+
+<div class="slantedDivA"> 
+            <img class="headz" style=" display: block; margin-left: auto;   margin-right: auto; margin-top: 40px;" src="https://s3.us-east-2.amazonaws.com/daeventboximages/dream+weekend+image.jpg" alt="Smiley face" height="280" width="600">
+
+            <div class="card headz" style="   margin: 20px  auto; ">
+                <div class="row">
+                   <form action="/event/search" method="get">
+                   
+                    <div class=" col s12 m4 l3">
+                    <input id="search" name="title" type="text" placeholder="Search for Event" style="" >
+
+                    </div>
+                    <div class="col s12 m4 l3" >
+                    
+                    <select name = "parish">
+                        <option  value = "" disabled selected>Select Location</option>
+                        <option value = "Kingston">Kingston</option>
+                        <option value = "St. Andrew">St. Andrew</option>
+                        <option value = "St. Catherine">St. Catherine</option>
+                        <option value = "Clarendon">Clarendon</option>
+                        <option value = "St. Ann">St. Ann</option>
+                        <option value = "St. Thomas">St. Thomas</option>
+                        <option value = "St. James">St. James</option>
+                        <option value = "St. Mary">St. Mary</option>
+                        <option value = "Trelawny">Trelawny</option>
+                        <option value = "Westmoreland">Westmoreland</option>
+                        <option value = "Hanover">Hanover</option>
+                        <option value = "Portland">Portland</option>
+                        <option value = "St.Elizabeth">St.Elizabeth</option>
+                        <option value = "Manchester">Portland</option>
+                    </select>               
+                </div>
+                <div class=" col s12 m3 l3"  >
+                    <input id="datep" type="text" name="date" placeholder="Select Date" class="datepicker">
+                </div>
+                
+                <button class=" pull-right btn-small waves-effect waves-light btn btn-simple btn-primary " style="margin-top: 10px; margin-right: 10px;" type="submit" name="submit">
+                    Search
+                    </button>
+                </form>
+                </div>
+               <!-- <div class="row">
+                    <label>Parish</label>
+                    <select name = "parish">
+                        <option  value = "" disabled selected>Select Parish</option>
+                        <option value = "Kingston">Kingston</option>
+                        <option value = "St. Andrew">St. Andrew</option>
+                        <option value = "St. Catherine">St. Catherine</option>
+                        <option value = "Clarendon">Clarendon</option>
+                        <option value = "St. Ann">St. Ann</option>
+                        <option value = "St. Thomas">St. Thomas</option>
+                        <option value = "St. James">St. James</option>
+                        <option value = "St. Mary">St. Mary</option>
+                        <option value = "Trelawny">Trelawny</option>
+                        <option value = "Westmoreland">Westmoreland</option>
+                        <option value = "Hanover">Hanover</option>
+                        <option value = "Portland">Portland</option>
+                        <option value = "St.Elizabeth">St.Elizabeth</option>
+                        <option value = "Manchester">Portland</option>
+                    </select>               
+                </div>
+                <div class="row">
+                    <label for="datep">Select Date</label>
+                    <input id="datep" type="text" class="datepicker">
+                </div>
+                <div class=" footer text-center" style="margin: 0 auto;">
+            <button data-target="modal1" class="modal-trigger pull-right btn-small waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
+              Search
+            </button>-->
+       </div>
+
+         
+
+        
+    </div>
 </div>
+
+<div class="featureEvents" style="margin-top: 0px;">
+     <h4 class="center" style="margin-top: 0px;">
+         <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+          Trending Events
+        <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+     </h4>
+
+    <div class="col s12 m2">
+                   <!--
+                    <div class="carousel" style="padding-top: 0px !important; height: 400px;">
+                        <%= for ad <- @ads do %>
+                            <div class="carousel-item card " style="width: 400px !important;">  
+                                <a href="#three!"><img witdh="400" height="200" src="<%=ad.image_url%>" ></a>
+                            
+                            </div>
+                        <%end%>
+                        
+                    </div>-->
+                    <div class="carousel saved " style="padding-top: 0px !important; height: 400px;"><a>
+                         <%= for event <- @events do %>
+                        <div class="carousel-item card" style=" width:350px !important; height: 380px  !important; ">  
+                            <div class="card-image">
+                                <a href="#three!"><img src="<%=event.image_url%>" style=" width: 350px !important; height: 250px !important; "></a>
+                                <span class="card-title "></span>
+                            </div>
+                            <div class="card-content">
+                                <p class="truncate" style="text-transform: capitalize; font-size: 25px;" >   <%= event.title %> </p>
+
+                                <p style="font-size: 16px;">  <%= Calendar.Strftime.strftime!(event.start_date, "%B %e,  %Y") %> </p>
+
+                                    <a href="/event/details/<%= event.id %>" class="btn  waves-effect waves-light darken-2 pull-right" style="font-size: 17px;"> Details </a>
+                                
+                            </div>
+                            
+                        </div>
+                        <%end%>
+                    </div>    
+
+                    
+        <div class="col s12 center">
+            <button class="prev z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-left fa-lg grey-text text-lighten-3"></i></button>
+            <button class="next z-depth-0 btn white btn-flat center"><i class="fa fa-chevron-right fa-lg grey-text text-lighten-1"></i></button>
+        </div>
+            </div>
+        </div>  
+</div>
+
+<br>
+<br>
+<div class="slantedDivB"> 
+     <h4 class="center" style="margin-top: 10px;">
+         <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+          Latest Events
+        <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+     </h4>
+
+    <div class="row container">
+        <div class="col s12 m12 l12" >
+            
+            
+            <div class="row">
+                <%= for event <- @latest_events do %>
+                    <div class="col s12 m4 ">
+                    <div class="card">
+                        <div class="card-image">
+                        <!--<img src="https://i.ytimg.com/vi/nTHIMJCRUKI/maxresdefault.jpg">-->
+                        <img src="https://jodipodi.resize.fleeksite.com/flow/600x564/<%= event.image_url %>" style="height: 200px">
+                        <span class="card-title "></span>
+                        </div>
+                        <div class="card-content">
+                        <p class="truncate" style="font-size: 20px;"> <%= event.title %> </p>
+                        <p style="font-size: 14px;"> <%= event.start_date %>  </p>
+                        <a href="/event/details/<%=event.id %>" class="btn  waves-effect waves-light darken-2 right" style="font-size: 17px;"> Details </a>
+                        
+                        </div>
+                    
+                    </div>
+                    </div>
+                <%end%>
+             </div>
+          
+        </div>
+        </div>
+    </div>
+    
+</div>
+<div>
+    <h4 class="center" style="margin-top: 10px;">
+         <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+          Categories
+        <i class="material-icons" style="color: #4dc9ff; ">remove</i> 
+     </h4>
+
+    <div class=" container" style="margin: 0 auto;  " >
+         <div class = "row " style="color: white; margin: 0px; " >
+            <a href="/event/search?category=Parties and Nightlife" class="col s12 m6 l6 pandn card " style="height: 100px !important; background-image: url('https://jamaicadreamweekend.com/jm/wp-content/uploads/2014/08/Dream-party.jpg'); " >
+                <h5 style="text-align: center; margin: 40px auto; color: white;"> Parties and Nightlife </h5>
+
+            </a>
+             <a href="/event/search?category=Concerts and Live Performances" class="col s12 m6 l6  card" style=" height: 100px !important; background-image: url('http://beaveronthebeats.com/wp-content/uploads/2013/07/Beres-Hammond-@-Reggae-Sumfest-2013-International-Night-1-Beaver-on-the-Beats-e1375206478987.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Concerts and Live Performances </h5>
+                
+            </a>
+         </div> 
+          <div class = "row " style="color: white; margin: 0px; " >
+            <a href="/event/search?category=Seminars and Conferences"  class="col s12 m6 l4 pandn card " style="height: 150px !important;  background-image: url('http://plantandmicrobiology.berkeley.edu/sites/default/files/styles/featured/public/seminar_0.jpg?itok=GbM0dEcY');" >
+                <h5 style="text-align: center; margin: 40px auto;  color: white;"> Seminars and Conferences </h5>
+
+            </a>
+             <a href="/event/search?category=Sports and Leisure"  class="col s12 m6 l4  card" style="   height: 150px !important; background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEuCQ_F4lm5L2gMEcoOHfzL1jA4RRXLfhoEU6P2fOjRQ4p8s8q1w');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Sports and Leisure </h5>
+                
+            </a>
+             <a href="/event/search?category=Business and Exhibitions"  class="col s12 m6 l4  card" style="  height: 150px !important; background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzH2KyWqTfPyL5E9pa2M28fsPULMZIv2KVsU0Otw8iRUiV7tyEgA');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Business and Exhibitions </h5>
+                
+            </a>
+         </div> 
+         <div class = "row " style="color: white; margin: 0px;  " >
+            <a href="/event/search?category=Fairs and Festivals" class="col s12 m6 l4 pandn card " style="  height: 150px !important;  background-image: url('https://www.my-island-jamaica.com/images/independence-in-jamaica-events-activities-21737817.jpg');" >
+                <h5 style="text-align: center; margin: 40px auto;  color: white;"> Fairs and Festivals </h5>
+
+            </a>
+             <a href="/event/search?category=Celebrations" class="col s12 m6 l4  card" style="   height: 150px !important; background-image: url('https://cdn.shopify.com/s/files/1/0267/0241/products/CPT_Key_Art_600x600_995b3c1d-e1b6-4091-b65e-cfb9c1bcad6c_grande.jpg?v=1517251369');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Celebrations </h5>
+                
+            </a>
+             <a href="/event/search?category=Fund Raisers and Galas" class="col s12 m6 l4  card" style="  height: 150px !important; background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkpns0Pb-hxHFYVuJiq1a6FOKZvSn7W0TflvuolczLQTzUajPy');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Fund Raisers and Galas </h5>
+                
+            </a>
+         </div> 
+          <div class = "row " style="color: white; margin: 0px; " >
+            <a href="/event/search?category=Private Lessons" class="col s12 m6 l4 pandn card " style="  height: 150px !important;  background-image: url('http://jamaica-gleaner.com/sites/default/files/styles/jg_article_image/public/media/article_images/2017/01/18/customsb20170118ng.jpg?itok=kMDtQvOI'); " >
+                <h5 style="text-align: center; margin: 40px auto;  color: white;"> Private Lessons</h5>
+
+            </a>
+             <a href="/event/search?category=Clubs and Societies" class="col s12 m6 l4  card" style="height: 150px !important; background-image: url('https://4.bp.blogspot.com/-HXIXcf_QZMA/V756CWe8goI/AAAAAAAAAWo/NFk15Zu4kJIlxuW27jxAgspRI7EsjGr7ACLcB/s1600/usu.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Clubs and Societies  </h5>
+                
+            </a>
+            <a href="/event/search?category=Miscellaneous" class="col s12 m6 l4  card" style="height: 150px !important; background-image: url('https://c1.staticflickr.com/4/3455/3272079115_2b85933dc6_b.jpg');">
+                <h5 style="text-align: center; margin: 40px auto;  color: white;">  Miscellaneous </h5>
+                
+            </a>
+         </div> 
+
+    </div>
+</div>
+
+   
+
+<script>
+$('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false, // Close upon selecting a date,
+    format: 'yyyy-mm-dd'
+  });
+  $('.carousel').carousel({
+        padding: 500
+    });
+    
+    
+$('.next').click(function() {
+ $('.carousel.saved').carousel('next');
+});
+$('.prev').click(function() {
+ $('.carousel.saved').carousel('prev');
+});
+  
+    autoplay()   
+    function autoplay() {
+        $('.carousel').carousel('next');
+        setTimeout(autoplay, 4500);
+    }
+</script>

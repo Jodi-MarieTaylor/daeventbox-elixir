@@ -1,0 +1,111 @@
+
+    <div class="row">
+     <div class="header" style="margin-top: 0px;">
+            <h4 class="title"  style="margin-top: 0px;">ADs Settings</h4>
+        </div>
+
+        <%= for option <- @options do %>
+            <div class="col-md-6">
+                <div class="card">
+
+                    <div class="header">
+                        <h4 class="title">Option</h4>
+                    </div>
+
+                    <div class="content">
+                        <form action="/admin/ads/settings/options/edit/<%=option.id%>" method="POST">
+                            <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Position:</label>
+                                        <input type="text" class="form-control" name="position" value = "<%= option.position%>" disabled>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input type="text" name="title" class="form-control" value="<%= option.name %>">
+                                    </div>
+                                </div>
+                            
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Maximum Days</label>
+                                        <input type="number" name="max_days" class="form-control" value="<%= option.max_days %>">
+                                    </div>
+                                </div>
+                            
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Price:</label>
+                                        <input type="number" step="0.01" name="price" class="form-control" value="<%= option.price %>">
+                                    </div>
+                                </div>
+                            
+                                
+                            </div>
+                            <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Size</label>
+                                        <input type="text" name="size" class="form-control" value="<%= option.size %>">
+                                    </div>
+                                </div>
+                            
+
+                            <div class="col-md-8">
+                                    <p> Type: </p>
+                                    <div class="form-group">
+                                        <%= if option.type == "internal" do %>
+                                            <label class="radio-inline"><input type="radio" name="type" value="internal" checked>Internal</label>
+                                            <label class="radio-inline"><input type="radio" name="type" value="external">External</label>
+                                        <%end%>
+                                            <%= if option.type == "external" do %>
+                                            <label class="radio-inline"><input type="radio" name="type" value="internal" >Internal</label>
+                                            <label class="radio-inline"><input type="radio" name="type" value="external"checked>External</label>
+                                        <%end%>
+                                    </div>  
+                            
+                            </div>
+                            <div class="col-md-8">
+                                    <p> Status: </p>
+                                    <div class="form-group">
+                                        <%= if option.status == "enabled" do %>
+                                            <label class="radio-inline"><input type="radio" name="status" value="enabled" checked>Enable</label>
+                                            <label class="radio-inline"><input type="radio" name="status" value="disabled">Disable</label>
+                                        <%end%>
+                                            <%= if option.status == "disabled" do %>
+                                            <label class="radio-inline"><input type="radio" name="status" value="enabled" >Enable</label>
+                                            <label class="radio-inline"><input type="radio" name="status" value="disabled"checked>Disbale</label>
+                                        <%end%>
+                                    </div>  
+                            
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Description:</label>
+                                        <textarea rows="10" name="description" class="form-control" placeholder="Here can be your message" ><%=option.description %></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-fill pull-left">Submit</button>
+
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <%end%>
+    </div>

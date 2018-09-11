@@ -1,0 +1,336 @@
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Create Event</h4>
+                            </div>
+                            <div class="content">
+                                <form method="POST"  action="/event/create"  >
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label >Event Title</label>
+                                                <input  id="title" name="title" type="text"  value="<%= @event.title%>" class = "active validate form-control" required>
+        
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="facilitator_name">Facilitator Name</label>
+                                                <input id="facilitator_name" name="facilitator_name" value="<%=@facilitator.name%>" type="text" class = "form-control active validate" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Category</label>
+                                                <select name = "category"  class="form-control">
+                                                    <option value="<%=@event.category%>" disabled selected><%=@event.category%></option>
+                                                    <option value = "Business and Exhibitions">Business and Exhibitions</option>
+                                                    <option value = "Celebrations">Celebrations</option>
+                                                    <option value = "Clubs and Societies">Clubs and Societies</option>
+                                                    <option value = "Concerts and Live Performances">Concerts and Live Performances</option>
+                                                    <option value = "Fairs and Festivals">Fairs and Festivals</option>
+                                                    <option value = "Fundraisers and Galas">Fundraisers and Galas</option>
+                                                    <option value = "Parties and Nightlife">Parties and Nightlife</option>
+                                                    <option value = "Private Lessons">Private Lessons</option>
+                                                    <option value = "Seminars and Conferences">Seminars and Conferences</option>
+                                                    <option value = "Sports and Leisure">Sports and Leisure</option>
+                                                    <option value = "Miscellaneous">Miscellaneous</option>
+                                                </select>               
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="start_date">Start Date</label>              
+                                                <input id="start_date" value="<%=@event.start_date%>" name="start_date" type = "date" class = "form-control datepicker" />    
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="end_date"> End Date</label>              
+                                                <input id="end_date" name="end_date" value="<%=@event.end_date%>"  type = "date" class = "form-control datepicker" />    
+                                            </div>
+                                        </div>
+                                         <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="start_time">Start Time</label>              
+                                                <input  id="start_time" name="start_time" value="<%=Calendar.Time.Format.iso8601(@event.start_time)%>" type = "time" class = "form-control timepicker" />    
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="end_time">End Time</label>              
+                                                <input id="end_time" name="end_time" value="<%=Calendar.Time.Format.iso8601(@event.end_time)%>"  type = "time" class = "form-control timepicker" />   
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                     <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <textarea rows="5" class="form-control" name="description" placeholder="Here can be your description" ><%=@event.description%></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="custom-file">
+                                        <label class="custom-file-label" name="file" for="validatedCustomFile">Event Main Picture</label>
+
+                                        <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                                    </div>
+                                    <h5> Venue Location  </h5>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="venue_name">Venue Name</label>
+                                                <input  id="venue_name" name="venue_name" value="<%=@event.venue_name%>" type="text" class="validate form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="address1">Address 1</label>
+                                                <input id="address1" name="address1" type="text" value="<%= @event.location_info["address1"]%>"  class="validate form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                               
+                                                <label for="address2">Address 2</label>
+                                                <input id="address2" name="address2" value="<%= @event.location_info["address2"]%>" type="text" class="validate form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Parish</label>
+                                                <select name = "parish" class="form-control">
+                                                    <option  value="<%= @event.location_info["parish"]%>" disabled selected><%= @event.location_info["parish"]%></option>
+                                                    <option value = "Kingston">Kingston</option>
+                                                    <option value = "St. Andrew">St. Andrew</option>
+                                                    <option value = "St. Catherine">St. Catherine</option>
+                                                    <option value = "Clarendon">Clarendon</option>
+                                                    <option value = "St. Ann">St. Ann</option>
+                                                    <option value = "St. Thomas">St. Thomas</option>
+                                                    <option value = "St. James">St. James</option>
+                                                    <option value = "St. Mary">St. Mary</option>
+                                                    <option value = "Trelawny">Trelawny</option>
+                                                    <option value = "Westmoreland">Westmoreland</option>
+                                                    <option value = "Hanover">Hanover</option>
+                                                    <option value = "Portland">Portland</option>
+                                                    <option value = "St.Elizabeth">St.Elizabeth</option>
+                                                    <option value = "Manchester">Portland</option>
+                                                </select>               
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+
+                                   
+
+                                   
+                                    <h5> Connections </h5>
+                                    <hr>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Facebook Url</label>
+                                                <input type="text" class="form-control" value="<%=@event.fb_link%>" name="facebook" placeholder="Facebook Url" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Instagram Url</label>
+                                                <input type="text" class="form-control" value="<%=@event.insta_link%>" name="instagram" placeholder="Instagram Url" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Twitter Url</label>
+                                                <input type="text" class="form-control" value="<%=@event.twitter_link%>" name="twitter" placeholder="Twitter Url">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h5> Other Details </h5>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class = "input-field col s12 ">
+                                                    <p>     Event Type </p>
+                                                    <%=if @event.type == "paid" do %>
+                                                        <label class="radio-inline"><input type="radio" name="type" value="paid" disabled checked>Paid</label>
+                                                        <label class="radio-inline"><input type="radio" name="type" value="free" disabled>Free</label>
+                                                    <%end%>
+                                                   <%=if @event.type == "free" do %>
+                                                        <label class="radio-inline"><input type="radio" name="type" value="paid" disabled >Paid</label>
+                                                        <label class="radio-inline"><input type="radio" name="type" value="free" disabled checked>Free</label>
+                                                    <%end%>
+    
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <div class = "input-field col s12 ">
+                                                    <p> Admission Type </p>
+                                                    <%= if @event.admission_type == "registration" do %>
+                                                        <label class="radio-inline"><input type="radio" name="admission_type" value="registration" class="registration" checked disabled>Registration</label>
+                                                        <label class="radio-inline"><input type="radio" name="admission_type" value="ticket" class="ticket" >Ticket</label>
+                                                    <%end%>
+                                                    <%= if @event.admission_type == "ticket" do %>
+                                                        <label class="radio-inline"><input type="radio" name="admission_type" value="registration" class="registration" disabled>Registration</label>
+                                                        <label class="radio-inline"><input type="radio" name="admission_type" value="ticket" class="ticket" checked disabled>Ticket</label>
+                                                    <%end%>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <%= if @event.admission_type == "ticket" do %>
+                                    <div id="ticket" >
+                                        <%= for ticket_detail <- @ticket_details do %>
+                                        <div class="row">
+                                        
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="ticket_name">Ticket Name</label>
+                                                    <input  id="ticket_name" value="<%= ticket_detail.name %>" name="ticket1_name" placeholder="Early Bird, VIP, General" type="text"  class = "form-control " disabled >
+                            
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="quantity">Quantity</label>
+                                                    <input id="quantity" name="ticket1_quantity" value="<%= ticket_detail.max_quantity %>" type="number" class = " form-control " disabled >
+                            
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="price">Price</label>
+                                                    <input id="price" name="ticket1_price" type="number" value="<%= ticket_detail.price %>" step="0.01" class = "form-control " disabled >
+                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <%end%>
+                                       
+                                    </div>
+                                    <%end%>
+                                    <%= if @event.admission_type == "registration" do  %>
+                                    
+                                    <div id="registration"  >
+                                        <%= for registration_detail <- @registration_details do %>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="regristration_name">Registration Name</label>
+                                                    <input id="registration_name" value="<%= registration_detail.name %>" name="registration_name" type="text" class = "form-control active validate">
+                           
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="regristration_quantity">Quantity</label>
+                                                    <input id="registration_quantity" value="<%= registration_detail.max_quantity %>" name="registration_quantity" type="number" class = "form-control active validate">
+                            
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="registration_price">Price(0.00 if free)</label>
+                                                    <input id="registration_price" value="<%= registration_detail.price %>" name="registration_price" type="number" step="0.01" class = "form-control active validate" >
+                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <%end%>
+                                    </div>
+                                    <%end%>
+                                     <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+                                    <button type="submit" class="btn btn-info btn-fill pull-right">Update Event</button>
+                                    <div class="clearfix"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-md-4">
+                        <div class="card card-user">
+                            <div class="image">
+                                <img  src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..."/>
+                            </div>
+                            <div class="content">
+                                <div class="author">
+                                     <a href="#">
+                                    <img class="avatar border-gray" src="<%= @event.image_url %>" alt="..."/>
+
+                                      <h4 class="title"><%= @event.title %><br />
+                                         <small><%= @facilitator.name %></small>
+                                      </h4>
+                                    </a>
+                                </div>
+                                <p class="description text-center"> <%=   Calendar.Strftime.strftime!(@event.inserted_at, "%B %e,  %Y") %> 
+                                </p>
+                                <p> Status: Active </p>
+                                <p> Attendees: <%= if @event.admission_type =="ticket" do %> <%= @tickets %> <%end%>
+                                 <%= if @event.admission_type =="registration" do %> <%= @registrations %> <%end%>
+                                </p>
+                                <a href="/admin/tickets/<%= @event.id%>"> Tickets:  </a>  <%= @tickets %> <br>
+                                <a href="/admin/registrations/<%= @event.id%>"> Registrations:   </a>  <%=  @registrations%>   <br>                             
+                                
+                                <a href="/admin/ads/<%= @event.id%>"> Ads: </a>  <%= @ads%>
+                               
+                                <br>
+                                <br>
+                                <br>
+
+                                <button class="btn btn-info  pull-center"><a href="/admin/event/delete/<%= @event.id %>"> Remove Event </a></button>
+                                <button class="btn btn-info  pull-center"><a href = "/admin/transaction/requests/payout/<%= @event.id %>">View Payout</a></button>
+
+                                
+                             </div>
+                            <hr>
+                            <div class="text-center">
+                                <button href="#" class="btn btn-simple"><i class="fa fa-envelope-square"></i></button>
+                                <button href="#" class="btn btn-simple"><i class="fa fa-instagram"></i></button>
+                                <button href="#" class="btn btn-simple"><i class="fa fa-facebook-square"></i></button>
+                                <button href="#" class="btn btn-simple"><i class="fa fa-twitter"></i></button>
+                                <button href="#" class="btn btn-simple"><i class="fa fa-google-plus-square"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+           
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $(".ticket").click(function(){
+            $("#ticket").show();
+            $("#registration").hide();
+        });
+        $(".registration").click(function(){
+            $("#registration").show();
+            $("#ticket").hide();
+
+        });
+    });
+    </script>

@@ -27,17 +27,30 @@ login
 <div >
   <div class="row">
     <div width="100%">
-        <img src="https://preview.ibb.co/f6Fprn/logo_1.png" alt="logo_1" width="35%"  style=" display:table-cell; vertical-align:middle; text-align:center; margin: 0 auto;">  
+        <img src="https://preview.ibb.co/f6Fprn/logo_1.png" alt="logo_1" width="35%"  style=" display:table-cell; vertical-align:middle; text-align:center; margin: 0 auto;">
     </div>
 
-  <div class="card card-signup content" style="max-width: 60%; margin: 0 auto;" >
-    <form class="col s8"  method="POST">
+  <div class="card card-signup content col s10 m6 " style="float: none !important; margin: 0 auto;"  >
+    <form class="col s12"  method="POST">
       <br/>
-      <div  style="width: 80%; margin: 0 auto;" >
+      <div  style="width: 90%; margin: 0 auto;" >
       <h4 class="center-align">Welcome</h4>
       <p class="center-align">
         LOGIN NOW
       </p>
+       <%= if !is_nil(get_flash(@conn, :info) ) do %>
+		<div class="materialert success" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :info) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+
+        <%= if !is_nil(get_flash(@conn, :error) ) do %>
+		<div class="materialert error" id="materialert">
+		    <i class="material-icons">error</i> <span><%= get_flash(@conn, :error) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
       <br/>
       <div class="row">
         <div class="input-field col s12">
@@ -60,13 +73,21 @@ login
       </div>
       <div class="row">
         <div class="col s12 center-align">
-          <a href="/reset-password">Forgot password?</a>
+          <a href="/auth/facebook" class="waves-effect waves-light btn-large social facebook">
+        <i class="fa fa-facebook"></i> Sign in with facebook</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center-align">
+          <a href="/recover">Forgot password?</a>
         </div>
       </div>
        <div class="row">
         <div class="col s12 center-align">
-          <a href="/signup">Register Now!</a>
+          <a href="/register">Register Now!</a>
         </div>
+        <br>
+        <br>
       </div>
      </div>
     </form>
@@ -79,5 +100,5 @@ login
 <script>
 
 $("nav").hide()
-
+$(".new-footer").hide()
 </script>
