@@ -23,7 +23,8 @@
 }
 
 .main {
-    margin-left: 200px; /* Same as the width of the sidenav */
+     /* Same as the width of the sidenav  margin-left: 200px;*/
+     margin: 30px;
     height: 100%;
     
 }
@@ -36,7 +37,7 @@
 </style>
 <div class="row">
 
-    <div class="sidenav">
+    <div class="sidenav  hide-on-med-and-down">
         <a href="#dashboard">Dashboard</a>
         <a href="#your_event">Event</a>
         
@@ -46,7 +47,7 @@
 
     </div>
     <div class="main card s12 m9">
-        <div id="dashboard" style="padding: 42px;">
+        <div id="dashboard" style="padding: 10px;">
             <h4 style="text-align: center;">Dashboard Analytics</h4>
             <p style="text-align: center;">View Below How Your Event is Doing.</p>
             <div class="row">

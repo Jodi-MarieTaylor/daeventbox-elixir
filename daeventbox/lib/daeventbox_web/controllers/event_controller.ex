@@ -559,9 +559,13 @@ defmodule DaeventboxWeb.EventController do
     pages = Float.ceil(pages) |> Kernel.round
     events = Paginate.query(query, per_page, page)
     ads_query = from a in Ad, join: o in Option,  where: o.position == "side" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
-    ads = Repo.all(ads_query)
+    ads_side = Repo.all(ads_query)
+    ads_query = from a in Ad, join: o in Option,  where: o.position == "top" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
+    ads_top = Repo.all(ads_query)
+    ads_query = from a in Ad, join: o in Option,  where: o.position == "bottom" and a.status == "active" and a.option_id == o.id, select: [o.position, a.image_url]
+    ads_bottom = Repo.all(ads_query)
     news = Repo.all(from n in News, order_by: [desc: n.inserted_at], limit: 3)
-    render conn, "upcoming_events.html", events: events,ads: ads, news: news,  page_count: pages, page: page
+    render conn, "upcoming_events.html", events: events,ads_side: ads_side, news: news,  page_count: pages, page: page, ads_bottom: ads_bottom, ads_top: ads_top
   end
 
   def facilitators(conn, params) do

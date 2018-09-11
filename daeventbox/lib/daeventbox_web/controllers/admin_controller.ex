@@ -22,6 +22,8 @@ defmodule DaeventboxWeb.AdminController do
   alias Daeventbox.Notification
   alias Daeventbox.Announcement
   alias Daeventbox.Complaints
+  alias Daeventbox.ClosedAccount
+  alias Daeventbox.Inquiry
   alias Daeventbox.Option
   alias Daeventbox.SiteContent
 
@@ -29,38 +31,50 @@ defmodule DaeventboxWeb.AdminController do
     IO.puts "IN THE ADMIN CONTROLLER BOUT TA RENDER LOGIN"
     conn
     |> put_layout(:false)
+
     |> render("login.html")
   end
 
     #process login
   def signin(conn, %{"email" => email, "password" => password} = params) do
-    case Daeventbox.Auth.login_by_email_and_pass(conn, String.trim(String.downcase(email)), password) do
+    case Daeventbox.Auth.login_by_email_and_pass_admin(conn, String.trim(String.downcase(email)), password) do
       {:ok, conn} ->
         IO.inspect conn.assigns
         user = conn.assigns[:current_user]
         time_in_secs_from_now = 86400 * 90
         conn
-          |> delete_resp_cookie("daeventboxuser")
-          |> delete_resp_cookie("daeventboxuser")
-          |> put_resp_cookie("daeventboxuser", user.zid, max_age: time_in_secs_from_now)
-          |> put_resp_cookie("daeventboxmode", "Guest", max_age: time_in_secs_from_now)
+          |> delete_resp_cookie("daeventboxadmin")
+          |> delete_resp_cookie("daeventboxadmin")
+          |> put_resp_cookie("daeventboxadmin", user.zid, max_age: time_in_secs_from_now)
 
           |> put_flash(:info, "Logged in")
-          |> redirect(to: "/admin?p=facilitators"  )
+          |> redirect(to: "/admin/facilitators"  )
       {:error, reason, conn} ->
         IO.inspect reason
         case reason do
           :unauthorized ->
               conn
                 |> put_flash(:error, "Bad Credentials")
-                |> redirect(to: "/login")
+                |> redirect(to: "/admin/login")
           :not_found ->
               conn
                 |> put_flash(:error, "User does not exist")
-                |> redirect(to: "/login")
+                |> redirect(to: "/admin/login")
         end
     end
   end
+
+
+    #logout user
+    def logout(conn, _) do
+      conn
+      |> Daeventbox.Auth.logout
+      |> Plug.Conn.clear_session
+      |> delete_resp_cookie("daeventboxadmin")
+      |> delete_resp_cookie("daeventboxadmin")
+
+      |> redirect(to: "/admin/login"  )
+    end
 
   def event_details(conn, params) do
     event = Repo.get_by(Event, id: params["id"])
@@ -72,7 +86,7 @@ defmodule DaeventboxWeb.AdminController do
     registration_details = Repo.all(from re in Registrationdetails, where: re.event_id == ^event.id)
 
     conn
-    |> put_layout(:false)
+
     |> render "event-details.html",ticket_details: ticket_details,registration_details: registration_details,  event: event, facilitator: facilitator, registrations: registrations, tickets: tickets, ads: ads
   end
 
@@ -81,16 +95,21 @@ defmodule DaeventboxWeb.AdminController do
     total_facilitators = Repo.all(from f in Facilitator) |> Enum.count
     total_users = Repo.all(from u in User) |> Enum.count
     total_registrations = Repo.all(from r in Registration)|> Enum.count
+
+    total_paid_registrations = Repo.all(from r in Registration, join: re in Registrationdetails, where: r.registrationdetails_id == re.id and re.type == "paid")|> Enum.count
     total_tickets = Repo.all(from t in Ticket) |> Enum.count
-    total_paid_transactions = total_tickets + total_registrations
+    total_paid_transactions = total_tickets + total_paid_registrations
     # clicks = Repo.all(from a in Action, where: a.action == "click")  |> Enum.count
     # opens = Repo.all(from a in Action, where: o.action == "open") |> Enum.count
     visits = Repo.all(from a in Action, where: a.action == "visit" ) |> Enum.count
     events = Repo.all(from e in Event, order_by: [desc: e.inserted_at], limit: 10)
     facilitators = Repo.all(from f in Facilitator, order_by: [desc: f.inserted_at], limit: 10)
+
+    closed_accounts = Repo.all(from c in ClosedAccount, where: fragment(" ? > now() - interval '1 month'",c.inserted_at))|> Enum.count
+    opened_accounts = Repo.all(from u in User, where: fragment(" ? > now() - interval '1 month'", u.inserted_at))|> Enum.count
     conn
-    |> put_layout(:false)
-    |> render "admin-dashboard.html",events: events, facilitators: facilitators, total_events: total_events, total_facilitators: total_facilitators, total_users: total_users,  total_paid_transactions: total_paid_transactions, visits: visits
+
+    |> render "admin-dashboard.html", opened_accounts: opened_accounts, closed_accounts: closed_accounts, events: events, facilitators: facilitators, total_events: total_events, total_facilitators: total_facilitators, total_users: total_users,  total_paid_transactions: total_paid_transactions, visits: visits
 
   end
 
@@ -116,7 +135,7 @@ defmodule DaeventboxWeb.AdminController do
         events = Repo.all(from e in Event, order_by: [desc: e.inserted_at], limit: 10)
         facilitators = Repo.all(from f in Facilitator, order_by: [desc: f.inserted_at], limit: 10)
         conn
-        |> put_layout(:false)
+
         |> render "admin-dashboard.html",events: events, facilitators: facilitators, total_events: total_events, total_facilitators: total_facilitators, total_users: total_users,  total_paid_transactions: total_paid_transactions, visits: visits
       params["p"] == "facilitators" ->
         facilitators(conn, params)
@@ -129,7 +148,7 @@ defmodule DaeventboxWeb.AdminController do
       true ->
         conn
 
-        |> put_layout(:false)
+
         |> render "#{params["p"]}.html"
 
     end
@@ -149,7 +168,7 @@ defmodule DaeventboxWeb.AdminController do
      true ->
         events = Repo.all(from e in Event)
         conn
-        |> put_layout(:false)
+
         |> render "events.html", events: events
 
     end
@@ -238,14 +257,14 @@ defmodule DaeventboxWeb.AdminController do
         {:error, changeset} ->
             IO.inspect changeset
              conn
-            |> put_layout(:false)
+
             |> put_flash(:info, "Event created successfully.")
             |> render "create-event.html", changeset: changeset, params: params
 
       end
       events = Repo.all(from e in Event)
       conn
-      |> put_layout(:false)
+
       |> put_flash(:info, "Event created successfully.")
       |> render "events.html", events: events
       # Webapp.Mailer.send_welcome_email(user.email)
@@ -255,7 +274,7 @@ defmodule DaeventboxWeb.AdminController do
   end
   def create_event_view(conn, params) do
     conn
-      |> put_layout(:false)
+
       |> render "create-event.html"
   end
 
@@ -284,7 +303,7 @@ defmodule DaeventboxWeb.AdminController do
         events = Repo.all(from e in Event)
     end
     conn
-    |> put_layout(:false)
+
     |> render "events.html", events: events
   end
 
@@ -319,7 +338,6 @@ defmodule DaeventboxWeb.AdminController do
     else
       facilitators = Repo.all(from f in Facilitator)
       conn
-      |> put_layout(:false)
       |> render "facilitators.html", facilitators: facilitators
 
     end
@@ -361,14 +379,14 @@ defmodule DaeventboxWeb.AdminController do
           facilitators = Repo.all(query)
      end
     conn
-    |> put_layout(:false)
+
     |> render "facilitators.html", facilitators: facilitators
   end
   def user(conn, params) do
     IO.puts "PROMPT"
     conn
 
-    |> put_layout(:false)
+
     |> render "user.html"
   end
 
@@ -382,14 +400,14 @@ defmodule DaeventboxWeb.AdminController do
     case Repo.insert(changeset) do
       {:ok, _facilitator} ->
         conn
-        |> put_layout(:false)
+
         |> put_flash(:info, "Event updated successfully.")
         |> redirect(to: "/admin?facilitators")
 
       {:error, changeset} ->
         IO.inspect changeset
         conn
-        |> put_layout(:false)
+
         |> put_flash(:error, "Oops error! Please try again")
         |> redirect( to: "/admin?p=create-facilitator")
     end
@@ -399,7 +417,7 @@ defmodule DaeventboxWeb.AdminController do
   def view_facilitator(conn, params) do
     facilitator = Repo.get_by(Facilitator,id: params["i"])
     conn
-    |> put_layout(:false)
+
     |> render "view-facilitator.html", facilitator: facilitator
   end
 
@@ -409,14 +427,14 @@ defmodule DaeventboxWeb.AdminController do
       case Repo.delete(facilitator) do
         {:ok, _facilitator} ->
           conn
-          |> put_layout(:false)
+
           |> put_flash(:info, "Deleted Successfully")
           |> redirect(to: "/admin?p=facilitators")
 
         {:error, changeset} ->
           IO.inspect changeset
           conn
-          |> put_layout(:false)
+
           |> put_flash(:error, "Oops error! Please try again")
           |> render "view-facilitator.html", facilitator: facilitator
       end
@@ -433,7 +451,7 @@ defmodule DaeventboxWeb.AdminController do
     tickets = Repo.all(from t in Ticket, where: t.event_id == ^params["event_id"])
     ticket_details = Repo.all(from ti in Ticketdetail, where: ti.event_id == ^params["event_id"])
     conn
-    |> put_layout(:false)
+
     |> render "tickets.html", tickets: tickets, event: event, ticket_details: ticket_details
 
   end
@@ -466,7 +484,7 @@ defmodule DaeventboxWeb.AdminController do
         tickets = Repo.all(from t in Ticket, where: t.event_id == ^params["event_id"])
      end
     conn
-    |> put_layout(:false)
+
     |> render "tickets.html", tickets: tickets, event: event, ticket_details: ticket_details
 
   end
@@ -478,7 +496,7 @@ defmodule DaeventboxWeb.AdminController do
     registrations = Repo.all(from r in Registration, where: r.event_id == ^params["event_id"])
     registration_details = Repo.all(from re in Registrationdetails, where: re.event_id == ^params["event_id"])
     conn
-    |> put_layout(:false)
+
     |> render "registrations.html", registrations: registrations, event: event,registration_details: registration_details
 
   end
@@ -488,14 +506,14 @@ defmodule DaeventboxWeb.AdminController do
     registrations = Repo.all(from r in Registration, where: r.event_id == ^params["event_id"])
     registration_details = Repo.all(from re in Registrationdetails, where: re.event_id == ^params["event_id"])
     conn
-    |> put_layout(:false)
+
     |> render "registrations.html", registrations: registrations, event: event,registration_details: registration_details
 
   end
 
   def email(conn, params) do
     conn
-    |> put_layout(:false)
+
     |> render "email.html"
 
   end
@@ -507,12 +525,12 @@ defmodule DaeventboxWeb.AdminController do
       ads = Repo.all(from a in Ad, where: a.event_id == ^params["event_id"])
       event = Repo.get!(Event, params["event_id"])
       conn
-      |> put_layout(:false)
+
       |> render "ads.html", ads: ads, options: options, event: event
     else
       ads = Repo.all(from a in Ad)
       conn
-      |> put_layout(:false)
+
       |> render "all_ads.html", ads: ads, options: options
     end
   end
@@ -547,7 +565,7 @@ defmodule DaeventboxWeb.AdminController do
           ads = Repo.all(query)
        end
        conn
-        |> put_layout(:false)
+
         |> render "ads.html", ads: ads, options: options, event: event
     else
        cond do
@@ -576,7 +594,7 @@ defmodule DaeventboxWeb.AdminController do
           ads = Repo.all(query)
        end
       conn
-      |> put_layout(:false)
+
       |> render "all_ads.html", ads: ads, options: options
     end
   end
@@ -584,7 +602,7 @@ defmodule DaeventboxWeb.AdminController do
   def faqs(conn, params) do
     faqs = Repo.all(from f in Faq)
     conn
-    |> put_layout(:false)
+
     |> render "faqs.html", faqs: faqs
   end
 
@@ -597,7 +615,7 @@ defmodule DaeventboxWeb.AdminController do
       end
     faqs = Repo.all(from f in Faq)
     conn
-    |> put_layout(:false)
+
     |> redirect(to: "/admin/faqs")
   end
 
@@ -605,20 +623,20 @@ defmodule DaeventboxWeb.AdminController do
     faq = Repo.get!(Faq, params["faq_id"])
     Repo.delete!(faq)
     conn
-    |> put_layout(:false)
+
     |> redirect(to: "/admin/faqs")
   end
 
   def news(conn, params) do
     news_list = Repo.all(from n in News)
     conn
-    |> put_layout(:false)
+
     |> render "news.html", news_list: news_list
 
   end
   def add_news(conn, params) do
     conn
-    |> put_layout(:false)
+
     |> render "add_news.html"
   end
 
@@ -633,14 +651,14 @@ defmodule DaeventboxWeb.AdminController do
     case Repo.insert(changeset) do
       {:ok, news} ->
         conn
-        |> put_layout(:false)
+
         |> put_flash(:info, "News Item successfully added.")
         |> redirect(to: "/admin/news")
 
       {:error, changeset} ->
         IO.inspect changeset
         conn
-        |> put_layout(:false)
+
         |> put_flash(:error, "Oops error! Please try again")
         |> redirect( to: "/admin/news")
     end
@@ -651,7 +669,7 @@ defmodule DaeventboxWeb.AdminController do
     news= Repo.get!(News, params["news_id"])
     Repo.delete!(news)
     conn
-    |> put_layout(:false)
+
     |> put_flash(:info, "News Item successfully deleted.")
     |> redirect(to: "/admin/news")
 
@@ -660,7 +678,8 @@ defmodule DaeventboxWeb.AdminController do
   def edit_aboutus(conn, params) do
 
     conn
-    |> put_layout(:false)
+
+
     |> render "about-us.html"
   end
 
@@ -679,14 +698,14 @@ defmodule DaeventboxWeb.AdminController do
       case Repo.insert(changeset) do
         {:ok, content} ->
           conn
-          |> put_layout(:false)
+
           |> put_flash(:info, "About Us Item successfully added.")
           |> redirect(to: "/admin/aboutus/edit")
 
         {:error, changeset} ->
           IO.inspect changeset
           conn
-          |> put_layout(:false)
+
           |> put_flash(:error, "Oops error! Please try again")
           |> redirect( to: "/admin/aboutus/edit")
       end
@@ -697,7 +716,7 @@ defmodule DaeventboxWeb.AdminController do
   def edit_contactus(conn, params) do
 
     conn
-    |> put_layout(:false)
+
     |> render "contact-us.html"
 
   end
@@ -719,14 +738,14 @@ defmodule DaeventboxWeb.AdminController do
       case Repo.insert(changeset) do
         {:ok, content} ->
           conn
-          |> put_layout(:false)
+
           |> put_flash(:info, "About Us Item successfully added.")
           |> redirect(to: "/admin/contactus/edit")
 
         {:error, changeset} ->
           IO.inspect changeset
           conn
-          |> put_layout(:false)
+
           |> put_flash(:error, "Oops error! Please try again")
           |> redirect( to: "/admin/contactus/edit")
       end
@@ -739,7 +758,7 @@ defmodule DaeventboxWeb.AdminController do
     events = Repo.all(from e in Event, where: e.facilitator_id == ^facilitator.id)
     transaction_requests = Repo.all(from t in TransactionRequest, where: t.facilitator_id == ^facilitator.id)
     conn
-      |> put_layout(:false)
+
       |> render "transactions.html", facilitator: facilitator, events: events, transaction_requests: transaction_requests
   end
   def transactions_all(conn, params) do
@@ -747,7 +766,7 @@ defmodule DaeventboxWeb.AdminController do
     events = Repo.all(from e in Event)
     transaction_requests = Repo.all(from t in TransactionRequest)
     conn
-      |> put_layout(:false)
+
       |> render "transactions.html", facilitator: nil,  events: events, transaction_requests: transaction_requests
   end
 
@@ -782,20 +801,20 @@ defmodule DaeventboxWeb.AdminController do
     total_balance = total_earnings - total_charges - total_recieved
     total_paid = total_recieved
     conn
-    |> put_layout(:false)
+
     |> render "payout.html", event: event, facilitator: facilitator, transaction_requests: transaction_requests, total_paid_transactions: total_paid_transactions, total_paid: total_paid, total_earnings: total_earnings, total_charges: total_charges, total_balance: total_balance
   end
 
   def charges(conn, params) do
     charges = Repo.all( from c in Charge)
     conn
-    |> put_layout(:false)
+
     |> render "charges.html", charges: charges
   end
 
   def create_charge(conn, params) do
     conn
-    |> put_layout(:false)
+
     |> render "create_charge.html"
   end
 
@@ -812,7 +831,7 @@ defmodule DaeventboxWeb.AdminController do
   def edit_charge(conn, params) do
     charge = Repo.get_by(Charge, id: params["charge_id"])
     conn
-    |> put_layout(:false)
+
     |> render  "edit_charge.html", charge: charge
 
   end
@@ -864,12 +883,12 @@ defmodule DaeventboxWeb.AdminController do
   def announcements(conn, params) do
     announcements = Repo.all(from a in Announcement, where: a.from_id == 0)
     conn
-    |> put_layout(:false)
+
     |> render  "announcements.html", announcements: announcements
   end
   def create_announcement(conn, params) do
     conn
-    |> put_layout(:false)
+
     |> render  "create-announcement.html"
   end
   def add_announcement(conn,params) do
@@ -909,14 +928,14 @@ defmodule DaeventboxWeb.AdminController do
     read_notifications("Complaint")
     complaints = Repo.all(from c in Complaints)
     conn
-    |> put_layout(:false)
+
     |> render  "complaints.html", complaints: complaints
   end
 
   def ads_settings(conn, params) do
     options = Repo.all(from o in Option)
     conn
-    |> put_layout(:false)
+
     |> render  "ads_settings.html", options: options
   end
 
@@ -932,7 +951,145 @@ defmodule DaeventboxWeb.AdminController do
     end
 
   end
-   def convert_url(url) do
+
+  def message_inquiry(conn, params) do
+    read_notifications("Inquiry")
+    inquiries = Repo.all(from i in Daeventbox.Inquiry)
+    conn
+
+    |> render  "inquiries.html", inquiries: inquiries
+  end
+
+  def change_message_status(conn, params) do
+    inquiry = Repo.get!( Daeventbox.Inquiry, params["inquiry_id"])
+    changeset =  Daeventbox.Inquiry.changeset(inquiry, %{status: params["status"]})
+    case Repo.update changeset do
+      {:ok, struct}       -> redirect conn, to: "/admin/messages"
+      {:error, changeset} -> IO.inspect changeset
+    end
+  end
+
+  def reports( conn, params) do
+
+     # this week - total events, total facilitators, total users, total paid transactions, total complaints, total inquires, total registrations, total tickets bought
+     this_day_total_events =  Repo.all(from e in Event,  where: fragment(" ? > now() - interval '1 day'", e.inserted_at))|> Enum.count
+     this_day_total_facilitators =  Repo.all(from f in Facilitator,  where: fragment(" ? > now() - interval '1 day'", f.inserted_at))|> Enum.count
+     this_day_total_active_users =  Repo.all(from u in User,  where: is_nil(u.is_deleted) and  fragment(" ? > now() - interval '1 day'", u.inserted_at))|> Enum.count
+     this_day_total_inactive_users =  Repo.all(from u in User,  where: not is_nil(u.is_deleted) and fragment(" ? > now() - interval '1 day'", u.inserted_at))|> Enum.count
+
+     this_day_total_paid_registrations = Repo.all(from r in Registration, join: re in Registrationdetails, where: r.registrationdetails_id == re.id and re.type == "paid" and  fragment(" ? > now() - interval '1 day'", r.inserted_at))|> Enum.count
+     this_day_total_tickets = Repo.all(from t in Ticket, where:  fragment(" ? > now() - interval '1 day'", t.inserted_at)) |> Enum.count
+     this_day_total_registrations = Repo.all(from t in Registration, where:  fragment(" ? > now() - interval '1 day'", t.inserted_at)) |> Enum.count
+     this_day_total_paid_transactions = this_day_total_tickets + this_day_total_paid_registrations
+     this_day_total_complaints =  Repo.all(from c in Complaints,  where: fragment(" ? > now() - interval '1 day'", c.inserted_at))|> Enum.count
+     this_day_total_inquiries =  Repo.all(from i in Inquiry,  where: fragment(" ? > now() - interval '1 day'", i.inserted_at))|> Enum.count
+
+     this_day = %{}
+     this_day =
+     this_day
+     |> Map.put("events", this_day_total_events)
+     |> Map.put("facilitators", this_day_total_facilitators)
+     |> Map.put("active_users", this_day_total_active_users )
+     |> Map.put("inactive_users", this_day_total_inactive_users)
+     |> Map.put("paid_registrations", this_day_total_paid_registrations)
+     |> Map.put("tickets", this_day_total_tickets)
+     |> Map.put("registrations", this_day_total_registrations)
+     |> Map.put("paid_transactions", this_day_total_paid_transactions)
+     |> Map.put("complaints", this_day_total_complaints)
+     |> Map.put("inquiries", this_day_total_inquiries)
+     |> Map.put("sales", 0)
+
+    # this week - total events, total facilitators, total users, total paid transactions, total complaints, total inquires, total registrations, total tickets bought
+    this_week_total_events =  Repo.all(from e in Event,  where: fragment(" ? > now() - interval '1 week'", e.inserted_at))|> Enum.count
+    this_week_total_facilitators =  Repo.all(from f in Facilitator,  where: fragment(" ? > now() - interval '1 week'", f.inserted_at))|> Enum.count
+    this_week_total_active_users =  Repo.all(from u in User,  where: is_nil(u.is_deleted) and  fragment(" ? > now() - interval '1 week'", u.inserted_at))|> Enum.count
+    this_week_total_inactive_users =  Repo.all(from u in User,  where: not is_nil(u.is_deleted) and fragment(" ? > now() - interval '1 week'", u.inserted_at))|> Enum.count
+
+    this_week_total_paid_registrations = Repo.all(from r in Registration, join: re in Registrationdetails, where: r.registrationdetails_id == re.id and re.type == "paid" and  fragment(" ? > now() - interval '1 week'", r.inserted_at))|> Enum.count
+    this_week_total_tickets = Repo.all(from t in Ticket, where:  fragment(" ? > now() - interval '1 week'", t.inserted_at)) |> Enum.count
+    this_week_total_registrations = Repo.all(from t in Registration, where:  fragment(" ? > now() - interval '1 week'", t.inserted_at)) |> Enum.count
+    this_week_total_paid_transactions = this_week_total_tickets + this_week_total_paid_registrations
+    this_week_total_complaints =  Repo.all(from c in Complaints,  where: fragment(" ? > now() - interval '1 week'", c.inserted_at))|> Enum.count
+    this_week_total_inquiries =  Repo.all(from i in Inquiry,  where: fragment(" ? > now() - interval '1 week'", i.inserted_at))|> Enum.count
+
+    this_week = %{}
+    this_week =
+    this_week
+    |> Map.put("events", this_week_total_events)
+    |> Map.put("facilitators", this_week_total_facilitators)
+    |> Map.put("active_users", this_week_total_active_users )
+    |> Map.put("inactive_users", this_week_total_inactive_users)
+    |> Map.put("paid_registrations", this_week_total_paid_registrations)
+    |> Map.put("tickets", this_week_total_tickets)
+    |> Map.put("registrations", this_week_total_registrations)
+    |> Map.put("paid_transactions", this_week_total_paid_transactions)
+    |> Map.put("complaints", this_week_total_complaints)
+    |> Map.put("inquiries", this_week_total_inquiries)
+    |> Map.put("sales", 0)
+
+
+    # this month - total events, total facilitators, total users, total paid transactions, total complaints, total inquires, total registrations, total tickets bought
+    this_month_total_events =  Repo.all(from e in Event,  where: fragment(" ? > now() - interval '1 month'", e.inserted_at))|> Enum.count
+    this_month_total_facilitators =  Repo.all(from f in Facilitator,  where: fragment(" ? > now() - interval '1 month'", f.inserted_at))|> Enum.count
+    this_month_total_active_users =  Repo.all(from u in User,  where: is_nil(u.is_deleted) and  fragment(" ? > now() - interval '1 month'", u.inserted_at))|> Enum.count
+    this_month_total_inactive_users =  Repo.all(from u in User,  where:  not is_nil(u.is_deleted) and fragment(" ? > now() - interval '1 month'", u.inserted_at))|> Enum.count
+
+    this_month_total_paid_registrations = Repo.all(from r in Registration, join: re in Registrationdetails, where: r.registrationdetails_id == re.id and re.type == "paid" and  fragment(" ? > now() - interval '1 month'", r.inserted_at))|> Enum.count
+    this_month_total_tickets = Repo.all(from t in Ticket, where:  fragment(" ? > now() - interval '1 month'", t.inserted_at)) |> Enum.count
+    this_month_total_registrations = Repo.all(from t in Registration, where:  fragment(" ? > now() - interval '1 month'", t.inserted_at)) |> Enum.count
+    this_month_total_paid_transactions = this_month_total_tickets + this_month_total_paid_registrations
+    this_month_total_complaints =  Repo.all(from c in Complaints,  where: fragment(" ? > now() - interval '1 month'", c.inserted_at))|> Enum.count
+    this_month_total_inquiries =  Repo.all(from i in Inquiry,  where: fragment(" ? > now() - interval '1 month'", i.inserted_at))|> Enum.count
+
+    this_month = %{}
+    this_month =
+    this_month
+    |> Map.put("events", this_month_total_events)
+    |> Map.put("facilitators", this_month_total_facilitators)
+    |> Map.put("active_users", this_month_total_active_users )
+    |> Map.put("inactive_users", this_month_total_inactive_users)
+    |> Map.put("paid_registrations", this_month_total_paid_registrations)
+    |> Map.put("tickets", this_month_total_tickets)
+    |> Map.put("registrations", this_month_total_registrations)
+    |> Map.put("paid_transactions", this_month_total_paid_transactions)
+    |> Map.put("complaints", this_month_total_complaints)
+    |> Map.put("inquiries", this_month_total_inquiries)
+    |> Map.put("sales", 0)
+
+      # this month - total events, total facilitators, total users, total paid transactions, total complaints, total inquires, total registrations, total tickets bought
+      this_year_total_events =  Repo.all(from e in Event,  where: fragment(" ? > now() - interval '1 year'", e.inserted_at))|> Enum.count
+      this_year_total_facilitators =  Repo.all(from f in Facilitator,  where: fragment(" ? > now() - interval '1 year'", f.inserted_at))|> Enum.count
+      this_year_total_active_users =  Repo.all(from u in User,  where: is_nil(u.is_deleted) and  fragment(" ? > now() - interval '1 year'", u.inserted_at))|> Enum.count
+      this_year_total_inactive_users =  Repo.all(from u in User,  where:  not is_nil(u.is_deleted) and fragment(" ? > now() - interval '1 year'", u.inserted_at))|> Enum.count
+
+      this_year_total_paid_registrations = Repo.all(from r in Registration, join: re in Registrationdetails, where: r.registrationdetails_id == re.id and re.type == "paid" and  fragment(" ? > now() - interval '1 year'", r.inserted_at))|> Enum.count
+      this_year_total_tickets = Repo.all(from t in Ticket, where:  fragment(" ? > now() - interval '1 year'", t.inserted_at)) |> Enum.count
+      this_year_total_registrations = Repo.all(from t in Registration, where:  fragment(" ? > now() - interval '1 year'", t.inserted_at)) |> Enum.count
+      this_year_total_paid_transactions = this_year_total_tickets + this_year_total_paid_registrations
+      this_year_total_complaints =  Repo.all(from c in Complaints,  where: fragment(" ? > now() - interval '1 year'", c.inserted_at))|> Enum.count
+      this_year_total_inquiries =  Repo.all(from i in Inquiry,  where: fragment(" ? > now() - interval '1 year'", i.inserted_at))|> Enum.count
+
+      this_year = %{}
+      this_year =
+      this_year
+      |> Map.put("events", this_year_total_events)
+      |> Map.put("facilitators", this_year_total_facilitators)
+      |> Map.put("active_users", this_year_total_active_users )
+      |> Map.put("inactive_users", this_year_total_inactive_users)
+      |> Map.put("paid_registrations", this_year_total_paid_registrations)
+      |> Map.put("tickets", this_year_total_tickets)
+      |> Map.put("registrations", this_year_total_registrations)
+      |> Map.put("paid_transactions", this_year_total_paid_transactions)
+      |> Map.put("complaints", this_year_total_complaints)
+      |> Map.put("inquiries", this_year_total_inquiries)
+      |> Map.put("sales", 0)
+
+    conn
+
+    |> render "reports.html", this_week: this_week, this_month: this_month, this_day: this_day, this_year: this_year
+  end
+
+  def convert_url(url) do
     String.replace(url, "https://d1l54leyvskqrr.cloudfront.net", "https://s3.us-east-2.amazonaws.com/daeventboximages")
   end
 

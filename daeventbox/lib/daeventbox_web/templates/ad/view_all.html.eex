@@ -78,7 +78,7 @@
             </ul>
         </div>
         -->
-        <div class="right  " style="  width: 50%; padding-right: 0px;"> 
+        <div class="right   hide-on-med-and-down" style="  width: 50%; padding-right: 0px;"> 
      
         <form action="/ad/view/all/search/">
            
@@ -108,19 +108,19 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container"  >
     <%= if Enum.count(@ads) == 0 do %>
       <div style="height: 300px !important;">  
         <p>No ADs</p>
       </div>
     <%end%>
     <%= for ad <- @ads do %>
-    <div class="card ">
+    <div class="card " style="padding: 10px;">
         <div class="row">
             <div class="col s12 m5">
             <a href="#five!"><img witdh="200" height="200" src="<%= Enum.at(ad, 7)%>"></a>
             </div>
-            <div class="col s12 m5"> 
+            <div class="col s12 m5" style="padding: 10px;"> 
                 <h6> Name: <b><%= Enum.at(ad, 0)%></b></h6>
                 <p> Event: <b> <%= Enum.at(ad, 1)%> </b></p>
                 <p> Purchased On:  <b><%= Enum.at(ad, 2)%> </b></p>

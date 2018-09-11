@@ -63,7 +63,7 @@
             
                 <li>
                     <div class = "col s3 m3">
-                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                        <ul id = "nav-mobile" class = "right  hide-on-med-and-down">                   
                                 <!-- Dropdown Trigger -->
                                 <li><a class = "dropdown-button" href = "#!"
                                 data-activates = "alphabet-filter-dropdown" style="color: white;"> Order By<i class = "material-icons
@@ -74,10 +74,10 @@
                 </li>
                 <li>
                     <div class = "col s3 m3">
-                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                        <ul id = "nav-mobile" class = "right">                   
                                 <!-- Dropdown Trigger -->
                                 <li><a class = "dropdown-button" href = "#!"
-                                data-activates = "date-filter-dropdown" style="color: white;"> Filter by Date<i class = "material-icons
+                                data-activates = "date-filter-dropdown" style="color: white;"> Filter by the Date<i class = "material-icons
                                 right">arrow_drop_down</i></a></li>
                         </ul>    
             
@@ -85,7 +85,7 @@
                 </li>
                 <li>
                     <div class = "col s3 m3">
-                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                        <ul id = "nav-mobile" class = "right ">                   
                                 <!-- Dropdown Trigger -->
                                 <li><a class = "dropdown-button" href = "#!"
                                 data-activates = "popularity-filter-dropdown" style="color: white;"> Filter by Ratings<i class = "material-icons
@@ -96,10 +96,10 @@
                 </li>
                 <li>
                     <div class = "col s3 m3">
-                        <ul id = "nav-mobile" class = "right hide-on-med-and-down">                   
+                        <ul id = "nav-mobile" class = "right">                   
                                 <!-- Dropdown Trigger -->
                                 <li><a class = "dropdown-button" href = "#!"
-                                data-activates = "events-filter-dropdown" style="color: white;"> Filter by # of Events<i class = "material-icons
+                                data-activates = "events-filter-dropdown" style="color: white;"> Filter by Events<i class = "material-icons
                                 right">arrow_drop_down</i></a></li>
                         </ul>    
             
@@ -138,7 +138,6 @@
                                           <%= if  !is_nil(@user) && !is_nil(Daeventbox.Repo.get_by(Daeventbox.Follower,user_id: @user.id, facilitator_id: facilitator.id ) ) do %>
                                             <a href="/facilitator/unfollow/<%=facilitator.id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;  margin: 10px;"> Unfollow </a>
                                         <% end%>
-                                        <a href="/chat?fuid=<%=facilitator.user_id%>" class="btn  waves-effect waves-light darken-2 left" style="font-size: 17px;  margin: 10px;"> Contact </a>
                                        
 
                         </div>       
@@ -226,7 +225,7 @@
   <!-- Modal Trigger -->
 
   <!-- Modal Structure -->
-  <div id="modal1" class="modal">
+  <div id="modal2" class="modal">
     <div class="modal-content">
       <h4>Message Facilitator</h4>
      

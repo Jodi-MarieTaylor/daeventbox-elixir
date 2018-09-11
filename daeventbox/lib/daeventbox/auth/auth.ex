@@ -16,7 +16,20 @@ defmodule Daeventbox.Auth do
     user = Repo.get_by(Daeventbox.User, email: email)
     IO.inspect given_pass
     IO.inspect email
-    IO.inspect user.email
+    cond do
+      user && checkpw(given_pass, user.password) ->
+        {:ok, Daeventbox.Auth.login(conn, user)}
+      user ->
+        {:error, :unauthorized, conn}
+      true ->
+        dummy_checkpw
+        {:error, :not_found, conn}
+    end
+  end
+  def login_by_email_and_pass_admin(conn, email, given_pass) do
+    user = Repo.get_by(Daeventbox.User, email: email, role: 2)
+    IO.inspect given_pass
+    IO.inspect email
     cond do
       user && checkpw(given_pass, user.password) ->
         {:ok, Daeventbox.Auth.login(conn, user)}

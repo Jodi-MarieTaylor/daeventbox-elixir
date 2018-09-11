@@ -10,6 +10,11 @@ defmodule DaeventboxWeb.Router do
 
   end
 
+  pipeline :admin_route do
+    plug :put_layout, {DaeventboxWeb.LayoutView, :admin_layout}
+
+  end
+
   pipeline :secure do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -34,6 +39,9 @@ defmodule DaeventboxWeb.Router do
 
   pipeline :facilitator_required do
     plug Daeventbox.FaciliatorRequired
+  end
+  pipeline :admin_required do
+    plug Daeventbox.AdminRequired
   end
 
   pipeline :api do
@@ -128,6 +136,12 @@ defmodule DaeventboxWeb.Router do
 
   end
 
+  scope "/auth", DaeventboxWeb do
+    pipe_through [:browser, :with_session] # Use the default browser stack
+     get "/:provider", OAuthController, :request
+    get "/:provider/callback", OAuthController, :callback
+  end
+
   scope "/ad", DaeventboxWeb do
     pipe_through [:browser, :with_session, :login_required, :facilitator_required] # Use the default browser stack
       get "/options", AdController, :ad_option
@@ -137,6 +151,7 @@ defmodule DaeventboxWeb.Router do
       get "/view/all/search/", AdController, :ad_search
       get "/view/all", AdController, :view_all
       get "/delete/:id", AdController, :delete
+      get "/payment", AdController, :payments
   end
 
   scope "/facilitator", DaeventboxWeb do
@@ -179,7 +194,7 @@ defmodule DaeventboxWeb.Router do
   end
 
   scope "/admin", DaeventboxWeb do
-    pipe_through [:browser, :with_session] # Use the default browser stack
+    pipe_through [:browser, :with_session, :admin_required, :admin_route] # Use the default browser stack
     post "/facilitator/create", AdminController, :index
     get "/facilitators", AdminController, :facilitators
     get "/facilitator/view", AdminController, :view_facilitator
@@ -189,8 +204,7 @@ defmodule DaeventboxWeb.Router do
     get "/event/create", AdminController, :create_event_view
     get "/", AdminController, :index
     get "/user", AdminController, :user
-    get "/login", AdminController, :login
-    post "/signin", AdminController, :signin
+
     get "/events", AdminController, :events
     get "/event/view/:id", AdminController, :event_details
     get "/event/delete/:id", AdminController, :delete_event
@@ -203,7 +217,7 @@ defmodule DaeventboxWeb.Router do
     post "/ads/settings/options/edit/:option_id", AdminController, :ads_settings_edit
      get "/ads/:event_id/filter", AdminController, :ads_filter
     get "/ads/filter", AdminController, :ads_filter
-
+    get "/reports",  AdminController, :reports
     get "/ads/:event_id", AdminController, :ads
     get "/ads", AdminController, :ads
     get "/faqs", AdminController, :faqs
@@ -217,6 +231,7 @@ defmodule DaeventboxWeb.Router do
     post "/aboutus/update", AdminController, :update_aboutus
     get "/contactus/edit", AdminController, :edit_contactus
     post "/contactus/update", AdminController, :update_contactus
+    get "/logout", AdminController, :logout
 
     get "/transaction/requests/payout/:event_id", AdminController, :payout
     get  "/transaction/requests/transactions/:facilitator_id", AdminController, :transactions
@@ -234,7 +249,9 @@ defmodule DaeventboxWeb.Router do
     post "/annoucements/add", AdminController, :add_announcement
     get "/announcements", AdminController, :announcements
     get "/complaints", AdminController, :complaints
+    get "/messages", AdminController, :message_inquiry
     post "/complaint/change/status/:complaint_id", AdminController, :change_complaint_status
+    post "/message/change/status/:inquiry_id", AdminController, :change_message_status
 
   end
 
@@ -265,7 +282,12 @@ defmodule DaeventboxWeb.Router do
     get "/contactus", PageController, :contact_us
     post "/contact/send", PageController, :contact_send
     get "/daeventbox", PageController, :daeventbox
+    get "/privacypolicy", PageController, :privacypolicy
     get "/", PageController, :index
+
+    # admin login
+    get "/admin/login", AdminController, :login
+    post "/admin/signin", AdminController, :signin
 
     # render pages
     get "/register", AuthController, :signup

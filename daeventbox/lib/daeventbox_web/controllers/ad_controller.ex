@@ -31,8 +31,13 @@ defmodule DaeventboxWeb.AdController do
         {:ok, _ad} -> IO.puts "Created AD"
         {:error, reason} -> IO.inspect reason
       end
-    redirect conn, to:  "/facilitator/manage"
+
+    redirect conn, to:  "/ad/payment"
   end
+  def payments(conn, params) do
+    render conn, "payment.html"
+  end
+
 
   def ad_option(conn, params) do
 

@@ -38,6 +38,19 @@ login
       <p class="center-align">
         LOGIN NOW
       </p>
+       <%= if !is_nil(get_flash(@conn, :info) ) do %>
+		<div class="materialert success" id="materialert">
+		    <i class="material-icons">check_circle</i> <span><%= get_flash(@conn, :info) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
+
+        <%= if !is_nil(get_flash(@conn, :error) ) do %>
+		<div class="materialert error" id="materialert">
+		    <i class="material-icons">error</i> <span><%= get_flash(@conn, :error) %></span>
+		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
+		</div>
+        <%end%>
       <br/>
       <div class="row">
         <div class="input-field col s12">
@@ -87,5 +100,5 @@ login
 <script>
 
 $("nav").hide()
-$("footer").hide()
+$(".new-footer").hide()
 </script>

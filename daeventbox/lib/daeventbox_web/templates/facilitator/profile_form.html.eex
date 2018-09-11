@@ -64,7 +64,7 @@
                 </div>
         
                <div class = "row">
-                    <div class = "row col s6">
+                    <div class = "row col s12 m6">
                     <div class = "file-field input-field">
                         <div class = "btn">
                             <span>Browse</span>
@@ -108,8 +108,8 @@
                 </div>
                 <div class="row">
                 <!--<a href="/facilitator/profile/preview" class="btn activator waves-effect waves-light darken-2 right"> Profile Preview </a> -->
-
-				
+                     <input type='checkbox' name='merchantagreement' value="true"  required/><label for="thing"></label> I agree to the <a class="modal-trigger" href="#modal2"> Merchant Agreement </a>
+                    <br>
                     <button  class="pull-right  btn-large waves-effect waves-light btn btn-simple btn-primary btn-lg" type="submit" name="submit">
                     Submit
                     </button>
@@ -118,3 +118,414 @@
 		</div>
 			
 	</div>	
+ <!-- Modal Structure -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <h4>Merchant Agreement</h4>
+      <p>Merchant Agreement
+The following terms set forth the terms and conditions upon which you
+may use the Services to collect sales proceeds from (i) the sale of
+tickets, registrations, or other items related to an event, or (ii) the
+solicitation of event-related donations, and specifically applies to those
+who use the Services for such purposes. Where applicable this
+Merchant Agreement will also apply to Organizers that use the
+Services to offer registrations to events that are free to attend.
+This Merchant Agreement and the rights and obligations contained in
+this Merchant Agreement are in addition to and are incorporated into
+the Terms of Service by reference. Nothing in this Merchant
+Agreement shall be deemed to modify, waive, amend or rescind any
+other term of the Terms of Service. In the event of any conflict
+between the Terms of Service and this Merchant Agreement, the
+Merchant Agreement will prevail only to the extent of the conflict.
+1. Additional Registration Data
+As part of the creation of a paid event or at any time following such
+creation, you may be required to provide additional information about
+yourself, the entity you represent (if any) and the principals/beneficial
+owners of the entity you represent. As an example, the Additional
+Registration Data may include a current address, doing business as or
+Company names, description of products, website address, bank
+account or other payment account information, Tax Registration
+Numbers, date of birth, national ID, passport or driver’s license
+number, country of origin and other personal information. This
+information may be used to verify your identity, the validity and legality
+of your transactions and whether you qualify to use the Services for
+paid events. You agree to: (i) provide this information in a timely,
+accurate and complete manner and (ii) maintain and promptly update
+this information in a timely manner to ensure it remains accurate and
+complete at all times.
+
+2. Failure to Provide
+
+Da EventBox reserves the right to suspend your account or to
+withhold any amounts due to you in the event that we reasonably
+believe that your Registration Data or Additional Registration Data is
+inaccurate or if you fail to provide all Registration Data or Additional
+Registration Data within the time frames requested.
+3. Payment Methods & Processing Options;
+(a) Payment Methods.
+There are two types of payment processing options that Organizers
+may use to collect sales proceeds for paid events. Both payment
+processes utilizes the collecting Event Registration Fees using third
+party payment services namely 1) PayPal® and (ii) Scotia Bank
+Merchant Services. Here, Da EventBox acts as Organizer’s limited
+payment collection agent for the purpose of collecting Event
+Registration Fees through its Payment Processing Partners as defined
+below.
+
+(b) Da EventBox’s Role.
+For convenience, Da EventBox shows you a balance of proceeds for
+your events in your account. That balance does not reflect the amount
+of Event Registration Fees collected by the third party payment
+processor nor fees charged by Da EventBox for their service. When
+you claim the money from event proceeds, the fees will be deducted
+and the balance sent directly to your bank account or whichever
+payment method you chose. You can see additional details about our
+Fees here.
+
+(c) Confirmations.
+Upon an order being placed by an Attendee and confirmed, Da
+EventBox generates a confirmation message and issues a unique
+confirmation number for such Attendee’s order. Organizer agrees to
+unconditionally accept, honor and fulfill all ticketing, registration,
+merchandise and donation commitments that have been confirmed by
+Da EventBox through the Services, and it is the Organizer’s
+responsibility to verify an Attendee’s confirmation number and/or any
+event restrictions prior to the applicable event.
+
+(d) Fees.
+The Organizer agrees to pay Da EventBox all applicable service fees
+required for use of Da EventBox Services regardless of the payment
+processing option selected. In most cases, Da EventBox’s Service
+Fee is applied to each Event Registration Fee received by the
+Organizer via the Services. However, Da EventBox Service Fee may
+appear as a single or repeating flat rate depending on the type or size
+of the event or the arrangement with the event Organizer. Da
+EventBox’s Service Fee and the third party Payment Processing Fee
+vary by things such as, and without limitation, offered services,
+country, and processing currency. The current fees, as well as
+Services included as part of the Fees, can be found at here. Note that
+these fees, and any accompanying included Services, are subject to
+change from time to time with respect to either transactions or events
+that occur following the change. In addition, Organizer may from time
+to time request additional Services from Da EventBox, including
+without limitation, marketing and promotion services, equipment
+leasing, on-site services, printed tickets and account management,
+which Da EventBox may provide at its discretion. Fees for such
+services will be disclosed to Organizer prior to Organizer’s acceptance
+of such Services. For the avoidance of doubt, unless otherwise agreed
+in each instance, Fees collected by Da EventBox for their services are
+non-refundable for any reason.
+
+4.Payout To Organizers
+
+(a) Payout Process.
+All payouts are processed within five (5) business days after the
+successful completion of an event. If an organizer requires early
+payout then a fee is charged for each payout transaction. When an
+organizer requests a payout, Da EventBox will pass along all Event
+Registration Fees related to such event that have been collected by
+our Payment Processing Partners, subject to (i) deduction of all
+applicable Fees then due; (ii) our right of setoff against any debts or
+other amounts owed to us under this Merchant Agreement; (iii) any
+other deductions authorized pursuant to this Merchant Agreement.
+Such payouts will be made only to the payout information on file for
+event organizer. Payouts are primarily made by ACH, RTGS or bank
+transfers in USD or JMD. Payouts can also be made via PayPal
+transfers to organizers with PayPal accounts. PayPal transactions are
+done in USD only.
+For ACH transactions, if any bank account number you provide to us,
+including a bank account number you provide as part of your
+Additional Registration Data, is inaccurate, you agree that we are still
+entitled to make payment to the account number you provided, even if
+the bank account is not owned by you. You agree that we may rely
+solely on the bank account number you provide to us as the proper
+identification of your bank account, even if the bank account number
+identifies a different account from your account. You also agree to
+reimburse us for any losses or expenses we incur as a result of our
+reliance on any bank account number you provide to us.
+
+(b) Appointment as Agent.
+With respect to any events for which Organizer uses our services,
+Organizer hereby appoints Da EventBox as Organizer's limited
+payment collection agent solely for the purpose of collecting payments
+made by Attendees for such events through our Payment Processing
+Partners. Organizer agrees that a payment made by an Attendee to
+Da EventBox shall be considered the same as a payment made by an
+Attendee directly to Organizer and Organizer will sell or provide all
+advertised goods and services to the Attendee as if Organizer had
+directly received the Event Registration Fees from such Attendee,
+regardless of whether the Event Registration Fees have yet to be
+received from Da EventBox. Organizer agrees that in its role as limited
+agent, Da EventBox is authorized to (i) enable Attendees to transfer or
+upgrade a ticket and/or registration (if such transfers are permitted by
+Organizer during the event registration process); (ii) hold, disburse
+and retain proceeds on Organizer’s behalf pursuant to this Merchant
+Agreement; and (iii) issue refunds to Attendees as set forth in Refund
+Policy below; In accepting appointment as the limited agent of
+Organizer, Da EventBox assumes no liability for any acts or omissions
+of Organizer and Organizer understands that Da EventBox obligation
+to pay Organizer is subject to and conditional upon receipt of the
+associated Event Registration Fees from Attendees. Organizer further
+authorizes Da EventBox to delegate its obligations under this
+Merchant Agreement to certain of its affiliated entities both within and
+outside Jamaica, provided, that Da EventBox will remain liable for the
+discharge of its obligations under this Merchant Agreement by such
+affiliated entities.
+
+(c) Advances.
+Organizer agrees that all Event Registration Fees for a given event
+are earned by Organizer only following the conclusion of the
+applicable event. Da EventBox, in its discretion, may determine to
+advance a portion of Event Registration Fees to Organizer prior to the
+
+event on such terms and conditions set forth in (i) this Merchant
+Agreement; (ii) during the process of registering for advanced
+payments; and/or (iii) such terms that Organizer and Da EventBox
+agree to in a separate written agreement. Organizer agrees that any
+payments made by Da EventBox of Event Registration Fees prior to
+the fifth (5th) business day after the end date of the applicable event
+are merely advances of amounts that may become due to Organizer
+under this Merchant Agreement. If Da EventBox decides to advance a
+portion of Event Registration Fees to Organizer, Organizer
+acknowledges and agrees that Da EventBox may at any time (A)
+terminate or suspend Organizer’s right to receive such advance
+payments; and/or (B) alter the terms of such advance payments made
+to Organizer. In addition, Organizer agrees that Da EventBox may
+demand back such advances (or any portion thereof) from time to time
+in its discretion based upon the level of refunds, disputed charges,
+chargebacks, customer complaints, allegations of fraud, changes in
+Organizer’s credit profile or the underlying event(s)’ risk profile, or
+breaches of the Terms of Service, including this Merchant Agreement.
+Upon receipt of notice of any such demand, Organizer shall thereupon
+promptly pay back to Da EventBox the portion of any such advance
+demanded. Organizer acknowledges and agrees that Da EventBox
+has the right to withhold funds in the case of evidence of fraud as set
+forth in this Merchant Agreement. Organizer also acknowledges and
+accepts its obligations to reimburse Da EventBox for refunds and
+credit card chargebacks.
+
+(d) Cancellations; Nonperformance.
+No payments shall be made to Organizer with respect to any event
+that is cancelled or with respect to which Da EventBox believes there
+is a risk of cancellation or nonperformance, unless Da EventBox
+receives adequate security (as determined by Da EventBox in its
+discretion) for Organizer’s obligations under this Merchant Agreement.
+In addition, no Event Registration Fees for a given event shall be
+earned until that event is successfully completed. If payments have
+
+already been made to an Organizer for a cancelled event, Organizer
+will immediately refund to a payment address designated by Da
+EventBox all such payments upon cancellation of such event for the
+purpose of effecting refunds if refunds are being made under the
+Refund Policy Below. You are responsible for complying with the
+requirements of Da EventBox Organizer Refund Policy Requirements,
+which are in addition to and are incorporated into the Terms of Service
+by reference. If you do not remit funds to Da EventBox that are
+sufficient to cover refunds due to Attendees for an event cancellation
+or nonperformance, including, but not limited to, any mandatory
+refunds as stated below, then you acknowledge and agree that the
+unremitted amount will become due and payable to us under these
+Terms of Service, including this Merchant Agreement, and subject to a
+setoff right until you have satisfied the amount in full.
+(f) Chargebacks; Reversals.
+Any credit card chargebacks or other transaction reversals initiated
+against Da EventBox or its affiliates for any reason (except to the
+extent they are caused solely by Da EventBox’s negligence or willful
+misconduct) with respect to an Organizer’s event and all related credit
+card association, payment processing, re-presentment, penalty and
+other fees and expenses incurred by Da EventBox or its affiliates in
+connection with such chargebacks shall ultimately be the responsibility
+of Organizer, and Organizer agrees to promptly and fully reimburse Da
+EventBox for such amounts on demand. As part of Da EventBox’s,
+limited payment collection agency, Da EventBox will use commercially
+reasonable efforts to manage the re-presentment of such chargebacks
+and reversals on behalf of Organizer and Organizer hereby authorizes
+Da EventBox to do so and agrees to use reasonable efforts to
+cooperate with Da EventBox in such re-presentment. However, Da
+EventBox shall have no obligation to re-present any chargeback that it
+believes in its discretion it is more likely than not to lose or that relates
+to a transaction that should be refunded in accordance with the
+Organizer’s refund policy.
+
+5. RefundsPayment
+(a) Refund Policy and Process.
+Regardless of what payment method is selected, Organizer agrees to
+communicate a refund policy to Attendees with respect to each event
+posted on the Services. The Organizer Refund Policy Requirements
+are incorporated by reference into this Merchant Agreement. All
+refunds must be processed through Da EventBox, unless otherwise
+agreed by Da EventBox. Consistent with, and in addition to, the
+Organizer Refund Policy Requirements, refunds that you are
+responsible for due to the cancellation or nonperformance of an event
+are subject to the following refund requirements:
+(i) In the event of a full or partial event cancellation, Organizer agrees
+to issue refunds to Attendees either by using backup funding sources
+within the platform, or by remitting funds due for refunds back to Da
+EventBox so that refunds can be processed by Da EventBox on the
+Organizer’s behalf;
+(ii) Organizer agrees that, unless otherwise mutually agreed, via email
+or otherwise, no refunds shall be made outside of the Da EventBox
+platform.
+(iii) If Organizer selects to remit funds back to Da EventBox so that Da
+EventBox can process refunds on Organizer’s behalf, Organizer must
+remit funds to Da EventBox that are sufficient to cover refunds due to
+Attendees within five (5) days of the cancellation of the event;
+(iv) Organizer agrees to notify Attendees of the event cancellation as
+soon as reasonably possible and prior to the event start time;
+(v) Organizer will provide clear instructions and contact information to
+Attendees so that Attendees can make refund requests directly to
+Organizer, including without limitation, instructing Attendees
+
+specifically to contact Organizer for any refund requests, and not to
+contact Da EventBox.
+(vi) Organizer acknowledges that Da EventBox reserves the right to
+charge the Organizer for the cost of chargebacks related to the
+cancelled event, and such amounts are also subject to the provisions
+of this Merchant Agreement.
+(vii) If the Organizer cancels only part of a multi-day event, then
+Organizer agrees to refund a pro-rata monetary value portion of the
+purchase price of a multi-day ticket based on the corresponding
+monetary value of the portion of the multi-day event that was
+cancelled. For example, if Organizer sells a 3-day ticket to a festival
+for $150, and cancels 1 day of the festival, the Organizer must provide
+a $50 refund to Attendees for the cancelled day; and
+(viii) If Organizer is offering Attendees an alternative “make good” in
+lieu of a purchase price refund (e.g., a discount on the next ticket
+purchase), then such offer must be of equal or greater value to the
+value of the ticket for the cancelled (or partially cancelled) event and
+such value must be clearly communicated to the Attendees. Organizer
+agrees that it will be fully liable for the cost of chargebacks received
+related to purchases even if an alternative “make good” refund is
+given.
+
+(b) Refund Disputes.
+Regardless of what payment method is selected, all disputes
+regarding refunds are between Organizer and its Attendees. In the
+event of a dispute, Da EventBox may try to mediate, but ultimately it is
+Organizer’s obligation to settle the dispute.
+(c) Mandatory Refunds.
+Notwithstanding the foregoing, Organizer authorizes Da EventBox to
+
+make refunds in the following situations (i) Organizer specifically
+authorizes the refunds at the time; (ii) the event description presented
+to an Attendee at time of purchase is significantly different from the
+actual event; (iii) Attendees are unable to attend the event due to
+failure of the Organizer to adequately plan for capacity, ingress or
+egress, or attendance will otherwise subject the Attendee to safety
+concerns; (iv) Da EventBox believes in its discretion that specific
+orders should be refunded under the Organizer’s posted refund policy
+or the Organizer Refund Policy Requirements; (v) Da EventBox
+believes in its discretion that the refund request, if not granted, will
+lead to a chargeback that Da EventBox is more likely than not to lose;
+(vi) Organizer failed to list a refund policy on the applicable event page
+and Da EventBox believes in its discretion that a refund would be
+reasonable under the circumstances; (vii) Da EventBox believes in its
+discretion that specific orders are fraudulent (e.g., made with stolen
+credit cards or otherwise not bona fide transactions); or (viii) Da
+EventBox believes in its discretion that the order is a duplicate.
+Organizer also authorizes Da EventBox to make refunds of any and all
+orders including those for unrelated events if (A) Da EventBox
+believes in its discretion that Organizer has engaged in any fraudulent
+activity or made any misrepresentations; (B) Da EventBox believes in
+its discretion that there is substantial risk of nonperformance by
+Organizer with respect to the applicable event or future events; (C) Da
+EventBox believes in its discretion that it is likely to receive
+complaints, refund requests, transaction reversals and/or chargebacks
+with respect to a substantial amount of orders; or (D) Da EventBox
+believes in its discretion that Organizer is a Prohibited Merchant, has
+used the Services to process Prohibited Transactions or to manage
+Prohibited Events or that failing to make the refunds would otherwise
+expose Da EventBox to legal liability. Because all sales are ultimately
+made by Organizers, Organizer hereby agrees to promptly and fully
+reimburse Da EventBox and its affiliates upon demand for refunds that
+Da EventBox makes pursuant to this Merchant Agreement, other than
+to the extent that the necessity for such refunds is caused by Da
+EventBox’s negligence or willful misconduct. Organizer acknowledges
+and agrees that chargebacks will result in losses to Da EventBox in
+
+excess of the amount of the underlying transaction and that by
+refunding transactions in advance of a chargeback Da EventBox is
+mitigating such losses and its damages with respect to Organizer’s
+breach of this Merchant Agreement. If you do not remit funds to Da
+EventBox that are sufficient to cover mandatory refunds as described
+for an event cancellation or nonperformance, then you acknowledge
+and agree that the amount of such funds shortfall will become due and
+owing from you to us under the Terms of Service, including this
+Merchant Agreement, until you have satisfied the amount in full and
+such amounts are also subject to the provisions of this Merchant
+Agreement.
+
+6. Prohibited Events; Prohibited Transactions.
+a) Prohibited Events.
+You may not post events to the Services that:
+(i) violate or facilitate the violation of any applicable local, national or
+other law, rule or regulation;
+(ii) contain any Content that would violate the Terms of Use, including
+without limitation of the Terms of Use, or Da Eventbox’s
+Any event that falls into any of the categories set forth above, as
+determined by Da EventBox in its discretion, is a “Prohibited Event.”
+
+b) Prohibited Transactions.
+You may not use our serveces to process any of the following
+transactions and you represent and warrant that you will not submit for
+processing through the Services:
+
+(i) any transaction that would violate the Payment Scheme Rules;
+(ii) any transaction that is fraudulent or criminal in nature;
+(iii) any transaction that would constitute sending money to another
+party other than for the purchase of bona fide tickets or registrations
+to, or solicitation of a donation for, events, or sale of items related to
+such events.
+Any transaction that falls into any of the categories set forth above, as
+determined by Da EventBox in its discretion, is a “Prohibited
+Transaction.”
+
+c) Remedies.
+In the event that Da EventBox discovers that you have posted a
+Prohibited Event and/or that you have attempted to process or
+processed a Prohibited Transaction, then Da EventBox may take any
+or all of the following actions in its discretion in addition to any and all
+remedies that Da EventBox may have under the law or elsewhere in
+the Terms of Service:
+(a) suspend or terminate your account;
+(b) alter, edit, or remove any Prohibited Event or any portion thereof;
+(c) block, reverse or refund any or all of your transactions;
+(d) hold any and all funds associated with your account to the extent
+required by applicable local, national or other law, rule, regulation,
+judgment or order; and
+(e) refer you, your events and/or your transactions and information
+relating to the same to our Payment Processing Partners, the Card
+
+Schemes, the Alternative Form of Payment Frameworks and/or
+applicable law enforcement agencies for further action.
+7. Representations And Warranties.
+In addition to the representations and warranties contained herein,
+you represent and warrant to us that (a) if you represent an entity, that
+entity is duly organized, validly existing and in good standing under
+the laws of the state, province or country of its formation; (b) you, or
+the entity you represent (if applicable), have all requisite power and
+authority to enter into this Agreement and to carry out the transactions
+contemplated hereby; (c) the entering into and performing of this
+Agreement by you, or if you represent an entity by the entity you
+represent, will not result in any breach of, or constitute default under,
+any applicable local, state, provincial, national or other law, rule,
+regulation, judgment or order, or other agreement to which you or it is
+a party, including without limitation, any other agreement for the sale
+of tickets or registrations; and (d) if you represent an entity, you have
+the full right, legal power and actual authority to bind such entity to the
+terms and conditions hereof.
+8. Termination.
+In addition to our right to terminate your use of the Services under the
+Terms of Use, Da EventBox may terminate this Merchant Agreement
+and your right to use the Services together with our payment
+processing partners (a) if you are in violation or breach of any
+provision of this Merchant Agreement; or (b) if our Payment
+Processing Partners and/or the Card Schemes or Alternative Form of
+Payment Frameworks terminate our right to provide the payment
+processing Service or your right to accept payments via the payment
+processing Service in their sole discretion.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>

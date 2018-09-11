@@ -151,10 +151,15 @@ defmodule DaeventboxWeb.AccountController do
       {:ok, _closedaccounts} -> IO.puts "Closed "
       {:error, reason} -> IO.inspect reason
     end
-     case Repo.delete user do
+    deleteparams = %{is_deleted: true}
+    changeset = User.changeset(user, deleteparams)
+      case Repo.update(changeset) do
        {:ok, struct}       ->
+
          if !is_nil(facilitator) do
-          case Repo.delete facilitator do
+          deleteparams = %{is_deleted: true}
+          deletechangeset = Facilitator.changeset(facilitator, deleteparams)
+          case  Repo.update(deletechangeset) do
             {:ok, struct}       ->
               redirect(conn, to: "/logout")
 

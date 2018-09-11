@@ -21,17 +21,20 @@
     color: #f1f1f1;
 }
 
-.main {
-    margin-left: 250px !important; /* Same as the width of the sidenav */
-    height: 100%;
-    
-}
+
 
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
-
+@media only screen and (min-width: 768px) {
+    .main {
+    margin-left: 250px !important; /* Same as the width of the sidenav */
+    height: 100%;
+    color: black;
+    
+}
+}
 
 .none {
     display:none;
@@ -77,56 +80,56 @@
 		    <button type="button" onclick="hideAlert();"  class="close-alert">×</button>
 		</div>
         <%end%>
-<div class="container row">
-    <div class="col s12 m2  sidenav">
+<div class=" row">
+    <div class="col s12 m2  sidenav  hide-on-med-and-down">
         <a href="#user_general"> Account Details </a>
         <a href="#password">  Password </a>
         <a href="#email1"> Email Preferences </a>
         <a href="#close"> Close Account </a>
     </div>
 
-    <div class="col s12 m8 main card">   
+    <div class="col s12 m9 main card">   
         <div id="user_general">
             <h4> Account Details </h4>
             <form  action="/account/submit/user-general/" method="POST">            
-                <div class="input-field col s4 m6">
+                <div class="input-field col s12  m6">
                     <input  id="firstname" name="firstname" type="text" value="<%= @user.firstname %>" class = "active validate" >
                     <label for="firstname">First Name</label>
                 </div>
-                <div class="input-field col s4 m6">
+                <div class="input-field col s12  m6">
                     <input  id="lastname" name="lastname" type="text" value="<%= @user.lastname %>" class = "active validate" >
                     <label for="lastname">First Name</label>
                 </div>
-                <div class="input-field col s4 m6">
+                <div class="input-field col s12  m6">
                     <input  id="email" name="email" type="email" value="<%= @user.email%>" class = "active validate" disabled>
                     <label for="email">Email</label>
                 </div>
-                <div class="input-field col s4 m6">
+                <div class="input-field col s12  m6">
                     <input  id="backup_email" name="alt_email" type="email" value="<%= @user.alt_email%>"  class = "active validate" >
                     <label for="backup_email">Another Email</label>
                 </div>
-                <div class="input-field col s4 m6">
+                <div class="input-field col s12  m6">
                     <input  id="phone" name="phone" type="text" value="<%= @user.phone %>" class = "active validate" >
                     <label for="phone">Phone</label>
                 </div>
-                <div class="input-field col s4 m6">
+                <div class="input-field col s12  m6">
                     <label for="additional_phone">Other Phone</label>
                     <input  id="additional_phone" name="alt_phone" type="text" value="<%= @user.alt_phone%>"  class = "active validate" >
 
                 </div>
-                <div class="input-field col s4 m12">
+                <div class="input-field col s12  m12">
                     <input  id="address" name="address" type="text" value="<%= @user.address %>" class = "active validate" >
                     <label for="address">Address</label>
                 </div>
                 <div class = "row">
-                    <div class = "input-field col s4 m12">
+                    <div class = "input-field col s12  m12">
                         <i class = "material-icons prefix">mode_edit</i>
                         <textarea id = "description" name="bio" value="<%= @user.bio%>" class = "materialize-textarea"> <%= @user.bio %></textarea>
                         <label for = "description">BIO</label>
                     </div>
                 </div>
                 <div class = "row">
-                    <div class = "row col s4 m8">
+                    <div class = "row col s12  m8">
                         <label>Upload Profile Picture</label>
                         <div class = "file-field input-field">
                             <div class = "btn">
@@ -152,25 +155,25 @@
         <div id="password">
             <h4> Change Password </h4>
             <form  action="/account/submit/password-change/" method="POST">
-                <div class="input-field col s4 m10">
+                <div class="input-field col s12  m10">
                     <input  id="current_password" name="current_password" type="password" class = "active validate" required>
                     <label for="current_password">Current Password</label>
                 </div>
-                <div class="input-field col s4 m10">
+                <div class="input-field col s12  m10">
                     <input  id="new_password" name="new_password" type="password" class = "active validate" required>
                     <label for="new_password">New Password</label>
                 </div>
-                <div class="input-field col s4 m10">
+                <div class="input-field col s12  m10">
                     <input  id="new_password" name="confirm_password" type="password" class = "active validate" required>
                     <label for="new_password">Confirm Password</label>
                 </div>
-                <div class="input-field col s4 m10">
+                <div class="input-field col s12  m10">
                     <input  id="hint" name="hint" type="text" placeholder="Something to remind you!" class = "active validate" >
                     <label for="hint">Hint</label>
                 </div>
                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
 
-                <button class=" waves-effect waves-light btn btn-simple btn-primary  " type="submit" name="submit">
+                <button class=" waves-effect waves-light btn  btn-primary right-align "  type="submit" name="submit">
                    Change Password
                 </button>
             </form>

@@ -47,6 +47,9 @@ defmodule DaeventboxWeb.PageController do
     content = Repo.get_by(SiteContent, page: "contact-us")
     render conn, "contact-us.html", info: content.info
   end
+  def privacypolicy(conn, params) do
+    render conn, "privacy-policy.html"
+  end
 
   def contact_send(conn, params) do
     IO.puts "These are the params for contact us"

@@ -24,7 +24,7 @@
 
 <div class= "row " style="width: 80%; " >
     <!--<div class="col s12 m4 center-align card" style="background-color: #ffffff; opacity: .4; padding: 50px 20px; margin: 10px 10px">-->
-    <div class="col s12 m4 center-align card" style="background-color: #ffffff; padding: 50px 20px; margin: 10px 10px; height: 450px !important;">
+    <div class="col s12 m4 center-align card" style="background-color: #ffffff; padding: 50px 20px; margin-right: 10px; height: 450px !important;">
         <img src="<%= @facilitator.image_url %>" height="200" width="200" style=" border-radius: 50%;"> 
         <h5> <%= @facilitator.name %> </h5>
       
@@ -60,7 +60,7 @@
         <%= if @visitor do %>
             <a href="#modal1" class=" modal-trigger btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">flag</i></a>
 
-            <a href="/chat?fuid=<%=@facilitator.user_id%>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">message</i></a>
+           <!-- <a href="/chat?fuid=<%=@facilitator.user_id%>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">message</i></a>-->
 
         <%end%>
          <%= if !@visitor do %>
@@ -105,9 +105,9 @@
 <h4 style="text-align: center; "> Events (<%= @events_total%>)</h4>
    <div class="carousel saved" style="padding-top: 0px !important; height: 400px;"><a>
        <%= for event <- @events do %>
-        <div class="carousel-item card" style=" width:400px !important; height: 380px  !important; ">  
+        <div class="carousel-item card" style=" width:350px !important; height: 380px  !important; ">  
              <div class="card-image">
-                <a href="#three!"><img src="<%=event.image_url%>" style=" width: 400px !important; height: 250px !important; "></a>
+                <a href="#three!"><img src="<%=event.image_url%>" style=" width: 350px !important; height: 250px !important; "></a>
                 <span class="card-title "></span>
             </div>
             <div class="card-content">

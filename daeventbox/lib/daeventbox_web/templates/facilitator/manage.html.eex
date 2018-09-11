@@ -1,8 +1,5 @@
 
    
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/pinzon1992/materialize_table_pagination/f9a8478f/js/pagination.js"></script>
-   
 <style>
 .none {
     display:none;
@@ -31,7 +28,7 @@
             
         </div>
       
-        <div class="right  " style="  width: 50%; padding-right: 0px;"> 
+        <div class="right hide-on-med-and-down " style="  width: 50%; padding-right: 0px;"> 
           <form action="/facilitator/manage/search/events">
            
             <div  class ="col s12 m4 l6 ">
@@ -89,7 +86,7 @@
                 <table class = "  responsive-table" id="myTable">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th class=" hide-on-med-and-down">Image</th>
                             <th>Name</th>
                             <th>Date Created </th>
                             <th>Event Date</th>
@@ -101,7 +98,7 @@
                         <%= for event <- @events do %>
                         
                                 <tr>
-                                    <td> <img style="width: 70px;" src="<%=event.image_url %>"> </td>
+                                    <td class=" hide-on-med-and-down"> <img style="width: 70px;" src="<%=event.image_url %>"> </td>
                                     <td><a href="/facilitator/event/dashboard/<%=event.title%>/<%= event.id %>" style="text-transform: capitalize;"><%=event.title%></a></td>
                                     <td><%=Calendar.Strftime.strftime!(event.inserted_at, "%B %e,  %Y")%></td>
                                     <td><%=Calendar.Strftime.strftime!(event.start_date, "%B %e,  %Y")%></td>
@@ -124,7 +121,10 @@
         </div>
     </div>      
 </div>
-
+<!--
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>-->
+    <script type="text/javascript" src="https://cdn.rawgit.com/pinzon1992/materialize_table_pagination/f9a8478f/js/pagination.js"></script>
+   
 <script>
  $('#myTable').pageMe({
     pagerSelector:'#myPager',

@@ -20,13 +20,14 @@ defmodule Daeventbox.User do
     field :alt_email, :string
     field :profile_pic_url, :string
     field :fb_id, :string
+    field :role, :integer
 
     timestamps()
   end
 
   @required [:firstname, :lastname, :email, :password]
 
-  @optional [:firstname, :lastname, :email, :address, :password, :phone, :username, :bio, :zid, :details, :meta1, :meta2, :alt_phone, :alt_email, :profile_pic_url, :fb_id]
+  @optional [:firstname, :lastname, :email, :address, :password, :phone, :username, :bio, :zid, :details, :role, :meta1, :meta2, :alt_phone, :alt_email, :profile_pic_url, :fb_id]
 
   def create(attrs) do
     %Daeventbox.User{}

@@ -63,10 +63,10 @@
 
     </div>
 </div>
-<div class="  row" style="width: 70%; margin: 0 auto;">
+<div class="  row" style="margin:20px;">
 
 
-<div class="card col  s12 m3" >
+<div class="card col  s12 m3 l2 "  style="margin-right:20px;" >
 
         <div >
          <%= if !is_nil(@facilitator) do %>
